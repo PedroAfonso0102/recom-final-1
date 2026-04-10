@@ -1,0 +1,513 @@
+/* ================================================
+   HOMEPAGE ALTERNATIVE — RECOM Metal Duro
+   Modern industrial design with Steam-style promos
+   ================================================ */
+
+.page {
+    min-height: 100vh;
+    background: var(--bg-main);
+}
+
+/* ---- CONTAINER ---- */
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--space-m);
+}
+
+/* ================================================
+   HERO SECTION — Swiss Modern Split-Screen
+   ================================================ */
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    background: var(--bg-main);
+    display: flex;
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        min-height: auto;
+    }
+}
+
+.heroContentArea {
+    flex: 0 0 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align bottom */
+    padding: var(--space-3xl) var(--space-xl) var(--space-3xl) var(--space-2xl);
+    z-index: 2;
+}
+
+@media (max-width: 900px) {
+    .heroContentArea {
+        padding: var(--space-xl) var(--space-m);
+        align-items: flex-start;
+    }
+}
+
+.heroImageArea {
+    flex: 1;
+    position: relative;
+}
+
+.heroImageArea::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--bg-main) 0%, transparent 15%);
+    z-index: 1;
+}
+
+.heroImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    /* Duotone via blend & gray */
+    filter: grayscale(100%);
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+    transform: scale(1);
+    transition: transform 1.2s var(--ease-out), filter 0.8s;
+}
+
+.heroImageArea:hover .heroImg {
+    transform: scale(1.05); /* Slight micro-zoom */
+    filter: grayscale(0%);
+    mix-blend-mode: normal;
+}
+
+.heroBadge {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-red);
+    margin-bottom: var(--space-l);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent-red);
+}
+
+.heroTitle {
+    font-family: var(--font-ui);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-m) 0;
+    line-height: 1.05;
+    letter-spacing: -0.03em; /* Swiss typography strictness */
+}
+
+.heroSubtitle {
+    font-size: var(--text-md);
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-2xl) 0;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.heroCtas {
+    display: flex;
+    gap: var(--space-m);
+    flex-wrap: wrap;
+}
+
+/* Button with fill-up effect */
+.heroCtaPrimary {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--bg-white) !important;
+    background: var(--text-primary);
+    padding: var(--space-m) var(--space-xl);
+    border: 1px solid var(--text-primary);
+    text-decoration: none;
+    z-index: 1;
+    transition: color var(--transition-fast);
+}
+
+.heroCtaPrimary::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--accent-red);
+    z-index: -1;
+    transition: height 0.3s var(--ease-out);
+}
+
+.heroCtaPrimary:hover::before {
+    height: 100%;
+}
+
+.heroCtaSecondary {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary) !important;
+    background: transparent;
+    padding: var(--space-m) var(--space-xl);
+    border: 2px solid var(--border-medium);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.heroCtaSecondary:hover {
+    border-color: var(--text-primary);
+    background: rgba(26, 26, 26, 0.05);
+}
+
+/* ================================================
+   SECTIONS — Generic
+   ================================================ */
+.section {
+    padding: var(--space-3xl) 0; /* Huge margin/padding for breathing room (approx 96px on big screens depending on token) */
+}
+
+.sectionAlt {
+    background: var(--bg-harmonic);
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+    gap: var(--space-m);
+}
+
+.sectionTag {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-blue);
+    margin-bottom: var(--space-xs);
+}
+
+.sectionTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.sectionLink {
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    white-space: nowrap;
+}
+
+.sectionLink:hover {
+    color: var(--accent-blue-hover);
+}
+
+/* ================================================
+   PROMO GRID — Steam Cards
+   ================================================ */
+.promoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-l);
+}
+
+@media (max-width: 900px) {
+    .promoGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .promoGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================================
+   PROCESS TIMELINE (Zig-Zag Layout)
+   ================================================ */
+.processTimeline {
+    position: relative;
+    padding: var(--space-xl) 0;
+}
+
+/* Vertical connectivity line */
+.processTimeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--border-medium);
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+@media (max-width: 900px) {
+    .processTimeline::before {
+        left: 20px;
+    }
+}
+
+.processRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+    position: relative;
+    z-index: 1;
+}
+
+.processRowReversed {
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 900px) {
+    .processRow, .processRowReversed {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 50px;
+    }
+}
+
+.processImage {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.processImage img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: grayscale(100%);
+    mix-blend-mode: multiply;
+    transition: transform 1s var(--ease-out), filter 0.5s;
+}
+
+.processRow:hover .processImage img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+    mix-blend-mode: normal;
+}
+
+.processContent {
+    flex: 1;
+    background: var(--bg-white);
+    padding: var(--space-2xl);
+    border-left: 4px solid var(--accent-blue);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.processRowReversed .processContent {
+    border-left: none;
+    border-right: 4px solid var(--accent-red);
+}
+
+.processNumber {
+    position: absolute;
+    top: -24px;
+    left: var(--space-m);
+    font-family: monospace;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--bg-harmonic);
+    z-index: -1;
+}
+
+/* Hover outwards underline for read-more links */
+.categoryArrow {
+    display: inline-block;
+    margin-top: var(--space-m);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.categoryArrow::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--accent-red);
+    transition: width var(--transition-fast) var(--ease-out);
+}
+
+.categoryArrow:hover::after {
+    width: 100%;
+}
+
+/* ================================================
+   SUPPLIERS GRID
+   ================================================ */
+.supplierGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-m);
+}
+
+@media (max-width: 900px) {
+    .supplierGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .supplierGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.supplierCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-l) var(--space-m);
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: transform var(--transition-spring), box-shadow var(--transition-base), border-color var(--transition-fast);
+}
+
+.supplierCard:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-blue);
+}
+
+.supplierLogo {
+    max-width: 120px;
+    max-height: 40px;
+    object-fit: contain;
+    margin-bottom: var(--space-m);
+    filter: grayscale(0.3);
+    transition: filter var(--transition-base);
+}
+
+.supplierCard:hover .supplierLogo {
+    filter: grayscale(0);
+}
+
+.supplierName {
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-xs) 0;
+}
+
+.supplierDesc {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ================================================
+   CTA SECTION — Final call-to-action
+   ================================================ */
+.ctaSection {
+    padding: var(--space-3xl) 0;
+    background: linear-gradient(135deg, var(--header-grad-top) 0%, #1a2234 50%, var(--header-grad-bottom) 100%);
+    text-align: center;
+}
+
+.ctaTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--bg-white);
+    margin: 0 0 var(--space-s) 0;
+}
+
+.ctaText {
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 auto var(--space-xl);
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.ctaButtons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-m);
+    flex-wrap: wrap;
+}
+
+.ctaPrimary {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--bg-white) !important;
+    background: var(--accent-blue);
+    padding: var(--space-m) var(--space-xl);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ctaPrimary:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 89, 179, 0.3);
+}
+
+.ctaPhone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8) !important;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: var(--space-m) var(--space-xl);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.ctaPhone:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
+}

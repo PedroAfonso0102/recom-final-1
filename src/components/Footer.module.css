@@ -1,0 +1,115 @@
+.footer {
+    width: 100%;
+    background: var(--bg-dark);
+    color: var(--bg-white); /* High contrast base */
+    margin-top: var(--space-2xl);
+}
+
+.footerGrid {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-m);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .footerGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-l);
+        padding: var(--space-xl) var(--space-m);
+    }
+}
+
+.footerCol {
+    min-width: 0;
+}
+
+.footerTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--bg-white); /* Changed back to White from Gold */
+    margin: 0 0 var(--space-m) 0;
+}
+
+.footerText {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7); /* Adjusted for balanced contrast */
+}
+
+.footerLogo {
+    margin-bottom: var(--space-m);
+}
+
+.footerLogo img {
+    max-height: 50px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Ensure visibility on dark background if original is dark */
+    opacity: 0.9;
+}
+
+.footerLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footerLinks li {
+    margin-bottom: var(--space-s);
+}
+
+.footerLinks a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: all var(--transition-fast);
+}
+
+.footerLinks a:hover {
+    color: var(--bg-white);
+}
+
+.footerContact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--text-sm); /* Slightly larger for readability */
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+.footerPhone {
+    font-weight: 700;
+    color: var(--accent-red); /* Highlighted phone */
+    margin-top: var(--space-s);
+    font-size: var(--text-base);
+}
+
+.footerContact a {
+    color: var(--accent-red); /* Highlighted email */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.footerContact a:hover {
+    color: var(--bg-white);
+}
+
+.footerBottom {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: var(--space-m);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.3);
+}

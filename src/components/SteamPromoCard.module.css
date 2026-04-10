@@ -1,0 +1,276 @@
+/* ================================================
+   STEAM PROMO CARD — Pop-up Interaction System
+   Inspired by Steam's game hover cards
+   ================================================ */
+
+.cardWrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* ---- COMPACT CARD STATE ---- */
+.card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-spring), box-shadow var(--transition-base), border-color var(--transition-fast);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-blue);
+}
+
+/* Image area */
+.cardImageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--header-grad-top), var(--header-grad-bottom));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.card:hover .cardImage {
+    transform: scale(1.05);
+}
+
+.cardImagePlaceholder {
+    color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Badges */
+.tagBadge {
+    position: absolute;
+    top: var(--space-s);
+    left: var(--space-s);
+    background: var(--accent-red);
+    color: var(--bg-white);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 6px rgba(198, 40, 40, 0.3);
+}
+
+.discountBadge {
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
+    background: #1b5e20;
+    color: #a5d6a7;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 6px rgba(27, 94, 32, 0.3);
+}
+
+/* Card body */
+.cardBody {
+    padding: var(--space-m);
+}
+
+.cardTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-xs) 0;
+    line-height: 1.3;
+}
+
+.cardSubtitle {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0 0 var(--space-m) 0;
+    line-height: 1.4;
+}
+
+.priceRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+}
+
+.originalPrice {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.discountPrice {
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+/* ---- EXPANDED POPUP ---- */
+.popup {
+    position: absolute;
+    top: 0;
+    left: calc(100% + var(--space-m));
+    width: 280px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-12px) scale(0.96);
+    transition: opacity var(--transition-base), transform var(--transition-base);
+    overflow: hidden;
+}
+
+.popupVisible {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Popup header */
+.popupHeader {
+    padding: var(--space-m) var(--space-m) var(--space-s);
+    background: linear-gradient(135deg, var(--header-grad-top) 0%, #2a3040 100%);
+    color: var(--bg-white);
+}
+
+.popupTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin: 0 0 var(--space-xs) 0;
+    line-height: 1.3;
+}
+
+.popupSubtitle {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Popup body */
+.popupBody {
+    padding: var(--space-m);
+}
+
+.featureList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-m) 0;
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-s);
+    line-height: 1.4;
+}
+
+.featureItem:last-child {
+    margin-bottom: 0;
+}
+
+.checkIcon {
+    flex-shrink: 0;
+    color: #2e7d32;
+}
+
+/* Popup pricing */
+.popupPriceBlock {
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--border-light);
+    margin-bottom: var(--space-m);
+}
+
+.popupPriceRow {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+    margin-bottom: var(--space-xs);
+}
+
+.popupOriginal {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.popupDiscount {
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.popupSavings {
+    font-family: var(--font-ui);
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #1b5e20;
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+}
+
+/* CTA */
+.popupCta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--accent-blue);
+    color: var(--bg-white) !important;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.popupCta:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+}
+
+/* Responsive: popup below on smaller screens */
+@media (max-width: 1100px) {
+    .popup {
+        left: 0;
+        top: calc(100% + var(--space-s));
+        width: 100%;
+        transform: translateY(-8px) scale(0.96);
+    }
+
+    .popupVisible {
+        transform: translateY(0) scale(1);
+    }
+}
