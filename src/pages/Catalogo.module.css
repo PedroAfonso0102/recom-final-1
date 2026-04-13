@@ -5,48 +5,7 @@
     padding: var(--space-xl) var(--space-m);
 }
 
-/* --- WIP Banner --- */
-.wipBanner {
-    display: flex;
-    align-items: center;
-    background: rgba(var(--accent-blue-rgb), 0.05); /* very light blue assuming we had rgb token, fallback below */
-    background: linear-gradient(135deg, var(--bg-harmonic) 0%, #ebf2fa 100%);
-    border: 1px solid var(--accent-blue-light);
-    border-left: 4px solid var(--accent-blue);
-    padding: var(--space-l);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    margin-bottom: var(--space-2xl);
-    box-shadow: var(--shadow-sm);
-}
-
-.wipIcon {
-    flex-shrink: 0;
-    margin-right: var(--space-l);
-    color: var(--accent-blue);
-    background: var(--bg-white);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.wipText strong {
-    font-family: var(--font-ui);
-    font-size: var(--text-lg);
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: var(--space-xs);
-}
-
-.wipText p {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    margin: 0;
-    line-height: 1.4;
-}
+/* Removed WIP Banner styles entirely */
 
 /* --- Header / Search --- */
 .catalogHeader {
@@ -66,7 +25,7 @@
     min-width: 300px;
     max-width: 600px;
     position: relative;
-    opacity: 0.7; /* Prototype feel */
+    opacity: 1;
 }
 
 .searchIcon {
@@ -86,25 +45,35 @@
     font-size: var(--text-base);
     background: var(--bg-white);
     color: var(--text-primary);
-    cursor: not-allowed;
+    outline: none;
+    transition: border-color var(--transition-fast);
+}
+
+.searchBar input:focus {
+    border-color: var(--accent-blue);
 }
 
 .searchBar button {
-    background: var(--bg-dark);
+    background: var(--accent-blue);
     color: var(--bg-white);
     border: none;
     padding: 0 var(--space-xl);
     font-family: var(--font-ui);
     font-weight: 600;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    cursor: not-allowed;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.searchBar button:hover {
+    background: var(--accent-blue-hover);
 }
 
 .sortOptions {
     display: flex;
     align-items: center;
     gap: var(--space-l);
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .resultsCount {
@@ -119,7 +88,8 @@
     background: var(--bg-white);
     font-family: var(--font-ui);
     color: var(--text-secondary);
-    cursor: not-allowed;
+    cursor: pointer;
+    outline: none;
 }
 
 /* --- Body / Layout --- */
@@ -142,8 +112,8 @@
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
     padding: var(--space-l);
-    opacity: 0.6; /* Prototype feel */
-    pointer-events: none;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .filterGroup {
@@ -171,12 +141,17 @@
     font-size: var(--text-sm);
     color: var(--text-secondary);
     margin-bottom: var(--space-s);
-    cursor: not-allowed;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.filterLabel:hover {
+    color: var(--accent-blue);
 }
 
 .filterLabel input {
     margin-right: var(--space-s);
-    cursor: not-allowed;
+    cursor: pointer;
 }
 
 .rangeInputs {
@@ -216,15 +191,29 @@
     font-size: 14px;
     border-radius: 4px;
     color: var(--bg-white);
-    opacity: 0.7;
+    opacity: 1;
 }
 
-.isoP { background: #0072bc; } /* Blue */
-.isoM { background: #ffcc00; color: #333; } /* Yellow */
-.isoK { background: #e3000f; } /* Red */
+.isoTagSmall {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-ui);
+    font-weight: bold;
+    font-size: 10px;
+    border-radius: 2px;
+    color: var(--bg-white);
+    opacity: 1;
+}
+
+.isoP { background: #004A99; } /* BP Blue */
+.isoM { background: #FFD700; color: #000; } /* Caution Yellow */
+.isoK { background: #E60000; } /* Accent Red */
 .isoN { background: #009944; } /* Green */
-.isoS { background: #f39200; } /* Orange */
-.isoH { background: #a6a6a6; } /* Grey */
+.isoS { background: #E67E22; } /* Orange */
+.isoH { background: #4A4A4A; } /* Metal Grey */
 
 /* --- Product Grid --- */
 .catalogGrid {
@@ -233,67 +222,148 @@
     gap: var(--space-l);
 }
 
-.productMockCard {
+.productCard {
     background: var(--bg-white);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
-    padding: var(--space-m);
-    box-shadow: var(--shadow-xs);
-    position: relative;
     overflow: hidden;
-}
-
-/* Skeleton Animations for prototype */
-@keyframes shimmer {
-    0% { background-position: -200px 0; }
-    100% { background-position: 200px 0; }
-}
-
-.mockImage, .mockTextShort, .mockTextLong, .mockTag {
-    background: #f6f7f8;
-    background-image: linear-gradient(90deg, #f6f7f8 0px, #edeef1 40px, #f6f7f8 80px);
-    background-size: 200px 100%;
-    animation: shimmer 1.5s infinite linear;
-}
-
-.mockImage {
-    height: 140px;
-    width: 100%;
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--space-m);
-}
-
-.mockTextShort {
-    height: 18px;
-    width: 70%;
-    border-radius: 4px;
-    margin-bottom: var(--space-s);
-}
-
-.mockTextLong {
-    height: 14px;
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: var(--space-m);
-}
-
-.mockTags {
+    transition: transform var(--transition-spring), box-shadow var(--transition-base), border-color var(--transition-fast);
     display: flex;
-    gap: var(--space-s);
-    margin-bottom: var(--space-l);
+    flex-direction: column;
 }
 
-.mockTag {
-    height: 24px;
-    width: 40px;
-    border-radius: 12px;
+.productCard:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-blue);
 }
 
-.mockAction {
-    display: inline-block;
+.productImageWrapper {
+    position: relative;
+    height: 160px;
+    background: var(--bg-harmonic);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.productImagePlaceholder {
     font-family: var(--font-ui);
-    font-size: var(--text-sm);
+    font-weight: 800;
+    color: var(--text-muted);
+    font-size: var(--text-2xl);
+    letter-spacing: 0.1em;
+    opacity: 0.2;
+}
+
+.productIsoGroup {
+    position: absolute;
+    bottom: var(--space-s);
+    right: var(--space-s);
+    display: flex;
+    gap: 4px;
+}
+
+.productInfo {
+    padding: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.productBrand {
+    font-size: var(--text-xs);
     font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2xs);
+}
+
+.productTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0 0 var(--space-s) 0;
+}
+
+.productMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: var(--space-l);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.productFooter {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-light);
+    padding-top: var(--space-m);
+}
+
+.productPrice {
+    font-family: var(--font-ui);
+    font-weight: 800;
     color: var(--accent-blue);
-    opacity: 0.5;
+    font-size: var(--text-lg);
+}
+
+.actionBtn {
+    background: transparent;
+    color: var(--accent-blue);
+    border: 1px solid var(--accent-blue);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.actionBtn:hover {
+    background: var(--accent-blue);
+    color: var(--bg-white);
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-3xl) 0;
+    background: var(--bg-harmonic);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--border-medium);
+}
+
+.emptyState h3 {
+    margin: 0 0 var(--space-s) 0;
+    font-family: var(--font-ui);
+    color: var(--text-primary);
+}
+
+.emptyState p {
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-l) 0;
+}
+
+.resetBtn {
+    background: var(--text-primary);
+    color: var(--bg-white);
+    border: none;
+    padding: var(--space-s) var(--space-xl);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.resetBtn:hover {
+    background: var(--accent-blue);
 }

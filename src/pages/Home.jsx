@@ -1,90 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import Layout from '../components/Layout';
+import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
 import logoMitsubishi from '../assets/images/logo_mitsubishi.png';
 import logo7leaders from '../assets/images/logo_7leaders.png';
 import logoBtfixo from '../assets/images/logo_btfixo.png';
 import logoKifix from '../assets/images/logo_kifix.png';
-
-// Slider images
-import linhaMitsu from '../assets/images/linha_mitsu.jpg';
-import torneamento1 from '../assets/images/torneamento1.jpg';
-import torneamento2 from '../assets/images/torneamento2.jpg';
-import fresamento1 from '../assets/images/fresamento1.jpg';
-import fresa1 from '../assets/images/fresa1.jpg';
-import fresa2 from '../assets/images/fresa2.jpg';
-import furacao1 from '../assets/images/furacao1.jpg';
-import furacao2 from '../assets/images/furacao2.jpg';
-import linha7leaders from '../assets/images/linha_7leaders.jpg';
-import prods7leaders from '../assets/images/prods_7leaders.jpg';
-import linhaBtfixo from '../assets/images/linha_btfixo.jpg';
-import prodsBtfixo from '../assets/images/prods_btfixo.jpg';
-import cones from '../assets/images/cones.jpg';
 import logoMit from '../assets/images/LOGO-MIT.png';
 
-const slides = [
-  { src: linhaMitsu, title: 'Linha Mitsubishi', link: null },
-  { src: torneamento1, title: 'Torneamento', link: null },
-  { src: torneamento2, title: 'Torneamento', link: null },
-  { src: fresamento1, title: 'Fresas de topo', link: null },
-  { src: fresa1, title: 'Fresas', link: null },
-  { src: fresa2, title: 'Fresas', link: null },
-  { src: furacao1, title: 'Furação', link: null },
-  { src: furacao2, title: 'Furação', link: null },
-  { src: linha7leaders, title: 'Linha 7Leaders', link: null },
-  { src: prods7leaders, title: 'Linha 7Leaders', link: 'http://7leaders.com/video/video_en.html' },
-  { src: linhaBtfixo, title: 'Linha BT Fixo', link: '/btfixo' },
-  { src: prodsBtfixo, title: 'Linha BT Fixo', link: '/btfixo' },
-  { src: cones, title: 'Cones', link: null },
-];
-
 const Home = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
-
-  // Auto-play carousel
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 4000);
-    return () => clearInterval(timer);
-  }, [nextSlide]);
-
-  const renderSlideImage = (slide) => {
-    const imgEl = (
-      <img
-        src={slide.src}
-        alt={slide.title}
-        className={styles.slideImg}
-      />
-    );
-    if (slide.link) {
-      const isExternal = slide.link.startsWith('http');
-      return (
-        <a
-          href={slide.link}
-          target={isExternal ? '_blank' : undefined}
-          rel={isExternal ? 'noopener noreferrer' : undefined}
-        >
-          {imgEl}
-        </a>
-      );
-    }
-    return imgEl;
-  };
-
   return (
     <Layout>
-      {/* Fornecedores */}
+      {/* Hero Banner Industrial */}
+      <div className={styles.heroBanner}>
+        <div className={styles.heroOverlay}></div>
+        <div className={styles.heroContent}>
+          <span className={styles.heroBadge}>PRECISÃO ABSOLUTA</span>
+          <h1 className={styles.heroTitle}>A EXCELÊNCIA EM METAL DURO</h1>
+          <p className={styles.heroDescription}>
+            Distribuidor técnico autorizado Mitsubishi Materials desde 1990. 
+            Soluções avançadas em ferramentas de corte e usinagem de alta performance para a indústria metalúrgica.
+          </p>
+          <div className={styles.heroActions}>
+            <Link to="/catalogo" className={styles.primaryBtn}>Acessar Catálogo</Link>
+            <Link to="/contato" className={styles.secondaryBtn}>Fale com um Especialista</Link>
+          </div>
+        </div>
+      </div>
+
       <div className={styles.centerData}>
-        <div className={styles.fornecedoresBox}>
-          <h3>Fornecedores</h3>
+        {/* Fornecedores */}
+        <div className={styles.sectionBox}>
+          <h3 className={styles.sectionTitle}>Fornecedores Oficiais</h3>
           <div className={styles.brandsRow}>
             <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" /></a>
             <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" /></a>
@@ -92,97 +40,56 @@ const Home = () => {
             <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" /></a>
           </div>
         </div>
-      </div>
-
-      {/* Carousel / Slider */}
-      <div className={styles.carouselContainer}>
-        <div className={styles.carousel}>
-          <button
-            className={`${styles.carouselBtn} ${styles.carouselPrev}`}
-            onClick={prevSlide}
-            aria-label="Slide anterior"
-          >
-            ‹
-          </button>
-
-          <div className={styles.carouselTrack}>
-            {slides.map((slide, index) => (
-              <div
-                key={index}
-                className={`${styles.carouselSlide} ${index === currentSlide ? styles.active : ''}`}
-              >
-                {renderSlideImage(slide)}
-                <div className={styles.slideCaption}>{slide.title}</div>
-              </div>
-            ))}
-          </div>
-
-          <button
-            className={`${styles.carouselBtn} ${styles.carouselNext}`}
-            onClick={nextSlide}
-            aria-label="Próximo slide"
-          >
-            ›
-          </button>
-        </div>
-
-        {/* Dots */}
-        <div className={styles.carouselDots}>
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.dot} ${index === currentSlide ? styles.activeDot : ''}`}
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Ir para slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Produtos em Destaque + (Vídeo & Novidades) */}
-      <div className={styles.centerData}>
 
         {/* Produtos em Destaque - full width */}
         <div className={styles.sectionBox}>
-          <h3>Produtos em Destaque</h3>
+          <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
           <div className={styles.produtosGrid}>
             <div className={styles.produtoCard}>
-              <strong>S-TAW (N112 - N116)</strong>
-              <p>Brocas intercambiáveis para diâmetros pequenos</p>
+              <div className={styles.produtoIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              </div>
+              <strong>S-TAW / TAW</strong>
+              <p>Brocas intercambiáveis de alta performance para furação precisa</p>
             </div>
             <div className={styles.produtoCard}>
-              <strong>TAW (N117 - N135)</strong>
-              <p>Brocas intercambiáveis</p>
+              <div className={styles.produtoIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <strong>MWS Series</strong>
+              <p>Brocas inteiriças com refrigeração interna para maior vida útil</p>
             </div>
             <div className={styles.produtoCard}>
-              <strong>Pequenos Diâmetros MWS</strong>
-              <p>Brocas inteiriças de metal duro com refrigeração interna</p>
+              <div className={styles.produtoIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </div>
+              <strong>WSTAR Long</strong>
+              <p>Sistemas otimizados para furação profunda e extrema precisão</p>
             </div>
             <div className={styles.produtoCard}>
-              <strong>MWE/MWS (N019 - N032)</strong>
-              <p>Brocas inteiriças de metal duro</p>
-            </div>
-            <div className={styles.produtoCard}>
-              <strong>WSTAR Broca Super Longa</strong>
-              <p>Brocas inteiriças de metal duro para furação profunda</p>
+              <div className={styles.produtoIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <strong>Fresamento XP</strong>
+              <p>Insertos multiarestas para desbaste em alto avanço</p>
             </div>
           </div>
         </div>
 
-        {/* Two-column: Vídeo + Novidades */}
+        {/* Two-column: Vídeo + Atualizações Técnicas */}
         <div className={styles.twoColumnRow}>
           {/* Vídeo */}
           <div className={styles.columnLeft}>
             <div className={styles.sectionBox}>
-              <h3>
-                Vídeo
+              <h3 className={styles.sectionTitle}>
+                Demonstração Técnica
                 <img src={logoMit} className={styles.videoLogo} alt="Mitsubishi" />
               </h3>
               <div className={styles.videoWrapper}>
-                <video controls width="100%">
-                  <source src="http://www.recommetalduro.com.br//webroot/img/VID-20200316-WA0040.mp4" type="video/mp4" />
-                  Seu navegador não suporta o elemento de vídeo.
-                </video>
+                <div className={styles.mockVideo}>
+                   <svg width="48" height="48" viewBox="0 0 24 24" fill="var(--accent-blue)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                   <p>Apresentação Sistema DIAEDGE</p>
+                </div>
               </div>
             </div>
           </div>
@@ -190,27 +97,27 @@ const Home = () => {
           {/* Novidades */}
           <div className={styles.columnRight}>
             <div className={styles.sectionBox}>
-              <h3>Novidades</h3>
+              <h3 className={styles.sectionTitle}>Atualizações Técnicas</h3>
               <ul className={styles.newsList}>
                 <li>
-                  <h4>Mitsubishi traz novidades em todas as linhas</h4>
-                  <a href="/novidade-linha-mitsubishi" className={styles.newsLink}>Clique aqui e confira os detalhes</a>
-                  <p className={styles.newsDate}>Postado em: 30/09/2013 às 23:19</p>
+                  <h4>Nova Geração de Classes CVD - MC6100</h4>
+                  <p className={styles.newsDesc}>Maior resistência ao desgaste em torneamento de aços ISO P.</p>
+                  <p className={styles.newsDate}>Tecnologia 2026</p>
                 </li>
                 <li>
-                  <h4>Veja as fotos da FENASUCRO 2012</h4>
-                  <a href="/feiras/fenasucro" className={styles.newsLink}>Fotos da FENASUCRO 2012</a>
-                  <p className={styles.newsDate}>Postado em: 19/09/2012 às 20:49</p>
+                  <h4>Catálogo Digital DIAEDGE</h4>
+                  <p className={styles.newsDesc}>Acesse a versão atualizada com a nova linha completa de fresamento.</p>
+                  <p className={styles.newsDate}>Lançamento Recente</p>
                 </li>
                 <li>
-                  <h4>Confira os novos videos promocionais</h4>
-                  <span className={styles.newsLink}>Smart Miracle</span><br/>
-                  <span className={styles.newsLink}>MC6025</span>
-                  <p className={styles.newsDate}>Postado em: 19/09/2012 às 20:25</p>
+                  <h4>Soluções de Furação MV</h4>
+                  <p className={styles.newsDesc}>Geometrias inovadoras que superam os limites do aço inoxidável.</p>
+                  <p className={styles.newsDate}>Em Destaque</p>
                 </li>
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </Layout>

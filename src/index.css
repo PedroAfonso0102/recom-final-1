@@ -19,39 +19,41 @@
   --text-2xl: 2.441rem;  /* 39px */
 
   /* --- Font Families --- */
-  --font-body: 'PT Sans', Arial, Helvetica, sans-serif;
-  --font-ui: 'Inter', 'PT Sans', Arial, sans-serif;
+  --font-body: 'Helvetica Neue', 'Inter', 'Roboto', sans-serif;
+  --font-ui: 'Helvetica Neue', 'Inter', 'Roboto', sans-serif;
 
   /* --- Colors — Swiss Modern Industrial Palette --- */
-  --bg-main: #F5F5F0; /* Off-white surface */
-  --bg-harmonic: #EBEBE6; /* Slightly darker surface for contrast */
-  --bg-white: #ffffff;
-  --bg-dark: #0A1929; /* Primary: deep petroleum blue */
-  --text-primary: #1A1A1A; /* Almost black */
-  --text-secondary: #3b424a;
-  --text-muted: #6b7280;
+  --bg-main: #FFFFFF; /* Stark White surface */
+  --bg-harmonic: #F8F8F8; /* Subtle contrast */
+  --bg-white: #FFFFFF;
+  --bg-dark: #000000; /* Primary: Solid Black */
   
-  --accent-blue: #0A1929; /* Replaced default corporate blue with technical dark */
-  --accent-blue-light: rgba(10, 25, 41, 0.05); /* Soft blend */
-  --accent-blue-hover: #122941;
+  --text-primary: #000000; /* Solid Black */
+  --text-secondary: #4A4A4A; /* Metal Grey */
+  --text-muted: #7A7A7A; /* Lighter grey */
   
-  --accent-red: #FF6B35; /* Accent 1: friction orange */
-  --accent-red-light: rgba(255, 107, 53, 0.1);
-  --accent-red-hover: #e85d2b;
+  --accent-blue: #004A99; /* Technical Blueprint Blue */
+  --accent-blue-light: rgba(0, 74, 153, 0.05);
+  --accent-blue-hover: #003366;
+  
+  --accent-caution: #FFD700; /* Caution Yellow */
+  --accent-caution-light: rgba(255, 215, 0, 0.1);
+  --accent-caution-dark: #CCA000;
+  
+  --accent-red: #E60000; /* Warning Red for critical alerts */
+  --accent-red-hover: #CC0000;
 
-  --accent-gold: #C9B037; /* Accent 2: standard gold */
-
-  --header-grad-top: #0A1929;
-  --header-grad-bottom: #050d15;
-  --border-light: #deded8;
-  --border-medium: #c2c2bc;
+  --header-grad-top: #000000;
+  --header-grad-bottom: #1A1A1A;
+  --border-light: #E0E0E0;
+  --border-medium: #CCCCCC;
 
   /* --- Shadows --- */
-  --shadow-xs: 0 2px 4px rgba(10, 25, 41, 0.04);
-  --shadow-sm: 0 4px 8px rgba(10, 25, 41, 0.06);
-  --shadow-md: 0 8px 16px rgba(10, 25, 41, 0.08);
-  --shadow-lg: 0 16px 32px rgba(10, 25, 41, 0.12);
-  --shadow-xl: 0 24px 64px rgba(255, 107, 53, 0.15); /* Orange glow on big shadows */
+  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 64px rgba(0, 74, 153, 0.15); /* Blueprint glow on big shadows */
 
   /* --- Radii --- */
   --radius-sm: 4px;
