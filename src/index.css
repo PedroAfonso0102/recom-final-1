@@ -55,6 +55,14 @@
   --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 24px 64px rgba(0, 74, 153, 0.15); /* Blueprint glow on big shadows */
 
+  /* --- ISO Material Category Colors --- */
+  --iso-p: #004A99; /* Blue - Steel */
+  --iso-m: #FFD700; /* Yellow - Stainless Steel */
+  --iso-k: #E60000; /* Red - Cast Iron */
+  --iso-n: #009944; /* Green - Non-ferrous */
+  --iso-s: #E67E22; /* Orange - Superalloys */
+  --iso-h: #4A4A4A; /* Grey - Hardened Materials */
+
   /* --- Radii --- */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -71,7 +79,9 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* --- Containers & Breakpoints --- */
+  --container-narrow: 960px;
   --container-width: 1200px;
+  --container-wide: 1400px;
   --mobile-breakpoint: 768px;
   --tablet-breakpoint: 1024px;
 }

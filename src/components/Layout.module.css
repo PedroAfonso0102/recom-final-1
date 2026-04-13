@@ -4,25 +4,14 @@
 
 .centerContent {
     width: 100%;
-    max-width: var(--container-width);
     min-height: 700px;
     padding-bottom: var(--space-2xl);
-    margin: 0 auto;
-    background: var(--bg-harmonic);
-    border: 1px solid var(--border-light);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    border-top: none;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    background: var(--bg-main);
 }
 
 @media (max-width: 768px) {
     .centerContent {
-        border: none;
-        border-radius: 0;
-        margin: 0;
         padding-bottom: var(--space-xl);
-        box-shadow: none;
     }
 }
 

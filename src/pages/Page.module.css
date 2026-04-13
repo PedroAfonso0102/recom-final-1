@@ -132,11 +132,11 @@
     counter-increment: category;
     content: "0" counter(category);
     display: block;
-    font-family: monospace;
+    font-family: var(--font-ui); /* Updated to UI font */
     font-size: var(--text-sm);
-    color: var(--accent-red);
-    margin-bottom: var(--space-xs);
-    font-weight: 600;
+    color: var(--accent-blue); /* Consistent blue accent */
+    margin-bottom: var(--space-2xs);
+    font-weight: 700;
 }
 
 /* Callout Blocks */
@@ -350,17 +350,17 @@
 .promoCallout {
     background: var(--bg-harmonic);
     padding: var(--space-l);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    border-left: 4px solid var(--accent-red);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border-left: 4px solid var(--accent-blue);
     margin-bottom: var(--space-xl);
 }
 
 .promoCalloutTitle {
     margin-top: 0;
-    color: var(--accent-red);
+    color: var(--accent-blue);
     font-family: var(--font-ui);
     font-size: var(--text-md);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .promoCtaWrapper {
@@ -369,20 +369,20 @@
 
 .promoCta {
     display: inline-block;
-    background: var(--accent-red);
+    background: var(--accent-blue);
     color: var(--bg-white) !important;
     padding: var(--space-m) var(--space-l);
     text-decoration: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-xs);
     font-weight: 700;
     font-size: var(--text-base);
     font-family: var(--font-ui);
-    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .promoCta:hover {
-    background: #a01f1f;
-    transform: translateY(-1px);
+    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
@@ -438,7 +438,7 @@
 }
 
 .contactLink {
-    color: var(--accent-red);
+    color: var(--accent-blue);
     text-decoration: none;
     font-weight: 600;
 }

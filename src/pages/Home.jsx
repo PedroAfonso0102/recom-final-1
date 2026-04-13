@@ -6,9 +6,30 @@ import styles from './Home.module.css';
 
 import logoMitsubishi from '../assets/images/logo_mitsubishi.png';
 import logo7leaders from '../assets/images/logo_7leaders.png';
-import logoBtfixo from '../assets/images/logo_btfixo.png';
+import logoBTFixo from '../assets/images/logo_btfixo.png';
 import logoKifix from '../assets/images/logo_kifix.png';
 import logoMit from '../assets/images/LOGO-MIT.png';
+
+// - [x] Integrate high-fidelity 3D technical renders for featured products
+// - [x] Fix layout overlaps in the "Sistemas de Usinagem em Destaque" section
+// - [x] Implement CSS-based tooltips for ISO material categories
+// - [x] Ensure consistent 8pt Swiss grid alignment across all interactive cards
+// - [x] Standardize color-coded ISO badges (P, M, K, N, S, H)
+
+// Import featured product technical renders
+import featuredDrill from '../assets/images/featured_drill.png';
+import featuredMilling from '../assets/images/featured_milling.png';
+import featuredMws from '../assets/images/featured_mws.png';
+import featuredWstar from '../assets/images/featured_wstar.png';
+
+const isoLabels = {
+  P: 'Aços',
+  M: 'Aços Inoxidáveis',
+  K: 'Ferros Fundidos',
+  N: 'Metais Não Ferrosos',
+  S: 'Superligas Termorresistentes',
+  H: 'Materiais Endurecidos'
+};
 
 const Home = () => {
   return (
@@ -37,7 +58,7 @@ const Home = () => {
           <div className={styles.brandsRow}>
             <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" /></a>
             <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" /></a>
-            <a href="/btfixo"><img src={logoBtfixo} alt="BT Fixo" /></a>
+            <a href="/btfixo"><img src={logoBTFixo} alt="BT Fixo" /></a>
             <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" /></a>
           </div>
         </div>
@@ -47,35 +68,68 @@ const Home = () => {
           <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
           <div className={styles.produtosGrid}>
             <div className={styles.produtoCard}>
+              <div className={styles.cardVisual}>
+                <img src={featuredDrill} alt="S-TAW System" />
+              </div>
               <div className={styles.produtoIcon}>
-                <Target size={32} strokeWidth={1.5} />
+                <Target size={24} strokeWidth={2} />
               </div>
               <strong>S-TAW / TAW</strong>
               <p>Brocas intercambiáveis de alta performance para furação precisa</p>
+              <div className={styles.isoBadgeRow}>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-k)'}} data-label={isoLabels.K}>K</span>
+              </div>
             </div>
+
             <div className={styles.produtoCard}>
+              <div className={styles.cardVisual}>
+                <img src={featuredMws} alt="MWS Series" />
+              </div>
               <div className={styles.produtoIcon}>
-                <Droplets size={32} strokeWidth={1.5} />
+                <Droplets size={24} strokeWidth={2} />
               </div>
               <strong>MWS Series</strong>
               <p>Brocas inteiriças com refrigeração interna para maior vida útil</p>
+              <div className={styles.isoBadgeRow}>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-m)'}} data-label={isoLabels.M}>M</span>
+              </div>
             </div>
+
             <div className={styles.produtoCard}>
+              <div className={styles.cardVisual}>
+                <img src={featuredWstar} alt="WSTAR Long" />
+              </div>
               <div className={styles.produtoIcon}>
-                <Layers size={32} strokeWidth={1.5} />
+                <Layers size={24} strokeWidth={2} />
               </div>
               <strong>WSTAR Long</strong>
               <p>Sistemas otimizados para furação profunda e extrema precisão</p>
+              <div className={styles.isoBadgeRow}>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-h)'}} data-label={isoLabels.H}>H</span>
+              </div>
             </div>
+
+
             <div className={styles.produtoCard}>
+              <div className={styles.cardVisual}>
+                <img src={featuredMilling} alt="High Feed Milling" />
+              </div>
               <div className={styles.produtoIcon}>
-                <Hexagon size={32} strokeWidth={1.5} />
+                <Hexagon size={24} strokeWidth={2} />
               </div>
               <strong>Fresamento XP</strong>
               <p>Insertos multiarestas para desbaste em alto avanço</p>
+              <div className={styles.isoBadgeRow}>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
+                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-s)'}} data-label={isoLabels.S}>S</span>
+              </div>
             </div>
           </div>
         </div>
+
 
         {/* Two-column: Vídeo + Atualizações Técnicas */}
         <div className={styles.twoColumnRow}>

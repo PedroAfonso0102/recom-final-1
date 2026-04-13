@@ -1,0 +1,172 @@
+/* ================================================
+   PROMOÇÕES PAGE — RECOM Metal Duro
+   Card-based promotional grid with Swiss precision
+   ================================================ */
+
+/* --- Page Container --- */
+.promoPage {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--space-m) var(--space-2xl);
+}
+
+/* --- Page Header --- */
+.promoHeader {
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-l);
+    border-bottom: 2px solid var(--accent-blue);
+}
+
+.promoTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-s) 0;
+    line-height: 1.1;
+}
+
+.promoSubtitle {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 65ch;
+    margin: 0;
+}
+
+/* --- Stats Bar --- */
+.promoStats {
+    display: flex;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-m) 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.statItem {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+}
+
+.statValue {
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    font-weight: 800;
+    color: var(--accent-blue);
+}
+
+.statLabel {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* --- Promo Grid --- */
+.promoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-l);
+    margin-bottom: var(--space-2xl);
+}
+
+@media (max-width: 768px) {
+    .promoGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-m);
+    }
+}
+
+/* --- CTA Section --- */
+.promoCta {
+    background: var(--accent-blue);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .promoCta {
+        flex-direction: column;
+        text-align: center;
+        padding: var(--space-xl) var(--space-m);
+    }
+}
+
+.ctaContent h3 {
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--bg-white);
+    margin: 0 0 var(--space-xs) 0;
+}
+
+.ctaContent p {
+    font-size: var(--text-sm);
+    color: var(--border-medium);
+    margin: 0;
+    max-width: 50ch;
+}
+
+.ctaButton {
+    display: inline-block;
+    background: var(--bg-white);
+    color: var(--accent-blue);
+    padding: var(--space-m) var(--space-xl);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: var(--text-base);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.ctaButton:hover {
+    background: var(--bg-harmonic);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* --- Disclaimer --- */
+.disclaimer {
+    border-top: 1px solid var(--border-light);
+    padding-top: var(--space-m);
+}
+
+.disclaimer p {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* --- Breadcrumb --- */
+.location {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    padding: var(--space-s) var(--space-m);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--space-l);
+}
+
+.whereCenter {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+.location a {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
