@@ -18,7 +18,7 @@ import logoMit from '../assets/images/LOGO-MIT.png';
 
 // Import featured product technical renders
 import featuredDrill from '../assets/images/featured_drill.png';
-import featuredMilling from '../assets/images/featured_milling.png';
+import featuredMilling from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
 import featuredMws from '../assets/images/featured_mws.png';
 import featuredWstar from '../assets/images/featured_wstar.png';
 

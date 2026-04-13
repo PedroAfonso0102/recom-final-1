@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/Upscaled/logo-branco.png';
 
 const Footer = () => {
   return (
@@ -12,7 +12,7 @@ const Footer = () => {
             <img src={logo} alt="RECOM Metal Duro" />
           </div>
           <p className={styles.footerText}>
-            Distribuidor técnico autorizado Mitsubishi Materials desde 1990. 
+            Distribuidor técnico autorizado Mitsubishi Materials desde 1990.
             Soluções em ferramentas de corte para a indústria metalúrgica.
           </p>
         </div>

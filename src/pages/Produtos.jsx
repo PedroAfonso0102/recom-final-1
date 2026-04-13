@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
 import ProductSidebar from '../components/ProductSidebar';
 
-import kougImg from '../assets/images/koug.png';
-import makeeImg from '../assets/images/makee.png';
-import koudoeImg from '../assets/images/koudoe.png';
-import kirehaeImg from '../assets/images/kirehae.png';
+import kougImg from '../assets/images/Upscaled/koug.png';
+import makeeImg from '../assets/images/Upscaled/makee.png';
+import koudoeImg from '../assets/images/Upscaled/koudoe.png';
+import kirehaeImg from '../assets/images/Upscaled/kirehae.png';
 import tornoGif from '../assets/images/torno.gif';
 import fresaGif from '../assets/images/fresa.gif';
 import furacaoGif from '../assets/images/furacao.gif';
