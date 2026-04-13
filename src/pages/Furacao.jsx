@@ -14,39 +14,57 @@ const Furacao = () => (
     <div className={styles.centerData}>
       <ProductSidebar />
 
-      <div className={styles.textBox}>
-        <div className={styles.mainProductTitle}>Furação</div>
-        
-        <h3 className={styles.productTitle}>FURAÇÃO</h3>
-        <ul className={`${styles.just} ${styles.squareList}`}>
-          <li>IDENTIFICAÇÃO / DESCRIÇÕES DOS SÍMBOLOS</li>
-        </ul>
+        <div className={styles.textBox}>
+          <div className={styles.mainProductTitle}>Furação</div>
+          
+          <div className={styles.safetyGrid}>
+            <section className={styles.safetyCard}>
+              <div className={styles.precautionZone}>
+                <strong>INTEIRIÇO</strong>
+                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Metal Duro</h3>
+                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                  <li>PEQUENOS DIÂMETROS MWS</li>
+                  <li>MWE / MWS (BROCAS WSTAR)</li>
+                  <li>MNS / MNS_DB (BROCAS WSTAR)</li>
+                  <li>MGS (BROCA CANHÃO)</li>
+                </ul>
+              </div>
+            </section>
 
-        <h3 className={styles.productTitle}>FURAÇÃO (METAL DURO INTEIRIÇO)</h3>
-        <ul className={`${styles.just} ${styles.squareList}`}>
-          <li>PEQUENOS DIÂMETROS MWS (BROCAS WSTAR)</li>
-          <li>MWE / MWS (BROCAS WSTAR)</li>
-          <li>MWS_DB (BROCAS WSTAR)</li>
-          <li>MNS / MNS_DB (BROCAS WSTAR)</li>
-          <li>MHS (BROCAS WSTAR)</li>
-          <li>MZE / MZS</li>
-          <li>MGS (BROCA CANHÃO INTEIRIÇA)</li>
-          <li>MAE / MAS</li>
-        </ul>
+            <section className={styles.safetyCard}>
+              <div className={styles.precautionZone}>
+                <strong>INTERCAMBIÁVEL</strong>
+                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Sistemas Autorais</h3>
+                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                  <li>S-TAW / TAW SYSTEM</li>
+                  <li>TAFS / TAFM / TAFL</li>
+                  <li>BUCHA EXPANSIVA (JFS)</li>
+                </ul>
+              </div>
+            </section>
 
-        <h3 className={styles.productTitle}>FURAÇÃO (TIPO SOLDADA)</h3>
-        <ul className={`${styles.just} ${styles.squareList}`}>
-          <li>BRS / BRM / BRK</li>
-          <li>BRA / BRL</li>
-        </ul>
+            <section className={styles.safetyCard}>
+              <div className={styles.precautionZone}>
+                <strong>ESPECIAIS</strong>
+                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Tipo Soldada</h3>
+                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                  <li>BRS / BRM / BRK</li>
+                  <li>BRA / BRL</li>
+                </ul>
+              </div>
+            </section>
 
-        <h3 className={styles.productTitle}>FURAÇÃO (TIPO INTERCAMBIÁVEL)</h3>
-        <ul className={`${styles.just} ${styles.squareList}`}>
-          <li>S-TAW</li>
-          <li>TAW</li>
-          <li>TAFS / TAFM / TAFL</li>
-          <li>BUCHA EXPANSIVA (JFS)</li>
-        </ul>
+            <section className={styles.safetyCard}>
+              <div className={styles.precautionZone}>
+                <strong>REFERÊNCIA</strong>
+                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Identificação</h3>
+                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                  <li>SÍMBOLOS E DESCRIÇÕES</li>
+                  <li>PARÂMETROS DE CORTE</li>
+                </ul>
+              </div>
+            </section>
+          </div>
 
         <div className={styles.promoCallout}>
           <h4 className={styles.promoCalloutTitle}>Identificou a ferramenta ideal?</h4>

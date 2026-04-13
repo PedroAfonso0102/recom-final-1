@@ -54,6 +54,8 @@
 .heroImageArea {
     flex: 1;
     position: relative;
+    max-height: 80vh;
+    overflow: hidden;
 }
 
 .heroImageArea::before {
@@ -61,7 +63,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(90deg, var(--bg-main) 0%, transparent 15%);
+    background: linear-gradient(90deg, var(--bg-main) 0%, transparent 20%);
     z-index: 1;
 }
 
@@ -412,16 +414,19 @@
 }
 
 .supplierLogo {
-    max-width: 120px;
-    max-height: 40px;
+    max-width: 140px;
+    max-height: 50px;
+    width: 100%;
     object-fit: contain;
     margin-bottom: var(--space-m);
-    filter: grayscale(0.3);
-    transition: filter var(--transition-base);
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition: all var(--transition-base);
 }
 
 .supplierCard:hover .supplierLogo {
     filter: grayscale(0);
+    opacity: 1;
 }
 
 .supplierName {

@@ -70,6 +70,12 @@
   --radius-xl: 16px;
   --radius-full: 9999px;
 
+  /* Image Ratios & Constraints */
+  --aspect-product: 4 / 3;
+  --aspect-technical: 16 / 9;
+  --logo-max-w: 320px;
+  --logo-max-h: 100px;
+
   /* --- Motion / Transitions --- */
   --transition-fast: 150ms ease-out;
   --transition-base: 250ms ease-out;
@@ -128,4 +134,36 @@ a:hover {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* --- Precision Image Scaling Utilities --- */
+.res-img-standard {
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.res-img-card {
+  width: 100%;
+  aspect-ratio: var(--aspect-product);
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.res-img-logo {
+  width: 100%;
+  height: 100%;
+  max-width: var(--logo-max-w);
+  max-height: clamp(60px, 12vh, var(--logo-max-h));
+  display: block;
+  object-fit: contain;
+  transition: all var(--transition-base);
+}
+
+.res-img-logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
 }

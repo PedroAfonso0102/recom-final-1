@@ -56,10 +56,10 @@ const Home = () => {
         <div className={styles.sectionBox}>
           <h3 className={styles.sectionTitle}>Fornecedores Oficiais</h3>
           <div className={styles.brandsRow}>
-            <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" /></a>
-            <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" /></a>
-            <a href="/btfixo"><img src={logoBTFixo} alt="BT Fixo" /></a>
-            <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" /></a>
+            <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" className="res-img-logo" /></a>
+            <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" className="res-img-logo" /></a>
+            <a href="/btfixo"><img src={logoBTFixo} alt="BT Fixo" className="res-img-logo" /></a>
+            <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" className="res-img-logo" /></a>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ const Home = () => {
           <div className={styles.produtosGrid}>
             <div className={styles.produtoCard}>
               <div className={styles.cardVisual}>
-                <img src={featuredDrill} alt="S-TAW System" />
+                <img src={featuredDrill} alt="S-TAW System" className="res-img-card" />
               </div>
               <div className={styles.produtoIcon}>
                 <Target size={24} strokeWidth={2} />
@@ -84,7 +84,7 @@ const Home = () => {
 
             <div className={styles.produtoCard}>
               <div className={styles.cardVisual}>
-                <img src={featuredMws} alt="MWS Series" />
+                <img src={featuredMws} alt="MWS Series" className="res-img-card" />
               </div>
               <div className={styles.produtoIcon}>
                 <Droplets size={24} strokeWidth={2} />
@@ -99,7 +99,7 @@ const Home = () => {
 
             <div className={styles.produtoCard}>
               <div className={styles.cardVisual}>
-                <img src={featuredWstar} alt="WSTAR Long" />
+                <img src={featuredWstar} alt="WSTAR Long" className="res-img-card" />
               </div>
               <div className={styles.produtoIcon}>
                 <Layers size={24} strokeWidth={2} />
@@ -115,7 +115,7 @@ const Home = () => {
 
             <div className={styles.produtoCard}>
               <div className={styles.cardVisual}>
-                <img src={featuredMilling} alt="High Feed Milling" />
+                <img src={featuredMilling} alt="High Feed Milling" className="res-img-card" />
               </div>
               <div className={styles.produtoIcon}>
                 <Hexagon size={24} strokeWidth={2} />

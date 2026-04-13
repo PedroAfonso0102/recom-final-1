@@ -328,14 +328,14 @@ const Catalogo = () => {
                 <p className={styles.modalDescription}>{selectedProduct.technicalSpecs.detalhes}</p>
                 
                 <div className={styles.specsTable}>
-                  <div className={styles.specRow}>
-                    <span className={styles.specLabel}>Preço Sugerido:</span>
-                    <span className={styles.specValue}>R$ {selectedProduct.price.toFixed(2).replace('.', ',')}</span>
+                  <div className={`${styles.specRow} ${styles.priceRow}`}>
+                    <span className={styles.specLabel}>Preço de Referência:</span>
+                    <span className={`${styles.specValue} ${styles.priceValue}`}>R$ {selectedProduct.price.toFixed(2).replace('.', ',')}</span>
                   </div>
                   {Object.entries(selectedProduct.technicalSpecs).map(([key, value]) => (
                     key !== 'detalhes' && (
                       <div key={key} className={styles.specRow}>
-                        <span className={styles.specLabel}>{key.replace('_', ' ')}:</span>
+                        <span className={styles.specLabel}>{key.replace('_', ' ')}</span>
                         <span className={styles.specValue}>{value}</span>
                       </div>
                     )

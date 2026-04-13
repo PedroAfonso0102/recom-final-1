@@ -17,7 +17,8 @@
 
 .productImageWrapper {
     position: relative;
-    height: 180px;
+    width: 100%;
+    aspect-ratio: var(--aspect-product);
     background: var(--bg-harmonic);
     display: flex;
     align-items: center;

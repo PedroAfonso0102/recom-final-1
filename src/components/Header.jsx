@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
-import logo from '../assets/images/Upscaled/logo.png';
+import logo from '../assets/images/Upscaled/logo-sem-fundo.png';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +15,7 @@ const Header = () => {
       <div className={styles.topHeader}>
         <div className={styles.headerLogo}>
           <Link to="/">
-            <img src={logo} alt="RECOM Metal Duro" />
+            <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
           </Link>
         </div>
 
@@ -30,8 +30,8 @@ const Header = () => {
           </span>
         </div>
 
-        <button 
-          className={styles.mobileMenuToggle} 
+        <button
+          className={styles.mobileMenuToggle}
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >

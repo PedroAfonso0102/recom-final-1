@@ -9,7 +9,7 @@ const Footer = () => {
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
           <div className={styles.footerLogo}>
-            <img src={logo} alt="RECOM Metal Duro" />
+            <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
           </div>
           <p className={styles.footerText}>
             Distribuidor técnico autorizado Mitsubishi Materials desde 1990.

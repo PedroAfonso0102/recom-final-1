@@ -485,37 +485,51 @@
 }
 
 .specsTable {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: var(--space-xl);
-    background: var(--bg-white);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border-light);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-sm);
-    padding: var(--space-m);
+    overflow: hidden;
+    margin-bottom: var(--space-xl);
+    padding: 0; /* Clear padding for grid lines */
 }
 
 .specRow {
+    background: var(--bg-white);
     display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.specRow:last-child {
-    border-bottom: none;
+    flex-direction: column;
+    padding: var(--space-m);
+    border-bottom: none; /* Managed by grid gap */
 }
 
 .specLabel {
-    font-weight: 700;
-    font-size: var(--text-sm);
-    color: var(--text-primary);
-    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
 }
 
 .specValue {
+    font-weight: 700;
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+}
+
+.priceRow {
+    grid-column: 1 / -1;
+    background: var(--accent-blue-light);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.priceValue {
+    font-size: var(--text-lg);
+    font-weight: 800;
+    color: var(--accent-blue);
 }
 
 .modalIsoRow {
