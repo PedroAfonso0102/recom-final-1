@@ -18,12 +18,12 @@ const Furacao = () => (
         <div className={styles.mainProductTitle}>Furação</div>
         
         <h3 className={styles.productTitle}>FURAÇÃO</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>IDENTIFICAÇÃO / DESCRIÇÕES DOS SÍMBOLOS</li>
         </ul>
 
         <h3 className={styles.productTitle}>FURAÇÃO (METAL DURO INTEIRIÇO)</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>PEQUENOS DIÂMETROS MWS (BROCAS WSTAR)</li>
           <li>MWE / MWS (BROCAS WSTAR)</li>
           <li>MWS_DB (BROCAS WSTAR)</li>
@@ -35,32 +35,32 @@ const Furacao = () => (
         </ul>
 
         <h3 className={styles.productTitle}>FURAÇÃO (TIPO SOLDADA)</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>BRS / BRM / BRK</li>
           <li>BRA / BRL</li>
         </ul>
 
         <h3 className={styles.productTitle}>FURAÇÃO (TIPO INTERCAMBIÁVEL)</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>S-TAW</li>
           <li>TAW</li>
           <li>TAFS / TAFM / TAFL</li>
           <li>BUCHA EXPANSIVA (JFS)</li>
         </ul>
 
-        <div style={{ marginTop: '40px', background: 'var(--surface-light, #f5f5f0)', padding: '30px', borderRadius: '4px', borderLeft: '4px solid var(--accent-red, #FF6B35)' }}>
-          <h4 style={{ margin: '0 0 10px 0', fontSize: '18px', color: 'var(--text-secondary, #0A1929)', fontFamily: 'var(--font-ui)' }}>Identificou a ferramenta ideal?</h4>
-          <p style={{ margin: '0 0 20px 0', color: 'var(--text-muted, #555)', fontSize: '14px', lineHeight: '1.6' }}>
+        <div className={styles.promoCallout}>
+          <h4 className={styles.promoCalloutTitle}>Identificou a ferramenta ideal?</h4>
+          <p className={styles.just}>
             Consulte disponibilidade no catálogo ou solicite um orçamento direto com nossa engenharia de aplicações.
           </p>
-          <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-            <Link to="/Catalogo" className={styles.promoCta} style={{ background: 'var(--text-secondary, #0A1929)' }}>Acessar Catálogo</Link>
-            <Link to="/Contato" className={styles.promoCta} style={{ background: 'var(--accent-red, #FF6B35)' }}>Falar com o Comercial</Link>
+          <div className={styles.ctaGrid}>
+            <Link to="/Catalogo" className={`${styles.promoCta} ${styles.btnSecondary}`}>Acessar Catálogo</Link>
+            <Link to="/Contato" className={styles.promoCta}>Falar com o Comercial</Link>
           </div>
         </div>
 
-        <div style={{ marginTop: '30px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
-          <p className={styles.just} style={{ fontSize: '11px', color: '#666' }}>
+        <div className={styles.dataFooter}>
+          <p className={styles.sourceText}>
             <strong>Fonte:</strong> MITSUBISHI MATERIALS
           </p>
         </div>
@@ -71,4 +71,3 @@ const Furacao = () => (
 );
 
 export default Furacao;
-

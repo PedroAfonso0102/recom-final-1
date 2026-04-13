@@ -14,7 +14,7 @@ const Promocoes = () => {
       </div>
       
       <div className={styles.centerData}>
-        <div className={styles.textBox} style={{ width: '100%' }}>
+        <div className={styles.textBox}>
           <div className={styles.mainProductTitle}>Promoções e Ofertas Especiais</div>
           
           <p className={styles.just}>

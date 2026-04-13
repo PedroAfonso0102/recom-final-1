@@ -1,0 +1,80 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary, #000);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--text-primary, #000);
+}
+
+.flexRow {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .flexRow {
+    flex-direction: column;
+  }
+}
+
+.submitBtn {
+  padding: 14px 28px;
+  background-color: var(--text-primary, #000);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-self: flex-start;
+  transition: opacity 0.2s ease;
+}
+
+.submitBtn:hover {
+  opacity: 0.9;
+}
+
+.requiredNote {
+  font-size: 11px;
+  color: var(--text-muted, #666);
+}
+
+.successMessage {
+  padding: 24px;
+  background-color: #f8fcf8;
+  border: 1px solid #d4edda;
+  color: #155724;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}

@@ -18,7 +18,7 @@ const Videos = () => (
         <div className={styles.mainProductTitle}>Vídeos</div>
         
         <h3 className={styles.productTitle}>TORNEAMENTO</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>Linha UE</li>
           <li>Quebra-cavacos MV</li>
           <li>Quebra-cavacos MW/SW</li>
@@ -58,8 +58,8 @@ const Videos = () => (
           <li>MB8025/MB810/MB835</li>
         </ul>
 
-        <div style={{ marginTop: '30px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
-          <p className={styles.just} style={{ fontSize: '11px', color: '#666' }}>
+        <div className={styles.dataFooter}>
+          <p className={styles.sourceText}>
             <strong>Fonte:</strong> MITSUBISHI MATERIALS
           </p>
         </div>

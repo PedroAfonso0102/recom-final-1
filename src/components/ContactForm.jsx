@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './ContactForm.module.css';
 
 const ContactForm = () => {
   const [status, setStatus] = useState({ submitted: false, error: false });
@@ -13,42 +14,42 @@ const ContactForm = () => {
 
   if (status.submitted) {
     return (
-      <div style={{ padding: '20px', backgroundColor: '#e6ffe6', border: '1px solid #b3ffb3', color: '#006600', borderRadius: '4px', marginBottom: '20px' }}>
+      <div className={styles.successMessage}>
         Mensagem enviada com sucesso! Entraremos em contato em breve.
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-      <div>
-        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Nome *</label>
-        <input type="text" required style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>Nome *</label>
+        <input type="text" required className={styles.input} placeholder="Seu nome completo" />
       </div>
-      <div style={{ display: 'flex', gap: '15px' }}>
-        <div style={{ flex: 1 }}>
-          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>E-mail *</label>
-          <input type="email" required style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+      <div className={styles.flexRow}>
+        <div className={styles.inputGroup} style={{ flex: 1 }}>
+          <label className={styles.label}>E-mail *</label>
+          <input type="email" required className={styles.input} placeholder="exemplo@email.com" />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Telefone</label>
-          <input type="tel" style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+        <div className={styles.inputGroup} style={{ flex: 1 }}>
+          <label className={styles.label}>Telefone</label>
+          <input type="tel" className={styles.input} placeholder="(19) 0000-0000" />
         </div>
       </div>
-      <div>
-        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Código(s) do(s) produto(s) desejado(s)</label>
-        <input type="text" style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>Código(s) do(s) produto(s) desejado(s)</label>
+        <input type="text" className={styles.input} placeholder="Ex: MWS0500SB" />
       </div>
-      <div>
-        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Assunto *</label>
-        <input type="text" required style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>Assunto *</label>
+        <input type="text" required className={styles.input} />
       </div>
-      <div>
-        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Comentários *</label>
-        <textarea required rows="5" style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}></textarea>
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>Comentários *</label>
+        <textarea required rows="5" className={styles.textarea}></textarea>
       </div>
-      <p style={{ fontSize: '11px', color: '#666' }}>* Campos obrigatórios</p>
-      <button type="submit" style={{ padding: '12px 24px', backgroundColor: '#cc0000', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', alignSelf: 'flex-start' }}>
+      <p className={styles.requiredNote}>* Campos obrigatórios</p>
+      <button type="submit" className={styles.submitBtn}>
         Enviar Mensagem
       </button>
     </form>

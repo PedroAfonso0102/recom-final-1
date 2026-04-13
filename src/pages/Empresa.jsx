@@ -18,7 +18,7 @@ const Empresa = () => {
           <h1 className={styles.mainProductTitle}>A Empresa</h1>
           
           <div className={styles.floatingImage}>
-            <img src={escritorioImg} alt="Escritório Recom" style={{ width: '100%', display: 'block' }} />
+            <img src={escritorioImg} alt="Escritório Recom" className={styles.standardImage} />
           </div>
 
           <p className={styles.just}>

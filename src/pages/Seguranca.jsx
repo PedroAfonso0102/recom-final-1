@@ -32,11 +32,11 @@ const Seguranca = () => (
         </p>
 
         <h4 className={styles.productTitle}>Características Físicas</h4>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li><strong>Aparência:</strong> Varia conforme o tipo do material. Ex. cinza, preto, ouro, etc.</li>
           <li><strong>Cheiro:</strong> Nenhum</li>
           <li><strong>Dureza:</strong>
-            <ul style={{ listStyle: 'circle', paddingLeft: '20px' }}>
+            <ul className={styles.circleList}>
               <li>Metal duro, Cermet HV500-3000kg/mm²</li>
               <li>Cerâmicas HV1000-4000kg/mm²</li>
               <li>CBN Sinterizado HV2000-5000kg/mm²</li>
@@ -44,7 +44,7 @@ const Seguranca = () => (
             </ul>
           </li>
           <li><strong>Peso específico:</strong>
-            <ul style={{ listStyle: 'circle', paddingLeft: '20px' }}>
+            <ul className={styles.circleList}>
               <li>Metal duro 9-16, Cermet 5-9</li>
               <li>Cerâmicas 2-7, Sinterizado CBN e Diamante 3-5</li>
             </ul>
@@ -57,16 +57,16 @@ const Seguranca = () => (
         </p>
 
         <h3 className={styles.productTitle}>3. Sugestões de Manuseio de Ferramentas de Metal Duro</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>Os materiais das ferramentas são extremamente duros e quebradiços ao mesmo tempo. Portanto, podem quebrar-se por choques ou apertos excessivos.</li>
           <li>Ferramentas de metal duro possuem peso específico elevado. Por isso, exigem atenção especial como materiais pesados quando o tamanho ou a quantidade forem grandes.</li>
           <li>Materiais das ferramentas e os materiais ferrosos possuem coeficientes de dilatação térmica diferentes. Contração ou expansão para montagem desses produtos podem causar quebras quando aplicadas em temperaturas maiores que as apropriadas às ferramentas.</li>
           <li>Tenha atenção especial na armazenagem desses materiais. Sua tenacidade é diminuída quando são corroídos por óleos refrigerantes ou outros líquidos.</li>
-          <li>Para maiores informações, consulte nosso Catálogo de Dados de Segurança dos Materiais. <a href="http://www.mitsubishicarbide.com/msds/" target="_blank" rel="noopener noreferrer">http://www.mitsubishicarbide.com/msds/</a></li>
+          <li>Para maiores informações, consulte nosso Catálogo de Dados de Segurança dos Materiais. <a href="http://www.mitsubishicarbide.com/msds/" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>http://www.mitsubishicarbide.com/msds/</a></li>
         </ul>
 
         <h3 className={styles.productTitle}>4. Sugestões de Utilização de Ferramentas de Corte</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>Condições superficiais afetam a tenacidade das ferramentas de corte. Portanto, utilize um rebolo diamantado para o acabamento.</li>
           <li>Afiação das ferramentas de corte produz poeira. Inalar grandes volumes desta poeira pode ser prejudicial. Portanto, utilize sistema de ventilação local, máscara de proteção e etc. Se a poeira entrar nos seus olhos ou na sua pele, lave a área em água corrente.</li>
           <li>Afiação de ferramentas de materiais duros ou produtos soldados produzem partículas de metal pesado na refrigeração. Atente-se ao descarte do líquido refrigerante.</li>
@@ -76,8 +76,8 @@ const Seguranca = () => (
           <li>Ao soldar ferramentas de metais duros, podem ocorrer quebras e danos se a temperatura for muito acima ou muito abaixo do ponto de derretimento do material de solda.</li>
         </ul>
 
-        <div style={{ marginTop: '30px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
-          <p className={styles.just} style={{ fontSize: '11px', color: '#666' }}>
+        <div className={styles.dataFooter}>
+          <p className={styles.sourceText}>
             <strong>Fonte:</strong> MITSUBISHI MATERIALS<br />
             Para maiores informações, consulte o Catálogo de Dados de Segurança (MSDS).
           </p>
@@ -89,4 +89,3 @@ const Seguranca = () => (
 );
 
 export default Seguranca;
-

@@ -88,8 +88,8 @@ const Produtos = () => {
             Como vimos, os métodos de usinagem são três principais: torneamento, fresamento e furação. Ao escolher uma determinada ferramenta conforme a aplicação, os metais duros podem ser usinados eficientemente. Atualmente, as ferramentas de metal duro se tornaram o principal motivo para o aumento da produtividade enquanto pesquisas desenvolvem constantemente novos produtos para usinagens mais rápidas e mais precisas, o que reduz os custos de fabricação.
           </p>
 
-          <div style={{ marginTop: '30px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
-            <p className={styles.just} style={{ fontSize: '11px', color: '#666' }}>
+          <div className={styles.dataFooter}>
+            <p className={styles.sourceText}>
               <strong>Fonte:</strong> MITSUBISHI MATERIALS
             </p>
           </div>

@@ -400,3 +400,107 @@
 .clear {
     clear: both;
 }
+
+/* Contact Page Specific */
+.flexContainer {
+    display: flex;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+    margin-top: var(--space-m);
+}
+
+.contactColMain {
+    flex: 1.2;
+    min-width: 320px;
+}
+
+.contactColSide {
+    flex: 0.8;
+    min-width: 320px;
+}
+
+.infoCard {
+    background-color: var(--bg-harmonic);
+    padding: var(--space-xl);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-xl);
+    border: 1px solid var(--border-light);
+}
+
+.mapContainer {
+    width: 100%;
+    height: 300px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--space-m);
+    border: 1px solid var(--border-light);
+}
+
+.contactLink {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contactLink:hover {
+    text-decoration: underline;
+}
+
+.infoTitle {
+    margin-top: 0 !important;
+    margin-bottom: var(--space-m) !important;
+    color: var(--text-primary);
+}
+
+.infoText {
+    margin-top: var(--space-m) !important;
+}
+
+/* Utilities for lists and blocks */
+.squareList {
+    list-style: square;
+    padding-left: var(--space-xl);
+}
+
+.circleList {
+    list-style: circle;
+    padding-left: var(--space-xl);
+    margin-top: var(--space-s);
+}
+
+.ctaGrid {
+    display: flex;
+    gap: var(--space-m);
+    flex-wrap: wrap;
+    margin-top: var(--space-l);
+}
+
+.btnSecondary {
+    background: var(--text-secondary) !important;
+}
+
+.btnSecondary:hover {
+    background: var(--text-primary) !important;
+}
+
+.dataFooter {
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--border-light);
+    padding-top: var(--space-m);
+}
+
+.sourceText {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.standardImage {
+    width: 100%;
+    display: block;
+    height: auto;
+}
