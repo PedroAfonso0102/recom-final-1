@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Catalogo.module.css';
+import ProductModal from '../components/ProductModal';
+
 
 const MOCK_PRODUCTS = [
   { id: 1, title: 'Fresa Topo Reto 4 Cortes 10mm', brand: 'Mitsubishi Materials', category: 'Fresamento', diameter: 10, iso: ['P', 'K'], price: 185.50 },
@@ -26,6 +28,8 @@ const ISO_MAP = {
 const Catalogo = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('relevance');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   
   // Handlers for checkboxes
   const [brands, setBrands] = useState({ 'Mitsubishi Materials': false, '7Leaders': false, 'BT Fixo': false });
@@ -161,7 +165,7 @@ const Catalogo = () => {
                     </div>
                     <div className={styles.productFooter}>
                       <span className={styles.productPrice}>R$ {product.price.toFixed(2).replace('.', ',')}</span>
-                      <button className={styles.actionBtn}>Detalhes</button>
+                      <button className={styles.actionBtn} onClick={() => setSelectedProduct(product)}>Detalhes</button>
                     </div>
                   </div>
                 </div>
@@ -180,6 +184,11 @@ const Catalogo = () => {
           </div>
         </div>
       </div>
+
+      <ProductModal 
+        product={selectedProduct} 
+        onClose={() => setSelectedProduct(null)} 
+      />
     </Layout>
   );
 };

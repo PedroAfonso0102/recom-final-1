@@ -12,7 +12,6 @@ import Torneamento from './pages/Torneamento';
 import Fresamento from './pages/Fresamento';
 import Furacao from './pages/Furacao';
 import Videos from './pages/Videos';
-import HomeAlt from './pages/HomeAlt';
 import WhatsAppFAB from './components/WhatsAppFAB';
 import LinearProgressBar from './components/LinearProgressBar';
 
@@ -34,7 +33,6 @@ const App = () => {
         <Route path="/fresamento" element={<Fresamento />} />
         <Route path="/furacao" element={<Furacao />} />
         <Route path="/videos" element={<Videos />} />
-        <Route path="/home-alt" element={<HomeAlt />} />
       </Routes>
     </Router>
   );

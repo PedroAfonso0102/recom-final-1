@@ -27,11 +27,11 @@ const ContactForm = () => {
         <input type="text" required className={styles.input} placeholder="Seu nome completo" />
       </div>
       <div className={styles.flexRow}>
-        <div className={styles.inputGroup} style={{ flex: 1 }}>
+        <div className={`${styles.inputGroup} ${styles.flexItem}`}>
           <label className={styles.label}>E-mail *</label>
           <input type="email" required className={styles.input} placeholder="exemplo@email.com" />
         </div>
-        <div className={styles.inputGroup} style={{ flex: 1 }}>
+        <div className={`${styles.inputGroup} ${styles.flexItem}`}>
           <label className={styles.label}>Telefone</label>
           <input type="tel" className={styles.input} placeholder="(19) 0000-0000" />
         </div>

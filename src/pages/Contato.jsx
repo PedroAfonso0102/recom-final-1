@@ -53,7 +53,7 @@ const Contato = () => {
                   src="https://www.google.com/maps?q=Rua+Alferes+João+José,+350,+Campinas,+SP&output=embed" 
                   width="100%" 
                   height="100%" 
-                  style={{ border: 0 }} 
+                  className={styles.mapIframe}
                   allowFullScreen="" 
                   loading="lazy" 
                   title="RECOM Location"

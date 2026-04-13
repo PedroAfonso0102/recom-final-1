@@ -240,22 +240,39 @@
 
 .productImageWrapper {
     position: relative;
-    height: 160px;
-    background: var(--bg-harmonic);
+    height: 180px;
+    background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 2px solid var(--text-primary);
+    position: relative;
+    overflow: hidden;
 }
 
-.productImagePlaceholder {
-    font-family: var(--font-ui);
-    font-weight: 800;
-    color: var(--text-muted);
-    font-size: var(--text-2xl);
-    letter-spacing: 0.1em;
-    opacity: 0.2;
+.productImageWrapper::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
 }
+
+
+.productImagePlaceholder {
+    font-family: var(--font-header);
+    font-weight: 900;
+    color: var(--bg-white);
+    font-size: var(--text-3xl);
+    letter-spacing: 0.2em;
+    opacity: 0.15;
+    z-index: 1;
+    transform: skewX(-10deg);
+}
+
 
 .productIsoGroup {
     position: absolute;
