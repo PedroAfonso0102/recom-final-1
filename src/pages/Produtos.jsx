@@ -76,7 +76,7 @@ const Produtos = () => {
             </div>
           </section>
 
-          <div className={styles.mainProductTitle} style={{ marginTop: 'var(--space-3xl)' }}>Processos Principais</div>
+          <div className={`${styles.mainProductTitle} ${styles.sectionTopSpace}`}>Processos Principais</div>
 
           <div className={styles.safetyGrid}>
             <div className={styles.safetyCard}>

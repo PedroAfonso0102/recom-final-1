@@ -399,6 +399,14 @@
   visibility: visible;
 }
 
+/* ISO Category Classes */
+.isoP { background-color: var(--iso-p); }
+.isoM { background-color: var(--iso-m); }
+.isoK { background-color: var(--iso-k); }
+.isoN { background-color: var(--iso-n); }
+.isoS { background-color: var(--iso-s); }
+.isoH { background-color: var(--iso-h); }
+
 
 /* ================================================
    TWO-COLUMN: Vídeo + Novidades

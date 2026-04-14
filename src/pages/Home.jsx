@@ -77,8 +77,8 @@ const Home = () => {
               <strong>S-TAW / TAW</strong>
               <p>Brocas intercambiáveis de alta performance para furação precisa</p>
               <div className={styles.isoBadgeRow}>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-k)'}} data-label={isoLabels.K}>K</span>
+                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
               </div>
             </div>
 
@@ -92,8 +92,8 @@ const Home = () => {
               <strong>MWS Series</strong>
               <p>Brocas inteiriças com refrigeração interna para maior vida útil</p>
               <div className={styles.isoBadgeRow}>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-m)'}} data-label={isoLabels.M}>M</span>
+                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
               </div>
             </div>
 
@@ -107,8 +107,8 @@ const Home = () => {
               <strong>WSTAR Long</strong>
               <p>Sistemas otimizados para furação profunda e extrema precisão</p>
               <div className={styles.isoBadgeRow}>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-h)'}} data-label={isoLabels.H}>H</span>
+                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
               </div>
             </div>
 
@@ -123,8 +123,8 @@ const Home = () => {
               <strong>Fresamento XP</strong>
               <p>Insertos multiarestas para desbaste em alto avanço</p>
               <div className={styles.isoBadgeRow}>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-p)'}} data-label={isoLabels.P}>P</span>
-                <span className={styles.isoBadge} style={{backgroundColor: 'var(--iso-s)'}} data-label={isoLabels.S}>S</span>
+                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
               </div>
             </div>
           </div>

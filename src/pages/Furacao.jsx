@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
 import ProductSidebar from '../components/ProductSidebar';
+import kougImg from '../assets/images/Upscaled/koug.png';
 
 const Furacao = () => (
   <Layout>
@@ -17,53 +18,28 @@ const Furacao = () => (
         <div className={styles.textBox}>
           <div className={styles.mainProductTitle}>Furação</div>
           
-          <div className={styles.safetyGrid}>
-            <section className={styles.safetyCard}>
-              <div className={styles.precautionZone}>
-                <strong>INTEIRIÇO</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Metal Duro</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
-                  <li>PEQUENOS DIÂMETROS MWS</li>
-                  <li>MWE / MWS (BROCAS WSTAR)</li>
-                  <li>MNS / MNS_DB (BROCAS WSTAR)</li>
-                  <li>MGS (BROCA CANHÃO)</li>
-                </ul>
-              </div>
-            </section>
+          <section className={styles.modularSection}>
+            <div className={styles.modularText}>
+              <h3 className={styles.productTitle}>Soluções de Furação WSTAR</h3>
+              <p className={styles.just}>
+                A furação é uma das operações mais comuns e críticas na manufatura. Nossas soluções de furação inteiriça e intercambiável são projetadas para precisão dimensional, excelente acabamento superficial e evacuação eficiente de cavacos.
+              </p>
+              <ul className={`${styles.just} ${styles.squareList}`}>
+                <li><strong>Metal Duro Inteiriço:</strong> Brocas WSTAR para diâmetros pequenos e alta produtividade.</li>
+                <li><strong>Sistemas Intercambiáveis:</strong> Flexibilidade com sistemas TAF e TAW para grandes diâmetros.</li>
+                <li><strong>Brocas Especiais:</strong> Geometrias específicas para materiais exóticos e furos profundos.</li>
+              </ul>
+            </div>
+            <div className={styles.modularVisual}>
+              <img src={kougImg} alt="Sistemas de Furação" className="res-img-standard" style={{ maxWidth: '100%', height: 'auto' }} />
+            </div>
+          </section>
 
-            <section className={styles.safetyCard}>
-              <div className={styles.precautionZone}>
-                <strong>INTERCAMBIÁVEL</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Sistemas Autorais</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
-                  <li>S-TAW / TAW SYSTEM</li>
-                  <li>TAFS / TAFM / TAFL</li>
-                  <li>BUCHA EXPANSIVA (JFS)</li>
-                </ul>
-              </div>
-            </section>
-
-            <section className={styles.safetyCard}>
-              <div className={styles.precautionZone}>
-                <strong>ESPECIAIS</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Tipo Soldada</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
-                  <li>BRS / BRM / BRK</li>
-                  <li>BRA / BRL</li>
-                </ul>
-              </div>
-            </section>
-
-            <section className={styles.safetyCard}>
-              <div className={styles.precautionZone}>
-                <strong>REFERÊNCIA</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Identificação</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
-                  <li>SÍMBOLOS E DESCRIÇÕES</li>
-                  <li>PARÂMETROS DE CORTE</li>
-                </ul>
-              </div>
-            </section>
+          <div className={styles.highlightBlock}>
+            <h4 className={styles.promoCalloutTitle}>Alta Performance em Furos Profundos</h4>
+            <p className={styles.just}>
+                As brocas WSTAR da série MNS combinam um revestimento ultra-resistente com canais de refrigeração otimizados, permitindo furações de até 30xD com estabilidade incomparável.
+            </p>
           </div>
 
         <div className={styles.promoCallout}>

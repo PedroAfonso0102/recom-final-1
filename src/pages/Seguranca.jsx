@@ -15,7 +15,7 @@ const Seguranca = () => (
       <ProductSidebar />        <div className={styles.textBox}>
           <div className={styles.mainProductTitle}>Segurança nas Ferramentas</div>
           
-          <div className={styles.modularSection} style={{ marginBottom: 'var(--space-xl)' }}>
+          <div className={`${styles.modularSection} ${styles.sectionBottomSpace}`}>
             <div className={styles.modularText}>
               <h3 className={styles.productTitle}>Utilização de Ferramentas de Corte</h3>
               <p className={styles.just}>
@@ -28,8 +28,8 @@ const Seguranca = () => (
             <section className={styles.safetyCard}>
               <div className={styles.precautionZone}>
                 <strong>ESPECIFICAÇÕES</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Características Físicas</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                <h3 className={`${styles.productTitle} ${styles.tightTitle}`}>Características Físicas</h3>
+                <ul className={`${styles.just} ${styles.squareList} ${styles.listSmall}`}>
                   <li><strong>Dureza:</strong> HV500 - 12000kg/mm²</li>
                   <li><strong>Peso:</strong> Varia entre 3-16 g/cm³</li>
                   <li><strong>Composição:</strong> W, Ti, Al, Si, Ta, B + Co, Ni, Cr, Mo</li>
@@ -40,8 +40,8 @@ const Seguranca = () => (
             <section className={styles.safetyCard}>
               <div className={styles.precautionZone}>
                 <strong>MANUSEIO</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Sugestões de Uso</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                <h3 className={`${styles.productTitle} ${styles.tightTitle}`}>Sugestões de Uso</h3>
+                <ul className={`${styles.just} ${styles.squareList} ${styles.listSmall}`}>
                   <li>Evite choques mecânicos e apertos excessivos.</li>
                   <li>Atenção ao peso elevado em grandes lotes.</li>
                   <li>Sensível à corrosão por óleos refrigerantes.</li>
@@ -52,8 +52,8 @@ const Seguranca = () => (
             <section className={styles.safetyCard}>
               <div className={styles.precautionZone}>
                 <strong>PROTEÇÃO</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Saúde Ocupacional</h3>
-                <ul className={`${styles.just} ${styles.squareList}`} style={{ fontSize: 'var(--text-sm)' }}>
+                <h3 className={`${styles.productTitle} ${styles.tightTitle}`}>Saúde Ocupacional</h3>
+                <ul className={`${styles.just} ${styles.squareList} ${styles.listSmall}`}>
                   <li>Utilize ventilação local e máscaras (Poeira).</li>
                   <li>Evite inalação de partículas de metal pesado.</li>
                   <li>Proteção ocular obrigatória em reafiação.</li>
@@ -64,8 +64,8 @@ const Seguranca = () => (
             <section className={styles.safetyCard}>
               <div className={styles.precautionZone}>
                 <strong>DOCUMENTAÇÃO</strong>
-                <h3 className={styles.productTitle} style={{ margin: 'var(--space-s) 0' }}>Links Técnicos</h3>
-                <p style={{ fontSize: 'var(--text-sm)' }}>
+                <h3 className={`${styles.productTitle} ${styles.tightTitle}`}>Links Técnicos</h3>
+                <p className={styles.listSmall}>
                   Acesse o Catálogo de Dados de Segurança (MSDS) oficial:<br/>
                   <a href="http://www.mitsubishicarbide.com/msds/" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>Acessar MSDS Global</a>
                 </p>
@@ -73,7 +73,7 @@ const Seguranca = () => (
             </section>
           </div>
 
-        <div className={styles.promoCallout} style={{ marginTop: 'var(--space-xl)' }}>
+        <div className={`${styles.promoCallout} ${styles.sectionTopSpace}`}>
           <h4 className={styles.promoCalloutTitle}>Compromisso com a Segurança</h4>
           <p className={styles.just}>
             A RECOM prioriza a integridade técnica de seus processos. Em caso de dúvidas sobre o manuseio seguro de ferramentas, entre em contato com nosso suporte técnico especializado.

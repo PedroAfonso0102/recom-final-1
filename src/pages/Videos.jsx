@@ -28,7 +28,7 @@ const Videos = () => (
         </ul>
 
         <h3 className={styles.productTitle}>FRESAMENTO</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>AQX</li>
           <li>ASX400</li>
           <li>BXD</li>
@@ -43,7 +43,7 @@ const Videos = () => (
         </ul>
 
         <h3 className={styles.productTitle}>FURAÇÃO</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>Sistema de furação inteiriça</li>
           <li>Broca super longa Wstar</li>
           <li>TAF</li>
@@ -51,7 +51,7 @@ const Videos = () => (
         </ul>
 
         <h3 className={styles.productTitle}>CLASSE</h3>
-        <ul className={styles.just} style={{ listStyle: 'square', paddingLeft: '20px' }}>
+        <ul className={`${styles.just} ${styles.squareList}`}>
           <li>Cobertura CBN (MBC010)</li>
           <li>MB710/MB730</li>
           <li>UC5105/UC5115</li>
