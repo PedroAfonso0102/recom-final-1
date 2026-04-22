@@ -45,8 +45,8 @@ const Home = () => {
             Soluções avançadas em ferramentas de corte e usinagem de alta performance para a indústria metalúrgica.
           </p>
           <div className={styles.heroActions}>
-            <Link to="/catalogo" className={styles.primaryBtn}>Acessar Catálogo</Link>
-            <Link to="/contato" className={styles.secondaryBtn}>Fale com um Especialista</Link>
+            <Link to="/catalogo" className={styles.primaryBtn}>Ver Catálogo Completo</Link>
+            <Link to="/contato" className={styles.secondaryBtn}>Solicitar Orçamento</Link>
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ const Home = () => {
         <div className={styles.sectionBox}>
           <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
           <div className={styles.produtosGrid}>
-            <div className={styles.produtoCard}>
+            <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredDrill} alt="S-TAW System" className="res-img-card" />
               </div>
@@ -80,9 +80,9 @@ const Home = () => {
                 <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
                 <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
               </div>
-            </div>
+            </Link>
 
-            <div className={styles.produtoCard}>
+            <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredMws} alt="MWS Series" className="res-img-card" />
               </div>
@@ -95,9 +95,9 @@ const Home = () => {
                 <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
                 <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
               </div>
-            </div>
+            </Link>
 
-            <div className={styles.produtoCard}>
+            <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredWstar} alt="WSTAR Long" className="res-img-card" />
               </div>
@@ -110,10 +110,10 @@ const Home = () => {
                 <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
                 <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
               </div>
-            </div>
+            </Link>
 
 
-            <div className={styles.produtoCard}>
+            <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredMilling} alt="High Feed Milling" className="res-img-card" />
               </div>
@@ -126,7 +126,7 @@ const Home = () => {
                 <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
                 <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 

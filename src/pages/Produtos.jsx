@@ -6,7 +6,6 @@ import ProductSidebar from '../components/ProductSidebar';
 
 import kougImg from '../assets/images/Upscaled/koug.png';
 import makeeImg from '../assets/images/Upscaled/makee.png';
-import koudoeImg from '../assets/images/Upscaled/koudoe.png';
 import kirehaeImg from '../assets/images/Upscaled/kirehae.png';
 import tornoGif from '../assets/images/torno.gif';
 import fresaGif from '../assets/images/fresa.gif';

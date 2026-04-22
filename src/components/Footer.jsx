@@ -32,9 +32,18 @@ const Footer = () => {
             <li>Rua Alferes João José, 350</li>
             <li>Jardim Chapadão — Campinas/SP</li>
             <li>CEP 13070-188</li>
-            <li className={styles.footerPhone}>(19) 3233-2224</li>
-            <li><a href="mailto:vendas.recom@montelione.com.br">vendas.recom@montelione.com.br</a></li>
+            <li className={styles.footerPhone}>
+              <a href="tel:+551932332224">(19) 3233-2224</a>
+            </li>
+            <li className={styles.footerEmail}>
+              <a href="mailto:vendas.recom@montelione.com.br">vendas.recom@montelione.com.br</a>
+            </li>
           </ul>
+          <div className={styles.footerActions}>
+             <a href="https://wa.me/551932332224" target="_blank" rel="noopener noreferrer" className={styles.whatsappBtn}>
+                Falar pelo WhatsApp
+             </a>
+          </div>
         </div>
       </div>
       <div className={styles.footerBottom}>
