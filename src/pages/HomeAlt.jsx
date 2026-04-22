@@ -16,22 +16,11 @@ import linhaMitsu from '../assets/images/linha_mitsu.jpg';
 import torneamento1 from '../assets/images/torneamento1.jpg';
 import fresamento1 from '../assets/images/fresamento1.jpg';
 import furacao1 from '../assets/images/furacao1.jpg';
-import linha7leaders from '../assets/images/linha_7leaders.jpg';
-import linhaBtfixo from '../assets/images/linha_btfixo.jpg';
 
 // Product images for promos
 import torneamento2 from '../assets/images/torneamento2.jpg';
 import fresa1 from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
 import furacao2 from '../assets/images/furacao2.jpg';
-
-const heroSlides = [
-  { src: linhaMitsu, title: 'Linha Mitsubishi Materials', subtitle: 'Ferramentas de corte de alta performance' },
-  { src: torneamento1, title: 'Torneamento', subtitle: 'Insertos e suportes para todos os materiais' },
-  { src: fresamento1, title: 'Fresamento', subtitle: 'Fresas de topo, facear e intercambiáveis' },
-  { src: furacao1, title: 'Furação', subtitle: 'Brocas inteiriças e intercambiáveis' },
-  { src: linha7leaders, title: 'Linha 7Leaders', subtitle: 'The Art of Cutting' },
-  { src: linhaBtfixo, title: 'Linha BT Fixo', subtitle: 'Sistemas de fixação de precisão' },
-];
 
 const weeklyPromos = [
   {

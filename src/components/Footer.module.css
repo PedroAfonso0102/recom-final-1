@@ -88,20 +88,51 @@
 
 .footerPhone {
     font-weight: 700;
-    color: var(--accent-red); /* Highlighted phone */
     margin-top: var(--space-s);
     font-size: var(--text-base);
 }
 
-.footerContact a {
-    color: var(--accent-red); /* Highlighted email */
+.footerPhone a {
+    color: var(--bg-white);
+}
+
+.footerEmail a {
+    color: var(--accent-blue);
     font-weight: 600;
+}
+
+.footerContact a {
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .footerContact a:hover {
-    color: var(--bg-white);
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+.footerActions {
+    margin-top: var(--space-l);
+}
+
+.whatsappBtn {
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    padding: var(--space-s) var(--space-l);
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all var(--transition-fast);
+}
+
+.whatsappBtn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    color: white;
 }
 
 .footerBottom {
