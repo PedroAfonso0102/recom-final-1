@@ -359,7 +359,7 @@ const Catalogo = () => {
 
                 <div className={styles.modalActions}>
                   <button className={styles.quoteBtn}>Solicitar Orçamento</button>
-                  <button className={styles.pdfBtn}>Baixar Desenho Técnico (PDF)</button>
+                  <button className={styles.pdfBtn}>Ver Detalhes Técnicos</button>
                 </div>
               </div>
             </div>

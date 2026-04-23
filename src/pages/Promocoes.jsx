@@ -167,13 +167,18 @@ const Promocoes = () => {
           <div className={styles.ctaContent}>
             <h3>Precisa de um orçamento personalizado?</h3>
             <p>
-              Para grandes volumes ou especificações técnicas específicas, 
-              nosso departamento comercial prepara cotações sob medida.
+              Para volumes industriais ou especificações técnicas customizadas,
+              nosso departamento de engenharia prepara cotações sob medida para sua necessidade.
             </p>
           </div>
-          <Link to="/contato" className={styles.ctaButton}>
-            Solicitar Orçamento
-          </Link>
+          <div className={styles.ctaActions}>
+            <Link to="/contato" className={styles.ctaButtonPrimary}>
+              Solicitar Orçamento
+            </Link>
+            <Link to="/produtos" className={styles.ctaButtonSecondary}>
+              Ver Soluções
+            </Link>
+          </div>
         </div>
 
         {/* Disclaimer */}

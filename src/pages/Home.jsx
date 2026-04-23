@@ -39,14 +39,13 @@ const Home = () => {
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
           <span className={styles.heroBadge}>PRECISÃO ABSOLUTA</span>
-          <h1 className={styles.heroTitle}>A EXCELÊNCIA EM METAL DURO</h1>
+          <h1 className={styles.heroTitle}>Performance Industrial em Ferramentas de Corte</h1>
           <p className={styles.heroDescription}>
-            Distribuidor técnico autorizado Mitsubishi Materials desde 1990. 
-            Soluções avançadas em ferramentas de corte e usinagem de alta performance para a indústria metalúrgica.
+            Distribuição técnica autorizada Mitsubishi Materials. Soluções de alta precisão para usinagem desde 1990.
           </p>
           <div className={styles.heroActions}>
-            <Link to="/catalogo" className={styles.primaryBtn}>Ver Catálogo Completo</Link>
-            <Link to="/contato" className={styles.secondaryBtn}>Solicitar Orçamento</Link>
+            <Link to="/contato" className={styles.primaryBtn}>Solicitar Orçamento</Link>
+            <Link to="/produtos" className={styles.secondaryBtn}>Ver Soluções</Link>
           </div>
         </div>
       </div>
@@ -54,7 +53,10 @@ const Home = () => {
       <div className={styles.centerData}>
         {/* Fornecedores */}
         <div className={styles.sectionBox}>
-          <h3 className={styles.sectionTitle}>Fornecedores Oficiais</h3>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Distribuição Autorizada</h3>
+            <p className={styles.sectionSubtitle}>Parcerias estratégicas com líderes globais para garantir máxima tecnologia e autoridade técnica.</p>
+          </div>
           <div className={styles.brandsRow}>
             <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" className="res-img-logo" /></a>
             <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" className="res-img-logo" /></a>
@@ -65,20 +67,30 @@ const Home = () => {
 
         {/* Produtos em Destaque - full width */}
         <div className={styles.sectionBox}>
-          <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
+            <p className={styles.sectionSubtitle}>Ferramentas de alta performance projetadas para máxima produtividade e economia de processos.</p>
+          </div>
           <div className={styles.produtosGrid}>
             <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredDrill} alt="S-TAW System" className="res-img-card" />
               </div>
-              <div className={styles.produtoIcon}>
-                <Target size={24} strokeWidth={2} />
-              </div>
-              <strong>S-TAW / TAW</strong>
-              <p>Brocas intercambiáveis de alta performance para furação precisa</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
+              <div className={styles.cardInfo}>
+                <div className={styles.produtoHeader}>
+                  <div className={styles.produtoIcon}>
+                    <Target size={20} strokeWidth={2} />
+                  </div>
+                  <strong>S-TAW / TAW</strong>
+                </div>
+                <p>Brocas intercambiáveis de alta performance para furação de precisão industrial.</p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.isoBadgeRow}>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
+                  </div>
+                  <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
+                </div>
               </div>
             </Link>
 
@@ -86,14 +98,21 @@ const Home = () => {
               <div className={styles.cardVisual}>
                 <img src={featuredMws} alt="MWS Series" className="res-img-card" />
               </div>
-              <div className={styles.produtoIcon}>
-                <Droplets size={24} strokeWidth={2} />
-              </div>
-              <strong>MWS Series</strong>
-              <p>Brocas inteiriças com refrigeração interna para maior vida útil</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
+              <div className={styles.cardInfo}>
+                <div className={styles.produtoHeader}>
+                  <div className={styles.produtoIcon}>
+                    <Droplets size={20} strokeWidth={2} />
+                  </div>
+                  <strong>MWS Series</strong>
+                </div>
+                <p>Brocas inteiriças com refrigeração interna otimizada para alta vida útil.</p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.isoBadgeRow}>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
+                  </div>
+                  <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
+                </div>
               </div>
             </Link>
 
@@ -101,30 +120,43 @@ const Home = () => {
               <div className={styles.cardVisual}>
                 <img src={featuredWstar} alt="WSTAR Long" className="res-img-card" />
               </div>
-              <div className={styles.produtoIcon}>
-                <Layers size={24} strokeWidth={2} />
-              </div>
-              <strong>WSTAR Long</strong>
-              <p>Sistemas otimizados para furação profunda e extrema precisão</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
+              <div className={styles.cardInfo}>
+                <div className={styles.produtoHeader}>
+                  <div className={styles.produtoIcon}>
+                    <Layers size={20} strokeWidth={2} />
+                  </div>
+                  <strong>WSTAR Long</strong>
+                </div>
+                <p>Sistemas especializados para furação profunda com extrema precisão geométrica.</p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.isoBadgeRow}>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
+                  </div>
+                  <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
+                </div>
               </div>
             </Link>
-
 
             <Link to="/produtos" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredMilling} alt="High Feed Milling" className="res-img-card" />
               </div>
-              <div className={styles.produtoIcon}>
-                <Hexagon size={24} strokeWidth={2} />
-              </div>
-              <strong>Fresamento XP</strong>
-              <p>Insertos multiarestas para desbaste em alto avanço</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
+              <div className={styles.cardInfo}>
+                <div className={styles.produtoHeader}>
+                  <div className={styles.produtoIcon}>
+                    <Hexagon size={20} strokeWidth={2} />
+                  </div>
+                  <strong>Fresamento XP</strong>
+                </div>
+                <p>Insertos multiarestas projetados para desbaste em alto avanço e produtividade.</p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.isoBadgeRow}>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
+                  </div>
+                  <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
+                </div>
               </div>
             </Link>
           </div>
@@ -141,8 +173,18 @@ const Home = () => {
                 <img src={logoMit} className={styles.videoLogo} alt="Mitsubishi" />
               </h3>
               <div className={styles.videoWrapper}>
-                <div className={styles.mockVideo}>
-                   <Play size={48} fill="currentColor" className={styles.playIcon} />
+                <iframe
+                  className={styles.videoEmbed}
+                  src="https://www.youtube.com/embed/V7V6Gv_D3_E"
+                  title="Demonstração Técnica Mitsubishi"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+                <div className={styles.videoOverlay}>
+                   <div className={styles.playBtn}>
+                      <Play size={32} fill="currentColor" />
+                   </div>
                    <p>Apresentação Sistema DIAEDGE</p>
                 </div>
               </div>
@@ -155,18 +197,24 @@ const Home = () => {
               <h3 className={styles.sectionTitle}>Atualizações Técnicas</h3>
               <ul className={styles.newsList}>
                 <li>
+                  <div className={styles.newsBadge}>Tecnologia 2026</div>
                   <h4>Nova Geração de Classes CVD - MC6100</h4>
-                  <p className={styles.newsDesc}>Maior resistência ao desgaste em torneamento de aços ISO P.</p>
+                  <ul className={styles.newsBullets}>
+                    <li>Resistência superior ao desgaste térmico</li>
+                    <li>Otimizado para torneamento de aços ISO P</li>
+                    <li>Aumento de produtividade em até 30%</li>
+                  </ul>
                   <div className={styles.newsFooter}>
-                    <span className={styles.newsDate}>Tecnologia 2026</span>
+                    <span>Ver ficha técnica</span>
                     <ArrowRight size={14} />
                   </div>
                 </li>
                 <li>
+                  <div className={styles.newsBadge}>Lançamento</div>
                   <h4>Catálogo Digital DIAEDGE</h4>
-                  <p className={styles.newsDesc}>Acesse a versão atualizada com a nova linha completa de fresamento.</p>
+                  <p className={styles.newsDesc}>Acesse a versão atualizada com a nova linha completa de fresamento e torneamento.</p>
                   <div className={styles.newsFooter}>
-                    <span className={styles.newsDate}>Lançamento Recente</span>
+                    <span>Acessar catálogo</span>
                     <ArrowRight size={14} />
                   </div>
                 </li>

@@ -71,14 +71,13 @@
     width: auto;
     height: auto;
     object-fit: contain;
-    filter: grayscale(0.4);
-    opacity: 0.85;
+    filter: grayscale(0);
+    opacity: 1;
     transition: all var(--transition-base);
 }
 
 .brandsRow a:hover img {
-    filter: grayscale(0);
-    opacity: 1;
+    transform: scale(1.05);
 }
 
 /* ================================================
@@ -99,7 +98,7 @@
 .heroOverlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%);
+    background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
     z-index: 1;
 }
 
@@ -130,18 +129,19 @@
     font-weight: 900;
     line-height: 1.1;
     margin: 0 0 var(--space-m) 0;
-    letter-spacing: -0.04em;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
     text-transform: uppercase;
 }
 
 .heroDescription {
     font-size: var(--text-md);
     color: var(--bg-white);
-    opacity: 0.95;
-    line-height: 1.6;
+    opacity: 1;
+    line-height: 1.5;
     margin: 0 0 var(--space-xl) 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    max-width: 550px;
 }
 
 .heroActions {
@@ -249,19 +249,30 @@
   background-position: center;
 }
 
+.sectionHeader {
+  margin-bottom: var(--space-xl);
+  border-left: 6px solid var(--accent-blue);
+  padding-left: var(--space-m);
+}
+
 .sectionTitle {
   font-family: var(--font-ui);
   font-size: var(--text-lg);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-xs);
   color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-left: 6px solid var(--accent-blue);
-  padding-left: var(--space-m);
+}
+
+.sectionSubtitle {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 700px;
 }
 
 /* --- Produtos em Destaque grid --- */
@@ -274,14 +285,13 @@
 .produtoCard {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
-  padding: var(--space-l);
   border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
   transition: all var(--transition-base);
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 .produtoCard:hover {
@@ -292,15 +302,13 @@
 
 .cardVisual {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   background: var(--bg-harmonic);
-  margin-bottom: var(--space-s);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
   position: relative;
 }
 
@@ -326,22 +334,35 @@
   letter-spacing: 0.2em;
 }
 
+.cardInfo {
+  padding: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.produtoHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  margin-bottom: var(--space-s);
+}
+
 .produtoIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-full);
-  background: var(--bg-harmonic);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-blue-light);
   color: var(--accent-blue);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-light);
 }
 
 .produtoCard strong {
   display: block;
   font-family: var(--font-ui);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   color: var(--text-primary);
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -350,16 +371,39 @@
 .produtoCard p {
   font-size: var(--text-sm);
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.5;
   flex-grow: 1;
+  margin: 0 0 var(--space-l) 0;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.verDetalhes {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.produtoCard:hover .verDetalhes {
+  opacity: 1;
 }
 
 /* --- ISO Badges with Tooltips --- */
 .isoBadgeRow {
   display: flex;
-  gap: var(--space-s);
-  margin-top: auto;
-  padding-top: var(--space-m);
+  gap: var(--space-xs);
 }
 
 .isoBadge {
@@ -468,57 +512,62 @@
 }
 
 .videoWrapper {
-    text-align: center;
+    position: relative;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/images/featured_mws.png') center/cover;
     aspect-ratio: 16 / 9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--bg-dark);
     border: 1px solid var(--border-light);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    position: relative;
 }
 
-.videoWrapper:hover {
-    filter: brightness(1.1);
-    box-shadow: var(--shadow-md);
+.videoEmbed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-.videoWrapper::before {
-    content: '';
+.videoOverlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle, rgba(0,74,153,0.2) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-
-.videoWrapper:hover::before {
-    opacity: 1;
-}
-
-.mockVideo {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('../assets/images/featured_mws.png') center/cover;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-s);
+    justify-content: center;
+    gap: var(--space-m);
     z-index: 2;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.videoWrapper:hover .videoOverlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.playBtn {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: var(--accent-blue);
     color: var(--bg-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 74, 153, 0.4);
+    transition: all var(--transition-spring);
 }
 
-.playIcon {
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-    transition: transform var(--transition-spring);
+.videoOverlay:hover .playBtn {
+    transform: scale(1.1);
+    background: var(--accent-blue-hover);
 }
 
-.videoWrapper:hover .playIcon {
-    transform: scale(1.15);
-}
-
-.mockVideo p {
+.videoOverlay p {
     color: var(--bg-white);
     font-family: var(--font-ui);
     font-size: var(--text-sm);
@@ -561,24 +610,62 @@
 
 .newsList h4 {
     font-family: var(--font-ui);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     color: var(--text-primary);
-    margin: 0 0 var(--space-xs) 0;
-    font-weight: 700;
+    margin: 0 0 var(--space-s) 0;
+    font-weight: 800;
 }
 
 .newsDesc {
     font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin: 0 0 var(--space-xs) 0;
-    line-height: 1.4;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-s) 0;
+    line-height: 1.5;
 }
 
-.newsDate {
+.newsBadge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent-blue);
+    background: var(--accent-blue-light);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-s);
+}
+
+.newsBullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-m) 0;
+}
+
+.newsBullets li {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+    padding-left: var(--space-m);
+    border-left: none;
+    position: relative;
+}
+
+.newsBullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-weight: 900;
+}
+
+.newsFooter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
     font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--accent-caution-dark);
-    margin: 0;
+    font-weight: 700;
+    color: var(--accent-blue);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
