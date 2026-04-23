@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages — Aligned to Etapa 2 sitemap
 import Home from './pages/Home';
@@ -7,9 +7,7 @@ import ARecom from './pages/ARecom';
 import FornecedoresCatalogos from './pages/FornecedoresCatalogos';
 import FornecedorPage from './pages/FornecedorPage';
 import Solucoes from './pages/Solucoes';
-import Torneamento from './pages/Torneamento';
-import Fresamento from './pages/Fresamento';
-import Furacao from './pages/Furacao';
+import ProcessoPage from './pages/ProcessoPage';
 import Promocoes from './pages/Promocoes';
 import Contato from './pages/Contato';
 import NotFound from './pages/NotFound';
@@ -24,17 +22,18 @@ import WhatsAppFAB from './components/WhatsAppFAB';
 import LinearProgressBar from './components/LinearProgressBar';
 
 /**
- * Routing structure per Etapa 2 sitemap:
+ * Routing structure per Etapa 2 sitemap (Batch 2 cleanup):
  *  / (Home/Início)
  *  /a-recom
  *  /fornecedores-catalogos
- *  /fornecedores-catalogos/:slug (páginas individuais de fornecedor)
- *  /solucoes (hub de processos)
- *  /solucoes/torneamento
- *  /solucoes/fresamento
- *  /solucoes/furacao
+ *  /fornecedores-catalogos/:slug
+ *  /solucoes (hub)
+ *  /solucoes/:slug (torneamento, fresamento, furacao — dynamic)
  *  /promocoes
  *  /contato
+ * 
+ * ProcessoPage handles all /solucoes/:slug routes dynamically.
+ * Old Torneamento.jsx, Fresamento.jsx, Furacao.jsx are now deprecated.
  */
 const App = () => {
   return (
@@ -48,9 +47,7 @@ const App = () => {
         <Route path="/fornecedores-catalogos" element={<FornecedoresCatalogos />} />
         <Route path="/fornecedores-catalogos/:slug" element={<FornecedorPage />} />
         <Route path="/solucoes" element={<Solucoes />} />
-        <Route path="/solucoes/torneamento" element={<Torneamento />} />
-        <Route path="/solucoes/fresamento" element={<Fresamento />} />
-        <Route path="/solucoes/furacao" element={<Furacao />} />
+        <Route path="/solucoes/:slug" element={<ProcessoPage />} />
         <Route path="/promocoes" element={<Promocoes />} />
         <Route path="/contato" element={<Contato />} />
 
@@ -59,13 +56,15 @@ const App = () => {
         <Route path="/sugestoes-de-utilizacao" element={<SugestoesUtilizacao />} />
         <Route path="/videos" element={<Videos />} />
 
-        {/* Redirects legados */}
-        <Route path="/empresa" element={<ARecom />} />
-        <Route path="/catalogo" element={<FornecedoresCatalogos />} />
-        <Route path="/produtos" element={<Solucoes />} />
-        <Route path="/torneamento" element={<Torneamento />} />
-        <Route path="/fresamento" element={<Fresamento />} />
-        <Route path="/furacao" element={<Furacao />} />
+        {/* Redirects legados — rotas antigas → novas */}
+        <Route path="/empresa" element={<Navigate to="/a-recom" replace />} />
+        <Route path="/catalogo" element={<Navigate to="/fornecedores-catalogos" replace />} />
+        <Route path="/produtos" element={<Navigate to="/solucoes" replace />} />
+        <Route path="/torneamento" element={<Navigate to="/solucoes/torneamento" replace />} />
+        <Route path="/fresamento" element={<Navigate to="/solucoes/fresamento" replace />} />
+        <Route path="/furacao" element={<Navigate to="/solucoes/furacao" replace />} />
+        <Route path="/Catalogo" element={<Navigate to="/fornecedores-catalogos" replace />} />
+        <Route path="/Contato" element={<Navigate to="/contato" replace />} />
 
         {/* 404 — Etapa 5 */}
         <Route path="*" element={<NotFound />} />

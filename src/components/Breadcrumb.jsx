@@ -12,6 +12,9 @@ import styles from './Breadcrumb.module.css';
 const Breadcrumb = ({ items = [] }) => {
   if (!items || items.length === 0) return null;
 
+  // Support both 'to' and 'path' properties for link items
+  const getLink = (item) => item.to || item.path || null;
+
   // JSON-LD structured data para breadcrumb
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -20,7 +23,7 @@ const Breadcrumb = ({ items = [] }) => {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      ...(item.to ? { item: `https://www.recommetalduro.com.br${item.to}` } : {}),
+      ...(getLink(item) ? { item: `https://www.recommetalduro.com.br${getLink(item)}` } : {}),
     })),
   };
 
@@ -36,9 +39,9 @@ const Breadcrumb = ({ items = [] }) => {
             const isLast = index === items.length - 1;
             return (
               <li key={index} className={styles.breadcrumbItem}>
-                {!isLast && item.to ? (
+                {!isLast && getLink(item) ? (
                   <>
-                    <Link to={item.to} className={styles.breadcrumbLink}>
+                    <Link to={getLink(item)} className={styles.breadcrumbLink}>
                       {item.label}
                     </Link>
                     <span className={styles.separator} aria-hidden="true">›</span>

@@ -1,193 +1,155 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
+import Breadcrumb from '../components/Breadcrumb';
+import { ArrowRight, Phone, Tag, Calendar, Info } from 'lucide-react';
 import styles from './Promocoes.module.css';
-import SteamPromoCard from '../components/SteamPromoCard';
+import { contato } from '../data/contato';
+import { fornecedores } from '../data/fornecedores';
 
-const PROMO_DATA = [
+/**
+ * Promoções — Página de condições especiais e campanhas.
+ * NÃO é e-commerce. NÃO exibe preços públicos.
+ * 
+ * Etapa 3: "tom editorial, não catálogo de venda"
+ * Etapa 4: "promoções como aceleradoras de contato, não como checkout"
+ */
+
+const campanhas = [
   {
     id: 1,
-    title: 'Fresa Topo Reto 4 Cortes',
-    subtitle: 'Mitsubishi Materials — Série MSTAR',
-    originalPrice: '245,00',
-    discountPrice: '185,50',
-    discountPercent: 24,
-    tag: 'OFERTA',
-    features: [
-      'Metal duro com cobertura TiAlN',
-      'Alta resistência ao desgaste',
-      'Ideal para aços até 50 HRC',
-      'Diâmetros de 6mm a 20mm',
+    titulo: 'Condições Especiais em Insertos Mitsubishi',
+    subtitulo: 'Insertos das séries WNMG e CNMG com condições diferenciadas para pedidos em volume',
+    tipo: 'Campanha do Fabricante',
+    vigencia: 'Válido enquanto durarem os estoques',
+    destaques: [
+      'Classes VP15TF e UC6110 para torneamento geral',
+      'Condições progressivas por quantidade',
+      'Pronta entrega para os diâmetros mais comuns',
+      'Suporte de engenharia de aplicação incluso',
     ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
+    fornecedor: 'mitsubishi-materials',
   },
   {
     id: 2,
-    title: 'Broca Inteiriça c/ Refrigeração',
-    subtitle: '7Leaders — Série Performance',
-    originalPrice: '280,00',
-    discountPrice: '210,00',
-    discountPercent: 25,
-    tag: 'DESTAQUE',
-    features: [
-      'Refrigeração interna por 2 canais',
-      'Geometria autocentrante',
-      'Cobertura multicamadas AlCrN',
-      'Tolerância h7 no diâmetro',
+    titulo: 'Fresas de Topo 7Leaders — Lote Especial',
+    subtitulo: 'Fresas inteiriças com revestimento TiAlN para operações de desbaste e acabamento',
+    tipo: 'Estoque Promocional',
+    vigencia: 'Válido enquanto durarem os estoques',
+    destaques: [
+      'Diâmetros de 6mm a 20mm disponíveis',
+      'Revestimento multicamada de alta performance',
+      'Geometria otimizada para redução de vibrações',
+      'Preço especial para compras acima de 5 unidades',
     ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
+    fornecedor: '7leaders',
   },
   {
     id: 3,
-    title: 'Kit Insertos WNMG 080408',
-    subtitle: 'Mitsubishi Materials — Caixa c/ 10 un.',
-    originalPrice: '520,00',
-    discountPrice: '399,90',
-    discountPercent: 23,
-    tag: 'PROMOÇÃO',
-    features: [
-      'Classe VP15TF — uso geral',
-      'Quebra-cavacos universal MA',
-      'Indicado para aços carbono e ligas',
-      'Embalagem econômica c/ 10 insertos',
+    titulo: 'Brocas WSTAR — Condição de Lançamento',
+    subtitulo: 'Brocas inteiriças com refrigeração interna para furação de alta produtividade',
+    tipo: 'Lançamento',
+    vigencia: 'Condições por tempo limitado',
+    destaques: [
+      'Refrigeração interna por 2 canais otimizados',
+      'Cobertura de última geração para vida útil estendida',
+      'Geometria autocentrante — elimina pré-furação',
+      'Consultoria técnica gratuita para seleção do modelo',
     ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
+    fornecedor: 'mitsubishi-materials',
   },
-  {
-    id: 4,
-    title: 'Fresa Esférica TiAlN 2 Cortes',
-    subtitle: '7Leaders — Acabamento fino',
-    originalPrice: '165,00',
-    discountPrice: '125,00',
-    discountPercent: 24,
-    tag: 'OFERTA',
-    features: [
-      'Raio perfeito para acabamento 3D',
-      'Haste h6 retificada',
-      'Ideal para moldes e matrizes',
-      'Diâmetros de 2mm a 12mm',
-    ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
-  },
-  {
-    id: 5,
-    title: 'Inserto CNMG 120408 VP15TF',
-    subtitle: 'Mitsubishi Materials — Torneamento geral',
-    originalPrice: '68,00',
-    discountPrice: '52,30',
-    discountPercent: 23,
-    tag: 'PROMOÇÃO',
-    features: [
-      'Geometria negativa dupla-face',
-      'Cobertura CVD multicamada',
-      'Excelente relação custo-benefício',
-      'Ampla faixa de avanço',
-    ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
-  },
-  {
-    id: 6,
-    title: 'Fresa Topo Alta Performance 12mm',
-    subtitle: '7Leaders — Série TiAlN Premium',
-    originalPrice: '380,00',
-    discountPrice: '290,00',
-    discountPercent: 24,
-    tag: 'DESTAQUE',
-    features: [
-      'Cobertura TiAlN nano-estruturada',
-      '4 cortes com alívio periférico',
-      'Suporta ap de até 2xD',
-      'Classificação ISO P, M, K, S',
-    ],
-    ctaText: 'Solicitar Orçamento',
-    ctaLink: '/contato',
-  },
+];
+
+const breadcrumbItems = [
+  { label: 'Início', path: '/' },
+  { label: 'Promoções' },
 ];
 
 const Promocoes = () => {
   return (
     <Layout>
-      <div className={styles.location}>
-        <div className={styles.whereCenter}>
-          Você está em: <Link to="/">Home</Link> &gt; Promoções
-        </div>
-      </div>
+      <SEOHead
+        title="Promoções e Condições Especiais"
+        description="Condições diferenciadas em ferramentas de usinagem Mitsubishi Materials e 7Leaders. Campanhas exclusivas para clientes B2B. Solicite orçamento."
+      />
 
-      <div className={styles.promoPage}>
-        {/* Page Header */}
-        <div className={styles.promoHeader}>
-          <h1 className={styles.promoTitle}>Promoções e Ofertas Especiais</h1>
-          <p className={styles.promoSubtitle}>
-            Condições exclusivas em ferramentas Mitsubishi Materials e 7Leaders. 
-            Preços válidos enquanto durarem os estoques.
+      <div className={styles.container}>
+        <Breadcrumb items={breadcrumbItems} />
+
+        {/* Header */}
+        <div className={styles.pageHeader}>
+          <h1 className={styles.pageTitle}>Promoções e Condições Especiais</h1>
+          <p className={styles.pageSubtitle}>
+            A RECOM negocia periodicamente condições diferenciadas com nossos fornecedores.
+            Confira as campanhas ativas e solicite um orçamento.
           </p>
         </div>
 
-        {/* Stats Bar */}
-        <div className={styles.promoStats}>
-          <div className={styles.statItem}>
-            <span className={styles.statValue}>{PROMO_DATA.length}</span>
-            <span className={styles.statLabel}>Ofertas Ativas</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statValue}>25%</span>
-            <span className={styles.statLabel}>Desconto máx.</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statValue}>3</span>
-            <span className={styles.statLabel}>Marcas</span>
-          </div>
-        </div>
-
-        {/* Promo Grid */}
-        <div className={styles.promoGrid}>
-          {PROMO_DATA.map((promo) => (
-            <SteamPromoCard
-              key={promo.id}
-              title={promo.title}
-              subtitle={promo.subtitle}
-              originalPrice={promo.originalPrice}
-              discountPrice={promo.discountPrice}
-              discountPercent={promo.discountPercent}
-              tag={promo.tag}
-              features={promo.features}
-              ctaText={promo.ctaText}
-              ctaLink={promo.ctaLink}
-            />
-          ))}
-        </div>
-
-        {/* CTA Section */}
-        <div className={styles.promoCta}>
-          <div className={styles.ctaContent}>
-            <h3>Precisa de um orçamento personalizado?</h3>
-            <p>
-              Para volumes industriais ou especificações técnicas customizadas,
-              nosso departamento de engenharia prepara cotações sob medida para sua necessidade.
-            </p>
-          </div>
-          <div className={styles.ctaActions}>
-            <Link to="/contato" className={styles.ctaButtonPrimary}>
-              Solicitar Orçamento
-            </Link>
-            <Link to="/produtos" className={styles.ctaButtonSecondary}>
-              Ver Soluções
-            </Link>
-          </div>
-        </div>
-
-        {/* Disclaimer */}
-        <div className={styles.disclaimer}>
+        {/* Aviso editorial */}
+        <div className={styles.aviso}>
+          <Info size={18} />
           <p>
-            * Promoções válidas enquanto durarem os estoques. Preços sujeitos a 
-            alteração sem aviso prévio. Imagens meramente ilustrativas. 
-            Condições especiais para compras acima de 10 unidades.
+            <strong>Preços sob consulta.</strong> As condições abaixo são negociadas diretamente
+            com cada cliente. Entre em contato para receber uma proposta personalizada.
           </p>
+        </div>
+
+        {/* Campanhas */}
+        <div className={styles.campanhasGrid}>
+          {campanhas.map(c => {
+            const forn = fornecedores.find(f => f.id === c.fornecedor);
+            return (
+              <div key={c.id} className={styles.campanhaCard}>
+                <div className={styles.campanhaHeader}>
+                  <span className={styles.campanhaTipo}>
+                    <Tag size={14} />
+                    {c.tipo}
+                  </span>
+                  <span className={styles.campanhaVigencia}>
+                    <Calendar size={14} />
+                    {c.vigencia}
+                  </span>
+                </div>
+                <h3 className={styles.campanhaTitulo}>{c.titulo}</h3>
+                <p className={styles.campanhaSubtitulo}>{c.subtitulo}</p>
+                <ul className={styles.campanhaDestaques}>
+                  {c.destaques.map((d, i) => (
+                    <li key={i}>{d}</li>
+                  ))}
+                </ul>
+                <div className={styles.campanhaFooter}>
+                  {forn && (
+                    <Link to={`/fornecedores-catalogos/${forn.slug}`} className={styles.fornLink}>
+                      <img src={forn.logo} alt={forn.altText} className={styles.fornLogo} />
+                      <span>{forn.nome}</span>
+                    </Link>
+                  )}
+                  <Link to="/contato" className={styles.campanhaBtn}>
+                    Solicitar Orçamento <ArrowRight size={14} />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA final */}
+        <div className={styles.ctaSection}>
+          <h2 className={styles.ctaTitle}>Não encontrou o que precisa?</h2>
+          <p className={styles.ctaDesc}>
+            Trabalhamos com condições especiais sob demanda. Nossa equipe pode negociar
+            diretamente com o fabricante para atender sua necessidade específica.
+          </p>
+          <div className={styles.ctaActions}>
+            <Link to="/contato" className={styles.ctaPrimary}>
+              Falar com o Comercial
+            </Link>
+            <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer" className={styles.ctaWhatsapp}>
+              <Phone size={16} />
+              {contato.telefone.display}
+            </a>
+          </div>
         </div>
       </div>
     </Layout>
