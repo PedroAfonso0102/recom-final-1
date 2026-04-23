@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './HomeAlt.module.css';
-import SteamPromoCard from '../components/SteamPromoCard';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { SteamPromoCard } from '../components/SteamPromoCard';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
 
 // Logos
 import logoMitsubishi from '../assets/images/logo_mitsubishi.png';
@@ -98,7 +98,7 @@ const HomeAlt = () => {
               Soluções industriais em ferramentas de corte de alta performance. Distribuidor técnico autorizado das líderes globais.
             </p>
             <div className={styles.heroCtas}>
-              <Link to="/catalogo" className={styles.heroCtaPrimary}>
+              <Link to="/solucoes" className={styles.heroCtaPrimary}>
                 Ver Catálogo Técnico
               </Link>
               <a href="https://wa.me/551932332224?text=Olá, busco uma solução de usinagem." target="_blank" rel="noopener noreferrer" className={styles.heroCtaSecondary}>
@@ -145,7 +145,7 @@ const HomeAlt = () => {
               <span className={styles.sectionTag}>Conteúdo Técnico</span>
               <h2 className={styles.sectionTitle}>Nossas Especialidades</h2>
             </div>
-            <Link to="/produtos" className={styles.sectionLink}>
+            <Link to="/fornecedores-catalogos" className={styles.sectionLink}>
               Tabelas Técnicas →
             </Link>
           </div>
@@ -221,4 +221,4 @@ const HomeAlt = () => {
   );
 };
 
-export default HomeAlt;
+export { HomeAlt };

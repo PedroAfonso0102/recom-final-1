@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
+import { ProductSidebar } from '../components/ProductSidebar';
 
 const Seguranca = () => (
   <Layout>
@@ -12,9 +12,10 @@ const Seguranca = () => (
       </div>
     </div>
     <div className={styles.centerData}>
-      <ProductSidebar />        <div className={styles.textBox}>
+      <ProductSidebar />
+        <div className={styles.textBox}>
           <div className={styles.mainProductTitle}>Segurança nas Ferramentas</div>
-          
+
           <div className={`${styles.modularSection} ${styles.sectionBottomSpace}`}>
             <div className={styles.modularText}>
               <h3 className={styles.productTitle}>Utilização de Ferramentas de Corte</h3>
@@ -95,4 +96,4 @@ const Seguranca = () => (
   </Layout>
 );
 
-export default Seguranca;
+export { Seguranca };

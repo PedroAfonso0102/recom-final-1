@@ -71,4 +71,4 @@ const CatalogCard = ({ product, onOpenDetails }) => {
   );
 };
 
-export default CatalogCard;
+export { CatalogCard };

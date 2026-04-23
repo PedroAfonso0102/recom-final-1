@@ -30,4 +30,4 @@ const ProductSidebar = () => {
   );
 };
 
-export default ProductSidebar;
+export { ProductSidebar };

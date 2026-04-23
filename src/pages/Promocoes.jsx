@@ -1,8 +1,9 @@
+import { SEOHead } from '../components/SEOHead';
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Promocoes.module.css';
-import SteamPromoCard from '../components/SteamPromoCard';
+import { SteamPromoCard } from '../components/SteamPromoCard';
 
 const PROMO_DATA = [
   {
@@ -112,6 +113,11 @@ const PROMO_DATA = [
 const Promocoes = () => {
   return (
     <Layout>
+      <SEOHead
+        title="Promoções"
+        description="Confira as promoções ativas e ofertas especiais de ferramentas de corte, fresamento e torneamento."
+        canonicalUrl="https://pedroafonso0102.github.io/recom-final-1/promocoes"
+      />
       <div className={styles.location}>
         <div className={styles.whereCenter}>
           Você está em: <Link to="/">Home</Link> &gt; Promoções
@@ -194,4 +200,4 @@ const Promocoes = () => {
   );
 };
 
-export default Promocoes;
+export { Promocoes };

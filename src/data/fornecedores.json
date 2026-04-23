@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mitsubishi-materials",
+    "nome": "Mitsubishi Materials",
+    "logo": "logo_mitsubishi.png",
+    "descricaoCurta": "Líder global em ferramentas de corte rotativas e estáticas, com alta tecnologia japonesa.",
+    "descricaoLonga": "A Mitsubishi Materials Corporation (MMC) é líder mundial em soluções para usinagem, fornecendo ferramentas de corte de alto desempenho em metal duro. A RECOM tem orgulho de ser um distribuidor confiável, trazendo a inovação da Mitsubishi para a sua produção.",
+    "catalogoUrl": "https://www.mitsubishicarbide.com/en/",
+    "destaque": true
+  },
+  {
+    "id": "7leaders",
+    "nome": "7Leaders",
+    "logo": "logo_7leaders.png",
+    "descricaoCurta": "Fresas de metal duro de alta precisão e performance superior.",
+    "descricaoLonga": "Especialista em fresas de topo e brocas de metal duro, a 7Leaders oferece soluções com excelente custo-benefício e alta estabilidade para fresamento avançado.",
+    "catalogoUrl": "https://www.7leaders.com/",
+    "destaque": true
+  },
+  {
+    "id": "bt-fixo",
+    "nome": "BT-Fixo",
+    "logo": "logo_btfixo.png",
+    "descricaoCurta": "Especialistas em sistemas de fixação e cones porta-ferramentas.",
+    "descricaoLonga": "A BT-Fixo entrega soluções robustas para fixação de ferramentas, garantindo o máximo de precisão dimensional, redução de vibrações e aumento da vida útil do seu ferramental.",
+    "catalogoUrl": "https://btfixo.com.br/",
+    "destaque": true
+  },
+  {
+    "id": "kifix",
+    "nome": "Kifix",
+    "logo": "logo_kifix.png",
+    "descricaoCurta": "Sistemas avançados de fixação de peças para usinagem.",
+    "descricaoLonga": "Com soluções inteligentes de fixação, a Kifix atende desde setups simples até as mais complexas necessidades de engenharia de produção, garantindo estabilidade do componente usinado.",
+    "catalogoUrl": "https://www.kifix.com.br/",
+    "destaque": true
+  }
+]

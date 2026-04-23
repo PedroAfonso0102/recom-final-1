@@ -121,4 +121,4 @@ const SteamPromoCard = ({
   );
 };
 
-export default SteamPromoCard;
+export { SteamPromoCard };

@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
+import { ProductSidebar } from '../components/ProductSidebar';
 import fresaImg from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
 
 const Fresamento = () => (
@@ -64,4 +64,4 @@ const Fresamento = () => (
   </Layout>
 );
 
-export default Fresamento;
+export { Fresamento };

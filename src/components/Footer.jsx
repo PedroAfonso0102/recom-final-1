@@ -24,18 +24,18 @@ const Footer = () => {
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Soluções</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/produtos">Todos os Produtos</Link></li>
+            <li><Link to="/fornecedores-catalogos">Fornecedores</Link></li>
             <li><Link to="/torneamento">Torneamento</Link></li>
             <li><Link to="/fresamento">Fresamento</Link></li>
             <li><Link to="/furacao">Furação</Link></li>
-            <li><Link to="/catalogo">Catálogos Técnicos</Link></li>
+            <li><Link to="/solucoes">Catálogos Técnicos</Link></li>
           </ul>
         </div>
 
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Empresa</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/empresa">A Empresa</Link></li>
+            <li><Link to="/a-recom">A RECOM</Link></li>
             <li><Link to="/promocoes">Promoções</Link></li>
             <li><Link to="/videos">Vídeos Técnicos</Link></li>
             <li><Link to="/contato">Contato</Link></li>
@@ -51,11 +51,11 @@ const Footer = () => {
             </li>
             <li>
               <Phone size={16} className={styles.contactIcon} />
-              <a href="tel:+551932332224" className={styles.phoneLink}>(19) 3233-2224</a>
+              <a href="tel:+551932332224" className={styles.phoneLink}>(19) 3229-6767</a>
             </li>
             <li>
               <Mail size={16} className={styles.contactIcon} />
-              <a href="mailto:vendas.recom@montelione.com.br" className={styles.emailLink}>vendas.recom@montelione.com.br</a>
+              <a href="mailto:vendas@recommetalduro.com.br" className={styles.emailLink}>vendas@recommetalduro.com.br</a>
             </li>
           </ul>
           <div className={styles.footerActions}>
@@ -80,4 +80,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export { Footer };

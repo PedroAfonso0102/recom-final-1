@@ -1,0 +1,74 @@
+.contactBlock {
+  background-color: var(--bg-harmonic);
+  padding: var(--space-2xl) 0;
+  border-top: 1px solid var(--border-light);
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--space-m);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.header h2 {
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.header p {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-m);
+}
+
+.card {
+  background-color: var(--bg-white);
+  padding: var(--space-l);
+  border-radius: var(--radius-md);
+  text-align: center;
+  border: 1px solid var(--border-light);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.icon {
+  color: var(--accent-blue);
+  margin-bottom: var(--space-s);
+}
+
+.card h3 {
+  font-size: var(--text-md);
+  margin: 0 0 var(--space-s) 0;
+  color: var(--text-primary);
+}
+
+.link, .address {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+.link:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}

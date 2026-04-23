@@ -25,4 +25,4 @@ const WhatsAppFAB = () => {
   );
 };
 
-export default WhatsAppFAB;
+export { WhatsAppFAB };

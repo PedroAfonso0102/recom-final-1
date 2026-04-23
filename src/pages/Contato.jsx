@@ -1,12 +1,32 @@
+import { SEOHead } from '../components/SEOHead';
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ContactForm from '../components/ContactForm';
+import { ContactForm } from '../components/ContactForm';
 
 const Contato = () => {
   return (
     <Layout>
+      <SEOHead
+        title="Contato e Orçamento"
+        description="Fale com os especialistas da RECOM. Solicite um orçamento de ferramentas de usinagem ou tire suas dúvidas técnicas."
+        canonicalUrl="https://pedroafonso0102.github.io/recom-final-1/contato"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "RECOM Metal Duro",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Av. Prestes Maia, 521",
+            "addressLocality": "Campinas",
+            "addressRegion": "SP",
+            "postalCode": "13041-311",
+            "addressCountry": "BR"
+          },
+          "telephone": "+55-19-3229-6767"
+        }}
+      />
       <div className={styles.location}>
         <div className={styles.whereCenter}>
           Você está em: <Link to="/">Home</Link> &gt; Contato
@@ -68,4 +88,4 @@ const Contato = () => {
   );
 };
 
-export default Contato;
+export { Contato };

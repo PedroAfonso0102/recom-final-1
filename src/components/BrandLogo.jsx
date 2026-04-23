@@ -58,4 +58,4 @@ const BrandLogo = ({ variant = 'default', className = '', ...props }) => {
   );
 };
 
-export default BrandLogo;
+export { BrandLogo };

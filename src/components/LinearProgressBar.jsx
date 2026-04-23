@@ -27,4 +27,4 @@ const LinearProgressBar = () => {
   );
 };
 
-export default LinearProgressBar;
+export { LinearProgressBar };

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "torneamento",
+    "nome": "Torneamento",
+    "imagem": "torno.gif",
+    "descricaoCurta": "Sistemas de torneamento interno, externo e rosqueamento com alto desempenho.",
+    "descricaoLonga": "Soluções completas para operações de torneamento, englobando pastilhas de metal duro com classes avançadas, suportes intercambiáveis e quebra-cavacos desenhados para otimização de fluxo de cavaco e prolongamento de vida útil.",
+    "marcasRelacionadas": ["mitsubishi-materials"]
+  },
+  {
+    "id": "fresamento",
+    "nome": "Fresamento",
+    "imagem": "fresa.gif",
+    "descricaoCurta": "Fresas de topo sólidas e intercambiáveis para alta remoção de material.",
+    "descricaoLonga": "Portfólio robusto de ferramentas para fresamento, incluindo fresas de topo de metal duro integral e cabeçotes intercambiáveis. Focadas em proporcionar o máximo de avanço, durabilidade e qualidade de superfície.",
+    "marcasRelacionadas": ["mitsubishi-materials", "7leaders"]
+  },
+  {
+    "id": "furacao",
+    "nome": "Furação",
+    "imagem": "furacao.gif",
+    "descricaoCurta": "Brocas de metal duro para furação profunda, precisa e estável.",
+    "descricaoLonga": "Especialidade em furação de precisão. Trabalhamos com brocas de metal duro com e sem refrigeração interna, assegurando excelente escoamento de cavacos, repetibilidade dimensional e altíssima produtividade.",
+    "marcasRelacionadas": ["mitsubishi-materials", "7leaders"]
+  }
+]
