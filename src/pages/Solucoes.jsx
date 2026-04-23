@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { ArrowRight, Box, Circle, Crosshair } from 'lucide-react';
+import { ArrowRight, ChevronDown, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './Solucoes.module.css';
 import { processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
@@ -11,8 +11,8 @@ import { trackLeadGen } from '../utils/analytics';
 
 const processIconMap = {
   torneamento: Crosshair,
-  fresamento: Box,
-  furacao: Circle,
+  fresamento: Layers3,
+  furacao: Drill,
 };
 
 /**
@@ -21,6 +21,22 @@ const processIconMap = {
  * Etapa 4: "grid editorial com foco em escaneabilidade e navegacao objetiva"
  */
 const Solucoes = () => {
+  const navigate = useNavigate();
+
+  const handleProcessSelect = (event) => {
+    const { value } = event.target;
+    if (value) {
+      navigate(`/solucoes/${value}`);
+    }
+  };
+
+  const scrollToProcesses = () => {
+    const target = document.getElementById('processos-grid');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <Layout>
       <SEOHead
@@ -85,7 +101,47 @@ const Solucoes = () => {
           </div>
         </section>
 
-        <div className={styles.processosGrid}>
+        <section className={styles.quickAccessSection} aria-label="Acesso rapido aos processos">
+          <div className={styles.quickAccessCopy}>
+            <span className={styles.quickAccessEyebrow}>Acesso rápido</span>
+            <h2>Entre no processo sem depender só dos cards</h2>
+            <p>
+              Escolha diretamente uma operação ou abra a lista completa de soluções em um clique.
+            </p>
+          </div>
+
+          <div className={styles.quickAccessPanel}>
+            <label className={styles.quickAccessLabel} htmlFor="processo-select">
+              Selecionar processo
+            </label>
+            <div className={styles.quickAccessForm}>
+              <div className={styles.selectWrap}>
+                <select
+                  id="processo-select"
+                  className={styles.quickAccessSelect}
+                  defaultValue=""
+                  onChange={handleProcessSelect}
+                >
+                  <option value="" disabled>
+                    Ir direto para...
+                  </option>
+                  {processos.map((processo) => (
+                    <option key={processo.id} value={processo.slug}>
+                      {processo.nome}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown size={16} className={styles.selectIcon} />
+              </div>
+
+              <button type="button" className={styles.quickAccessBtn} onClick={scrollToProcesses}>
+                Ver processos
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <div className={styles.processosGrid} id="processos-grid">
           {processos.map((processo) => {
             const Icon = processIconMap[processo.slug] || Crosshair;
             const relatedCount = fornecedores.filter((fornecedor) =>
@@ -97,7 +153,7 @@ const Solucoes = () => {
               <Link to={`/solucoes/${processo.slug}`} key={processo.id} className={styles.processoCard}>
                 <div className={styles.processoTop}>
                   <div className={styles.processoIcon}>
-                    <Icon size={24} />
+                    <Icon size={24} strokeWidth={1.85} />
                   </div>
                   <span className={styles.processoCountBadge}>
                     {relatedCount} fornecedor{relatedCount === 1 ? '' : 'es'} relacionado{relatedCount === 1 ? '' : 's'}

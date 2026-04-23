@@ -197,6 +197,121 @@
   font-weight: 800;
 }
 
+.quickAccessSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  margin: 0 0 1.35rem;
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  background:
+    linear-gradient(180deg, rgba(26, 58, 92, 0.03), rgba(255, 255, 255, 1)),
+    #fff;
+}
+
+.quickAccessCopy h2 {
+  margin: 0.35rem 0 0.4rem;
+  color: var(--text-primary, #1a1a2e);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.quickAccessCopy p {
+  margin: 0;
+  color: var(--text-secondary, #4a5568);
+  line-height: 1.6;
+  font-size: 0.94rem;
+}
+
+.quickAccessEyebrow,
+.quickAccessLabel {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(26, 58, 92, 0.08);
+  color: var(--accent-blue, #1a3a5c);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quickAccessPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.quickAccessForm {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.selectWrap {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 220px;
+}
+
+.quickAccessSelect {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0.82rem 2.7rem 0.82rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-light, #e2e8f0);
+  background: #fff;
+  color: var(--text-primary, #1a1a2e);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 1px 1px rgba(15, 23, 42, 0.02);
+  cursor: pointer;
+}
+
+.quickAccessSelect:focus {
+  outline: none;
+  border-color: rgba(26, 58, 92, 0.42);
+  box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.08);
+}
+
+.selectIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-blue, #1a3a5c);
+  pointer-events: none;
+}
+
+.quickAccessBtn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.82rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 58, 92, 0.18);
+  background: rgba(26, 58, 92, 0.06);
+  color: var(--accent-blue, #1a3a5c);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.quickAccessBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(26, 58, 92, 0.1);
+  border-color: rgba(26, 58, 92, 0.28);
+}
+
 .processosGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -347,6 +462,10 @@
     justify-self: start;
     max-width: 320px;
   }
+
+  .quickAccessSection {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
@@ -365,6 +484,18 @@
 
   .heroActions {
     justify-content: center;
+  }
+
+  .quickAccessSection {
+    padding: 1rem;
+  }
+
+  .quickAccessForm {
+    flex-direction: column;
+  }
+
+  .selectWrap {
+    min-width: 0;
   }
 
   .heroBrandCard {

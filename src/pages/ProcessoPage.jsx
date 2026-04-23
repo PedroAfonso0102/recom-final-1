@@ -3,7 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { ArrowRight, Phone, Box, Circle, Crosshair } from 'lucide-react';
+import { ArrowRight, Phone, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './ProcessoPage.module.css';
 import { getProcessoBySlug, processos } from '../data/processos';
 import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
@@ -23,8 +23,8 @@ const processoImages = {
 
 const processoIconMap = {
   torneamento: Crosshair,
-  fresamento: Box,
-  furacao: Circle,
+  fresamento: Layers3,
+  furacao: Drill,
 };
 
 /**
@@ -114,9 +114,9 @@ const ProcessoPage = () => {
           </div>
 
           <div className={styles.heroVisual}>
-            <div className={styles.heroVisualCard}>
+              <div className={styles.heroVisualCard}>
                 <div className={styles.heroVisualLabelRow}>
-                <span className={styles.heroVisualLabel}>Referência visual</span>
+                  <span className={styles.heroVisualLabel}>Referência visual</span>
                 <span className={styles.heroVisualBadge}>{processo.nome}</span>
               </div>
 
@@ -137,7 +137,7 @@ const ProcessoPage = () => {
 
               <div className={styles.heroVisualStats}>
                 <div className={styles.heroStat}>
-                  <IconeProcesso size={16} />
+                  <IconeProcesso size={16} strokeWidth={1.9} />
                   <div>
                     <strong>{fornecedoresRelacionados.length}</strong>
                     <span>fornecedores relacionados</span>
@@ -233,8 +233,8 @@ const ProcessoPage = () => {
                   return (
                     <Link to={`/solucoes/${p.slug}`} key={p.id} className={styles.outroCard}>
                       <div className={styles.outroTop}>
-                        <div className={styles.outroIcon}>
-                          <IconeOutro size={20} />
+                      <div className={styles.outroIcon}>
+                          <IconeOutro size={20} strokeWidth={1.85} />
                         </div>
                         <span className={styles.outroBadge}>Processo</span>
                       </div>

@@ -1,114 +1,316 @@
 import React from 'react';
-import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
+import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import styles from './Page.module.css';
+import styles from './ARecom.module.css';
 import escritorioImg from '../assets/images/escritorio.jpg';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
-import { Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  CalendarDays,
+  Factory,
+  Mail,
+  MapPin,
+  Phone,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
+import { trackLeadGen } from '../utils/analytics';
 
 /**
- * A RECOM — Página institucional.
- * Etapa 3: "legitimidade, longevidade, vínculo comercial direto"
- * Etapa 4: "história, localização, parceria com fornecedores, proposta comercial"
+ * A RECOM - página institucional.
+ * Reestruturada no mesmo idioma visual das áreas novas do site:
+ * editorial, limpa e com cards de prova mais fortes.
  */
 const ARecom = () => {
+  const providerHighlights = fornecedores.slice(0, 4);
+
+  const stats = [
+    {
+      icon: CalendarDays,
+      label: 'Fundação',
+      value: String(contato.fundacao),
+      text: 'atuação contínua em Campinas-SP',
+    },
+    {
+      icon: MapPin,
+      label: 'Base comercial',
+      value: 'Campinas-SP',
+      text: 'atendimento regional e interior paulista',
+    },
+    {
+      icon: ShieldCheck,
+      label: 'Distribuição',
+      value: 'Autorizada',
+      text: 'parceria oficial com a Mitsubishi Materials',
+    },
+    {
+      icon: Users,
+      label: 'Perfil',
+      value: 'B2B',
+      text: 'curadoria técnica para o cliente industrial',
+    },
+  ];
+
+  const capabilities = [
+    {
+      icon: Factory,
+      title: 'Curadoria industrial',
+      text: 'Selecionamos ferramentas e marcas com foco em aplicação real, produtividade e confiabilidade comercial.',
+    },
+    {
+      icon: BadgeCheck,
+      title: 'Parcerias reconhecidas',
+      text: 'Trabalhamos com fornecedores oficiais e materiais de catálogo que simplificam a tomada de decisão.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Atendimento próximo',
+      text: 'Acompanhamos a seleção de soluções com suporte comercial direto, técnico e objetivo.',
+    },
+  ];
+
   return (
     <Layout>
       <SEOHead
-        title="A RECOM — Quem Somos"
-        description="A RECOM Metal Duro é um distribuidor B2B de ferramentas para usinagem, fundada em 1990 em Campinas-SP. Distribuidor autorizado Mitsubishi Materials desde 1998."
+        title="A RECOM - Quem Somos"
+        description="A RECOM Metal Duro é um distribuidor B2B de ferramentas para usinagem, fundada em 1990 em Campinas-SP. Representante e distribuidor autorizado da Mitsubishi Materials desde 1998."
+        canonical="/a-recom"
       />
-      <Breadcrumb items={[
-        { label: 'Início', to: '/' },
-        { label: 'A RECOM' },
-      ]} />
+      <Breadcrumb
+        items={[
+          { label: 'Início', to: '/' },
+          { label: 'A RECOM' },
+        ]}
+      />
 
-      <div className={styles.centerData}>
-        <div className={styles.textBox}>
-          <h1 className={styles.mainProductTitle}>A RECOM</h1>
+      <div className={styles.pageContainer}>
+        <section className={styles.heroSection}>
+          <div className={styles.heroCopy}>
+            <div className={styles.heroMeta}>
+              <span className={styles.heroEyebrow}>Sobre a empresa</span>
+              <span className={styles.heroBadge}>Desde 1990</span>
+              <span className={styles.heroBadgeMuted}>Campinas-SP</span>
+            </div>
 
-          <div className={styles.floatingImage}>
-            <img src={escritorioImg} alt="Escritório da RECOM Metal Duro em Campinas, SP" className={styles.standardImage} />
+            <h1 className={styles.pageTitle}>A RECOM</h1>
+            <p className={styles.pageSubtitle}>{institucional.descricaoCurta}</p>
+            <p className={styles.heroSupport}>
+              Distribuição B2B de ferramentas para usinagem com foco em curadoria de marcas, apoio técnico e relacionamento comercial próximo.
+            </p>
+
+            <div className={styles.heroActions}>
+              <Link
+                to="/contato"
+                className={styles.primaryBtn}
+                onClick={() => trackLeadGen('form_intent', 'ARecom Hero CTA')}
+              >
+                Falar com a RECOM <ArrowRight size={16} />
+              </Link>
+              <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>
+                Ver fornecedores
+              </Link>
+            </div>
           </div>
 
-          <p className={styles.just}>
-            {institucional.descricaoCurta}
-          </p>
+          <div className={styles.heroVisual}>
+            <div className={styles.heroImageCard}>
+              <div className={styles.heroImageLabelRow}>
+                <span className={styles.heroImageLabel}>Base operacional</span>
+                <span className={styles.heroImageBadge}>Campinas-SP</span>
+              </div>
+              <img
+                src={escritorioImg}
+                alt="Escritório da RECOM Metal Duro em Campinas, SP"
+                className={styles.heroImage}
+              />
+              <div className={styles.heroVisualNote}>
+                <span className={styles.heroVisualNoteIcon}>
+                  <Factory size={16} strokeWidth={1.9} />
+                </span>
+                <p>
+                  Distribuidor autorizado Mitsubishi Materials desde 1998, com atuação comercial contínua no interior paulista.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <h2 className={styles.sectionSubtitle}>Nossa História</h2>
-          <p className={styles.just}>
-            Fundada em <strong>1990</strong>, a RECOM Metal Duro nasceu em Campinas, interior do Estado de São Paulo, com foco em ferramentas de corte rotativas e estáticas para a indústria metalúrgica.
-          </p>
-          <p className={styles.just}>
-            A partir de 1992, passamos a representar a <strong>Mitsubishi Carbide</strong> por meio de importador, sendo responsáveis pelo atendimento de Campinas, região e interior de São Paulo.
-          </p>
-          <p className={styles.just}>
-            Desde <strong>1998</strong>, somos <strong>Representante e Distribuidor Autorizado</strong> direto da <strong>MMC Metal do Brasil</strong>, subsidiária da Mitsubishi Materials (Japão) — uma relação comercial contínua de mais de 25 anos.
-          </p>
+        <section className={styles.statsSection}>
+          {stats.map((stat) => {
+            const Icon = stat.icon;
 
-          <h2 className={styles.sectionSubtitle}>Equipe e Atendimento</h2>
-          <p className={styles.just}>
-            Contamos com uma equipe de técnicos treinados pelo Departamento Técnico da MMC Metal do Brasil, preparada para oferecer suporte comercial e orientação técnica na seleção de ferramentas e otimização de processos de usinagem.
-          </p>
+            return (
+              <article key={stat.label} className={styles.statCard}>
+                <div className={styles.statIcon}>
+                  <Icon size={18} strokeWidth={1.9} />
+                </div>
+                <div className={styles.statCopy}>
+                  <span>{stat.label}</span>
+                  <strong>{stat.value}</strong>
+                  <p>{stat.text}</p>
+                </div>
+              </article>
+            );
+          })}
+        </section>
 
-          <div className={styles.missionBlock}>
-            <p className={styles.missionTitle}>Nossa Proposta</p>
-            <p className={styles.just}>
-              {institucional.propostaDeValor}
-            </p>
+        <section className={styles.sectionBlock}>
+          <div className={styles.sectionHeading}>
+            <span className={styles.sectionEyebrow}>Nossa história</span>
+            <h2>Trajetória construída com foco industrial</h2>
           </div>
 
-          {/* Bloco de prova local */}
-          <h2 className={styles.sectionSubtitle}>Onde Estamos</h2>
-          <div className={styles.contactBlock}>
-            <p className={styles.just}>
-              <MapPin size={16} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />
-              <strong>{contato.endereco.completo}</strong>
-            </p>
-            <p className={styles.just}>
-              <Phone size={16} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />
-              <a href={contato.telefone.href}>{contato.telefone.display}</a>
-            </p>
-            <p className={styles.just}>
-              <Mail size={16} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />
-              <a href={contato.email.href}>{contato.email.display}</a>
-            </p>
+          <div className={styles.timelineGrid}>
+            <article className={styles.timelineCard}>
+              <span className={styles.timelineYear}>1990</span>
+              <h3>Origem em Campinas</h3>
+              <p>
+                A RECOM nasceu com foco em ferramentas de corte rotativas e estáticas para a indústria metalúrgica.
+              </p>
+            </article>
+
+            <article className={styles.timelineCard}>
+              <span className={styles.timelineYear}>1992</span>
+              <h3>Primeira representação</h3>
+              <p>
+                Iniciamos a atuação com a Mitsubishi Carbide, expandindo atendimento para Campinas e interior de São Paulo.
+              </p>
+            </article>
+
+            <article className={styles.timelineCard}>
+              <span className={styles.timelineYear}>1998</span>
+              <h3>Distribuição autorizada</h3>
+              <p>
+                Tornamo-nos representante e distribuidor autorizado da MMC Metal do Brasil, relação que segue até hoje.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section className={styles.sectionSplit}>
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeading}>
+              <span className={styles.sectionEyebrow}>Como atuamos</span>
+              <h2>Uma ponte objetiva entre cliente e fornecedor</h2>
+            </div>
+            <p className={styles.sectionLead}>{institucional.propostaDeValor}</p>
+
+            <div className={styles.capabilitiesGrid}>
+              {capabilities.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article key={item.title} className={styles.capabilityCard}>
+                    <div className={styles.capabilityIcon}>
+                      <Icon size={20} strokeWidth={1.9} />
+                    </div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Fornecedores parceiros */}
-          <h2 className={styles.sectionSubtitle}>Nossos Fornecedores</h2>
-          <p className={styles.just}>
-            A RECOM conecta clientes industriais a marcas reconhecidas no mercado de ferramentas de corte:
+          <aside className={styles.sidePanel}>
+            <div className={styles.contactCard}>
+              <span className={styles.sectionEyebrow}>Contato direto</span>
+              <h3>Onde estamos</h3>
+              <p>
+                Atendimento em Campinas-SP, com suporte comercial para clientes industriais da região e interior paulista.
+              </p>
+
+              <ul className={styles.contactList}>
+                <li>
+                  <MapPin size={18} strokeWidth={1.9} />
+                  <div>
+                    <strong>Endereço</strong>
+                    <span>{contato.endereco.completo}</span>
+                  </div>
+                </li>
+                <li>
+                  <Phone size={18} strokeWidth={1.9} />
+                  <div>
+                    <strong>Telefone</strong>
+                    <a href={contato.telefone.href}>{contato.telefone.display}</a>
+                  </div>
+                </li>
+                <li>
+                  <Mail size={18} strokeWidth={1.9} />
+                  <div>
+                    <strong>E-mail</strong>
+                    <a href={contato.email.href}>{contato.email.display}</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div className={styles.contactCta}>
+              <span className={styles.sectionEyebrow}>Precisando de apoio?</span>
+              <h3>Fale com a RECOM</h3>
+              <p>Podemos indicar o fornecedor e a linha de produto mais aderentes à sua aplicação.</p>
+              <Link
+                to="/contato"
+                className={styles.contactBtn}
+                onClick={() => trackLeadGen('form_intent', 'ARecom Sidebar CTA')}
+              >
+                Solicitar contato <ArrowRight size={14} />
+              </Link>
+            </div>
+          </aside>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <div className={styles.sectionHeading}>
+            <span className={styles.sectionEyebrow}>Nossos fornecedores</span>
+            <h2>Marcas que sustentam nosso portfólio</h2>
+          </div>
+          <p className={styles.sectionLead}>
+            A RECOM conecta clientes industriais a fornecedores reconhecidos no mercado de ferramentas de corte.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center', margin: '1rem 0 2rem' }}>
-            {fornecedores.map(f => (
-              <Link to={`/fornecedores-catalogos/${f.slug}`} key={f.id} style={{ textDecoration: 'none' }}>
-                <img src={f.logo} alt={f.altText} style={{ height: '48px', objectFit: 'contain', filter: 'grayscale(20%)', transition: 'filter 0.2s' }} />
+
+          <div className={styles.supplierGrid}>
+            {providerHighlights.map((fornecedor) => (
+              <Link
+                key={fornecedor.id}
+                to={`/fornecedores-catalogos/${fornecedor.slug}`}
+                className={styles.supplierCard}
+              >
+                <div className={styles.supplierLogoFrame}>
+                  <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.supplierLogo} />
+                </div>
+                <div className={styles.supplierMeta}>
+                  <strong>{fornecedor.nome}</strong>
+                  <span>{fornecedor.descricaoCurta}</span>
+                </div>
+                <span className={styles.supplierLink}>
+                  Ver fornecedor <ArrowRight size={14} />
+                </span>
               </Link>
             ))}
           </div>
+        </section>
 
-          {/* CTA */}
-          <div style={{ textAlign: 'center', margin: '2rem 0' }}>
-            <Link to="/contato" className={styles.ctaButton || ''} style={{
-              display: 'inline-block',
-              padding: '0.875rem 2rem',
-              background: 'var(--accent-blue, #1a3a5c)',
-              color: '#fff',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              fontWeight: 600,
-              fontSize: '0.9375rem',
-              transition: 'background 0.2s',
-            }}>
-              Fale com a RECOM <ArrowRight size={16} style={{ verticalAlign: 'middle', marginLeft: '0.5rem' }} />
-            </Link>
+        <section className={styles.footerCta}>
+          <div className={styles.footerCtaCopy}>
+            <span className={styles.sectionEyebrow}>Próximo passo</span>
+            <h2>Precisa de apoio para selecionar ferramentas e fornecedores?</h2>
+            <p>
+              Fale com a equipe da RECOM e receba uma orientação comercial alinhada à sua operação.
+            </p>
           </div>
-        </div>
-        <div className={styles.clear}></div>
+          <Link
+            to="/contato"
+            className={styles.footerCtaBtn}
+            onClick={() => trackLeadGen('form_intent', 'ARecom Footer CTA')}
+          >
+            Solicitar orientação <ArrowRight size={16} />
+          </Link>
+        </section>
       </div>
     </Layout>
   );
