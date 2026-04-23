@@ -1,0 +1,128 @@
+RECOM — Etapa 1
+Diagnóstico empresarial e posicionamento para o projeto de presença digital
+
+1. Objetivo do documento
+Este documento consolida a leitura empresarial inicial da RECOM e define a base de posicionamento que deve orientar as próximas etapas do projeto. Seu papel é transformar informações soltas sobre empresa, mercado, site e presença digital em um quadro de decisão útil para o projeto web.
+2. Escopo
+Leitura do negócio a partir de informações públicas e do material visual enviado nesta conversa.
+Identificação da proposta de valor atual e da proposta de valor digital desejada.
+Levantamento de fatos confirmados sobre empresa, operação, canais e presença online.
+Definição preliminar de públicos, objetivos do site, posicionamento e implicações estratégicas.
+Registro de recomendações empresariais e instruções iniciais para programação e implementação.
+3. Fatos confirmados e evidências-base
+As informações abaixo foram consideradas suficientemente consistentes para orientar esta etapa, sem prejuízo de validações futuras com o proprietário.
+A RECOM Metal Duro é o nome fantasia de A A Montelione Comercio Ltda., com situação cadastral ativa e data de abertura em 15/01/1990. [Ref. 4]
+O site atual informa endereço em Campinas/SP, telefone, e-mail comercial e páginas institucionais básicas de empresa, produtos, promoções e contato. [Ref. 1] [Ref. 3]
+A página institucional do site legado declara fundação em 1990, atuação em ferramentas de corte rotativas e estáticas e relação histórica com Mitsubishi Materials / MMC Metal do Brasil. [Ref. 2]
+O site antigo ainda apresenta sinais de desatualização, inclusive rodapé com copyright de 2013 em páginas internas. [Ref. 3]
+Há presença orgânica pública identificável no Instagram (@recomferramentas), com mais de 1,1 mil seguidores e foco explícito em ferramentas de corte para usinagem. [Ref. 5]
+4. Correções conceituais já definidas pelo projeto
+As definições abaixo já foram estabelecidas pelo briefing do projeto e devem ser tratadas como diretrizes obrigatórias.
+
+5. Diagnóstico empresarial
+5.1. Leitura do negócio
+A RECOM não deve ser posicionada digitalmente como um e-commerce tradicional nem como um simples site institucional. O ativo principal da empresa é a combinação de três fatores: histórico de mercado, presença física confiável e mediação comercial entre cliente e marcas reconhecidas do setor.
+Na prática, isso coloca a empresa no território de um distribuidor B2B orientado por relacionamento, confiança e acesso. A presença digital precisa reforçar esses ativos em vez de imitar fabricantes globais ou lojas puramente transacionais.
+5.2. Estado atual percebido
+A empresa possui legitimidade histórica, mas sua expressão digital ainda é fragmentada.
+O site atual/legado transmite existência, contato e alguma história, mas não traduz plenamente autoridade, curadoria e clareza comercial. [Ref. 1] [Ref. 2]
+A presença social pública indica vida orgânica da marca, porém sem um ecossistema digital consolidado entre site, prova social, marca e aquisição. [Ref. 5]
+Há risco de percepção de desatualização quando o domínio principal ainda aponta para o site antigo. [Ref. 1] [Ref. 3]
+5.3. Implicação estratégica
+O projeto web precisa cumprir uma função de consolidação: transformar confiança offline em autoridade digital verificável, organizada e navegável. Isso significa que o novo site deve reduzir atrito, explicar a empresa com clareza, estruturar a relação com fornecedores e conduzir o visitante para contato ou para o catálogo correto.
+6. Hipótese de posicionamento
+6.1. Declaração preliminar de posicionamento
+A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem, com atuação consolidada desde 1990, que conecta clientes industriais a fornecedores reconhecidos por meio de atendimento próximo, confiança comercial e curadoria objetiva.
+6.2. Território de marca recomendado
+Sobriedade industrial.
+Autoridade comercial.
+Tradição com atualização.
+Clareza e objetividade na apresentação de marcas, processos e caminhos de contato.
+Ênfase em confiança, continuidade e facilidade de acesso às soluções corretas.
+6.3. O que evitar
+Comunicação que faça a empresa parecer fabricante global quando ela não é.
+Excesso de jargão técnico na camada principal do site.
+Experiência que pareça loja de varejo ou catálogo de SKU próprio quando o modelo aprovado é hub de catálogos de fornecedores.
+Promessas vagas de inovação sem prova visual, institucional ou comercial.
+7. Mercado, comportamento de compra e implicações para a RECOM
+Pesquisas recentes da McKinsey indicam que compradores B2B esperam uma jornada omnicanal, com possibilidade de alternar entre autoatendimento digital, contato remoto e interação humana. Também destacam que decisores valorizam conveniência, personalização e presença consistente em múltiplos canais. [Ref. 15] [Ref. 16]
+Para a RECOM, isso significa que o site não precisa substituir o vendedor nem a relação comercial. Ele precisa preparar, qualificar e apoiar a conversa comercial, oferecendo um caminho claro para descoberta, comparação inicial e contato.
+8. Públicos prioritários e hipóteses de audiência
+Estas audiências devem ser validadas com o proprietário e refinadas na Etapa 2.
+
+9. Objetivos empresariais do site
+Consolidar a presença digital da RECOM em torno de uma narrativa coerente e confiável.
+Aumentar a credibilidade percebida antes do primeiro contato comercial.
+Facilitar acesso a catálogos e fornecedores parceiros sem transformar o site em catálogo próprio pesado.
+Gerar solicitações de orçamento, contato comercial e interações qualificadas por canais diretos.
+Servir como ativo institucional para clientes, parceiros e validação da marca em buscas online.
+10. Proposta de valor digital
+A proposta de valor digital recomendada para a RECOM pode ser sintetizada assim:
+Facilitamos o acesso confiável às soluções certas em usinagem por meio de uma presença digital clara, institucionalmente sólida e conectada aos fornecedores relevantes.
+11. Objetivos de comunicação
+Explicar rapidamente o que a empresa é e o que não é.
+Mostrar marcas parceiras e linhas de solução sem gerar ruído visual ou dependência de catálogo próprio.
+Demonstrar tradição, seriedade e continuidade operacional.
+Tornar o contato fácil em qualquer etapa da navegação.
+Fazer o usuário entender por que vale a pena falar com a RECOM antes de sair do site.
+12. Requisitos estratégicos para as próximas etapas
+O site deve nascer com arquitetura centrada em fornecedores, processos e contato comercial — não em listagem extensa de itens.
+A home deve priorizar credibilidade, marcas, caminhos de navegação e CTA claros.
+A seção de catálogo deve ser redesenhada como hub de fornecedores e materiais oficiais.
+A página “A Empresa” deve reforçar história, localização, legitimidade e proposta comercial atual.
+A presença de contato deve ser redundante e simples: telefone, e-mail, formulário e, se aprovado, WhatsApp.
+O projeto deve prever desde cedo governança de atualização, para que o novo site não envelheça como o legado.
+13. Pendências de validação com o proprietário
+Lista oficial e atualizada de fornecedores a destacar no novo site.
+Segmentos industriais prioritários e cidades/regiões prioritárias de atendimento.
+Produtos/linhas que mais geram faturamento ou recorrência comercial.
+Disponibilidade e política de uso de fotos reais da empresa, equipe, operação, estoque ou fachada.
+Preferência operacional por canal de contato principal: telefone, WhatsApp, e-mail ou formulário.
+Existência de materiais técnicos, PDFs, catálogos oficiais, listas de marcas e autorização de uso de logos.
+14. Recomendações executivas
+14.1. Decisão de posicionamento
+Formalizar a RECOM como distribuidor B2B com forte base relacional e institucional. Essa definição deve orientar texto, navegação, arte e código.
+14.2. Decisão de modelo de catálogo
+Validar e documentar o catálogo como hub de fornecedores. Isso impacta sitemap, CTA, taxonomia, requisitos de CMS e rastreamento de cliques externos.
+14.3. Decisão de prova de autoridade
+Preparar evidências que sustentem a marca: fotos reais, logos autorizados, dados da empresa, histórico, presença local, canais ativos e eventual coleta de avaliações.
+14.4. Decisão de governança
+Definir desde já quem aprova textos, quem envia materiais de fornecedores, quem revisa contatos e quem responde pelas atualizações após lançamento.
+15. Instruções para programação e implementação
+Esta etapa não exige programação imediata, mas já define requisitos que o desenvolvimento deve respeitar nas etapas seguintes.
+Tratar a camada de conteúdo como sistema gerenciável, com possibilidade de atualização de fornecedores, links, materiais e contatos sem retrabalho estrutural.
+Modelar a seção de catálogos como estrutura orientada a cards/links por fornecedor, com campos claros para nome, descrição curta, marca, URL externa e status de publicação.
+Preparar o site para rastreamento de cliques em telefone, e-mail, WhatsApp, formulários e links externos de catálogos.
+Evitar dependência de conteúdo gerado automaticamente sem revisão humana; a própria documentação do Google recomenda foco em precisão, qualidade e relevância, inclusive em conteúdo assistido por IA. [Ref. 13]
+Garantir navegação rastreável e links crawlable, em linha com Search Essentials e SEO Starter Guide. [Ref. 11] [Ref. 12]
+Prever páginas com títulos, headings, textos âncora e metadados descritivos, úteis para usuários e busca. [Ref. 10] [Ref. 12]
+Priorizar desempenho e estabilidade visual, acompanhando Core Web Vitals durante implementação. [Ref. 14]
+Organizar a base para futura conexão com Google Search Console, Analytics e perfis locais.
+16. Riscos identificados
+Risco de desalinhamento entre discurso do site e realidade operacional, caso o posicionamento não seja formalmente aprovado.
+Risco de parecer catálogo incompleto se o hub de fornecedores não for explicado com clareza.
+Risco de envelhecimento rápido se não houver governança de atualização.
+Risco de fragmentação entre domínio, Instagram, perfil local do Google e canais de contato se a presença digital não for unificada.
+17. Próximos passos recomendados
+Aprovar o diagnóstico empresarial e o posicionamento preliminar.
+Validar correções conceituais e pendências com o proprietário.
+Levantar lista oficial de fornecedores, linhas, processos e ativos de marca.
+Avançar para a Etapa 2: arquitetura de informação, jornadas e sitemap.
+18. Referências e fontes de apoio
+Lista consolidada das referências utilizadas nesta etapa:
+Ref. 1 — RECOM Metal Duro — página principal. https://www.recommetalduro.com.br/
+Ref. 2 — RECOM Metal Duro — página 'A Empresa'. https://www.recommetalduro.com.br/index.php?page=empresa
+Ref. 3 — RECOM Metal Duro — página 'Contato'. https://www.recommetalduro.com.br/index.php?page=contato
+Ref. 4 — Casa dos Dados — A A Montelione Comercio Ltda. / RECOM Metal Duro. https://casadosdados.com.br/solucao/cnpj/a-a-montelione-comercio-ltda-62137369000106
+Ref. 5 — Instagram — @recomferramentas. https://www.instagram.com/recomferramentas/
+Ref. 6 — Google Business Profile Help — Tips to improve your local ranking on Google. https://support.google.com/business/answer/7091?hl=en
+Ref. 7 — Google Business Profile Help — Add or claim your Business Profile. https://support.google.com/business/answer/2911778?hl=en
+Ref. 8 — Google Business Profile Help — Verify your business on Google. https://support.google.com/business/answer/7107242?hl=en
+Ref. 9 — Google Business Profile Help — Manage your business category. https://support.google.com/business/answer/7249669?hl=en
+Ref.10 — Google Search Central — Creating helpful, reliable, people-first content. https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+Ref.11 — Google Search Essentials. https://developers.google.com/search/docs/essentials
+Ref.12 — Google SEO Starter Guide. https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+Ref.13 — Google Search Central — Guidance on using generative AI content. https://developers.google.com/search/docs/fundamentals/using-gen-ai-content
+Ref.14 — Google Search Central — Core Web Vitals. https://developers.google.com/search/docs/appearance/core-web-vitals
+Ref.15 — McKinsey — Five fundamental truths: How B2B winners keep growing. https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/five-fundamental-truths-how-b2b-winners-keep-growing
+Ref.16 — McKinsey — The future of B2B sales is hybrid. https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-future-of-b2b-sales-is-hybrid

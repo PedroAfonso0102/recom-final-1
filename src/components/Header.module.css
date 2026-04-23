@@ -196,6 +196,32 @@
     /* Slight opacity so it's not overpowering, but same hue */
 }
 
+.phoneLink {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.phoneLink:hover {
+    color: var(--accent-blue);
+}
+
+/* Active nav link indicator */
+.activeLink::after {
+    width: 70% !important;
+}
+
+.activeLink a {
+    opacity: 1;
+}
+
+/* Focus-visible for keyboard nav */
+.headerMenu li a:focus-visible {
+    outline: 2px solid var(--accent-blue, #3b82f6);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
 @media (max-width: 768px) {
     .topHeader {
         height: auto;

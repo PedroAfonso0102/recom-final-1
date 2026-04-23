@@ -669,3 +669,207 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
+
+/* ================================================
+   NEW: Trust Badges (Quem é a RECOM)
+   ================================================ */
+.trustBadges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-l);
+}
+
+.trustItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: var(--space-m);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    text-align: center;
+    background: var(--bg-harmonic, #fafbfc);
+}
+
+.trustItem strong {
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    font-weight: 800;
+    color: var(--accent-blue);
+}
+
+.trustItem span {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ================================================
+   NEW: Brand Links (Fornecedores na Home)
+   ================================================ */
+.brandLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    opacity: 0.9;
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+}
+
+.brandLink:hover {
+    transform: translateY(-4px);
+    opacity: 1;
+    border-color: var(--border-light);
+    background: var(--bg-harmonic);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ================================================
+   NEW: Processo Cards na Home
+   ================================================ */
+.processosRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-l);
+}
+
+@media (max-width: 768px) {
+    .processosRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+.processoCardHome {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: var(--space-l);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    background: var(--bg-white);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.processoCardHome:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-blue);
+}
+
+.processoIconHome {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-blue-light, #e8f0fe);
+    border-radius: var(--radius-md);
+    color: var(--accent-blue);
+    margin-bottom: var(--space-s);
+}
+
+.processoCardHome strong {
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.processoCardHome span {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.processoArrow {
+    color: var(--accent-blue) !important;
+    margin-top: auto;
+    padding-top: var(--space-s);
+}
+
+/* ================================================
+   NEW: CTA Section na Home
+   ================================================ */
+.ctaSection {
+    text-align: center;
+    padding: var(--space-2xl);
+    background: var(--accent-blue);
+    border-radius: var(--radius-md);
+    margin: var(--space-l) 0 var(--space-2xl);
+    color: var(--bg-white);
+}
+
+.ctaTitle {
+    font-family: var(--font-ui);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    margin: 0 0 var(--space-s);
+    color: var(--bg-white);
+}
+
+.ctaDesc {
+    font-size: var(--text-md);
+    opacity: 0.9;
+    max-width: 480px;
+    margin: 0 auto var(--space-l);
+    line-height: 1.6;
+}
+
+.ctaActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-l);
+    flex-wrap: wrap;
+}
+
+.ctaSection .primaryBtn {
+    background: var(--bg-white);
+    color: var(--accent-blue);
+    box-shadow: none;
+}
+
+.ctaSection .primaryBtn:hover {
+    background: var(--bg-harmonic, #f0f4f8);
+    transform: translateY(-2px);
+}
+
+.whatsappLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--text-base);
+    transition: color var(--transition-fast);
+}
+
+.whatsappLink:hover {
+    color: var(--bg-white);
+}
+
+/* ================================================
+   NEW: Subtle link
+   ================================================ */
+.linkSutil {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+
+.linkSutil:hover {
+    text-decoration: underline;
+}

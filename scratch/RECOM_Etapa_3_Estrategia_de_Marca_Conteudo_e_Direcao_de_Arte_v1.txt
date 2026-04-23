@@ -1,0 +1,150 @@
+RECOM — Etapa 3
+Estratégia de marca, conteúdo e direção de arte para o projeto de presença digital
+
+1. Objetivo do documento
+Este documento estabelece a estratégia de marca, os princípios de conteúdo e a direção de arte recomendados para o novo site da RECOM. O objetivo é transformar a presença digital da empresa em um ativo coerente com sua história, sua operação comercial B2B e sua necessidade de consolidar autoridade, confiança e geração de contato qualificado.
+2. Escopo
+Traduzir a base estratégica da Etapa 1 e a arquitetura definida na Etapa 2 em decisões de marca, linguagem e expressão visual.
+Definir posicionamento desejado, proposta de valor percebida e associações de marca que o site deve reforçar.
+Estabelecer princípios editoriais, tom de voz, macroarquitetura de mensagem e critérios de prova de confiança.
+Definir território visual, princípios de UI e orientações de direção de arte coerentes com a realidade da empresa.
+Registrar instruções para programação e implementação que dependam de conteúdo, semântica, design system, acessibilidade e governança visual.
+Apontar decisões já consolidadas, pendências e riscos de execução.
+3. Entradas consideradas nesta etapa
+Briefing consolidado nas Etapas 0, 1 e 2: a RECOM deve ser apresentada como distribuidor B2B, e não como “distribuidor técnico”.
+Diretriz do projeto de que o “catálogo” não será um catálogo próprio de SKUs; ele funcionará como hub de fornecedores e de catálogos oficiais.
+Screenshots compartilhados pelo responsável do projeto, mostrando o estado atual da UI em desenvolvimento e a herança visual do site legado.
+Fatos públicos observáveis: domínio principal ainda associado ao site antigo, operação física em Campinas, histórico institucional desde 1990, presença orgânica em rede social e dados cadastrais públicos da empresa. [Ref. 1] [Ref. 2] [Ref. 3] [Ref. 4]
+Boas práticas públicas sobre conteúdo útil, clareza de navegação, presença local, credibilidade, homepages, About Us, tom de voz e consistência omnichannel. [Ref. 5] [Ref. 6] [Ref. 7] [Ref. 8] [Ref. 9] [Ref. 10] [Ref. 11] [Ref. 12] [Ref. 13]
+4. Diagnóstico estratégico de marca e comunicação
+4.1. Leitura central
+A RECOM parte de um ativo raro para uma empresa com baixa maturidade digital: ela já possui história verificável, presença física, relacionamento comercial e sinais públicos de continuidade operacional. Isso muda o papel do site. O novo ambiente digital não precisa inventar legitimidade; ele precisa tornar essa legitimidade visível, organizada e convincente.
+4.2. O problema atual não é apenas visual
+Pelos materiais do site legado e pelos screenshots da UI em desenvolvimento, o desafio não é só “modernizar o layout”. O desafio é corrigir três desalinhamentos: entre identidade real e identidade percebida; entre proposta comercial e navegação; e entre autoridade offline e prova digital. O site antigo ainda apresenta sinais de envelhecimento editorial e estrutural, enquanto o novo já indica modernização, mas ainda precisa ganhar maior gravidade institucional e clareza de posicionamento. [Ref. 1] [Ref. 4]
+4.3. Oportunidade estratégica
+A melhor oportunidade do projeto é construir um site que funcione simultaneamente como plataforma institucional, porta de entrada comercial e camada de confiança da marca. A pesquisa recente da McKinsey mostra que compradores B2B operam em lógica omnichannel e usam muitos pontos de contato ao longo da jornada; por isso, um site claro, confiável e conectado a atendimento humano tende a fortalecer, e não substituir, o relacionamento comercial. [Ref. 12] [Ref. 13]
+5. Estratégia de marca recomendada
+5.1. Posição de marca a ocupar
+A posição de marca recomendada para a RECOM é: distribuidor B2B tradicional, confiável e próximo, com linguagem contemporânea, curadoria séria de fornecedores e atendimento humano que ajuda o cliente a chegar ao catálogo e ao contato corretos com o menor atrito possível.
+5.2. Fórmula síntese de posicionamento
+RECOM = tradição comprovável + proximidade comercial + curadoria de fornecedores + clareza industrial + presença digital confiável
+5.3. Proposta de valor recomendada
+A RECOM ajuda clientes industriais a encontrar rapidamente fornecedores, catálogos e caminhos de atendimento confiáveis, com base em experiência comercial, operação local estabelecida e relacionamento de longo prazo com o setor.
+5.4. Pilares de marca
+5.5. Associações que a marca deve reforçar
+Empresa séria, existente e acessível.
+Distribuidor confiável, não intermediário improvisado.
+Parceiro comercial que economiza tempo do comprador.
+Presença local real em Campinas, com capacidade de atendimento.
+Marca de confiança que respeita a tradição do setor sem parecer parada no tempo.
+5.6. Associações que a marca deve evitar
+Loja genérica de ferramentas.
+Fabricante internacional de tecnologia própria.
+Catálogo incompleto ou confuso de itens da própria RECOM.
+Empresa antiga com aparência de abandono digital.
+Site “bonito”, mas sem densidade institucional ou sem próximo passo comercial.
+6. Estratégia de conteúdo
+6.1. Fundamentos
+O Google orienta que o conteúdo seja útil, confiável e criado para pessoas; além disso, recomenda usar palavras que as pessoas de fato usam em locais proeminentes, como títulos, headings, alt text e link text. Em paralelo, a literatura de UX Writing reforça que conteúdo de qualidade precisa falar com clareza, construir confiança e impulsionar a ação correta. Para a RECOM, isso significa privilegiar conteúdo curto, objetivo, bem rotulado e centrado nas dúvidas reais do comprador B2B. [Ref. 5] [Ref. 11] [Ref. 14] [Ref. 15]
+6.2. Trabalhos principais que o conteúdo do site precisa cumprir
+Explicar com clareza quem é a RECOM.
+Tornar visível que a empresa existe fisicamente e é confiável.
+Mostrar com quais fornecedores, linhas ou processos a empresa trabalha.
+Levar o usuário ao catálogo ou ao contato corretos com baixo atrito.
+Dar ao proprietário um discurso digital coerente com sua reputação offline.
+6.3. Arquitetura de mensagem recomendada
+6.4. Tom de voz e estilo editorial
+Pesquisas da Nielsen Norman Group mostram que tom de voz interfere diretamente na percepção de amizade, confiança e desejabilidade da marca. Para a RECOM, recomenda-se um tom profissional, claro, humano e seguro; a escrita deve ser acessível sem ficar informal demais, e objetiva sem parecer fria ou mecânica. [Ref. 7]
+6.5. Princípios editoriais
+Cada página precisa responder claramente por que existe, para quem existe e qual ação espera do usuário.
+Títulos, headings e links devem usar linguagem com alto information scent; usuários escolhem links com base no que o rótulo promete. [Ref. 6] [Ref. 10] [Ref. 15]
+A homepage deve comunicar propósito, orientar objetivos e refletir a identidade da organização; não deve apenas “mostrar blocos”. [Ref. 9]
+A seção “A RECOM” precisa ser clara, autêntica e transparente; usuários usam esse tipo de página para formar opinião sobre a empresa antes de iniciar negócios. [Ref. 8]
+O conteúdo de marca não deve depender só de autoafirmação; precisa vir acompanhado de elementos verificáveis e consistentes com o restante da web. [Ref. 8]
+Promoções devem ser apresentadas com contexto, validade, marca envolvida e caminho simples para contato, sem transformar a marca em varejo promocional.
+6.6. Provas de confiança e materiais recomendados
+Fotos reais da fachada, área interna, equipe, atendimento, estoque/showroom ou contexto operacional.
+Texto institucional revisado com base em fatos verificáveis: fundação, localidade, escopo comercial e papel como distribuidor. [Ref. 2] [Ref. 3] [Ref. 4]
+Canais de contato completos, recorrentes e consistentes entre site, perfil local e redes sociais. [Ref. 3] [Ref. 4]
+Páginas de fornecedores com breve contextualização antes do link externo ao catálogo.
+Elementos locais visíveis: endereço, mapa, telefone, WhatsApp e eventualmente horário, quando confirmado.
+Captação sistemática de avaliações reais no Google Business Profile após o lançamento; o Google recomenda completar e manter as informações do perfil e destaca a relevância desses dados para descoberta local. [Ref. 16] [Ref. 17]
+7. Direção de arte recomendada
+7.1. Território visual desejado
+A direção de arte recomendada é de sobriedade industrial contemporânea. O site deve parecer atual, limpo e tecnicamente confiável, sem tentar imitar a estética de um fabricante global high-tech e sem cair em visual de varejo promocional. O território visual ideal é o encontro entre gravidade institucional, clareza comercial e legibilidade de navegação.
+7.2. Princípios visuais
+7.3. Diretrizes de imagem
+Priorizar fotos reais da empresa e do contexto de aplicação sempre que disponíveis.
+Usar imagens de produto com função informativa, não apenas decorativa.
+Quando houver fotos de fornecedores, preservar consistência de corte, fundo, nitidez e proporção.
+Evitar imagens de banco que passem sensação genérica de “indústria abstrata”.
+Toda imagem relevante deve ter texto alternativo descritivo e contextual, em linha com as recomendações do Google para alt text. [Ref. 18]
+7.4. Uso de logos de fornecedores
+Os logos de fornecedores devem operar como selo de legitimidade, não como substitutos da marca RECOM.
+Manter regras de tamanho, alinhamento, área de respiro e contraste.
+Evitar mosaicos excessivos de marcas em qualquer dobra do site.
+Sempre contextualizar a relação comercial de modo honesto e juridicamente seguro, conforme validação final com o proprietário.
+7.5. Componentes e comportamento visual
+Hero principal com proposta de valor clara, prova de legitimidade e CTA primário nítido.
+Cards de fornecedor e cards de processo com diferença visual suficiente para não confundir função.
+Botões primários e secundários consistentes em todo o sistema.
+Animações sutis, rápidas e discretas; movimento deve servir feedback e hierarquia, não espetáculo.
+A homepage deve enfatizar poucas tarefas prioritárias; se tudo recebe o mesmo destaque, nada orienta o usuário. [Ref. 9] [Ref. 19]
+8. Decisões consolidadas desta etapa
+A marca deve ser apresentada como distribuidor B2B confiável com presença local e atendimento humano.
+A linguagem do site deve ser clara, sóbria e comercialmente útil; não técnica em excesso e não promocional em excesso.
+O “catálogo” será tratado como hub de fornecedores e catálogos oficiais.
+A direção de arte deve privilegiar sobriedade industrial contemporânea, com mais gravidade institucional do que exuberância visual.
+A prova de confiança deve aparecer distribuída pelo site, e não concentrada apenas na página institucional.
+9. Pendências e validações necessárias
+Validar com o proprietário a redação final sobre relação com cada fornecedor e a terminologia juridicamente segura para essa relação.
+Validar se Kifix permanece como marca relevante na estrutura principal do MVP.
+Levantar fotos reais, materiais institucionais e eventuais ativos históricos da empresa para fortalecer a camada de autenticidade.
+Definir conjunto oficial de cores, tipografia e regras de aplicação para o design system.
+Confirmar tom final da comunicação com o proprietário: mais consultivo, mais comercial ou equilíbrio entre ambos.
+Validar quais provas sociais poderão ser exibidas publicamente: clientes, depoimentos, certificações, treinamentos, visitas, eventos, feiras ou outros.
+10. Instruções para programação e implementação
+Implementar design system com tokens nomeados para cor, tipografia, espaçamento, borda, sombra, raio e estados de interação.
+Separar visualmente componentes por função: card de fornecedor, card de processo, card promocional, bloco institucional, CTA persistente e bloco de contato.
+Garantir consistência entre menu, breadcrumb, heading principal, título HTML e CTA primário de cada página. [Ref. 5] [Ref. 14]
+Usar HTML semântico com heading hierarchy correta e links rastreáveis em <a>; o Google recomenda texto âncora descritivo e links que possam ser rastreados. [Ref. 14] [Ref. 15]
+Criar campos de CMS ou estrutura editável para: título da página, resumo, texto institucional, lista de fornecedores, links para catálogos, CTAs, metadados e blocos de prova local.
+Cada página de fornecedor deve ter conteúdo editorial próprio antes do link externo; não criar páginas vazias com pouco texto e um único botão.
+Garantir que as versões mobile e desktop tenham a mesma qualidade de conteúdo e alt text, em linha com a indexação mobile-first do Google. [Ref. 20]
+Definir componentes de imagem com proporções previsíveis e fallback seguro para ausência de foto.
+Implementar estados de hover, foco e teclado visíveis para botões, links e cards; isso melhora usabilidade e acessibilidade.
+Evitar textos embutidos em imagens quando forem parte central da mensagem; preferir texto HTML indexável.
+Preparar espaço para integração futura com avaliações locais, analytics e testes de conteúdo sem reconstruir o front-end.
+11. Riscos
+Risco de a nova UI parecer moderna, mas genérica, caso a camada de autenticidade visual da RECOM não seja construída com material real.
+Risco de discurso inflado caso se use linguagem de fabricante ou de consultoria técnica sem lastro operacional correspondente.
+Risco de sobrecarga visual se promoções, marcas, processos e CTAs competirem ao mesmo tempo na homepage.
+Risco de perda de confiança se o conteúdo institucional divergir do que o usuário encontra no Google, redes sociais e dados públicos. [Ref. 8] [Ref. 16] [Ref. 17]
+Risco de navegação ambígua se títulos e rótulos de links tiverem baixo information scent. [Ref. 6] [Ref. 10]
+12. Próximos passos
+Transformar esta estratégia em estrutura de conteúdo por página na Etapa 4.
+Definir o inventory de conteúdo e os blocos editoriais específicos de Home, A RECOM, Fornecedores, Processos, Promoções e Contato.
+Extrair desta etapa um mini brand guide operacional com vocabulário aprovado, tom de voz, paleta e princípios de imagem.
+Revisar com o proprietário as pendências de marcas, linguagem e materiais visuais reais.
+Usar a Etapa 5 para converter as decisões desta etapa em wireframes, regras de UX e critérios de aceitação de interface.
+13. Referências e fontes públicas
+[Ref. 1] Site atual da RECOM Metal Duro. Páginas observáveis do domínio principal com navegação, dados de contato, páginas institucionais e seções legadas. Disponível em: https://www.recommetalduro.com.br/
+[Ref. 2] Casa dos Dados. A A Montelione Comercio Ltda. / RECOM Metal Duro. Dados públicos de razão social, data de abertura e situação cadastral. Disponível em: https://casadosdados.com.br/solucao/cnpj/a-a-montelione-comercio-ltda-62137369000106
+[Ref. 3] Serasa Experian — consulta gratuita. A A Montelione Comercio Ltda. / RECOM Metal Duro. Disponível em: https://empresas.serasaexperian.com.br/consulta-gratis/A-A-MONTELIONE-COMERCIO-LTDA.-62137369000106
+[Ref. 4] Instagram — @recomferramentas. Presença orgânica pública da marca. Disponível em: https://www.instagram.com/recomferramentas/
+[Ref. 5] Google Search Central. Creating helpful, reliable, people-first content. Disponível em: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+[Ref. 6] Nielsen Norman Group. Information Scent: How Users Decide Where to Go Next. Disponível em: https://www.nngroup.com/articles/information-scent/
+[Ref. 7] Nielsen Norman Group. The Impact of Tone of Voice on Users’ Brand Perception. Disponível em: https://www.nngroup.com/articles/tone-voice-users/
+[Ref. 8] Nielsen Norman Group. About Us Information on Corporate Websites. Disponível em: https://www.nngroup.com/articles/about-us-information-on-websites/
+[Ref. 9] Nielsen Norman Group. Homepage Design: 5 Fundamental Principles. Disponível em: https://www.nngroup.com/articles/homepage-design-principles/
+[Ref. 10] Nielsen Norman Group. Better Link Labels: 4Ss for Encouraging Clicks. Disponível em: https://www.nngroup.com/articles/better-link-labels/
+[Ref. 11] Nielsen Norman Group. UX Writing: Study Guide. Disponível em: https://www.nngroup.com/articles/ux-writing-study-guide/
+[Ref. 12] McKinsey & Company. Five fundamental truths: How B2B winners keep growing. Disponível em: https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/five-fundamental-truths-how-b2b-winners-keep-growing
+[Ref. 13] McKinsey & Company. The future of B2B sales is hybrid. Disponível em: https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-future-of-b2b-sales-is-hybrid
+[Ref. 14] Google Search Central. Search Essentials. Disponível em: https://developers.google.com/search/docs/essentials
+[Ref. 15] Google Search Central. SEO Link Best Practices for Google. Disponível em: https://developers.google.com/search/docs/crawling-indexing/links-crawlable
+[Ref. 16] Google Business Profile Help. Tips to improve your local ranking on Google. Disponível em: https://support.google.com/business/answer/7091
+[Ref. 17] Google Business Profile Help. Guidelines for representing your business on Google. Disponível em: https://support.google.com/business/answer/3038177
+[Ref. 18] Google Search Central. Image SEO best practices. Disponível em: https://developers.google.com/search/docs/appearance/google-images
+[Ref. 19] Nielsen Norman Group. 113 Design Guidelines for Homepage Usability. Disponível em: https://www.nngroup.com/articles/113-design-guidelines-homepage-usability/
+[Ref. 20] Google Search Central. Mobile-first indexing best practices. Disponível em: https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing
