@@ -22,13 +22,13 @@ const FornecedorPage = () => {
   }
 
   const catalogos = getCatalogosDoFornecedor(fornecedor);
+  const catalogoPrincipal = catalogos[0];
+  const catalogosSecundarios = catalogos.slice(1);
 
-  // Processos relacionados a este fornecedor
   const processosRelacionados = processos.filter(
     p => fornecedor.processosRelacionados.includes(p.id)
   );
 
-  // Outros fornecedores (para "Veja também")
   const outrosFornecedores = fornecedores.filter(f => f.id !== fornecedor.id);
 
   return (
@@ -37,91 +37,152 @@ const FornecedorPage = () => {
         title={`${fornecedor.nome} — Fornecedor Parceiro`}
         description={`${fornecedor.descricaoCurta} Distribuído pela RECOM Metal Duro em Campinas-SP.`}
       />
-      <Breadcrumb items={[
-        { label: 'Início', to: '/' },
-        { label: 'Fornecedores & Catálogos', to: '/fornecedores-catalogos' },
-        { label: fornecedor.nome },
-      ]} />
+      <Breadcrumb
+        items={[
+          { label: 'Início', to: '/' },
+          { label: 'Fornecedores & Catálogos', to: '/fornecedores-catalogos' },
+          { label: fornecedor.nome },
+        ]}
+      />
 
       <div className={styles.pageContainer}>
-        <div className={styles.fornecedorHeader}>
-          <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.fornecedorLogo} />
-          <div>
+        <section className={styles.heroSection}>
+          <div className={styles.heroCopy}>
+            <div className={styles.heroMeta}>
+              <span className={styles.heroEyebrow}>Fornecedor parceiro</span>
+              {fornecedor.destaque && <span className={styles.heroBadge}>Principal</span>}
+              {catalogos.length > 0 && (
+                <span className={styles.heroBadgeMuted}>
+                  {catalogos.length} catálogo{catalogos.length > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+
             <h1 className={styles.fornecedorTitle}>{fornecedor.nome}</h1>
             <p className={styles.fornecedorTagline}>{fornecedor.descricaoCurta}</p>
+            <p className={styles.heroSupport}>
+              Fornecedor global de ferramentas de corte com distribuição RECOM para a região de Campinas e interior de SP.
+            </p>
           </div>
-        </div>
+
+          <div className={styles.heroBrandCard}>
+            <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.fornecedorLogo} />
+          </div>
+        </section>
 
         <div className={styles.contentGrid}>
           <div className={styles.mainContent}>
-            <h2>Sobre a {fornecedor.nome}</h2>
-            <p>{fornecedor.descricao}</p>
+            <section className={styles.sectionBlock}>
+              <div className={styles.sectionHeading}>
+                <span className={styles.sectionEyebrow}>Sobre a marca</span>
+                <h2>Contexto e aplicação</h2>
+              </div>
+              <p>{fornecedor.descricao}</p>
+            </section>
 
             {catalogos.length > 0 && (
-              <div className={styles.catalogoBlock}>
-                <h3>Catálogos Oficiais</h3>
-                <p>Acesse os materiais oficiais da {fornecedor.nome} diretamente no site do fabricante.</p>
-                <div className={styles.catalogoActions}>
-                  {catalogos.map((catalogo, index) => (
-                    <a
-                      key={catalogo.url}
-                      href={catalogo.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={index === 0 ? styles.catalogoBtn : styles.catalogoSecondaryBtn}
-                      aria-label={catalogo.label}
-                      onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
-                    >
-                      <ExternalLink size={16} />
-                      {catalogo.label}
-                    </a>
-                  ))}
+              <section className={styles.catalogoBlock}>
+                <div className={styles.sectionHeading}>
+                  <span className={styles.sectionEyebrow}>Catálogos oficiais</span>
+                  <h2>Acesso rápido aos materiais da marca</h2>
                 </div>
+                <p className={styles.catalogoIntro}>
+                  O primeiro link abaixo é o caminho mais direto para o catálogo principal. Os demais funcionam como apoio para navegação complementar.
+                </p>
+
+                <div className={styles.catalogoActions}>
+                  <a
+                    href={catalogoPrincipal.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.catalogoBtn}
+                    aria-label={catalogoPrincipal.label}
+                    onClick={() => trackOutboundLink(catalogoPrincipal.url, 'catalogo')}
+                  >
+                    <ExternalLink size={16} />
+                    {catalogoPrincipal.label}
+                  </a>
+
+                  {catalogosSecundarios.length > 0 && (
+                    <div className={styles.catalogoSecondaryList}>
+                      {catalogosSecundarios.map((catalogo) => (
+                        <a
+                          key={catalogo.url}
+                          href={catalogo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.catalogoSecondaryBtn}
+                          aria-label={catalogo.label}
+                          onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
+                        >
+                          <ExternalLink size={14} />
+                          <span>{catalogo.label}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 <p className={styles.externalNote}>
                   Este link direciona ao site oficial do fabricante. A RECOM não controla o conteúdo externo.
                 </p>
-              </div>
+              </section>
             )}
 
             {processosRelacionados.length > 0 && (
-              <div className={styles.processosSection}>
-                <h3>Processos Atendidos</h3>
+              <section className={styles.processosSection}>
+                <div className={styles.sectionHeading}>
+                  <span className={styles.sectionEyebrow}>Processos atendidos</span>
+                  <h2>Onde esta marca se encaixa melhor</h2>
+                </div>
                 <div className={styles.processosGrid}>
-                  {processosRelacionados.map(p => (
+                  {processosRelacionados.map((p, index) => (
                     <Link to={`/solucoes/${p.slug}`} key={p.id} className={styles.processoCard}>
+                      <span className={styles.processoMark}>{String(index + 1).padStart(2, '0')}</span>
                       <strong>{p.nome}</strong>
                       <span>{p.descricaoCurta}</span>
-                      <span className={styles.processoLink}>Ver processo <ArrowRight size={12} /></span>
+                      <span className={styles.processoLink}>
+                        Ver processo <ArrowRight size={12} />
+                      </span>
                     </Link>
                   ))}
                 </div>
-              </div>
+              </section>
             )}
           </div>
 
           <aside className={styles.sidebar}>
             <div className={styles.ctaCard}>
-              <h3>Solicite um Orçamento</h3>
-              <p>Precisa de ferramentas {fornecedor.nome}? A RECOM pode ajudar.</p>
-              <Link to="/contato" className={styles.ctaSidebarBtn} onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}>
-                Falar com Especialista <ArrowRight size={14} />
+              <span className={styles.sidebarEyebrow}>Suporte comercial</span>
+              <h3>Solicite um orçamento</h3>
+              <p>Precisa de ferramentas {fornecedor.nome}? A RECOM pode ajudar a indicar a melhor solução.</p>
+              <Link
+                to="/contato"
+                className={styles.ctaSidebarBtn}
+                onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}
+              >
+                Falar com especialista <ArrowRight size={14} />
               </Link>
             </div>
 
             {outrosFornecedores.length > 0 && (
-              <div className={styles.outrosCard}>
-                <h3>Outros Fornecedores</h3>
+              <nav className={styles.outrosCard} aria-label="Outros fornecedores">
+                <div className={styles.sectionHeading}>
+                  <span className={styles.sectionEyebrow}>Navegação relacionada</span>
+                  <h3>Explore outros fornecedores</h3>
+                </div>
                 <ul>
                   {outrosFornecedores.map(f => (
                     <li key={f.id}>
-                      <Link to={`/fornecedores-catalogos/${f.slug}`}>
+                      <Link to={`/fornecedores-catalogos/${f.slug}`} className={styles.outroLink}>
                         <img src={f.logo} alt={f.altText} className={styles.outroLogo} />
-                        <span>{f.nome}</span>
+                        <span className={styles.outroName}>{f.nome}</span>
+                        <span className={styles.outroCta}>Ver fornecedor</span>
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </nav>
             )}
           </aside>
         </div>
