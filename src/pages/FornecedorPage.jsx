@@ -3,7 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { getFornecedorBySlug, fornecedores } from '../data/fornecedores';
+import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import styles from './FornecedorPage.module.css';
@@ -20,6 +20,8 @@ const FornecedorPage = () => {
   if (!fornecedor) {
     return <Navigate to="/fornecedores-catalogos" replace />;
   }
+
+  const catalogos = getCatalogosDoFornecedor(fornecedor);
 
   // Processos relacionados a este fornecedor
   const processosRelacionados = processos.filter(
@@ -55,21 +57,26 @@ const FornecedorPage = () => {
             <h2>Sobre a {fornecedor.nome}</h2>
             <p>{fornecedor.descricao}</p>
 
-            {fornecedor.catalogoUrl && (
+            {catalogos.length > 0 && (
               <div className={styles.catalogoBlock}>
-                <h3>Catálogo Oficial</h3>
-                <p>Acesse o catálogo completo da {fornecedor.nome} diretamente no site do fabricante.</p>
-                <a
-                  href={fornecedor.catalogoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.catalogoBtn}
-                  aria-label={fornecedor.catalogoLabel}
-                  onClick={() => trackOutboundLink(fornecedor.catalogoUrl, 'catalogo')}
-                >
-                  <ExternalLink size={16} />
-                  {fornecedor.catalogoLabel}
-                </a>
+                <h3>Catálogos Oficiais</h3>
+                <p>Acesse os materiais oficiais da {fornecedor.nome} diretamente no site do fabricante.</p>
+                <div className={styles.catalogoActions}>
+                  {catalogos.map((catalogo, index) => (
+                    <a
+                      key={catalogo.url}
+                      href={catalogo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={index === 0 ? styles.catalogoBtn : styles.catalogoSecondaryBtn}
+                      aria-label={catalogo.label}
+                      onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
+                    >
+                      <ExternalLink size={16} />
+                      {catalogo.label}
+                    </a>
+                  ))}
+                </div>
                 <p className={styles.externalNote}>
                   Este link direciona ao site oficial do fabricante. A RECOM não controla o conteúdo externo.
                 </p>

@@ -6,7 +6,6 @@ import { ArrowRight, Phone, Crosshair, Box, Circle } from 'lucide-react';
 import styles from './Home.module.css';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
-import logoMit from '../assets/images/LOGO-MIT.png';
 import { trackLeadGen } from '../utils/analytics';
 
 /**

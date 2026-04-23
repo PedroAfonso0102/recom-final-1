@@ -3,8 +3,9 @@ import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { fornecedores } from '../data/fornecedores';
+import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { trackOutboundLink } from '../utils/analytics';
 import styles from './FornecedoresCatalogos.module.css';
 
 /**
@@ -28,43 +29,59 @@ const FornecedoresCatalogos = () => {
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Fornecedores & Catálogos</h1>
           <p className={styles.pageSubtitle}>
-            A RECOM seleciona e distribui ferramentas de fornecedores reconhecidos pela qualidade, 
+            A RECOM seleciona e distribui ferramentas de fornecedores reconhecidos pela qualidade,
             inovação e confiabilidade no mercado de usinagem.
           </p>
         </div>
 
         <div className={styles.fornecedorGrid}>
-          {fornecedores.map(fornecedor => (
-            <div key={fornecedor.id} className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
-              {fornecedor.destaque && (
-                <span className={styles.destaqueBadge}>Principal</span>
-              )}
-              <div className={styles.cardLogo}>
-                <img src={fornecedor.logo} alt={fornecedor.altText} />
-              </div>
-              <div className={styles.cardContent}>
-                <h2 className={styles.fornecedorNome}>{fornecedor.nome}</h2>
-                <p className={styles.fornecedorDesc}>{fornecedor.descricaoCurta}</p>
-                <div className={styles.cardActions}>
-                  <Link to={`/fornecedores-catalogos/${fornecedor.slug}`} className={styles.cardBtn}>
-                    Ver Detalhes <ArrowRight size={14} />
-                  </Link>
-                  {fornecedor.catalogoUrl && (
-                    <a
-                      href={fornecedor.catalogoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.catalogoLink}
-                      aria-label={fornecedor.catalogoLabel}
-                    >
-                      <ExternalLink size={14} />
-                      Catálogo Oficial
-                    </a>
+          {fornecedores.map((fornecedor) => {
+            const catalogos = getCatalogosDoFornecedor(fornecedor);
+
+            return (
+              <div key={fornecedor.id} className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
+                {fornecedor.destaque && (
+                  <span className={styles.destaqueBadge}>Principal</span>
+                )}
+                <div className={styles.cardLogo}>
+                  <img src={fornecedor.logo} alt={fornecedor.altText} />
+                </div>
+                <div className={styles.cardContent}>
+                  <h2 className={styles.fornecedorNome}>{fornecedor.nome}</h2>
+                  <p className={styles.fornecedorDesc}>{fornecedor.descricaoCurta}</p>
+                  <div className={styles.cardActions}>
+                    <Link to={`/fornecedores-catalogos/${fornecedor.slug}`} className={styles.cardBtn}>
+                      Ver fornecedor <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                  {catalogos.length > 0 && (
+                    <details className={styles.catalogoDisclosure}>
+                      <summary className={styles.catalogoSummary}>
+                        <span>Catálogos oficiais</span>
+                        <span className={styles.catalogoCount}>({catalogos.length})</span>
+                      </summary>
+                      <div className={styles.catalogosList}>
+                        {catalogos.map((catalogo) => (
+                          <a
+                            key={catalogo.url}
+                            href={catalogo.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.catalogoLink}
+                            aria-label={catalogo.label}
+                            onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
+                          >
+                            <ExternalLink size={14} />
+                            {catalogo.label}
+                          </a>
+                        ))}
+                      </div>
+                    </details>
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* CTA de contato */}
