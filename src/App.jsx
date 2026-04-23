@@ -1,43 +1,41 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Empresa from './pages/Empresa';
-import Produtos from './pages/Produtos';
-import Catalogo from './pages/Catalogo';
-import Promocoes from './pages/Promocoes';
-import Contato from './pages/Contato';
-import SugestoesUtilizacao from './pages/SugestoesUtilizacao';
-import Seguranca from './pages/Seguranca';
-import Torneamento from './pages/Torneamento';
-import Fresamento from './pages/Fresamento';
-import Furacao from './pages/Furacao';
-import Videos from './pages/Videos';
-import HomeAlt from './pages/HomeAlt';
-import WhatsAppFAB from './components/WhatsAppFAB';
-import LinearProgressBar from './components/LinearProgressBar';
 
-const App = () => {
+import { Inicio } from './pages/Inicio';
+import { ARecom } from './pages/ARecom';
+import { FornecedoresCatalogos } from './pages/FornecedoresCatalogos';
+import { Solucoes } from './pages/Solucoes';
+import { Promocoes } from './pages/PromocoesPage';
+import { ContatoPage as Contato } from './pages/ContatoPage';
+import { Torneamento as SolucaoTorneamento } from './pages/SolucaoTorneamento';
+import { Fresamento as SolucaoFresamento } from './pages/SolucaoFresamento';
+import { Furacao as SolucaoFuracao } from './pages/SolucaoFuracao';
+import { Seguranca } from './pages/Seguranca';
+import { SugestoesUtilizacao } from './pages/SugestoesUtilizacao';
+
+import { WhatsAppFAB } from './components/WhatsAppFAB';
+import { LinearProgressBar } from './components/LinearProgressBar';
+
+export const App = () => {
   return (
     <Router>
       <LinearProgressBar />
       <WhatsAppFAB />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/empresa" element={<Empresa />} />
-        <Route path="/produtos" element={<Produtos />} />
-        <Route path="/catalogo" element={<Catalogo />} />
+        <Route path="/" element={<Inicio />} />
+        <Route path="/a-recom" element={<ARecom />} />
+        <Route path="/fornecedores-catalogos" element={<FornecedoresCatalogos />} />
+        <Route path="/fornecedores-catalogos/:slug" element={<FornecedoresCatalogos />} />
+        <Route path="/solucoes" element={<Solucoes />} />
+        <Route path="/solucoes/torneamento" element={<SolucaoTorneamento />} />
+        <Route path="/solucoes/fresamento" element={<SolucaoFresamento />} />
+        <Route path="/solucoes/furacao" element={<SolucaoFuracao />} />
+        <Route path="/solucoes/:slug" element={<Solucoes />} />
         <Route path="/promocoes" element={<Promocoes />} />
         <Route path="/contato" element={<Contato />} />
-        <Route path="/sugestoes-de-utilizacao" element={<SugestoesUtilizacao />} />
-        <Route path="/seguranca" element={<Seguranca />} />
-        <Route path="/torneamento" element={<Torneamento />} />
-        <Route path="/fresamento" element={<Fresamento />} />
-        <Route path="/furacao" element={<Furacao />} />
-        <Route path="/videos" element={<Videos />} />
-        <Route path="/home-alt" element={<HomeAlt />} />
+        <Route path="/politica-de-privacidade" element={<Seguranca />} />
+        <Route path="/termos-de-uso" element={<SugestoesUtilizacao />} />
       </Routes>
     </Router>
   );
 };
-
-export default App;

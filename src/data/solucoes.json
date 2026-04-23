@@ -1,0 +1,46 @@
+[
+  {
+    "id": "torneamento",
+    "slug": "torneamento",
+    "titulo": "Torneamento",
+    "descricaoCurta": "Soluções completas para processos de torneamento externo e interno.",
+    "descricaoLonga": "Oferecemos uma vasta gama de insertos e suportes para torneamento, cobrindo desde operações de desbaste pesado até o acabamento de precisão em diversos materiais.",
+    "imagem": "/assets/solucoes/torneamento.jpg",
+    "fornecedoresRelacionados": ["mitsubishi-materials"],
+    "isDestaque": true,
+    "ordem": 1
+  },
+  {
+    "id": "fresamento",
+    "slug": "fresamento",
+    "titulo": "Fresamento",
+    "descricaoCurta": "Fresas de alta performance para máxima remoção de metal.",
+    "descricaoLonga": "Nossa linha de fresamento inclui fresas de metal duro integral e ferramentas intercambiáveis projetadas para alta produtividade e excelente acabamento superficial.",
+    "imagem": "/assets/solucoes/fresamento.jpg",
+    "fornecedoresRelacionados": ["mitsubishi-materials", "7leaders"],
+    "isDestaque": true,
+    "ordem": 2
+  },
+  {
+    "id": "furacao",
+    "slug": "furacao",
+    "titulo": "Furação",
+    "descricaoCurta": "Brocas de metal duro para furos precisos e rápidos.",
+    "descricaoLonga": "Soluções de furação que combinam alta velocidade de corte com longa vida útil da ferramenta, garantindo precisão dimensional e qualidade de furo.",
+    "imagem": "/assets/solucoes/furacao.jpg",
+    "fornecedoresRelacionados": ["mitsubishi-materials", "bt-fixo"],
+    "isDestaque": true,
+    "ordem": 3
+  },
+  {
+    "id": "fixacao",
+    "slug": "fixacao-porta-ferramentas",
+    "titulo": "Fixação e Porta-ferramentas",
+    "descricaoCurta": "Estabilidade e precisão para seu processo de usinagem.",
+    "descricaoLonga": "Sistemas de fixação de alta qualidade que reduzem vibrações e garantem a repetibilidade necessária para processos de usinagem exigentes.",
+    "imagem": "/assets/solucoes/fixacao.jpg",
+    "fornecedoresRelacionados": ["bt-fixo", "kifix"],
+    "isDestaque": true,
+    "ordem": 4
+  }
+]

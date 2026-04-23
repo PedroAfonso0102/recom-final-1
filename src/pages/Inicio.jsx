@@ -1,8 +1,9 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 import { Target, Droplets, Layers, Hexagon, Play, ArrowRight } from 'lucide-react';
-import styles from './Home.module.css';
+import styles from './Inicio.module.css';
 
 import logoMitsubishi from '../assets/images/logo_mitsubishi.png';
 import logo7leaders from '../assets/images/logo_7leaders.png';
@@ -10,19 +11,13 @@ import logoBTFixo from '../assets/images/logo_btfixo.png';
 import logoKifix from '../assets/images/logo_kifix.png';
 import logoMit from '../assets/images/LOGO-MIT.png';
 
-// - [x] Integrate high-fidelity 3D technical renders for featured products
-// - [x] Fix layout overlaps in the "Sistemas de Usinagem em Destaque" section
-// - [x] Implement CSS-based tooltips for ISO material categories
-// - [x] Ensure consistent 8pt Swiss grid alignment across all interactive cards
-// - [x] Standardize color-coded ISO badges (P, M, K, N, S, H)
-
 // Import featured product technical renders
 import featuredDrill from '../assets/images/featured_drill.png';
 import featuredMilling from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
 import featuredMws from '../assets/images/featured_mws.png';
 import featuredWstar from '../assets/images/featured_wstar.png';
 
-const isoLabels = {
+const rotulosIso = {
   P: 'Aços',
   M: 'Aços Inoxidáveis',
   K: 'Ferros Fundidos',
@@ -31,9 +26,13 @@ const isoLabels = {
   H: 'Materiais Endurecidos'
 };
 
-const Home = () => {
+export const Inicio = () => {
   return (
     <Layout>
+      <SEO
+        title="Início"
+        description="Distribuição técnica autorizada Mitsubishi Materials. Soluções de alta precisão para usinagem desde 1990 em Campinas e região."
+      />
       {/* Hero Banner Industrial */}
       <div className={styles.heroBanner}>
         <div className={styles.heroOverlay}></div>
@@ -45,7 +44,7 @@ const Home = () => {
           </p>
           <div className={styles.heroActions}>
             <Link to="/contato" className={styles.primaryBtn}>Solicitar Orçamento</Link>
-            <Link to="/produtos" className={styles.secondaryBtn}>Ver Soluções</Link>
+            <Link to="/solucoes" className={styles.secondaryBtn}>Ver Soluções</Link>
           </div>
         </div>
       </div>
@@ -58,10 +57,10 @@ const Home = () => {
             <p className={styles.sectionSubtitle}>Parcerias estratégicas com líderes globais para garantir máxima tecnologia e autoridade técnica.</p>
           </div>
           <div className={styles.brandsRow}>
-            <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" className="res-img-logo" /></a>
-            <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" className="res-img-logo" /></a>
-            <a href="/btfixo"><img src={logoBTFixo} alt="BT Fixo" className="res-img-logo" /></a>
-            <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" className="res-img-logo" /></a>
+            <a href="/fornecedores-catalogos/mitsubishi-materials"><img src={logoMitsubishi} alt="Mitsubishi" className="res-img-logo" /></a>
+            <a href="/fornecedores-catalogos/7leaders"><img src={logo7leaders} alt="7Leaders" className="res-img-logo" /></a>
+            <a href="/fornecedores-catalogos/bt-fixo"><img src={logoBTFixo} alt="BT Fixo" className="res-img-logo" /></a>
+            <a href="/fornecedores-catalogos/kifix"><img src={logoKifix} alt="Kifix" className="res-img-logo" /></a>
           </div>
         </div>
 
@@ -72,7 +71,7 @@ const Home = () => {
             <p className={styles.sectionSubtitle}>Ferramentas de alta performance projetadas para máxima produtividade e economia de processos.</p>
           </div>
           <div className={styles.produtosGrid}>
-            <Link to="/produtos" className={styles.produtoCard}>
+            <Link to="/solucoes" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredDrill} alt="S-TAW System" className="res-img-card" />
               </div>
@@ -86,15 +85,15 @@ const Home = () => {
                 <p>Brocas intercambiáveis de alta performance para furação de precisão industrial.</p>
                 <div className={styles.cardFooter}>
                   <div className={styles.isoBadgeRow}>
-                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                    <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={rotulosIso.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={rotulosIso.K}>K</span>
                   </div>
                   <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
                 </div>
               </div>
             </Link>
 
-            <Link to="/produtos" className={styles.produtoCard}>
+            <Link to="/solucoes" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredMws} alt="MWS Series" className="res-img-card" />
               </div>
@@ -108,15 +107,15 @@ const Home = () => {
                 <p>Brocas inteiriças com refrigeração interna otimizada para alta vida útil.</p>
                 <div className={styles.cardFooter}>
                   <div className={styles.isoBadgeRow}>
-                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                    <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={rotulosIso.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={rotulosIso.M}>M</span>
                   </div>
                   <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
                 </div>
               </div>
             </Link>
 
-            <Link to="/produtos" className={styles.produtoCard}>
+            <Link to="/solucoes" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredWstar} alt="WSTAR Long" className="res-img-card" />
               </div>
@@ -130,15 +129,15 @@ const Home = () => {
                 <p>Sistemas especializados para furação profunda com extrema precisão geométrica.</p>
                 <div className={styles.cardFooter}>
                   <div className={styles.isoBadgeRow}>
-                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                    <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={rotulosIso.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={rotulosIso.H}>H</span>
                   </div>
                   <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
                 </div>
               </div>
             </Link>
 
-            <Link to="/produtos" className={styles.produtoCard}>
+            <Link to="/solucoes" className={styles.produtoCard}>
               <div className={styles.cardVisual}>
                 <img src={featuredMilling} alt="High Feed Milling" className="res-img-card" />
               </div>
@@ -152,8 +151,8 @@ const Home = () => {
                 <p>Insertos multiarestas projetados para desbaste em alto avanço e produtividade.</p>
                 <div className={styles.cardFooter}>
                   <div className={styles.isoBadgeRow}>
-                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                    <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
+                    <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={rotulosIso.P}>P</span>
+                    <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={rotulosIso.S}>S</span>
                   </div>
                   <span className={styles.verDetalhes}>Ver Detalhes <ArrowRight size={14} /></span>
                 </div>
@@ -235,5 +234,3 @@ const Home = () => {
     </Layout>
   );
 };
-
-export default Home;

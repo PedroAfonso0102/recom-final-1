@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './SteamPromoCard.module.css';
 
-const SteamPromoCard = ({ 
+export const SteamPromoCard = ({
   title, 
   subtitle, 
   originalPrice, 
@@ -121,4 +121,3 @@ const SteamPromoCard = ({
   );
 };
 
-export default SteamPromoCard;

@@ -1,44 +1,44 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
-import kougImg from '../assets/images/Upscaled/koug.png';
+import { ProductSidebar } from '../components/ProductSidebar';
+import fresaImg from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
 
-const Furacao = () => (
+export const Fresamento = () => (
   <Layout>
     <div className={styles.location}>
       <div className={styles.whereCenter}>
-        Você está em: <Link to="/">Home</Link> &gt; Produtos &gt; Furação
+        Você está em: <Link to="/">Home</Link> &gt; Produtos &gt; Fresamento
       </div>
     </div>
     <div className={styles.centerData}>
       <ProductSidebar />
 
         <div className={styles.textBox}>
-          <div className={styles.mainProductTitle}>Furação</div>
+          <div className={styles.mainProductTitle}>Fresamento</div>
           
           <section className={styles.modularSection}>
             <div className={styles.modularText}>
-              <h3 className={styles.productTitle}>Soluções de Furação WSTAR</h3>
+              <h3 className={styles.productTitle}>Fresamento e Sistemas de Fixação</h3>
               <p className={styles.just}>
-                A furação é uma das operações mais comuns e críticas na manufatura. Nossas soluções de furação inteiriça e intercambiável são projetadas para precisão dimensional, excelente acabamento superficial e evacuação eficiente de cavacos.
+                O fresamento é um processo de usinagem extremamente versátil, onde a ferramenta rotativa remove material para criar superfícies, cavidades e perfis complexos. A RECOM fornece soluções completas da Mitsubishi Materials, abrangendo desde fresas de topo inteiriças de metal duro até cabeçotes intercambiáveis de alta performance.
               </p>
               <ul className={`${styles.just} ${styles.squareList}`}>
-                <li><strong>Metal Duro Inteiriço:</strong> Brocas WSTAR para diâmetros pequenos e alta produtividade.</li>
-                <li><strong>Sistemas Intercambiáveis:</strong> Flexibilidade com sistemas TAF e TAW para grandes diâmetros.</li>
-                <li><strong>Brocas Especiais:</strong> Geometrias específicas para materiais exóticos e furos profundos.</li>
+                <li><strong>Fresas de Topo:</strong> Soluções para desbaste e acabamento em uma ampla gama de materiais.</li>
+                <li><strong>Insertos Intercambiáveis:</strong> Classes e geometrias otimizadas para máxima vida útil da ferramenta.</li>
+                <li><strong>Tecnologia HSK:</strong> Sistemas de fixação de alta precisão para trocas rápidas e rigidez superior.</li>
               </ul>
             </div>
             <div className={styles.modularVisual}>
-              <img src={kougImg} alt="Sistemas de Furação" className="res-img-standard" style={{ maxWidth: '100%', height: 'auto' }} />
+              <img src={fresaImg} alt="Fresamento de Alta Performance" className="res-img-standard" style={{ maxWidth: '100%', height: 'auto' }} />
             </div>
           </section>
 
           <div className={styles.highlightBlock}>
-            <h4 className={styles.promoCalloutTitle}>Alta Performance em Furos Profundos</h4>
+            <h4 className={styles.promoCalloutTitle}>Inovação em Fresamento</h4>
             <p className={styles.just}>
-                As brocas WSTAR da série MNS combinam um revestimento ultra-resistente com canais de refrigeração otimizados, permitindo furações de até 30xD com estabilidade incomparável.
+                Nossa linha de fresamento inclui as famosas séries AQX, ASX e AJX, projetadas para reduzir vibrações e aumentar as taxas de remoção de metal em operações críticas de moldes, matrizes e componentes aeroespaciais.
             </p>
           </div>
 
@@ -64,4 +64,3 @@ const Furacao = () => (
   </Layout>
 );
 
-export default Furacao;

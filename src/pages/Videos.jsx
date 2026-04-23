@@ -1,10 +1,10 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
+import { ProductSidebar } from '../components/ProductSidebar';
 
-const Videos = () => (
+export const Videos = () => (
   <Layout>
     <div className={styles.location}>
       <div className={styles.whereCenter}>
@@ -69,5 +69,4 @@ const Videos = () => (
   </Layout>
 );
 
-export default Videos;
 

@@ -1,44 +1,44 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
-import koudoeImg from '../assets/images/Upscaled/koudoe.png';
+import { ProductSidebar } from '../components/ProductSidebar';
+import kougImg from '../assets/images/Upscaled/koug.png';
 
-const Torneamento = () => (
+export const Furacao = () => (
   <Layout>
     <div className={styles.location}>
       <div className={styles.whereCenter}>
-        Você está em: <Link to="/">Home</Link> &gt; Produtos &gt; Torneamento
+        Você está em: <Link to="/">Home</Link> &gt; Produtos &gt; Furação
       </div>
     </div>
     <div className={styles.centerData}>
       <ProductSidebar />
 
         <div className={styles.textBox}>
-          <div className={styles.mainProductTitle}>Torneamento</div>
+          <div className={styles.mainProductTitle}>Furação</div>
           
           <section className={styles.modularSection}>
             <div className={styles.modularText}>
-              <h3 className={styles.productTitle}>Torneamento de Alta Eficiência</h3>
+              <h3 className={styles.productTitle}>Soluções de Furação WSTAR</h3>
               <p className={styles.just}>
-                O torneamento é a base da usinagem industrial. Nossas soluções Mitsubishi Materials oferecem o equilíbrio perfeito entre resistência ao desgaste e tenacidade, garantindo performance superior em operações de desbaste pesado até o acabamento mais fino.
+                A furação é uma das operações mais comuns e críticas na manufatura. Nossas soluções de furação inteiriça e intercambiável são projetadas para precisão dimensional, excelente acabamento superficial e evacuação eficiente de cavacos.
               </p>
               <ul className={`${styles.just} ${styles.squareList}`}>
-                <li><strong>Insertos Indexáveis:</strong> Geometrias otimizadas para controle de cavaco superior.</li>
-                <li><strong>Barras de Mandrilar:</strong> Sistemas antivibratórios para furos profundos.</li>
-                <li><strong>Small Tools:</strong> Ferramentas específicas para tornos suíços e pequenos diâmetros.</li>
+                <li><strong>Metal Duro Inteiriço:</strong> Brocas WSTAR para diâmetros pequenos e alta produtividade.</li>
+                <li><strong>Sistemas Intercambiáveis:</strong> Flexibilidade com sistemas TAF e TAW para grandes diâmetros.</li>
+                <li><strong>Brocas Especiais:</strong> Geometrias específicas para materiais exóticos e furos profundos.</li>
               </ul>
             </div>
             <div className={styles.modularVisual}>
-              <img src={koudoeImg} alt="Torneamento de Precisão" className="res-img-standard" style={{ maxWidth: '100%', height: 'auto' }} />
+              <img src={kougImg} alt="Sistemas de Furação" className="res-img-standard" style={{ maxWidth: '100%', height: 'auto' }} />
             </div>
           </section>
 
           <div className={styles.highlightBlock}>
-            <h4 className={styles.promoCalloutTitle}>Tecnologia de Cobertura Avançada</h4>
+            <h4 className={styles.promoCalloutTitle}>Alta Performance em Furos Profundos</h4>
             <p className={styles.just}>
-                Utilizamos as tecnologias de cobertura UC5115 e UC5105, que proporcionam uma vida útil estendida em ferros fundidos e aços, reduzindo o tempo de parada de máquina e o custo por peça.
+                As brocas WSTAR da série MNS combinam um revestimento ultra-resistente com canais de refrigeração otimizados, permitindo furações de até 30xD com estabilidade incomparável.
             </p>
           </div>
 
@@ -64,4 +64,3 @@ const Torneamento = () => (
   </Layout>
 );
 
-export default Torneamento;

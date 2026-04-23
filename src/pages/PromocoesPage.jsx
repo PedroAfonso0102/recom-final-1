@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
-import styles from './Promocoes.module.css';
-import SteamPromoCard from '../components/SteamPromoCard';
+import styles from './PromocoesPage.module.css';
+import { SteamPromoCard } from '../components/SteamPromoCard';
 
 const PROMO_DATA = [
   {
@@ -109,7 +109,7 @@ const PROMO_DATA = [
   },
 ];
 
-const Promocoes = () => {
+export const Promocoes = () => {
   return (
     <Layout>
       <div className={styles.location}>
@@ -194,4 +194,3 @@ const Promocoes = () => {
   );
 };
 
-export default Promocoes;

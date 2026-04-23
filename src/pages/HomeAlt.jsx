@@ -80,7 +80,7 @@ const suppliers = [
   { logo: logoKifix, name: 'Kifix', link: '/catalogo', desc: 'Grampos de fixação' },
 ];
 
-const HomeAlt = () => {
+export const HomeAlt = () => {
   return (
     <div className={styles.page}>
       <Header />
@@ -221,4 +221,3 @@ const HomeAlt = () => {
   );
 };
 
-export default HomeAlt;

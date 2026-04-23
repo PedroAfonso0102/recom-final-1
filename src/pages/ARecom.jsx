@@ -1,12 +1,17 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
 import escritorioImg from '../assets/images/escritorio.jpg';
+import { SEO } from '../components/SEO';
 
-const Empresa = () => {
+export const ARecom = () => {
   return (
     <Layout>
+      <SEO
+        title="A RECOM"
+        description="Conheça a história da RECOM Metal Duro, distribuidor autorizado Mitsubishi Materials em Campinas desde 1990."
+      />
       <div className={styles.location}>
         <div className={styles.whereCenter}>
           Você está em: <Link to="/">Home</Link> &gt; A Empresa
@@ -49,5 +54,3 @@ const Empresa = () => {
     </Layout>
   );
 };
-
-export default Empresa;

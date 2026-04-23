@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import logo from '../assets/images/Upscaled/logo-sem-fundo.png';
 
-const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+export const Header = () => {
+  const [menuAberto, setMenuAberto] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const alternarMenu = () => {
+    setMenuAberto(!menuAberto);
   };
 
   return (
@@ -32,37 +32,35 @@ const Header = () => {
 
         <button
           className={styles.mobileMenuToggle}
-          onClick={toggleMenu}
+          onClick={alternarMenu}
           aria-label="Toggle menu"
         >
-          <span className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}></span>
+          <span className={`${styles.hamburger} ${menuAberto ? styles.open : ''}`}></span>
         </button>
       </div>
 
-      <ul className={`${styles.headerMenu} ${menuOpen ? styles.menuOpen : ''}`}>
-        <div className={styles.menuCenter}>
+      <nav className={`${styles.headerMenu} ${menuAberto ? styles.menuOpen : ''}`}>
+        <ul className={styles.menuCenter}>
           <li className={styles.first}>
-            <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link> <span className={styles.legend}>Inicio</span>
+            <Link to="/" onClick={() => setMenuAberto(false)}>Início</Link> <span className={styles.legend}>Home</span>
           </li>
           <li>
-            <Link to="/empresa" onClick={() => setMenuOpen(false)}>A Empresa</Link> <span className={styles.legend}>Sobre nós</span>
+            <Link to="/a-recom" onClick={() => setMenuAberto(false)}>A RECOM</Link> <span className={styles.legend}>Institucional</span>
           </li>
           <li>
-            <Link to="/produtos" onClick={() => setMenuOpen(false)}>Produtos</Link> <span className={styles.legend}>Conteúdo técnico</span>
+            <Link to="/solucoes" onClick={() => setMenuAberto(false)}>Soluções</Link> <span className={styles.legend}>Processos</span>
           </li>
           <li>
-            <Link to="/catalogo" onClick={() => setMenuOpen(false)}>Catálogo</Link> <span className={styles.legend}>Linha de produtos</span>
+            <Link to="/fornecedores-catalogos" onClick={() => setMenuAberto(false)}>Fornecedores</Link> <span className={styles.legend}>Catálogos</span>
           </li>
           <li>
-            <Link to="/promocoes" onClick={() => setMenuOpen(false)}>Promoções</Link> <span className={styles.legend}>Preços especiais</span>
+            <Link to="/promocoes" onClick={() => setMenuAberto(false)}>Promoções</Link> <span className={styles.legend}>Destaques</span>
           </li>
           <li className={styles.last}>
-            <Link to="/contato" onClick={() => setMenuOpen(false)}>Contato</Link> <span className={styles.legend}>Fale conosco</span>
+            <Link to="/contato" onClick={() => setMenuAberto(false)}>Contato</Link> <span className={styles.legend}>Orçamento</span>
           </li>
-        </div>
-      </ul>
+        </ul>
+      </nav>
     </>
   );
 };
-
-export default Header;

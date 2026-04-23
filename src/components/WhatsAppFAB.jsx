@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './WhatsAppFAB.module.css';
 
-const WhatsAppFAB = () => {
+export const WhatsAppFAB = () => {
   const phoneNumber = "551932332224"; // Format without plus or spaces for WhatsApp API
   const message = encodeURIComponent("Olá! Gostaria de um orçamento ou tirar dúvidas sobre o catálogo da RECOM.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -25,4 +25,3 @@ const WhatsAppFAB = () => {
   );
 };
 
-export default WhatsAppFAB;

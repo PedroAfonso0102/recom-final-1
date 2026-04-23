@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
+import { ProductSidebar } from '../components/ProductSidebar';
 import { AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const SAFETY_DATA = [
@@ -97,7 +97,7 @@ const SAFETY_DATA = [
   }
 ];
 
-const SugestoesUtilizacao = () => (
+export const SugestoesUtilizacao = () => (
   <Layout>
     <div className={styles.location}>
       <div className={styles.whereCenter}>
@@ -149,4 +149,3 @@ const SugestoesUtilizacao = () => (
   </Layout>
 );
 
-export default SugestoesUtilizacao;

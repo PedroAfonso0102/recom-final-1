@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './LinearProgressBar.module.css';
 
-const LinearProgressBar = () => {
+export const LinearProgressBar = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -27,4 +27,3 @@ const LinearProgressBar = () => {
   );
 };
 
-export default LinearProgressBar;
