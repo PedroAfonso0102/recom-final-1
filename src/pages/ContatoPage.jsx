@@ -1,12 +1,17 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components/Layout';
 import { Link } from 'react-router-dom';
 import styles from './Page.module.css';
-import ContactForm from '../components/ContactForm';
+import { ContactForm } from '../components/ContactForm';
+import { SEO } from '../components/SEO';
 
-const Contato = () => {
+export const ContatoPage = () => {
   return (
     <Layout>
+      <SEO
+        title="Contato"
+        description="Fale com a RECOM Metal Duro. Solicite orçamentos de ferramentas de corte ou tire suas dúvidas técnicas."
+      />
       <div className={styles.location}>
         <div className={styles.whereCenter}>
           Você está em: <Link to="/">Home</Link> &gt; Contato
@@ -67,5 +72,3 @@ const Contato = () => {
     </Layout>
   );
 };
-
-export default Contato;

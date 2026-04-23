@@ -1,0 +1,46 @@
+[
+  {
+    "id": "mitsubishi-materials",
+    "slug": "mitsubishi-materials",
+    "nome": "Mitsubishi Materials",
+    "descricaoCurta": "Líder mundial em ferramentas de corte de alto desempenho.",
+    "descricaoLonga": "A Mitsubishi Materials é reconhecida globalmente pela excelência tecnológica e inovação em ferramentas de metal duro, oferecendo soluções completas para torneamento, fresamento e furação.",
+    "logo": "/assets/fornecedores/mitsubishi.jpg",
+    "linkCatalogo": "https://www.mitsubishicarbide.com/pt-br/resources/catalogs",
+    "isDestaque": true,
+    "ordem": 1
+  },
+  {
+    "id": "7leaders",
+    "slug": "7leaders",
+    "nome": "7Leaders",
+    "descricaoCurta": "Especialista em fresas de metal duro de alta precisão.",
+    "descricaoLonga": "A 7Leaders foca na fabricação de fresas de metal duro com geometrias avançadas e revestimentos de última geração para usinagem de materiais endurecidos e ligas especiais.",
+    "logo": "/assets/fornecedores/7leaders.jpg",
+    "linkCatalogo": "http://www.7leaders.com.tw/download.php",
+    "isDestaque": true,
+    "ordem": 2
+  },
+  {
+    "id": "bt-fixo",
+    "slug": "bt-fixo",
+    "nome": "BT Fixo",
+    "descricaoCurta": "Soluções robustas em fixação e acessórios para máquinas.",
+    "descricaoLonga": "A BT Fixo oferece uma linha completa de acessórios para máquinas-ferramenta, incluindo mandris, pinças e sistemas de fixação que garantem estabilidade e precisão no processo produtivo.",
+    "logo": "/assets/fornecedores/btfixo.jpg",
+    "linkCatalogo": "https://btfixo.com.br/catalogos/",
+    "isDestaque": true,
+    "ordem": 3
+  },
+  {
+    "id": "kifix",
+    "slug": "kifix",
+    "nome": "Kifix",
+    "descricaoCurta": "Inovação em sistemas de fixação industrial.",
+    "descricaoLonga": "A Kifix é especializada em componentes de fixação que otimizam o tempo de setup e aumentam a produtividade em diversas aplicações industriais.",
+    "logo": "/assets/fornecedores/kifix.jpg",
+    "linkCatalogo": "https://kifix.com.br/",
+    "isDestaque": false,
+    "ordem": 4
+  }
+]

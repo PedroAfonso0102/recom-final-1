@@ -1,0 +1,29 @@
+{
+  "empresa": {
+    "nome": "RECOM Metal Duro",
+    "razaoSocial": "RECOM Comércio de Ferramentas Ltda",
+    "fundacao": "1990",
+    "endereco": {
+      "rua": "Rua Exemplo",
+      "numero": "123",
+      "bairro": "Distrito Industrial",
+      "cidade": "Campinas",
+      "estado": "SP",
+      "cep": "13000-000",
+      "mapaLink": "https://maps.google.com/..."
+    },
+    "contatos": {
+      "telefonePrincipal": "(19) 3242-1234",
+      "telefoneSecundario": "(19) 3242-5678",
+      "whatsapp": "5519999999999",
+      "email": "contato@recommetalduro.com.br"
+    },
+    "horarioAtendimento": "Segunda a Sexta, das 08h às 18h"
+  },
+  "seo": {
+    "titleSuffix": " | RECOM Metal Duro - Ferramentas de Corte em Campinas",
+    "defaultDescription": "A RECOM é especialista em ferramentas de corte e soluções para usinagem em Campinas e região. Distribuidor oficial Mitsubishi Materials, 7Leaders e BT Fixo.",
+    "googleAnalyticsId": "G-XXXXXXXXXX",
+    "googleTagManagerId": "GTM-XXXXXXX"
+  }
+}

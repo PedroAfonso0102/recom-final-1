@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ContactForm.module.css';
 
-const ContactForm = () => {
+export const ContactForm = () => {
   const [status, setStatus] = useState({ submitted: false, error: false });
 
   const handleSubmit = (e) => {
@@ -56,4 +56,3 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;

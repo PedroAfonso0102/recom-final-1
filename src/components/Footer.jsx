@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, MessageCircle, ExternalLink } from 'lucide-react';
 import styles from './Footer.module.css';
 import logo from '../assets/images/Upscaled/logo-branco.png';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
@@ -24,26 +24,26 @@ const Footer = () => {
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Soluções</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/produtos">Todos os Produtos</Link></li>
-            <li><Link to="/torneamento">Torneamento</Link></li>
-            <li><Link to="/fresamento">Fresamento</Link></li>
-            <li><Link to="/furacao">Furação</Link></li>
-            <li><Link to="/catalogo">Catálogos Técnicos</Link></li>
+            <li><Link to="/solucoes">Todas as Soluções</Link></li>
+            <li><Link to="/solucoes/torneamento">Torneamento</Link></li>
+            <li><Link to="/solucoes/fresamento">Fresamento</Link></li>
+            <li><Link to="/solucoes/furacao">Furação</Link></li>
+            <li><Link to="/fornecedores-catalogos">Fornecedores & Catálogos</Link></li>
           </ul>
         </div>
 
         <div className={styles.footerCol}>
-          <h4 className={styles.footerTitle}>Empresa</h4>
+          <h4 className={styles.footerTitle}>Navegação</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/empresa">A Empresa</Link></li>
+            <li><Link to="/a-recom">A RECOM</Link></li>
             <li><Link to="/promocoes">Promoções</Link></li>
-            <li><Link to="/videos">Vídeos Técnicos</Link></li>
-            <li><Link to="/contato">Contato</Link></li>
+            <li><Link to="/contato">Contato & Orçamento</Link></li>
+            <li><a href="https://www.recommetalduro.com.br/" target="_blank" rel="noopener noreferrer">Site Antigo <ExternalLink size={12} /></a></li>
           </ul>
         </div>
 
         <div className={styles.footerCol}>
-          <h4 className={styles.footerTitle}>Atendimento</h4>
+          <h4 className={styles.footerTitle}>Contato Direto</h4>
           <ul className={styles.footerContact}>
             <li>
               <MapPin size={16} className={styles.contactIcon} />
@@ -70,14 +70,12 @@ const Footer = () => {
         <div className={styles.footerBottomContent}>
           <p>© {new Date().getFullYear()} RECOM Metal Duro — Todos os direitos reservados.</p>
           <div className={styles.footerBottomLinks}>
-            <Link to="/seguranca">Política de Privacidade</Link>
+            <Link to="/politica-de-privacidade">Política de Privacidade</Link>
             <span>|</span>
-            <Link to="/sugestoes-de-utilizacao">Termos de Uso</Link>
+            <Link to="/termos-de-uso">Termos de Uso</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-
-export default Footer;

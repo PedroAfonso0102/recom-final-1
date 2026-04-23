@@ -12,7 +12,7 @@ const PRODUCT_LINKS = [
   { path: '/videos', label: 'Vídeos' },
 ];
 
-const ProductSidebar = () => {
+export const ProductSidebar = () => {
   const location = useLocation();
 
   const isActive = (path) => {
@@ -30,4 +30,3 @@ const ProductSidebar = () => {
   );
 };
 
-export default ProductSidebar;

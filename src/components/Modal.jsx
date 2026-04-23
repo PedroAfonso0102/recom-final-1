@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import styles from './Modal.module.css';
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+export const Modal = ({ isOpen, onClose, title, children }) => {
   // Prevent scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -43,4 +43,3 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-export default Modal;

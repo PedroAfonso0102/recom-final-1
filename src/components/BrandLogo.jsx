@@ -5,7 +5,7 @@ import React from 'react';
  * Implementation of RECOM identification using paths for absolute sharpness (aliasing prevention).
  * Supports light/dark variations and fluid scaling.
  */
-const BrandLogo = ({ variant = 'default', className = '', ...props }) => {
+export const BrandLogo = ({ variant = 'default', className = '', ...props }) => {
   // Color configuration based on the Swiss Modern Industrial Palette
   const colors = {
     primary: '#000000', // Solid Black
@@ -58,4 +58,3 @@ const BrandLogo = ({ variant = 'default', className = '', ...props }) => {
   );
 };
 
-export default BrandLogo;
