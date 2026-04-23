@@ -7,6 +7,7 @@ import styles from './Home.module.css';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import logoMit from '../assets/images/LOGO-MIT.png';
+import { trackLeadGen } from '../utils/analytics';
 
 /**
  * Home — Página principal.
@@ -27,6 +28,30 @@ const Home = () => {
       <SEOHead
         title={null}
         description={institucional.descricaoCurta}
+        canonical="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: contato.empresa,
+          url: contato.siteUrl,
+          logo: `${contato.siteUrl}/logo.png`,
+          contactPoint: {
+            '@type': 'ContactPoint',
+            telephone: contato.telefone.numero,
+            contactType: 'sales',
+            email: contato.email.display,
+            areaServed: 'BR',
+            availableLanguage: 'Portuguese'
+          },
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: contato.endereco.rua,
+            addressLocality: contato.endereco.cidade,
+            addressRegion: contato.endereco.estado,
+            postalCode: contato.endereco.cep,
+            addressCountry: 'BR'
+          }
+        }}
       />
 
       {/* ═══════════════════════════════════════════════
@@ -43,7 +68,7 @@ const Home = () => {
             {institucional.propostaDeValor}
           </p>
           <div className={styles.heroActions}>
-            <Link to="/contato" className={styles.primaryBtn}>Solicitar Orçamento</Link>
+            <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Home Hero CTA')}>Solicitar Orçamento</Link>
             <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>Ver Fornecedores</Link>
           </div>
         </div>
@@ -151,10 +176,10 @@ const Home = () => {
             A equipe da RECOM está pronta para ajudar na seleção de fornecedores e ferramentas ideais para sua operação.
           </p>
           <div className={styles.ctaActions}>
-            <Link to="/contato" className={styles.primaryBtn}>
+            <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Home Footer CTA')}>
               Solicitar Orçamento
             </Link>
-            <a href={contato.whatsapp.href} target="_blank" rel="noopener noreferrer" className={styles.whatsappLink}>
+            <a href={contato.whatsapp.href} target="_blank" rel="noopener noreferrer" className={styles.whatsappLink} onClick={() => trackLeadGen('whatsapp', 'Home Footer CTA')}>
               <Phone size={16} />
               {contato.telefone.display}
             </a>

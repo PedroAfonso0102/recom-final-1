@@ -7,6 +7,7 @@ import ContactForm from '../components/ContactForm';
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import styles from './Contato.module.css';
 import { contato } from '../data/contato';
+import { trackLeadGen } from '../utils/analytics';
 
 /**
  * Contato / Orçamento — Página de conversão principal.
@@ -25,6 +26,41 @@ const Contato = () => {
       <SEOHead
         title="Contato / Orçamento"
         description={`Entre em contato com a ${contato.empresa}. Solicite orçamento de ferramentas para usinagem. Atendimento em ${contato.endereco.cidade}-${contato.endereco.estado}.`}
+        canonical="/contato"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'LocalBusiness',
+          name: contato.empresa,
+          image: `${contato.siteUrl}/logo.png`,
+          '@id': contato.siteUrl,
+          url: contato.siteUrl,
+          telephone: contato.telefone.numero,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: contato.endereco.rua,
+            addressLocality: contato.endereco.cidade,
+            addressRegion: contato.endereco.estado,
+            postalCode: contato.endereco.cep,
+            addressCountry: 'BR'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: -22.893202, // approximated from Campinas Centro
+            longitude: -47.065842
+          },
+          openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: [
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday'
+            ],
+            opens: '08:00',
+            closes: '17:30'
+          }
+        }}
       />
 
       <div className={styles.container}>
@@ -67,14 +103,14 @@ const Contato = () => {
                   <Phone size={18} className={styles.infoIcon} />
                   <div>
                     <strong>Telefone</strong>
-                    <a href={contato.telefone.href}>{contato.telefone.display}</a>
+                    <a href={contato.telefone.href} onClick={() => trackLeadGen('phone')}>{contato.telefone.display}</a>
                   </div>
                 </li>
                 <li>
                   <Mail size={18} className={styles.infoIcon} />
                   <div>
                     <strong>E-mail</strong>
-                    <a href={contato.email.href}>{contato.email.display}</a>
+                    <a href={contato.email.href} onClick={() => trackLeadGen('email')}>{contato.email.display}</a>
                   </div>
                 </li>
                 <li>
@@ -93,6 +129,7 @@ const Contato = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.whatsappCard}
+              onClick={() => trackLeadGen('whatsapp', 'Contato Sidebar CTA')}
             >
               <MessageCircle size={24} />
               <div>

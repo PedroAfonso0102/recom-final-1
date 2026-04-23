@@ -6,6 +6,7 @@
   "homepage": "https://PedroAfonso0102.github.io/recom-final-1/",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-sitemap.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",

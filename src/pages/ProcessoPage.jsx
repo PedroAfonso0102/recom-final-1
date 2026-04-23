@@ -8,6 +8,7 @@ import styles from './ProcessoPage.module.css';
 import { getProcessoBySlug, processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
 import { contato } from '../data/contato';
+import { trackLeadGen } from '../utils/analytics';
 
 // Imagens por processo (mapeamento estático)
 import koudoeImg from '../assets/images/Upscaled/koudoe.png';
@@ -69,10 +70,10 @@ const ProcessoPage = () => {
             <h1 className={styles.processoTitle}>{processo.nome}</h1>
             <p className={styles.processoDesc}>{processo.descricao}</p>
             <div className={styles.heroActions}>
-              <Link to="/contato" className={styles.primaryBtn}>
+              <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Processo Hero CTA')}>
                 Solicitar Orçamento
               </Link>
-              <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer" className={styles.whatsappLink}>
+              <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer" className={styles.whatsappLink} onClick={() => trackLeadGen('whatsapp', 'Processo Hero CTA')}>
                 <Phone size={16} />
                 {contato.telefone.display}
               </a>
@@ -141,7 +142,7 @@ const ProcessoPage = () => {
             Nossa equipe está pronta para ajudar na seleção de fornecedores e ferramentas ideais para sua operação.
           </p>
           <div className={styles.ctaActions}>
-            <Link to="/contato" className={styles.ctaPrimaryBtn}>
+            <Link to="/contato" className={styles.ctaPrimaryBtn} onClick={() => trackLeadGen('form_intent', 'Processo Footer CTA')}>
               Solicitar Orçamento
             </Link>
             <Link to="/fornecedores-catalogos" className={styles.ctaSecondaryBtn}>

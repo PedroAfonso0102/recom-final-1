@@ -15,6 +15,7 @@ const SEOHead = ({
   ogDescription,
   ogImage,
   noindex = false,
+  jsonLd,
 }) => {
   const fullTitle = title
     ? `${title} | RECOM Metal Duro`
@@ -33,6 +34,13 @@ const SEOHead = ({
       <meta property="og:title" content={ogTitle || fullTitle} />
       <meta property="og:description" content={ogDescription || metaDescription} />
       {ogImage && <meta property="og:image" content={ogImage} />}
+
+      {/* Structured Data (JSON-LD) */}
+      {jsonLd && (
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
+      )}
     </Helmet>
   );
 };

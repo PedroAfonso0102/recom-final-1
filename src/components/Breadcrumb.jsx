@@ -37,19 +37,20 @@ const Breadcrumb = ({ items = [] }) => {
         <ol className={styles.breadcrumbList}>
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
+            const link = getLink(item);
             return (
               <li key={index} className={styles.breadcrumbItem}>
-                {!isLast && getLink(item) ? (
-                  <>
-                    <Link to={getLink(item)} className={styles.breadcrumbLink}>
-                      {item.label}
-                    </Link>
-                    <span className={styles.separator} aria-hidden="true">›</span>
-                  </>
+                {link && !isLast ? (
+                  <Link to={link} className={styles.breadcrumbLink}>
+                    {item.label}
+                  </Link>
                 ) : (
-                  <span className={styles.breadcrumbCurrent} aria-current="page">
+                  <span className={isLast ? styles.breadcrumbCurrent : styles.breadcrumbLink} aria-current={isLast ? 'page' : undefined}>
                     {item.label}
                   </span>
+                )}
+                {!isLast && (
+                  <span className={styles.separator} aria-hidden="true">›</span>
                 )}
               </li>
             );

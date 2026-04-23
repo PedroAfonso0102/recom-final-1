@@ -7,6 +7,7 @@ import { getFornecedorBySlug, fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import styles from './FornecedorPage.module.css';
+import { trackLeadGen, trackOutboundLink } from '../utils/analytics';
 
 /**
  * Página individual de fornecedor.
@@ -64,6 +65,7 @@ const FornecedorPage = () => {
                   rel="noopener noreferrer"
                   className={styles.catalogoBtn}
                   aria-label={fornecedor.catalogoLabel}
+                  onClick={() => trackOutboundLink(fornecedor.catalogoUrl, 'catalogo')}
                 >
                   <ExternalLink size={16} />
                   {fornecedor.catalogoLabel}
@@ -94,7 +96,7 @@ const FornecedorPage = () => {
             <div className={styles.ctaCard}>
               <h3>Solicite um Orçamento</h3>
               <p>Precisa de ferramentas {fornecedor.nome}? A RECOM pode ajudar.</p>
-              <Link to="/contato" className={styles.ctaSidebarBtn}>
+              <Link to="/contato" className={styles.ctaSidebarBtn} onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}>
                 Falar com Especialista <ArrowRight size={14} />
               </Link>
             </div>
