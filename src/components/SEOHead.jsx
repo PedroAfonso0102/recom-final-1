@@ -22,7 +22,7 @@ const SEOHead = ({
     ? `${title} | RECOM Metal Duro`
     : 'RECOM Metal Duro | Distribuidor B2B de ferramentas para usinagem';
 
-  const metaDescription = description || 'RECOM Metal Duro é distribuidor B2B de ferramentas para usinagem desde 1990, com atendimento comercial em Campinas-SP, fornecedores reconhecidos e catálogos oficiais.';
+  const metaDescription = description || 'RECOM Metal Duro é distribuidor B2B de ferramentas para usinagem desde 1998, com atendimento técnico-comercial em Campinas-SP, fornecedores reconhecidos e catálogos oficiais.';
 
   return (
     <Helmet>

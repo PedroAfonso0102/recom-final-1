@@ -10,7 +10,8 @@ import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { campanhasPromocionais } from '../data/promocoes';
 import { trackLeadGen } from '../utils/analytics';
-import officeImg from '../assets/images/escritorio.jpg';
+import heroTecnicoImg from '../assets/images/editorial/egd-tecnico-gerada.png';
+import pecasImg from '../assets/images/editorial/pecas.png';
 import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
 
 const yearsActive = new Date().getFullYear() - contato.fundacao;
@@ -77,7 +78,7 @@ const Home = () => {
         title="Distribuidor B2B de ferramentas para usinagem"
         description={institucional.descricaoCurta}
         canonical="/"
-        ogImage={officeImg}
+        ogImage={heroTecnicoImg}
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
@@ -143,8 +144,8 @@ const Home = () => {
             <div className={styles.heroVisual}>
               <div className={styles.heroImageFrame}>
                 <img
-                  src={officeImg}
-                  alt="Ambiente de atendimento da RECOM em Campinas-SP"
+                  src={heroTecnicoImg}
+                  alt="Planejamento técnico de usinagem com ferramentas e desenho de peça"
                   className={styles.heroImage}
                   loading="eager"
                   fetchPriority="high"
@@ -340,8 +341,8 @@ const Home = () => {
               <div className={styles.institutionalPanel}>
                 <div className={styles.institutionalVisual}>
                   <img
-                    src={officeImg}
-                    alt="Ambiente institucional da RECOM em Campinas-SP"
+                    src={pecasImg}
+                    alt="Conjunto de peças e componentes industriais para análise técnica"
                     className={styles.institutionalImage}
                     loading="lazy"
                   />

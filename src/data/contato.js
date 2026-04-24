@@ -7,7 +7,7 @@ export const contato = {
   empresa: 'RECOM Metal Duro',
   razaoSocial: 'A A Montelione Comercio Ltda.',
   cnpj: '62.137.369/0001-06',
-  fundacao: 1990,
+  fundacao: 1998,
   endereco: {
     rua: 'Rua Alferes João José, 350',
     cidade: 'Campinas',
@@ -43,8 +43,8 @@ export const contato = {
  * Alinhado à Etapa 3: tom profissional, claro, B2B.
  */
 export const institucional = {
-  tagline: 'Distribuidor B2B de ferramentas para usinagem desde 1990',
-  propostaDeValor: 'Facilitamos o acesso confiável às soluções certas em usinagem, conectando clientes industriais a fornecedores reconhecidos com atendimento próximo e curadoria objetiva.',
-  descricaoCurta: 'A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem, com atuação consolidada desde 1990, que conecta clientes industriais a fornecedores reconhecidos por meio de atendimento próximo, confiança comercial e curadoria objetiva.',
-  descricaoFooter: 'Distribuidor B2B de ferramentas para usinagem desde 1990. Atendimento especializado em Campinas-SP com curadoria de fornecedores reconhecidos.',
+  tagline: 'Distribuidor B2B de ferramentas para usinagem desde 1998',
+  propostaDeValor: 'Conectamos clientes industriais a fornecedores reconhecidos, com atendimento técnico-comercial próximo, seleção criteriosa de linhas e apoio objetivo para compras de usinagem.',
+  descricaoCurta: 'A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem, com atuação consolidada desde 1998 em Campinas-SP, atendimento técnico-comercial e acesso a fornecedores reconhecidos.',
+  descricaoFooter: 'Distribuidor B2B de ferramentas para usinagem desde 1998. Atendimento técnico-comercial em Campinas-SP com fornecedores reconhecidos.',
 };
