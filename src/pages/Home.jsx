@@ -257,8 +257,7 @@ const Home = () => {
                 Da aplicação ao fornecedor certo
               </h2>
               <p className={styles.sectionLead}>
-                Uma Home mais direta para quem já sabe o que precisa: catálogo, processo ou
-                atendimento para orçamento.
+                Entrada direta: catálogo, processo ou cotação.
               </p>
             </div>
 
