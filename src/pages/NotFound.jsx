@@ -1,15 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
-import ActionButton from '../components/ActionButton';
+import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
-import { Home, ArrowRight } from 'lucide-react';
-import styles from './NotFound.module.css';
 
-/**
- * Página 404 customizada.
- * Etapa 5: "página 404 com links de recuperação"
- */
 const NotFound = () => {
   return (
     <Layout>
@@ -18,32 +11,26 @@ const NotFound = () => {
         description="A página que você procura não foi encontrada. Navegue pelas soluções e fornecedores da RECOM Metal Duro."
         noindex
       />
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <span className={styles.errorCode}>404</span>
-          <h1 className={styles.title}>Página não encontrada</h1>
-          <p className={styles.description}>
+      <main>
+        <section>
+          <strong>404</strong>
+          <h1>Página não encontrada</h1>
+          <p>
             A página que você está procurando pode ter sido movida ou não está mais disponível.
           </p>
-          <div className={styles.links}>
-            <ActionButton to="/" variant="primary" stackOnMobile>
-              <Home size={16} />
-              Voltar ao Início
-            </ActionButton>
-            <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
-              Fornecedores e Catálogos <ArrowRight size={14} />
-            </ActionButton>
-            <ActionButton to="/solucoes" variant="secondary" stackOnMobile>
-              Soluções por processo <ArrowRight size={14} />
-            </ActionButton>
-            <ActionButton to="/contato" variant="secondary" stackOnMobile>
-              Fale Conosco <ArrowRight size={14} />
-            </ActionButton>
-          </div>
-        </div>
-      </div>
+          <nav>
+            <ul>
+              <li><Link to="/">Voltar ao Início</Link></li>
+              <li><Link to="/fornecedores-catalogos">Fornecedores e Catálogos</Link></li>
+              <li><Link to="/solucoes">Soluções por processo</Link></li>
+              <li><Link to="/contato">Fale Conosco</Link></li>
+            </ul>
+          </nav>
+        </section>
+      </main>
     </Layout>
   );
 };
 
 export default NotFound;
+

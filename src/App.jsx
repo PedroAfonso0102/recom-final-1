@@ -15,10 +15,10 @@ import NotFound from './pages/NotFound';
 
 // Global components
 import WhatsAppFAB from './components/WhatsAppFAB';
-import LinearProgressBar from './components/LinearProgressBar';
 
 /**
  * Routing structure per Etapa 2 sitemap (Batch 2 cleanup):
+
  *  / (Home/Início)
  *  /a-recom
  *  /fornecedores-catalogos
@@ -34,9 +34,9 @@ import LinearProgressBar from './components/LinearProgressBar';
 const App = () => {
   return (
     <Router basename={import.meta.env.BASE_URL}>
-      <LinearProgressBar />
       <WhatsAppFAB />
       <Routes>
+
         {/* Sitemap principal — Etapa 2 */}
         <Route path="/" element={<Home />} />
         <Route path="/a-recom" element={<ARecom />} />

@@ -1,27 +1,21 @@
 import React from 'react';
-import { MessageCircle } from 'lucide-react';
-import styles from './WhatsAppFAB.module.css';
 import { contato } from '../data/contato';
 
 const WhatsAppFAB = () => {
   const whatsappUrl = contato.whatsapp.hrefComMensagem;
 
   return (
-    <a
-      href={whatsappUrl}
-      className={styles.fabContainer}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Falar com a RECOM pelo WhatsApp (abre em nova aba)"
-      title="Falar com a RECOM pelo WhatsApp"
-    >
-      <div className={styles.pulseRing}></div>
-      <div className={styles.fabIcon}>
-        <MessageCircle size={30} aria-hidden="true" />
-      </div>
-      <span className={styles.tooltip}>WhatsApp</span>
-    </a>
+    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1000, background: '#eee', border: '1px solid #333', padding: '10px' }}>
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        WhatsApp
+      </a>
+    </div>
   );
 };
 
 export default WhatsAppFAB;
+

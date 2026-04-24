@@ -1,19 +1,8 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
-import Breadcrumb from '../components/Breadcrumb';
 import ContactForm from '../components/ContactForm';
-import ActionButton from '../components/ActionButton';
-import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
-import styles from './Contato.module.css';
 import { contato } from '../data/contato';
-import { trackLeadGen } from '../utils/analytics';
-import logoSchema from '../assets/images/optimized/logo-sem-fundo.png';
-
-const breadcrumbItems = [
-  { label: 'Início', path: '/' },
-  { label: 'Contato / Orçamento' },
-];
 
 const Contato = () => {
   return (
@@ -22,149 +11,72 @@ const Contato = () => {
         title="Contato / Orçamento"
         description={`Entre em contato com a ${contato.empresa}. Solicite orçamento de ferramentas para usinagem. Atendimento em ${contato.endereco.cidade}-${contato.endereco.estado}.`}
         canonical="/contato"
-        jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'LocalBusiness',
-          name: contato.empresa,
-          image: logoSchema,
-          '@id': contato.siteUrl,
-          url: contato.siteUrl,
-          telephone: contato.telefone.numero,
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: contato.endereco.rua,
-            addressLocality: contato.endereco.cidade,
-            addressRegion: contato.endereco.estado,
-            postalCode: contato.endereco.cep,
-            addressCountry: 'BR',
-          },
-          hasMap: contato.endereco.googleMapsUrl,
-          geo: {
-            '@type': 'GeoCoordinates',
-            latitude: -22.893202,
-            longitude: -47.065842,
-          },
-          openingHoursSpecification: [
-            {
-              '@type': 'OpeningHoursSpecification',
-              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-              opens: '08:00',
-              closes: '17:30',
-            },
-          ],
-        }}
       />
 
-      <div className={styles.container}>
-        <Breadcrumb items={breadcrumbItems} />
-
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Contato / Orçamento</h1>
-          <p className={styles.pageSubtitle}>
+      <main>
+        <section>
+          <h1>Contato / Orçamento</h1>
+          <p>
             Solicite um orçamento, envie código ou descreva a aplicação e fale com nossa equipe especializada em
             ferramentas para usinagem.
           </p>
-        </div>
+        </section>
 
-        <div className={styles.twoColumns}>
-          <div className={styles.colMain}>
-            <div className={styles.formBox}>
-              <h2 className={styles.formTitle}>Solicitar Orçamento</h2>
-              <p className={styles.formDesc}>
-                Preencha os campos abaixo e, se o canal online estiver indisponível, use os contatos diretos sem perder
-                a conversa.
-              </p>
-              <ContactForm />
-            </div>
-          </div>
+        <div className="grid">
+          <section>
+            <h2>Solicitar Orçamento</h2>
+            <p>
+              Preencha os campos abaixo e, se o canal online estiver indisponível, use os contatos diretos.
+            </p>
+            <ContactForm />
+          </section>
 
-          <div className={styles.colSide}>
-            <div className={styles.infoCard}>
-              <h3 className={styles.infoTitle}>Informações de Contato</h3>
-              <ul className={styles.infoList}>
+          <aside>
+            <section>
+              <h2>Informações de Contato</h2>
+              <ul>
                 <li>
-                  <MapPin size={18} className={styles.infoIcon} />
-                  <div>
-                    <strong>Endereço</strong>
-                    <span>{contato.endereco.rua}</span>
-                    <span>
-                      {contato.endereco.cidade} - {contato.endereco.estado}, {contato.endereco.cep}
-                    </span>
-                  </div>
+                  <strong>Endereço:</strong> {contato.endereco.rua}, {contato.endereco.cidade} - {contato.endereco.estado}, {contato.endereco.cep}
                 </li>
                 <li>
-                  <Phone size={18} className={styles.infoIcon} />
-                  <div>
-                    <strong>Telefone</strong>
-                    <a href={contato.telefone.href} onClick={() => trackLeadGen('phone', 'Contato Sidebar')}>
-                      {contato.telefone.display}
-                    </a>
-                  </div>
+                  <strong>Telefone:</strong> <a href={contato.telefone.href}>{contato.telefone.display}</a>
                 </li>
                 <li>
-                  <Mail size={18} className={styles.infoIcon} />
-                  <div>
-                    <strong>E-mail</strong>
-                    <a href={contato.email.href} onClick={() => trackLeadGen('email', 'Contato Sidebar')}>
-                      {contato.email.display}
-                    </a>
-                  </div>
+                  <strong>E-mail:</strong> <a href={contato.email.href}>{contato.email.display}</a>
                 </li>
                 <li>
-                  <Clock size={18} className={styles.infoIcon} />
-                  <div>
-                    <strong>Horário</strong>
-                    <span>Segunda a Sexta: 8h às 17h30</span>
-                  </div>
+                  <strong>Horário:</strong> Segunda a Sexta: 8h às 17h30
                 </li>
               </ul>
-            </div>
+            </section>
 
-            <a
-              href={contato.whatsapp.hrefComMensagem}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.whatsappCard}
-              onClick={() => trackLeadGen('whatsapp', 'Contato Sidebar CTA')}
-            >
-              <MessageCircle size={24} />
-              <div>
-                <strong>Prefere WhatsApp?</strong>
-                <span>Fale diretamente com a RECOM</span>
-              </div>
-            </a>
+            <section>
+              <h2>WhatsApp</h2>
+              <p>Fale diretamente com a RECOM via WhatsApp:</p>
+              <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer">
+                Iniciar conversa no WhatsApp
+              </a>
+            </section>
 
-            <div className={styles.mapBox}>
-              <h3 className={styles.infoTitle}>Onde Estamos</h3>
-              <div className={styles.mapCard}>
-                <address className={styles.mapAddress}>
-                  <strong>{contato.empresa}</strong>
-                  <span>{contato.endereco.rua}</span>
-                  <span>
-                    {contato.endereco.cidade} - {contato.endereco.estado}
-                  </span>
-                  <span>CEP {contato.endereco.cep}</span>
-                </address>
-                <p className={styles.mapNote}>
-                  Atendimento comercial de segunda a sexta, das 8h às 17h30.
-                </p>
-                <ActionButton
-                  href={contato.endereco.googleMapsUrl}
-                  target="_blank"
-                  variant="secondary"
-                  compact
-                  stackOnMobile
-                  onClick={() => trackLeadGen('map', 'Contato Route CTA')}
-                >
-                  Ver rota no Google Maps
-                </ActionButton>
-              </div>
-            </div>
-          </div>
+            <section>
+              <h2>Onde Estamos</h2>
+              <address>
+                <strong>{contato.empresa}</strong><br />
+                {contato.endereco.rua}<br />
+                {contato.endereco.cidade} - {contato.endereco.estado}<br />
+                CEP {contato.endereco.cep}
+              </address>
+              <p>Atendimento comercial de segunda a sexta, das 8h às 17h30.</p>
+              <a href={contato.endereco.googleMapsUrl} target="_blank" rel="noopener noreferrer">
+                Ver rota no Google Maps
+              </a>
+            </section>
+          </aside>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 };
 
 export default Contato;
+

@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
-import ActionButton from './ActionButton';
-import { FormField, Input, Notice, Select, Textarea } from './ui';
-import styles from './ContactForm.module.css';
+import { Link } from 'react-router-dom';
 import {
   CONTACT_FORM_NAME,
   CONTACT_FORM_TIMEOUT_MS,
@@ -30,11 +28,6 @@ const initialValues = {
   bot_field: '',
 };
 
-const fieldOrder = ['name', 'company', 'email', 'message', 'consent', 'phone', 'supplier', 'process', 'codes'];
-
-const getFirstErrorField = (errorMap = {}) =>
-  fieldOrder.find((field) => errorMap[field]);
-
 const ContactForm = () => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
@@ -49,18 +42,6 @@ const ContactForm = () => {
 
   const endpointAvailable = isContactEndpointConfigured();
   const fallbackLinks = getContactFallbackLinks();
-
-  const focusFirstError = (errorMap) => {
-    const firstField = getFirstErrorField(errorMap);
-    if (!firstField) {
-      return;
-    }
-
-    const target = document.getElementById(`contact-${firstField}`);
-    if (target && typeof target.focus === 'function') {
-      target.focus();
-    }
-  };
 
   const updateValue = (event) => {
     const { name, type, checked, value } = event.target;
@@ -82,16 +63,10 @@ const ContactForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (submitLockRef.current) {
-      return;
-    }
+    if (submitLockRef.current) return;
 
     const validation = validateContactLead(values);
-
-    if (validation.errors.bot_field) {
-      return;
-    }
+    if (validation.errors.bot_field) return;
 
     if (!validation.isValid) {
       setErrors(validation.errors);
@@ -109,7 +84,6 @@ const ContactForm = () => {
         processInterest: validation.normalized.process,
         supplierInterest: validation.normalized.supplier,
       });
-      focusFirstError(validation.errors);
       return;
     }
 
@@ -118,8 +92,7 @@ const ContactForm = () => {
     if (!endpointAvailable) {
       setSubmission({
         status: 'unavailable',
-        message:
-          'O canal online de contato está indisponível no momento. Use telefone, e-mail ou WhatsApp.',
+        message: 'O canal online de contato está indisponível no momento. Use telefone, e-mail ou WhatsApp.',
         protocol: null,
         errorType: 'endpoint_unavailable',
       });
@@ -142,13 +115,12 @@ const ContactForm = () => {
       errorType: null,
     });
 
-    const requestContext = {
-      pageLocation: typeof window !== 'undefined' ? window.location.href : '',
-      referrer: typeof document !== 'undefined' ? document.referrer : '',
+    const result = await submitContactLead(validation.normalized, {
+      pageLocation: window.location.href,
+      referrer: document.referrer,
       submittedAt: new Date().toISOString(),
       timeoutMs: CONTACT_FORM_TIMEOUT_MS,
-    };
-    const result = await submitContactLead(validation.normalized, requestContext);
+    });
 
     submitLockRef.current = false;
 
@@ -160,7 +132,6 @@ const ContactForm = () => {
         errorType: null,
       });
       setValues(initialValues);
-      formRef.current?.reset?.();
       trackLeadGen('form', CONTACT_FORM_NAME, {
         process_interest: validation.normalized.process || 'none',
         supplier_interest: validation.normalized.supplier || 'none',
@@ -170,19 +141,9 @@ const ContactForm = () => {
 
     setSubmission({
       status: result.status === 'unavailable' ? 'unavailable' : 'error',
-      message:
-        result.message ||
-        'Não foi possível enviar agora. Tente novamente ou fale com a RECOM por telefone/e-mail.',
+      message: result.message || 'Não foi possível enviar agora.',
       protocol: null,
       errorType: result.errorType || 'network_error',
-    });
-
-    trackContactFormError({
-      errorType: result.errorType || 'unknown',
-      endpointAvailable,
-      formName: CONTACT_FORM_NAME,
-      processInterest: validation.normalized.process,
-      supplierInterest: validation.normalized.supplier,
     });
   };
 
@@ -190,343 +151,115 @@ const ContactForm = () => {
     trackContactFallbackClick(channel, {
       formName: CONTACT_FORM_NAME,
       reason: submission.status === 'success' ? 'post_success' : submission.status,
-      processInterest: values.process,
-      supplierInterest: values.supplier,
     });
   };
 
-  const renderFallbackActions = (reason) => (
-    <div className={styles.supportActions}>
-      <ActionButton
-        href={fallbackLinks.phoneHref}
-        variant="secondary"
-        compact
-        stackOnMobile
-        onClick={() => handleFallbackClick('phone')}
-      >
-        Ligar agora
-      </ActionButton>
-      <ActionButton
-        href={fallbackLinks.emailHref}
-        variant="secondary"
-        compact
-        stackOnMobile
-        onClick={() => handleFallbackClick('email')}
-      >
-        Enviar e-mail
-      </ActionButton>
-      <ActionButton
-        href={fallbackLinks.whatsappHref}
-        target="_blank"
-        variant="secondary"
-        compact
-        stackOnMobile
-        onClick={() => handleFallbackClick('whatsapp')}
-      >
-        WhatsApp
-      </ActionButton>
-      <ActionButton
-        to={fallbackLinks.catalogHref}
-        variant="secondary"
-        compact
-        stackOnMobile
-        onClick={() => handleFallbackClick('catalogs')}
-      >
-        Voltar aos catálogos
-      </ActionButton>
-      <span className={styles.supportReason}>Caminho alternativo: {reason}</span>
-    </div>
-  );
-
   if (submission.status === 'success') {
     return (
-      <Notice variant="success" title={submission.message} aria-live="polite">
-        {submission.protocol ? (
-          <p className={styles.statusProtocol}>Protocolo interno: {submission.protocol}</p>
-        ) : null}
-        <p className={styles.statusText}>
-          A RECOM retornará pelo canal informado. Enquanto isso, você pode seguir por um destes caminhos.
-        </p>
-        <div className={styles.successActions}>
-          <ActionButton
-            href={fallbackLinks.phoneHref}
-            variant="secondary"
-            compact
-            stackOnMobile
-            onClick={() => handleFallbackClick('phone')}
-          >
-            Ligar agora
-          </ActionButton>
-          <ActionButton
-            href={fallbackLinks.emailHref}
-            variant="secondary"
-            compact
-            stackOnMobile
-            onClick={() => handleFallbackClick('email')}
-          >
-            Enviar e-mail
-          </ActionButton>
-          <ActionButton
-            href={fallbackLinks.whatsappHref}
-            target="_blank"
-            variant="secondary"
-            compact
-            stackOnMobile
-            onClick={() => handleFallbackClick('whatsapp')}
-          >
-            WhatsApp
-          </ActionButton>
-          <ActionButton to={fallbackLinks.catalogHref} variant="secondary" compact stackOnMobile>
-            Ver fornecedores e catálogos
-          </ActionButton>
+      <div style={{ border: '1px solid green', padding: '1rem' }}>
+        <h2>Sucesso!</h2>
+        <p>{submission.message}</p>
+        {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
+          <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
+          <Link to={fallbackLinks.catalogHref}>Ver catálogos</Link>
         </div>
-      </Notice>
+      </div>
     );
   }
 
   return (
-    <div className={styles.formShell}>
-      {!endpointAvailable ? (
-        <Notice variant="warning" className={styles.endpointNotice}>
-          <strong>Envio online indisponível.</strong>
-          <span>Use os canais diretos abaixo enquanto o endpoint de contato não estiver configurado.</span>
-        </Notice>
-      ) : null}
+    <div style={{ border: '1px solid #ccc', padding: '1rem' }}>
+      {submission.message && (
+        <div style={{ color: submission.status === 'invalid' || submission.status === 'error' ? 'red' : 'inherit' }}>
+          {submission.message}
+        </div>
+      )}
 
-      {submission.status === 'invalid' ? (
-        <Notice variant="error" className={styles.statusPanelError} aria-live="assertive">
-          <p className={styles.statusTitle}>{submission.message}</p>
-          {renderFallbackActions('Campos obrigatórios pendentes ou inválidos.')}
-        </Notice>
-      ) : null}
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div style={{ display: 'none' }}>
+          <label htmlFor="bot_field">Não preencha</label>
+          <input id="bot_field" name="bot_field" type="text" value={values.bot_field} onChange={updateValue} />
+        </div>
 
-      {submission.status === 'error' || submission.status === 'unavailable' ? (
-        <Notice variant="error" className={styles.statusPanelError} aria-live="assertive">
-          <p className={styles.statusTitle}>{submission.message}</p>
-          {renderFallbackActions(
-            submission.status === 'unavailable'
-              ? 'Canal online indisponível.'
-              : 'Falha técnica no envio.'
-          )}
-        </Notice>
-      ) : null}
-
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
-        className={styles.formContainer}
-        noValidate
-        aria-busy={submission.status === 'submitting'}
-      >
-        <div className={styles.honeypot} aria-hidden="true">
-          <label htmlFor="bot_field">Não preencha este campo</label>
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-name">Nome *</label>
           <input
-            id="bot_field"
-            name="bot_field"
+            id="contact-name"
+            name="name"
             type="text"
-            tabIndex="-1"
-            autoComplete="off"
-            value={values.bot_field}
+            required
+            style={{ display: 'block', width: '100%', borderColor: errors.name ? 'red' : '#ccc' }}
+            value={values.name}
             onChange={updateValue}
           />
+          {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
         </div>
 
-        <div className={styles.gridRow}>
-          <FormField id="contact-name" label="Nome" required error={errors.name}>
-            <Input
-              id="contact-name"
-              name="name"
-              type="text"
-              invalid={Boolean(errors.name)}
-              placeholder="Seu nome completo"
-              autoComplete="name"
-              maxLength={120}
-              value={values.name}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            />
-          </FormField>
-
-          <FormField id="contact-company" label="Empresa" required error={errors.company}>
-            <Input
-              id="contact-company"
-              name="company"
-              type="text"
-              invalid={Boolean(errors.company)}
-              placeholder="Nome da empresa"
-              autoComplete="organization"
-              maxLength={120}
-              value={values.company}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            />
-          </FormField>
-        </div>
-
-        <div className={styles.gridRow}>
-          <FormField id="contact-email" label="E-mail" required error={errors.email}>
-            <Input
-              id="contact-email"
-              name="email"
-              type="email"
-              invalid={Boolean(errors.email)}
-              placeholder="exemplo@email.com"
-              autoComplete="email"
-              inputMode="email"
-              maxLength={254}
-              value={values.email}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            />
-          </FormField>
-
-          <FormField
-            id="contact-phone"
-            label="Telefone / WhatsApp"
-            helper="Opcional, mas útil se o retorno precisar ser rápido."
-          >
-            <Input
-              id="contact-phone"
-              name="phone"
-              type="tel"
-              placeholder="(19) 0000-0000"
-              autoComplete="tel"
-              inputMode="tel"
-              maxLength={32}
-              value={values.phone}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            />
-          </FormField>
-        </div>
-
-        <div className={styles.gridRow}>
-          <FormField
-            id="contact-supplier"
-            label="Fornecedor ou marca de interesse"
-            helper="Se já tiver uma marca em mente, selecione aqui."
-          >
-            <Select
-              id="contact-supplier"
-              name="supplier"
-              value={values.supplier}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            >
-              <option value="">Ainda nao sei</option>
-              <option value="mitsubishi-materials">Mitsubishi Materials</option>
-              <option value="7leaders">7Leaders</option>
-              <option value="bt-fixo">BT Fixo</option>
-              <option value="kifix">Kifix</option>
-            </Select>
-          </FormField>
-
-          <FormField
-            id="contact-process"
-            label="Processo / aplicação"
-            helper="Isso ajuda a direcionar a resposta comercial e técnica."
-          >
-            <Select
-              id="contact-process"
-              name="process"
-              value={values.process}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-            >
-              <option value="">Ainda nao defini</option>
-              <option value="torneamento">Torneamento</option>
-              <option value="fresamento">Fresamento</option>
-              <option value="furacao">Furação</option>
-              <option value="outro">Outro processo</option>
-            </Select>
-          </FormField>
-        </div>
-
-        <FormField
-          id="contact-codes"
-          label="Código(s) ou item(ns) desejado(s)"
-          helper="Se souber o código, informe. Se não, descreva a necessidade na mensagem."
-        >
-          <Input
-            id="contact-codes"
-            name="codes"
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-company">Empresa *</label>
+          <input
+            id="contact-company"
+            name="company"
             type="text"
-            placeholder="Ex: MWS0500SB"
-            maxLength={160}
-            value={values.codes}
+            required
+            style={{ display: 'block', width: '100%', borderColor: errors.company ? 'red' : '#ccc' }}
+            value={values.company}
             onChange={updateValue}
-            disabled={submission.status === 'submitting'}
           />
-        </FormField>
+          {errors.company && <span style={{ color: 'red' }}>{errors.company}</span>}
+        </div>
 
-        <FormField
-          id="contact-message"
-          label="Mensagem / necessidade"
-          required
-          error={errors.message}
-          helper="Explique o contexto da demanda para acelerar a resposta comercial."
-        >
-          <Textarea
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-email">E-mail *</label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            required
+            style={{ display: 'block', width: '100%', borderColor: errors.email ? 'red' : '#ccc' }}
+            value={values.email}
+            onChange={updateValue}
+          />
+          {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-message">Mensagem *</label>
+          <textarea
             id="contact-message"
             name="message"
-            rows="6"
-            invalid={Boolean(errors.message)}
-            placeholder="Conte com quais peças, materiais, operações ou quantidades você quer trabalhar."
-            maxLength={2000}
+            required
+            rows="5"
+            style={{ display: 'block', width: '100%', borderColor: errors.message ? 'red' : '#ccc' }}
             value={values.message}
             onChange={updateValue}
-            disabled={submission.status === 'submitting'}
           />
-        </FormField>
-
-        <div className={styles.inputGroup}>
-          <label className={styles.checkboxGroup} htmlFor="contact-consent">
-            <input
-              id="contact-consent"
-              name="consent"
-              type="checkbox"
-              className={styles.checkboxInput}
-              checked={values.consent}
-              onChange={updateValue}
-              disabled={submission.status === 'submitting'}
-              aria-invalid={errors.consent ? 'true' : 'false'}
-              aria-describedby={errors.consent ? 'contact-consent-error' : undefined}
-              required
-              aria-required="true"
-            />
-            <span className={styles.checkboxCopy}>
-              Autorizo a RECOM a retornar meu contato por e-mail, telefone ou WhatsApp.
-            </span>
-          </label>
-          {errors.consent ? (
-            <span id="contact-consent-error" className={styles.errorMessage} role="alert">
-              {errors.consent}
-            </span>
-          ) : null}
+          {errors.message && <span style={{ color: 'red' }}>{errors.message}</span>}
         </div>
 
-        <p className={styles.requiredNote}>* Campos obrigatórios</p>
+        <div style={{ marginBottom: '1rem' }}>
+          <label>
+            <input
+              name="consent"
+              type="checkbox"
+              checked={values.consent}
+              onChange={updateValue}
+              required
+            />
+            Autorizo a RECOM a retornar meu contato.
+          </label>
+          {errors.consent && <div style={{ color: 'red' }}>{errors.consent}</div>}
+        </div>
 
-        {submission.status === 'submitting' ? (
-          <p className={styles.sendingState} role="status" aria-live="polite">
-            Enviando...
-          </p>
-        ) : null}
-
-        <ActionButton
-          type="submit"
-          variant="primary"
-          className={styles.submitButton}
-          stackOnMobile
-          disabled={submission.status === 'submitting'}
-          aria-busy={submission.status === 'submitting'}
-          aria-label="Solicitar orçamento"
-        >
+        <button type="submit" disabled={submission.status === 'submitting'}>
           {submission.status === 'submitting' ? 'Enviando...' : 'Solicitar orçamento'}
-        </ActionButton>
+        </button>
       </form>
     </div>
   );
 };
 
 export default ContactForm;
+

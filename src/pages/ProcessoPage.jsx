@@ -2,36 +2,9 @@ import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
-import Breadcrumb from '../components/Breadcrumb';
-import ActionButton from '../components/ActionButton';
-import { ArrowRight, MessageCircle, Crosshair, Drill, Layers3 } from 'lucide-react';
-import styles from './ProcessoPage.module.css';
 import { getProcessoBySlug, processos } from '../data/processos';
-import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
-import { contato } from '../data/contato';
-import { trackLeadGen } from '../utils/analytics';
+import { fornecedores } from '../data/fornecedores';
 
-// Imagens por processo (mapeamento estatico)
-import koudoeImg from '../assets/images/optimized/koudoe.jpg';
-import fresaImg from '../assets/images/optimized/fresa-Bf0r_sxm.jpg';
-import kougImg from '../assets/images/optimized/koug.jpg';
-
-const processoImages = {
-  torneamento: koudoeImg,
-  fresamento: fresaImg,
-  furacao: kougImg,
-};
-
-const processoIconMap = {
-  torneamento: Crosshair,
-  fresamento: Layers3,
-  furacao: Drill,
-};
-
-/**
- * Template dinamico para paginas de processos de usinagem.
- * Substitui Torneamento.jsx, Fresamento.jsx e Furacao.jsx.
- */
 const ProcessoPage = () => {
   const { slug } = useParams();
   const processo = getProcessoBySlug(slug);
@@ -40,23 +13,11 @@ const ProcessoPage = () => {
     return <Navigate to="/solucoes" replace />;
   }
 
-  const imagem = processoImages[processo.slug];
-  const IconeProcesso = processoIconMap[processo.slug] || Crosshair;
   const fornecedoresRelacionados = fornecedores.filter((fornecedor) =>
     processo.fornecedoresRelacionados.includes(fornecedor.id)
   );
-  const fornecedorPrincipal = fornecedoresRelacionados[0];
-  const hrefCatalogoPrincipal = fornecedorPrincipal
-    ? `/fornecedores-catalogos/${fornecedorPrincipal.slug}`
-    : '/fornecedores-catalogos';
-  const outrosProcessos = processos.filter((p) => p.id !== processo.id);
-  const palavrasChave = processo.keywords.slice(0, 4);
 
-  const breadcrumbItems = [
-    { label: 'Início', path: '/' },
-    { label: 'Soluções / Processos', path: '/solucoes' },
-    { label: processo.nome },
-  ];
+  const outrosProcessos = processos.filter((p) => p.id !== processo.id);
 
   return (
     <Layout>
@@ -66,279 +27,91 @@ const ProcessoPage = () => {
         canonical={`/solucoes/${processo.slug}`}
       />
 
-      <div className={styles.pageContainer}>
-        <Breadcrumb items={breadcrumbItems} />
+      <main>
+        <section>
+          <p>Soluções por processo | {fornecedoresRelacionados.length} fornecedores</p>
+          <h1>{processo.nome}</h1>
+          <p><strong>{processo.descricaoCurta}</strong></p>
+          <p>{processo.descricao}</p>
+          <p>
+            Se você já tem o código, o nome da peça ou a dúvida de aplicação, siga pelos atalhos abaixo para chegar ao catálogo, ao fornecedor ou ao contato certo.
+          </p>
 
-        <section className={styles.heroSection}>
-          <div className={styles.heroCopy}>
-            <div className={styles.heroMeta}>
-              <span className={styles.heroEyebrow}>Soluções por processo</span>
-              <span className={styles.heroBadge}>
-                {fornecedoresRelacionados.length} fornecedor{fornecedoresRelacionados.length === 1 ? '' : 'es'} relacionado{fornecedoresRelacionados.length === 1 ? '' : 's'}
-              </span>
-              <span className={styles.heroBadgeMuted}>{processo.keywords.length} palavras-chave</span>
-            </div>
-
-            <h1 className={styles.processTitle}>{processo.nome}</h1>
-            <p className={styles.processTagline}>{processo.descricaoCurta}</p>
-
-            <div className={styles.heroProcessBlock}>
-              <p className={styles.heroProcessBody}>{processo.descricao}</p>
-              <p className={styles.heroSupport}>
-                Se você já tem o código, o nome da peça ou a dúvida de aplicação, siga pelos atalhos abaixo para chegar ao catálogo, ao fornecedor ou ao contato certo.
-              </p>
-            </div>
-
-            {palavrasChave.length > 0 && (
-              <div className={styles.keywordRow}>
-                {palavrasChave.map((keyword) => (
-                  <span key={keyword} className={styles.keywordChip}>
-                    {keyword}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            <div className={styles.heroActions}>
-              <ActionButton
-                to="/contato"
-                variant="primary"
-                stackOnMobile
-                onClick={() => trackLeadGen('form_intent', 'Processo Hero CTA')}
-              >
-                Solicitar Orçamento
-              </ActionButton>
-              <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
-                Ver fornecedores
-              </ActionButton>
-              <ActionButton
-                href={contato.whatsapp.hrefComMensagem}
-                target="_blank"
-                variant="whatsapp"
-                stackOnMobile
-                onClick={() => trackLeadGen('whatsapp', 'Processo Hero CTA')}
-              >
-                <MessageCircle size={16} />
-                {contato.telefone.display}
-              </ActionButton>
-            </div>
-          </div>
-
-          <div className={styles.heroVisual}>
-            <div className={styles.heroVisualCard}>
-              <div className={styles.heroVisualLabelRow}>
-                <span className={styles.heroVisualLabel}>Referência visual</span>
-                <span className={styles.heroVisualBadge}>{processo.nome}</span>
-              </div>
-
-              {imagem ? (
-                <div className={styles.heroImageFrame}>
-                  <img
-                    src={imagem}
-                    alt={`Ferramenta de ${processo.nome.toLowerCase()} - ${processo.descricaoCurta}`}
-                    className={styles.heroImg}
-                    fetchPriority="high"
-                    width="1400"
-                    height="1045"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-              ) : (
-                <div className={styles.heroImageFallback}>
-                  <IconeProcesso size={36} />
-                  <span>{processo.nome}</span>
-                </div>
-              )}
-
-              <div className={styles.heroVisualStats}>
-                <div className={styles.heroStat}>
-                  <IconeProcesso size={16} strokeWidth={1.9} />
-                  <div>
-                    <strong>{fornecedoresRelacionados.length}</strong>
-                    <span>fornecedores relacionados</span>
-                  </div>
-                </div>
-                <div className={styles.heroStat}>
-                  <span className={styles.heroStatValue}>{processo.keywords.length}</span>
-                  <div>
-                    <strong>palavras-chave</strong>
-                    <span>para acelerar a busca</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex">
+            <Link to="/contato">Solicitar Orçamento</Link>
+            <Link to="/fornecedores-catalogos">Ver fornecedores</Link>
           </div>
         </section>
 
-        <div className={styles.contentGrid}>
-          <div className={styles.mainContent}>
-            <section className={styles.sectionBox}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Acesso guiado</span>
-                <h2 className={styles.sectionTitle}>Escolha o caminho certo para esta operação</h2>
-              </div>
-              <p className={styles.sectionLead}>
-                Selecione a opção que combina com a informação que você já tem. Assim, você chega mais rápido ao catálogo, ao fornecedor ou ao contato da RECOM.
-              </p>
-              <div className={styles.atalhosGrid}>
-                {processo.atalhos.map((atalho) => {
-                  const destino = atalho.to === 'catalogo-principal' ? hrefCatalogoPrincipal : atalho.to;
-
-                  return (
-                    <Link to={destino} key={atalho.titulo} className={styles.atalhoCard}>
-                      <span className={styles.atalhoBadge}>Atalho</span>
-                      <h3>{atalho.titulo}</h3>
-                      <p>{atalho.descricao}</p>
-                      <span className={styles.atalhoLink}>
-                        {atalho.ctaLabel} <ArrowRight size={14} />
-                      </span>
+        <div className="grid">
+          <div>
+            <section>
+              <h2>Escolha o caminho certo para esta operação</h2>
+              <p>Selecione a opção que combina com a informação que você já tem.</p>
+              <div className="grid">
+                {processo.atalhos.map((atalho) => (
+                  <div key={atalho.titulo} style={{ border: '1px solid #ccc', padding: '1rem' }}>
+                    <h3>{atalho.titulo}</h3>
+                    <p>{atalho.descricao}</p>
+                    <Link to={atalho.to === 'catalogo-principal' ? '/fornecedores-catalogos' : atalho.to}>
+                      {atalho.ctaLabel}
                     </Link>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </section>
 
-            {fornecedoresRelacionados.length > 0 ? (
-              <section className={styles.sectionBox}>
-                <div className={styles.sectionHeader}>
-                  <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
-                  <h2 className={styles.sectionTitle}>
-                    Marcas mais aderentes a {processo.nome.toLowerCase()}
-                  </h2>
+            <section>
+              <h2>Marcas mais aderentes a {processo.nome.toLowerCase()}</h2>
+              {fornecedoresRelacionados.length > 0 ? (
+                <div className="grid">
+                  {fornecedoresRelacionados.map((f) => (
+                    <div key={f.id} style={{ border: '1px solid #ccc', padding: '1rem' }}>
+                      <img src={f.logo} alt={f.nome} width="100" />
+                      <h3>{f.nome}</h3>
+                      <p>{f.descricaoCurta}</p>
+                      <Link to={`/fornecedores-catalogos/${f.slug}`}>Ver fornecedor</Link>
+                    </div>
+                  ))}
                 </div>
-                <p className={styles.sectionLead}>
-                  Estes parceiros oferecem linhas e catálogos que conversam diretamente com este processo.
-                </p>
-                <div className={styles.fornecedoresGrid}>
-                  {fornecedoresRelacionados.map((fornecedor) => {
-                    const catalogos = getCatalogosDoFornecedor(fornecedor);
+              ) : (
+                <p>Ainda não há fornecedores mapeados para este processo.</p>
+              )}
+            </section>
 
-                    return (
-                      <Link
-                        to={`/fornecedores-catalogos/${fornecedor.slug}`}
-                        key={fornecedor.id}
-                        className={styles.fornecedorCard}
-                      >
-                        <div className={styles.fornecedorCardTop}>
-                          <div className={styles.fornecedorLogoCard}>
-                            <img
-                              src={fornecedor.logo}
-                              alt={fornecedor.altText}
-                              loading="lazy"
-                              width={fornecedor.logoWidth}
-                              height={fornecedor.logoHeight}
-                              decoding="async"
-                            />
-                          </div>
-                          {fornecedor.destaque && <span className={styles.fornecedorBadge}>Principal</span>}
-                        </div>
-
-                        <div className={styles.fornecedorInfo}>
-                          <h3>{fornecedor.nome}</h3>
-                          <p>{fornecedor.descricaoCurta}</p>
-                        </div>
-
-                        <div className={styles.fornecedorMeta}>
-                          <span className={styles.fornecedorPill}>
-                            {catalogos.length} catálogo{catalogos.length === 1 ? '' : 's'}
-                          </span>
-                          <span className={styles.fornecedorPillMuted}>Fornecedor parceiro</span>
-                        </div>
-
-                        <span className={styles.fornecedorLink}>
-                          Ver fornecedor <ArrowRight size={14} />
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </section>
-            ) : (
-              <section className={styles.sectionBox}>
-                <div className={styles.sectionHeader}>
-                  <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
-                  <h2 className={styles.sectionTitle}>
-                    Ainda não há fornecedores mapeados para {processo.nome.toLowerCase()}
-                  </h2>
-                </div>
-                <p className={styles.sectionLead}>
-                  Quando a relação não está validada, a melhor rota é falar com a RECOM e informar a aplicação, o material ou a referência que você já possui.
-                </p>
-                <ActionButton to="/contato" variant="secondary" stackOnMobile>
-                  Solicitar apoio da RECOM <ArrowRight size={14} />
-                </ActionButton>
-              </section>
-            )}
-
-            <section className={styles.sectionBox}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Outros processos</span>
-                <h2 className={styles.sectionTitle}>Explore outras rotas de usinagem</h2>
-              </div>
-              <p className={styles.sectionLead}>
-                Se a sua necessidade estiver em outro tipo de operação, estas páginas ajudam a refinar a busca.
-              </p>
-              <div className={styles.outrosGrid}>
-                {outrosProcessos.map((p) => {
-                  const IconeOutro = processoIconMap[p.slug] || Crosshair;
-
-                  return (
-                    <Link to={`/solucoes/${p.slug}`} key={p.id} className={styles.outroCard}>
-                      <div className={styles.outroTop}>
-                        <div className={styles.outroIcon}>
-                          <IconeOutro size={20} strokeWidth={1.85} />
-                        </div>
-                        <span className={styles.outroBadge}>Processo</span>
-                      </div>
-                      <h3>{p.nome}</h3>
-                      <p>{p.descricaoCurta}</p>
-                      <span className={styles.outroLink}>
-                        Ver página <ArrowRight size={14} />
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
+            <section>
+              <h2>Explore outras rotas de usinagem</h2>
+              <ul>
+                {outrosProcessos.map((p) => (
+                  <li key={p.id}>
+                    <Link to={`/solucoes/${p.slug}`}>{p.nome}</Link>
+                  </li>
+                ))}
+              </ul>
             </section>
           </div>
 
-          <aside className={styles.sidebar}>
-            <div className={styles.ctaCard}>
-              <span className={styles.sidebarEyebrow}>Suporte comercial</span>
-              <h3>Solicite um orçamento</h3>
-              <p>
-                Precisa de ferramentas para {processo.nome.toLowerCase()}? A RECOM indica a solução mais adequada a partir dos dados que você já tem.
-              </p>
-              <ActionButton
-                to="/contato"
-                variant="primary"
-                stackOnMobile
-                onClick={() => trackLeadGen('form_intent', 'Processo Sidebar CTA')}
-              >
-                Entrar em contato <ArrowRight size={14} />
-              </ActionButton>
-            </div>
+          <aside>
+            <section>
+              <h2>Suporte comercial</h2>
+              <p>Precisa de ferramentas para {processo.nome.toLowerCase()}?</p>
+              <Link to="/contato">Entrar em contato</Link>
+            </section>
 
-            <div className={styles.infoCard}>
-              <span className={styles.sidebarEyebrow}>Palavras-chave</span>
-              <h3>Aplicações comuns</h3>
-              <p>
-                Use estes termos para localizar catálogo, fornecedor e aplicação com menos etapas.
-              </p>
-              <div className={styles.keywordList}>
-                {processo.keywords.map((keyword) => (
-                  <span key={keyword} className={styles.keywordChip}>
-                    {keyword}
-                  </span>
+            <section>
+              <h2>Palavras-chave</h2>
+              <ul>
+                {processo.keywords.map((k) => (
+                  <li key={k}>{k}</li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </section>
           </aside>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 };
 
 export default ProcessoPage;
+
