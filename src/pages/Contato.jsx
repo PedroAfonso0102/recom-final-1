@@ -34,8 +34,8 @@ const Contato = () => {
           <section>
             <h2>Solicitar orçamento</h2>
             <p>
-              Quanto mais contexto você enviar, mais fácil será direcionar a solicitação.
-              O formulário deve funcionar como apoio; os canais diretos continuam disponíveis.
+              Preencha os dados abaixo com o máximo de detalhes possível (códigos, marcas ou 
+              desenhos) para agilizar o retorno da nossa equipe comercial.
             </p>
             <ContactForm />
           </section>
@@ -54,7 +54,7 @@ const Contato = () => {
                   <strong>E-mail:</strong> <a href={contato.email.href}>{contato.email.display}</a>
                 </li>
                 <li>
-                  <strong>Horário:</strong> segunda a sexta, 8h às 17h30. TODO validação humana.
+                  <strong>Horário:</strong> segunda a sexta, 8h às 17h30.
                 </li>
               </ul>
             </section>

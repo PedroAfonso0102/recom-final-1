@@ -44,18 +44,18 @@ export const contato = {
  * Alinhado à Etapa 3: tom profissional, claro e direto.
  */
 export const institucional = {
-  tagline: 'Ferramentas para usinagem desde 1990',
-  propostaDeValor: 'A RECOM orienta clientes industriais na consulta a fornecedores, catálogos oficiais e caminhos comerciais para ferramentas e soluções de usinagem.',
-  descricaoCurta: 'A RECOM atua como distribuidor B2B de ferramentas e soluções para usinagem, com base em Campinas-SP, atendimento técnico-comercial e acesso organizado a fornecedores e catálogos oficiais.',
-  descricaoFooter: 'Distribuidor B2B de ferramentas para usinagem. Atendimento técnico-comercial em Campinas-SP.',
+  tagline: 'Distribuidor de ferramentas para usinagem em Campinas-SP',
+  propostaDeValor: 'A RECOM conecta indústrias a fornecedores, catálogos oficiais e orientação técnica para ferramentas de corte e soluções de usinagem.',
+  descricaoCurta: 'Distribuidor B2B de ferramentas para usinagem com base em Campinas-SP. Oferecemos atendimento técnico-comercial para orientar a consulta a catálogos oficiais e a solicitação de orçamentos.',
+  descricaoFooter: 'Distribuidor de ferramentas para usinagem. Atendimento técnico-comercial direto em Campinas-SP.',
 };
 
 export const mensagensGlobais = {
-  listaVazia: 'Ainda não há itens cadastrados nesta lista. Fale com a RECOM para receber orientação comercial.',
-  fornecedorSemCatalogo: 'Catálogo oficial não cadastrado no site. Fale com a RECOM para receber orientação sobre esta marca.',
-  processoSemFornecedor: 'Ainda não há fornecedores relacionados a este processo no site. Envie sua aplicação para a RECOM orientar o próximo passo.',
-  promocaoEncerrada: 'Esta condição especial não está mais ativa. Consulte a RECOM para verificar disponibilidade atual.',
-  imagemIndisponivel: 'Imagem indisponível no momento.',
-  erroFormulario: 'Não foi possível enviar agora. Tente novamente ou fale com a RECOM por telefone ou e-mail.',
-  linkExternoIndisponivel: 'Link externo não cadastrado no site. Fale com a RECOM para receber o material correto.',
+  listaVazia: 'Nenhum item localizado. Fale com a RECOM para receber orientação comercial.',
+  fornecedorSemCatalogo: 'Catálogo oficial não disponível no momento. Fale com a RECOM para consultar esta marca.',
+  processoSemFornecedor: 'Ainda não há fornecedores mapeados para este processo. Fale com a RECOM para orientar sua aplicação.',
+  promocaoEncerrada: 'Condição comercial sujeita a confirmação de disponibilidade.',
+  imagemIndisponivel: 'Imagem ilustrativa indisponível.',
+  erroFormulario: 'Não foi possível processar o envio agora. Tente novamente ou use nossos canais diretos.',
+  linkExternoIndisponivel: 'Material oficial não localizado. Fale com a RECOM para receber a documentação correta.',
 };

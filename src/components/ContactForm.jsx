@@ -165,18 +165,16 @@ const ContactForm = () => {
   };
 
   if (submission.status === 'success') {
-    return (
-      <div role="status" style={{ border: '1px solid green', padding: '1rem' }}>
-        <h2>Sucesso!</h2>
-        <p>{submission.message}</p>
-        {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
-          <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
-          <Link to={fallbackLinks.catalogHref}>Ver catálogos</Link>
-        </div>
+    <div role="status" style={{ border: '1px solid green', padding: '1rem' }}>
+      <h2>Solicitação Enviada</h2>
+      <p>{submission.message}</p>
+      {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
+        <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
+        <Link to={fallbackLinks.catalogHref}>Ver catálogos</Link>
       </div>
-    );
+    </div>
   }
 
   return (
@@ -340,7 +338,7 @@ const ContactForm = () => {
         </div>
 
         <button type="submit" disabled={submission.status === 'submitting'}>
-          {submission.status === 'submitting' ? 'Enviando...' : 'Enviar mensagem'}
+          {submission.status === 'submitting' ? 'Enviando...' : 'Enviar Solicitação'}
         </button>
       </form>
     </div>

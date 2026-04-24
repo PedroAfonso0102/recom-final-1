@@ -64,11 +64,11 @@ const Promocoes = () => {
         </section>
 
         <section>
-          <h2>Orientação para consultas B2B</h2>
+          <h2>Consultas Comerciais</h2>
           <p>
-            Ao consultar uma condição comercial, informe fornecedor, linha, código, quantidade,
-            processo ou prazo desejado. Isso evita tratar promoção como varejo e ajuda a RECOM a
-            responder com contexto.
+            Ao solicitar uma cotação para condições especiais, informe o fornecedor, linha, 
+            código e quantidade desejada. Isso agiliza a verificação de disponibilidade e a 
+            aplicação técnica junto ao fabricante.
           </p>
           <Link to="/solucoes">Ver soluções por processo</Link>
         </section>

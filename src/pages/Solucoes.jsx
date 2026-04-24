@@ -27,12 +27,12 @@ const Solucoes = () => {
 
       <main>
         <section>
-          <p>Por aplicação | Por operação | Por necessidade comercial</p>
-          <h1>Soluções por processo</h1>
+          <p>Operações industriais | Aplicações de usinagem</p>
+          <h1>Soluções por Processo</h1>
           <p>
-            Encontre caminhos por tipo de operação e consulte fornecedores relacionados a cada
-            processo. Esta seção atende quem sabe a aplicação, mas ainda não sabe qual marca ou
-            catálogo consultar.
+            Localize as ferramentas e acessórios ideais partindo do tipo de operação que sua 
+            empresa realiza. Navegue pelas categorias para encontrar fornecedores e catálogos 
+            oficiais relacionados a cada processo.
           </p>
           <div className="flex">
             <Link to="/contato">Solicitar orientação comercial</Link>
@@ -42,12 +42,12 @@ const Solucoes = () => {
         </section>
 
         <section>
-          <h2>Como navegar por processo</h2>
-          <ol>
-            <li>Escolha o processo mais próximo da operação.</li>
-            <li>Veja fornecedores e catálogos úteis relacionados.</li>
-            <li>Envie código, aplicação ou dúvida para a RECOM quando precisar de orientação.</li>
-          </ol>
+          <h2>Como encontrar sua solução</h2>
+          <ul>
+            <li>Identifique a operação de usinagem necessária.</li>
+            <li>Consulte as marcas e catálogos recomendados para o processo.</li>
+            <li>Fale com a RECOM para validar códigos ou solicitar orçamentos.</li>
+          </ul>
         </section>
 
         <section>
@@ -64,7 +64,7 @@ const Solucoes = () => {
         </section>
 
         <section>
-          <h2>Processos cadastrados</h2>
+          <h2>Navegue por Operação</h2>
           {processos.length === 0 ? (
             <p>{mensagensGlobais.listaVazia}</p>
           ) : (

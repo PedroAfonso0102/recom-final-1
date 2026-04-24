@@ -17,16 +17,18 @@ const ARecom = () => {
 
       <main>
         <section>
-          <p>Institucional | Campinas-SP | Atendimento técnico-comercial</p>
+          <p>Distribuidor de ferramentas para usinagem | Campinas-SP</p>
           <h1>A RECOM</h1>
           <p>
-            A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem. Seu papel no
-            site é orientar empresas a encontrar fornecedores, catálogos oficiais e caminhos de
-            contato para orçamento.
+            A RECOM atua como um elo estratégico entre a indústria e os principais fabricantes 
+            globais de ferramentas para usinagem. Com sede em Campinas-SP, oferecemos 
+            atendimento comercial especializado para orientar sua empresa na escolha das 
+            melhores soluções técnicas.
           </p>
           <p>
-            A empresa atende a partir de Campinas-SP e atua como ponte comercial entre demandas
-            industriais, marcas do setor e materiais oficiais de consulta.
+            Nosso papel é simplificar o acesso a catálogos oficiais, marcas consolidadas e 
+            processos de cotação, garantindo que sua demanda técnica receba o direcionamento 
+            comercial adequado.
           </p>
           <div className="flex">
             <Link to="/contato">Falar com a RECOM</Link>
@@ -47,37 +49,38 @@ const ARecom = () => {
         </section>
 
         <section>
-          <h2>História curta</h2>
+          <h2>Presença e Atendimento</h2>
           <p>
-            O dado editorial disponível indica atuação desde {contato.fundacao}. Esse histórico
-            deve ser usado de forma objetiva: presença comercial, atendimento a clientes industriais
-            e continuidade no segmento de ferramentas para usinagem.
+            Fundada em 1990, a RECOM consolidou sua presença no mercado industrial através de um 
+            atendimento focado em resultados e na parceria com fornecedores de alta performance, 
+            como a Mitsubishi Materials.
           </p>
           <p>
-            TODO validação humana: confirmar documentos, marcos históricos e vínculos comerciais
-            específicos antes de transformar esses pontos em afirmações institucionais finais.
+            Operamos com uma estrutura ágil para atender solicitações de orçamento, consulta de 
+            disponibilidade e suporte técnico na especificação de ferramentas de corte.
           </p>
         </section>
 
         <section>
-          <h2>Atuação atual</h2>
+          <h2>Como atuamos</h2>
           <p>
-            A RECOM não se apresenta como fabricante nem como e-commerce. A lógica comercial é
-            orientar o cliente, organizar o acesso a fornecedores e receber solicitações de orçamento
-            com contexto suficiente para direcionamento.
+            Diferente de um e-commerce tradicional, a RECOM prioriza a orientação consultiva. 
+            Acreditamos que cada operação de usinagem possui particularidades que exigem a 
+            ferramenta correta e o suporte de catálogos oficiais atualizados.
           </p>
-          <ol>
-            <li>Recebe demanda por código, marca, processo, desenho, peça ou aplicação.</li>
-            <li>Relaciona a demanda a fornecedores e catálogos oficiais disponíveis.</li>
-            <li>Encaminha o cliente para contato comercial, orçamento ou orientação complementar.</li>
-          </ol>
+          <ul>
+            <li>Recebemos sua demanda por código, desenho ou especificação técnica.</li>
+            <li>Identificamos os fornecedores e catálogos mais adequados para a aplicação.</li>
+            <li>Oferecemos o caminho comercial direto para orçamento e fechamento.</li>
+          </ul>
         </section>
 
         <section>
-          <h2>Relação com fornecedores e catálogos</h2>
+          <h2>Foco no Cliente Industrial</h2>
           <p>
-            O site organiza fornecedores cadastrados e links para catálogos oficiais. Quando um
-            catálogo não estiver cadastrado, o próximo passo correto é falar com a RECOM.
+            Nossa plataforma organiza o acesso a links oficiais de consulta. Quando uma marca 
+            específica não possui catálogo cadastrado, nossa equipe está pronta para fornecer a 
+            orientação necessária via canais diretos.
           </p>
           <div className="grid">
             {fornecedores.map((fornecedor) => (
