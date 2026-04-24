@@ -9,12 +9,12 @@ import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { trackLeadGen } from '../utils/analytics';
-import heroTecnicoImg from '../assets/images/editorial/egd-tecnico-gerada.png';
-import heroSlide1 from '../assets/images/editorial/RECOM_EDITORIAL-1.png';
-import heroSlide2 from '../assets/images/editorial/RECOM_EDITORIAL-2.png';
-import heroSlide3 from '../assets/images/editorial/RECOM_EDITORIAL-5.png';
-import pecasImg from '../assets/images/editorial/pecas.png';
-import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
+import heroTecnicoImg from '../assets/images/optimized/egd-tecnico-gerada.jpg';
+import heroSlide1 from '../assets/images/optimized/recom-editorial-1.jpg';
+import heroSlide2 from '../assets/images/optimized/recom-editorial-2.jpg';
+import heroSlide3 from '../assets/images/optimized/recom-editorial-5.jpg';
+import pecasImg from '../assets/images/optimized/pecas.jpg';
+import logoSchema from '../assets/images/optimized/logo-sem-fundo.png';
 
 const heroProofs = [
   'Catálogos oficiais',
@@ -64,6 +64,8 @@ const heroMetrics = [
 const heroSlides = [
   {
     image: heroSlide1,
+    width: 1400,
+    height: 781,
     alt: 'Empresa especializada em ferramentas para usinagem com itens de corte em destaque',
     eyebrow: 'Atendimento a empresas',
     title: 'Ferramentas para usinagem',
@@ -73,6 +75,8 @@ const heroSlides = [
   },
   {
     image: heroSlide2,
+    width: 1400,
+    height: 1045,
     alt: 'Fornecedores e catálogos de ferramentas para usinagem',
     eyebrow: 'Fornecedores e catálogos',
     title: 'Fornecedores e catálogos',
@@ -81,6 +85,8 @@ const heroSlides = [
   },
   {
     image: heroSlide3,
+    width: 1400,
+    height: 781,
     alt: 'Promoções e condições especiais para ferramentas de usinagem',
     eyebrow: 'Condições especiais',
     title: 'Promoções',
@@ -89,6 +95,8 @@ const heroSlides = [
   },
   {
     image: heroTecnicoImg,
+    width: 1400,
+    height: 1045,
     alt: 'Planejamento técnico de usinagem com ferramentas e desenho de peça',
     eyebrow: 'Análise técnica',
     title: 'Orientação técnica para definir o processo certo',
@@ -192,11 +200,14 @@ const Home = () => {
                   <div className={styles.heroCarouselFrame}>
                     <img
                       src={currentSlide.image}
+                      width={currentSlide.width}
+                      height={currentSlide.height}
                       alt={currentSlide.alt}
                       className={styles.heroCarouselImage}
                       style={{ objectPosition: currentSlide.objectPosition || 'center center' }}
                       loading="eager"
                       fetchPriority="high"
+                      decoding="async"
                     />
                   </div>
                 </div>
@@ -306,7 +317,15 @@ const Home = () => {
                   className={styles.supplierCard}
                 >
                   <div className={styles.supplierLogoFrame}>
-                    <img src={fornecedor.logo} alt={fornecedor.altText} className="res-img-logo" />
+                    <img
+                      src={fornecedor.logo}
+                      alt={fornecedor.altText}
+                      className="res-img-logo"
+                      width={fornecedor.logoWidth}
+                      height={fornecedor.logoHeight}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className={styles.supplierMeta}>
                     <h3 className={styles.supplierName}>{fornecedor.nome}</h3>
@@ -411,6 +430,9 @@ const Home = () => {
                     alt="Conjunto de peças e componentes industriais para análise técnica"
                     className={styles.institutionalImage}
                     loading="lazy"
+                    width="1400"
+                    height="781"
+                    decoding="async"
                   />
                   <div className={styles.institutionalNote}>
                     <Factory size={18} strokeWidth={1.9} className={styles.institutionalNoteIcon} />

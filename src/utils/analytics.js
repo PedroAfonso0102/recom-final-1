@@ -87,6 +87,19 @@ export const trackOutboundLink = (url, linkType) => {
   });
 };
 
+export const trackSupplierCatalogClick = ({
+  supplierName = '',
+  placement = 'unknown',
+  url = '',
+}) => {
+  trackEvent('supplier_catalog_click', {
+    supplier_name: supplierName || 'unknown',
+    placement,
+    outbound_url: url,
+    page_location: getPageLocation(),
+  });
+};
+
 export const trackDownload = (fileName, documentType) => {
   trackEvent('file_download', {
     file_name: fileName,

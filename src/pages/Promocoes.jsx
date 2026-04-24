@@ -8,7 +8,7 @@ import { ArrowRight, MessageCircle, Tag, Calendar, Info } from 'lucide-react';
 import styles from './Promocoes.module.css';
 import { contato } from '../data/contato';
 import { campanhasPromocionais } from '../data/promocoes';
-import editorialImg from '../assets/images/editorial/RECOM_EDITORIAL-4.png';
+import editorialImg from '../assets/images/optimized/recom-editorial-4.jpg';
 
 const breadcrumbItems = [
   { label: 'Início', path: '/' },
@@ -41,6 +41,11 @@ const Promocoes = () => {
                 src={editorialImg}
                 alt="Imagem institucional da RECOM"
                 className={styles.promoVisualImage}
+                fetchPriority="high"
+                width="1200"
+                height="675"
+                loading="eager"
+                decoding="async"
               />
               <div className={styles.promoVisualNote}>
                 <span className={styles.promoVisualKicker}>Condições sob consulta</span>

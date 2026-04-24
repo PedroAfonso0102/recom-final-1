@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import ActionButton from './ActionButton';
 import styles from './Footer.module.css';
-import logo from '../assets/images/Upscaled/logo-branco.png';
+import logo from '../assets/images/optimized/logo-branco.png';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
@@ -18,7 +18,7 @@ const Footer = () => {
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
           <div className={styles.footerLogo}>
-            <img src={logo} alt="RECOM Metal Duro" />
+            <img src={logo} alt="RECOM Metal Duro" width="520" height="290" decoding="async" />
           </div>
           <p className={styles.footerText}>{institucional.descricaoFooter}</p>
           <div className={styles.footerCta}>

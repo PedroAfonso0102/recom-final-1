@@ -10,7 +10,7 @@ import styles from './Solucoes.module.css';
 import { processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
-import editorialImg from '../assets/images/editorial/RECOM_EDITORIAL-3.png';
+import editorialImg from '../assets/images/optimized/recom-editorial-3.jpg';
 
 const processIconMap = {
   torneamento: Crosshair,
@@ -91,6 +91,11 @@ const Solucoes = () => {
               alt="Soluções e processos de usinagem da RECOM Metal Duro"
               className={styles.heroBrandImage}
               style={{ objectPosition: '72% center' }}
+              fetchPriority="high"
+              width="1400"
+              height="781"
+              loading="eager"
+              decoding="async"
             />
             <div className={styles.heroBrandCopy}>
               <span className={styles.heroBrandKicker}>Como a RECOM atua</span>

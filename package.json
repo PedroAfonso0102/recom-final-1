@@ -9,6 +9,7 @@
     "prebuild": "node scripts/generate-sitemap.js",
     "build": "vite build",
     "lint": "eslint .",
+    "check:supplier-links": "node scripts/check-supplier-links.js",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

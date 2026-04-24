@@ -4,11 +4,11 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
-import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
+import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor, getFornecedorCatalogoPrincipal, hasCatalogoValido } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import styles from './FornecedorPage.module.css';
-import { trackLeadGen, trackOutboundLink } from '../utils/analytics';
+import { trackLeadGen, trackSupplierCatalogClick } from '../utils/analytics';
 
 /**
  * Página individual de fornecedor.
@@ -23,7 +23,8 @@ const FornecedorPage = () => {
   }
 
   const catalogos = getCatalogosDoFornecedor(fornecedor);
-  const catalogoPrincipal = catalogos[0];
+  const catalogoPrincipal = getFornecedorCatalogoPrincipal(fornecedor);
+  const catalogoDisponivel = hasCatalogoValido(fornecedor);
   const catalogosSecundarios = catalogos.slice(1);
 
   const processosRelacionados = processos.filter(
@@ -63,12 +64,19 @@ const FornecedorPage = () => {
             <h1 className={styles.fornecedorTitle}>{fornecedor.nome}</h1>
             <p className={styles.fornecedorTagline}>{fornecedor.descricaoCurta}</p>
             <p className={styles.heroSupport}>
-              Linha técnica com acesso ao catálogo oficial e atuação comercial da RECOM para Campinas e interior de SP.
+              A RECOM atua como ponte comercial entre sua necessidade de usinagem e o catálogo oficial desta marca.
             </p>
           </div>
 
           <div className={styles.heroBrandCard}>
-            <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.fornecedorLogo} />
+            <img
+              src={fornecedor.logo}
+              alt={fornecedor.altText}
+              className={styles.fornecedorLogo}
+              width={fornecedor.logoWidth}
+              height={fornecedor.logoHeight}
+              decoding="async"
+            />
           </div>
         </section>
 
@@ -80,16 +88,24 @@ const FornecedorPage = () => {
                 <h2>Visão técnica e aplicação</h2>
               </div>
               <p>{fornecedor.descricao}</p>
+              {fornecedor.linkInstitucional && (
+                <p>
+                  Site institucional oficial:{' '}
+                  <a href={fornecedor.linkInstitucional} target="_blank" rel="noopener noreferrer">
+                    {fornecedor.linkInstitucional}
+                  </a>
+                </p>
+              )}
             </section>
 
-            {catalogos.length > 0 && (
+            {catalogoDisponivel ? (
               <section className={styles.catalogoBlock}>
                 <div className={styles.sectionHeading}>
                   <span className={styles.sectionEyebrow}>Catálogos oficiais</span>
                   <h2>Acesso rápido aos materiais da marca</h2>
                 </div>
                 <p className={styles.catalogoIntro}>
-                  O primeiro link abaixo é o caminho mais direto para o catálogo principal. Os demais funcionam como apoio para navegação complementar.
+                  O primeiro link abaixo é o caminho mais direto para o catálogo oficial da marca. Os demais funcionam como apoio para navegação complementar.
                 </p>
 
                 <div className={styles.catalogoActions}>
@@ -99,11 +115,17 @@ const FornecedorPage = () => {
                     variant="primary"
                     compact
                     stackOnMobile
-                    aria-label={`${catalogoPrincipal.label} (abre em nova aba)`}
-                    onClick={() => trackOutboundLink(catalogoPrincipal.url, 'catalogo')}
+                    ariaLabel={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                    onClick={() =>
+                      trackSupplierCatalogClick({
+                        supplierName: fornecedor.nome,
+                        placement: 'supplier_hero',
+                        url: catalogoPrincipal.url,
+                      })
+                    }
                   >
                     <ExternalLink size={16} aria-hidden="true" />
-                    {catalogoPrincipal.label}
+                    Acessar catálogo oficial da {fornecedor.nome}
                   </ActionButton>
 
                   {catalogosSecundarios.length > 0 && (
@@ -116,11 +138,17 @@ const FornecedorPage = () => {
                           variant="secondary"
                           compact
                           stackOnMobile
-                          aria-label={`${catalogo.label} (abre em nova aba)`}
-                          onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
+                          ariaLabel={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                          onClick={() =>
+                            trackSupplierCatalogClick({
+                              supplierName: fornecedor.nome,
+                              placement: 'supplier_secondary',
+                              url: catalogo.url,
+                            })
+                          }
                         >
                           <ExternalLink size={14} aria-hidden="true" />
-                          <span>{catalogo.label}</span>
+                          <span>Acessar catálogo oficial da {fornecedor.nome}</span>
                         </ActionButton>
                       ))}
                     </div>
@@ -128,8 +156,26 @@ const FornecedorPage = () => {
                 </div>
 
                 <p className={styles.externalNote}>
-                  Este link direciona ao site oficial do fabricante. A RECOM não controla o conteúdo externo.
+                  Este link abre o site oficial do fabricante em nova aba. A RECOM não controla o conteúdo externo.
                 </p>
+              </section>
+            ) : (
+              <section className={styles.catalogoBlock}>
+                <div className={styles.sectionHeading}>
+                  <span className={styles.sectionEyebrow}>Catálogo oficial</span>
+                  <h2>Catálogo ainda não disponibilizado nesta página</h2>
+                </div>
+                <p className={styles.catalogoIntro}>
+                  A RECOM pode orientar sua busca e confirmar a rota mais segura para este fornecedor. Se você já tem uma referência, fale com a equipe e evite navegar para uma página rasa ou vazia.
+                </p>
+                <div className={styles.catalogoActions}>
+                  <ActionButton to="/contato" variant="primary" compact stackOnMobile>
+                    Solicitar apoio da RECOM <ArrowRight size={16} />
+                  </ActionButton>
+                  <ActionButton to="/fornecedores-catalogos" variant="secondary" compact stackOnMobile>
+                    Voltar ao hub de fornecedores <ArrowRight size={16} />
+                  </ActionButton>
+                </div>
               </section>
             )}
 
@@ -165,9 +211,17 @@ const FornecedorPage = () => {
                 variant="primary"
                 stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}
-              >
+                >
                 Entrar em contato <ArrowRight size={14} />
               </ActionButton>
+            </div>
+
+            <div className={styles.infoCard}>
+              <span className={styles.sidebarEyebrow}>Contexto comercial</span>
+              <h3>Relação com a RECOM</h3>
+              <p>
+                {fornecedor.observacoes || 'A RECOM usa esta marca como referência de linha e catálogo oficial dentro do hub.'}
+              </p>
             </div>
 
             {outrosFornecedores.length > 0 && (
@@ -180,7 +234,15 @@ const FornecedorPage = () => {
                   {outrosFornecedores.map(f => (
                     <li key={f.id}>
                       <Link to={`/fornecedores-catalogos/${f.slug}`} className={styles.outroLink}>
-                        <img src={f.logo} alt={f.altText} className={styles.outroLogo} loading="lazy" />
+                        <img
+                          src={f.logo}
+                          alt={f.altText}
+                          className={styles.outroLogo}
+                          loading="lazy"
+                          width={f.logoWidth}
+                          height={f.logoHeight}
+                          decoding="async"
+                        />
                         <span className={styles.outroName}>{f.nome}</span>
                         <span className={styles.outroCta}>Ver fornecedor</span>
                       </Link>

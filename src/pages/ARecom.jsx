@@ -5,7 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
 import styles from './ARecom.module.css';
-import empresaImg from '../assets/images/escritorio.jpg';
+import empresaImg from '../assets/images/optimized/escritorio.jpg';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import {
@@ -132,6 +132,10 @@ const ARecom = () => {
                 className={styles.heroImage}
                 style={{ objectPosition: 'center center' }}
                 loading="eager"
+                fetchPriority="high"
+                width="1400"
+                height="781"
+                decoding="async"
               />
               <div className={styles.heroVisualNote}>
                 <span className={styles.heroVisualNoteIcon}>
@@ -288,7 +292,15 @@ const ARecom = () => {
                 className={styles.supplierCard}
               >
                 <div className={styles.supplierLogoFrame}>
-                  <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.supplierLogo} loading="lazy" />
+                  <img
+                    src={fornecedor.logo}
+                    alt={fornecedor.altText}
+                    className={styles.supplierLogo}
+                    loading="lazy"
+                    width={fornecedor.logoWidth}
+                    height={fornecedor.logoHeight}
+                    decoding="async"
+                  />
                 </div>
                 <div className={styles.supplierMeta}>
                   <strong>{fornecedor.nome}</strong>

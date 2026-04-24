@@ -4,9 +4,9 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
 import { Card, ExternalLink as ExternalCatalogLink } from '../components/ui';
-import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
+import { fornecedores, getCatalogosDoFornecedor, getFornecedorCatalogoPrincipal, hasCatalogoValido } from '../data/fornecedores';
 import { ArrowRight } from 'lucide-react';
-import { trackOutboundLink } from '../utils/analytics';
+import { trackSupplierCatalogClick } from '../utils/analytics';
 import styles from './FornecedoresCatalogos.module.css';
 
 /**
@@ -38,6 +38,8 @@ const FornecedoresCatalogos = () => {
         <div className={styles.fornecedorGrid}>
           {fornecedores.map((fornecedor) => {
             const catalogos = getCatalogosDoFornecedor(fornecedor);
+            const catalogoPrincipal = getFornecedorCatalogoPrincipal(fornecedor);
+            const catalogoDisponivel = hasCatalogoValido(fornecedor);
 
             return (
               <Card key={fornecedor.id} interactive className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
@@ -45,12 +47,45 @@ const FornecedoresCatalogos = () => {
                   <span className={styles.destaqueBadge}>Principal</span>
                 )}
                 <div className={styles.cardLogo}>
-                  <img src={fornecedor.logo} alt={fornecedor.altText} loading="lazy" />
+                  <img
+                    src={fornecedor.logo}
+                    alt={fornecedor.altText}
+                    loading="lazy"
+                    width={fornecedor.logoWidth}
+                    height={fornecedor.logoHeight}
+                    decoding="async"
+                  />
                 </div>
                 <div className={styles.cardContent}>
                   <h2 className={styles.fornecedorNome}>{fornecedor.nome}</h2>
                   <p className={styles.fornecedorDesc}>{fornecedor.descricaoCurta}</p>
                   <div className={styles.cardActions}>
+                    {catalogoDisponivel ? (
+                      <ExternalCatalogLink
+                        href={catalogoPrincipal.url}
+                        className={styles.catalogoLink}
+                        label={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                        onClick={() =>
+                          trackSupplierCatalogClick({
+                            supplierName: fornecedor.nome,
+                            placement: 'hub_card',
+                            url: catalogoPrincipal.url,
+                          })
+                        }
+                      >
+                        Acessar catálogo oficial da {fornecedor.nome}
+                      </ExternalCatalogLink>
+                    ) : (
+                      <ActionButton
+                        to="/contato"
+                        variant="secondary"
+                        compact
+                        stackOnMobile
+                        ariaLabel={`Falar com a RECOM sobre ${fornecedor.nome}`}
+                      >
+                        Solicitar apoio da RECOM <ArrowRight size={14} />
+                      </ActionButton>
+                    )}
                     <ActionButton
                       to={`/fornecedores-catalogos/${fornecedor.slug}`}
                       variant="secondary"
@@ -72,10 +107,16 @@ const FornecedoresCatalogos = () => {
                             key={catalogo.url}
                             href={catalogo.url}
                             className={styles.catalogoLink}
-                            label={`${catalogo.label} (abre em nova aba)`}
-                            onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
+                            label={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                            onClick={() =>
+                              trackSupplierCatalogClick({
+                                supplierName: fornecedor.nome,
+                                placement: 'hub_disclosure',
+                                url: catalogo.url,
+                              })
+                            }
                           >
-                            {catalogo.label}
+                            Acessar catálogo oficial da {fornecedor.nome}
                           </ExternalCatalogLink>
                         ))}
                       </div>
@@ -89,7 +130,7 @@ const FornecedoresCatalogos = () => {
 
         {/* CTA de contato */}
         <div className={styles.ctaSection}>
-          <p>Não encontrou o fornecedor ou catálogo que precisa? Envie sua aplicação, código ou operação.</p>
+          <p>Não encontrou o fornecedor ou catálogo que precisa? Envie sua aplicação, código ou operação e a RECOM indica o caminho certo.</p>
           <ActionButton to="/contato" variant="primary" stackOnMobile>
             Solicitar orientação <ArrowRight size={16} />
           </ActionButton>

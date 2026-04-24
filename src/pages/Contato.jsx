@@ -8,7 +8,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import styles from './Contato.module.css';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
-import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
+import logoSchema from '../assets/images/optimized/logo-sem-fundo.png';
 
 const breadcrumbItems = [
   { label: 'Início', path: '/' },

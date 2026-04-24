@@ -12,9 +12,9 @@ import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
 
 // Imagens por processo (mapeamento estatico)
-import koudoeImg from '../assets/images/Upscaled/koudoe.png';
-import fresaImg from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
-import kougImg from '../assets/images/Upscaled/koug.png';
+import koudoeImg from '../assets/images/optimized/koudoe.jpg';
+import fresaImg from '../assets/images/optimized/fresa-Bf0r_sxm.jpg';
+import kougImg from '../assets/images/optimized/koug.jpg';
 
 const processoImages = {
   torneamento: koudoeImg,
@@ -137,6 +137,11 @@ const ProcessoPage = () => {
                     src={imagem}
                     alt={`Ferramenta de ${processo.nome.toLowerCase()} - ${processo.descricaoCurta}`}
                     className={styles.heroImg}
+                    fetchPriority="high"
+                    width="1400"
+                    height="1045"
+                    loading="eager"
+                    decoding="async"
                   />
                 </div>
               ) : (
@@ -194,7 +199,7 @@ const ProcessoPage = () => {
               </div>
             </section>
 
-            {fornecedoresRelacionados.length > 0 && (
+            {fornecedoresRelacionados.length > 0 ? (
               <section className={styles.sectionBox}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
@@ -217,7 +222,14 @@ const ProcessoPage = () => {
                       >
                         <div className={styles.fornecedorCardTop}>
                           <div className={styles.fornecedorLogoCard}>
-                            <img src={fornecedor.logo} alt={fornecedor.altText} loading="lazy" />
+                            <img
+                              src={fornecedor.logo}
+                              alt={fornecedor.altText}
+                              loading="lazy"
+                              width={fornecedor.logoWidth}
+                              height={fornecedor.logoHeight}
+                              decoding="async"
+                            />
                           </div>
                           {fornecedor.destaque && <span className={styles.fornecedorBadge}>Principal</span>}
                         </div>
@@ -241,6 +253,21 @@ const ProcessoPage = () => {
                     );
                   })}
                 </div>
+              </section>
+            ) : (
+              <section className={styles.sectionBox}>
+                <div className={styles.sectionHeader}>
+                  <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
+                  <h2 className={styles.sectionTitle}>
+                    Ainda não há fornecedores mapeados para {processo.nome.toLowerCase()}
+                  </h2>
+                </div>
+                <p className={styles.sectionLead}>
+                  Quando a relação não está validada, a melhor rota é falar com a RECOM e informar a aplicação, o material ou a referência que você já possui.
+                </p>
+                <ActionButton to="/contato" variant="secondary" stackOnMobile>
+                  Solicitar apoio da RECOM <ArrowRight size={14} />
+                </ActionButton>
               </section>
             )}
 

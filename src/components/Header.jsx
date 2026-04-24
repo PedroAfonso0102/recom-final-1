@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import ActionButton from './ActionButton';
 import styles from './Header.module.css';
-import logo from '../assets/images/Upscaled/logo-sem-fundo.png';
+import logo from '../assets/images/optimized/logo-sem-fundo.png';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
 
@@ -19,8 +19,11 @@ const navItems = [
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const menuButtonRef = useRef(null);
+  const lastScrollYRef = useRef(0);
+  const isVisibleRef = useRef(true);
+  const menuOpenRef = useRef(false);
+  const scrollRafRef = useRef(0);
 
   const toggleMenu = () => {
     setMenuOpen((current) => !current);
@@ -31,47 +34,58 @@ const Header = () => {
   };
 
   useEffect(() => {
+    menuOpenRef.current = menuOpen;
+    isVisibleRef.current = isVisible;
+  }, [menuOpen, isVisible]);
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
-      if (menuOpen && e.key === 'Escape') {
+      if (menuOpenRef.current && e.key === 'Escape') {
         closeMenu();
         menuButtonRef.current?.focus();
       }
     };
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const threshold = 50; // Amount of scroll up needed to show the header
-      
-      // Always visible at the very top (within 50px)
-      if (currentScrollY < 50) {
-        setIsVisible(true);
-        setLastScrollY(currentScrollY);
+      if (scrollRafRef.current) {
         return;
       }
 
-      // If menu is open, don't hide
-      if (menuOpen) {
-        setIsVisible(true);
-        setLastScrollY(currentScrollY);
-        return;
-      }
+      scrollRafRef.current = window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const previousScrollY = lastScrollYRef.current;
+        const threshold = 50;
 
-      const diff = currentScrollY - lastScrollY;
+        if (currentScrollY < 50 || menuOpenRef.current) {
+          if (!isVisibleRef.current) {
+            isVisibleRef.current = true;
+            setIsVisible(true);
+          }
+          lastScrollYRef.current = currentScrollY;
+          scrollRafRef.current = 0;
+          return;
+        }
 
-      if (diff > 0 && currentScrollY > 100) {
-        // Scrolling down - hide immediately
-        setIsVisible(false);
-      } else if (diff < -threshold) {
-        // Scrolling up - only show after passing the threshold
-        setIsVisible(true);
-      }
-      
-      // We only update lastScrollY when we are either scrolling down 
-      // or we've scrolled up enough to pass the threshold or we are scrolling down again.
-      // This creates the "leeway" effect.
-      if (diff > 0 || diff < -threshold) {
-        setLastScrollY(currentScrollY);
-      }
+        const diff = currentScrollY - previousScrollY;
+        let nextVisible = isVisibleRef.current;
+
+        if (diff > 0 && currentScrollY > 100) {
+          nextVisible = false;
+        } else if (diff < -threshold) {
+          nextVisible = true;
+        }
+
+        if (nextVisible !== isVisibleRef.current) {
+          isVisibleRef.current = nextVisible;
+          setIsVisible(nextVisible);
+        }
+
+        if (diff > 0 || diff < -threshold) {
+          lastScrollYRef.current = currentScrollY;
+        }
+
+        scrollRafRef.current = 0;
+      });
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -80,14 +94,24 @@ const Header = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
+      if (scrollRafRef.current) {
+        window.cancelAnimationFrame(scrollRafRef.current);
+      }
     };
-  }, [menuOpen, lastScrollY]);
+  }, []);
 
   return (
-    <header className={`${styles.header} ${!isVisible ? styles.headerHidden : ''}`}>
+    <header className={`${styles.header} ${!isVisible && !menuOpen ? styles.headerHidden : ''}`}>
       <div className={styles.topBar}>
         <Link to="/" className={styles.brand} onClick={closeMenu} aria-label="RECOM Metal Duro - Início">
-          <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
+          <img
+            src={logo}
+            alt="RECOM Metal Duro"
+            className="res-img-logo"
+            width="640"
+            height="357"
+            decoding="async"
+          />
         </Link>
 
         <div className={styles.utilityNav}>
