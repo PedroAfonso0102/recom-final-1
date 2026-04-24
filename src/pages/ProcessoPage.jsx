@@ -63,6 +63,7 @@ const ProcessoPage = () => {
       <SEOHead
         title={processo.metaTitle.split(' | ')[0]}
         description={processo.metaDescription}
+        canonical={`/solucoes/${processo.slug}`}
       />
 
       <div className={styles.pageContainer}>

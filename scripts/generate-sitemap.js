@@ -17,9 +17,7 @@ const routes = [
   '/solucoes/furacao',
   '/promocoes',
   '/contato',
-  '/seguranca',
-  '/sugestoes-de-utilizacao',
-  '/videos'
+  '/politica-de-privacidade'
 ];
 
 function generateSitemap() {

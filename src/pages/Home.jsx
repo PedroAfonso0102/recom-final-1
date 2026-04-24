@@ -117,7 +117,7 @@ const Home = () => {
   return (
     <Layout>
       <SEOHead
-        title="RECOM Metal Duro | Ferramentas e soluções para usinagem"
+        title="Ferramentas e soluções para usinagem"
         description={institucional.descricaoCurta}
         canonical="/"
         ogImage={heroTecnicoImg}

@@ -37,6 +37,7 @@ const FornecedorPage = () => {
       <SEOHead
         title={`${fornecedor.nome} — Fornecedor Parceiro`}
         description={`${fornecedor.descricaoCurta} Distribuído pela RECOM Metal Duro em Campinas-SP.`}
+        canonical={`/fornecedores-catalogos/${fornecedor.slug}`}
       />
       <Breadcrumb
         items={[

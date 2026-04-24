@@ -113,9 +113,7 @@ const Footer = () => {
         <div className={styles.footerBottomContent}>
           <p>© {new Date().getFullYear()} {contato.empresa} — Todos os direitos reservados.</p>
           <div className={styles.footerBottomLinks}>
-            <Link to="/seguranca">Segurança nas Ferramentas</Link>
-            <span>|</span>
-            <Link to="/sugestoes-de-utilizacao">Sugestões de Utilização</Link>
+            <Link to="/politica-de-privacidade">Política de Privacidade</Link>
           </div>
         </div>
       </div>
