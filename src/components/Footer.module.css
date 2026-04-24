@@ -36,11 +36,11 @@
 
 .footerTitle {
     margin: 0 0 var(--space-m) 0;
-    font-family: var(--font-ui);
+    font-family: var(--font-display);
     font-size: var(--text-xs);
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -116,7 +116,7 @@
     font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
 }
 
 .phoneLink {
@@ -149,11 +149,11 @@
     background: var(--brand-whatsapp, #25d366);
     color: white;
     padding: var(--space-m) var(--space-l);
-    border-radius: 999px;
+    border-radius: var(--radius-md);
     font-weight: 700;
     font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -175,11 +175,11 @@
     background: var(--accent-blue);
     color: var(--bg-white);
     padding: 0.8rem 1.1rem;
-    border-radius: 999px;
+    border-radius: var(--radius-md);
     font-weight: 700;
     font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
     transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
     box-shadow: var(--shadow-sm);
 }

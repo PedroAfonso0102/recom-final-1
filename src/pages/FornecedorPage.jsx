@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
+import CatalogGroups from '../components/CatalogGroups';
 import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor, getFornecedorCatalogoPrincipal, hasCatalogoValido } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { ArrowRight, ExternalLink } from 'lucide-react';
@@ -25,7 +26,6 @@ const FornecedorPage = () => {
   const catalogos = getCatalogosDoFornecedor(fornecedor);
   const catalogoPrincipal = getFornecedorCatalogoPrincipal(fornecedor);
   const catalogoDisponivel = hasCatalogoValido(fornecedor);
-  const catalogosSecundarios = catalogos.slice(1);
 
   const processosRelacionados = processos.filter(
     p => fornecedor.processosRelacionados.includes(p.id)
@@ -105,7 +105,7 @@ const FornecedorPage = () => {
                   <h2>Acesso rápido aos materiais da marca</h2>
                 </div>
                 <p className={styles.catalogoIntro}>
-                  O primeiro link abaixo é o caminho mais direto para o catálogo oficial da marca. Os demais funcionam como apoio para navegação complementar.
+                  O botão principal abre a rota mais direta. A lista abaixo separa os materiais por tipo para evitar confundir catálogo técnico, consulta online, downloads e portal institucional.
                 </p>
 
                 <div className={styles.catalogoActions}>
@@ -130,31 +130,7 @@ const FornecedorPage = () => {
                     </ActionButton>
                   </div>
 
-                  {catalogosSecundarios.length > 0 && (
-                    <div className={styles.catalogoSecondaryList}>
-                      {catalogosSecundarios.map((catalogo) => (
-                        <ActionButton
-                          key={catalogo.url}
-                          href={catalogo.url}
-                          target="_blank"
-                          variant="secondary"
-                          compact
-                          stackOnMobile
-                          ariaLabel={`Acessar ${catalogo.label} da ${fornecedor.nome}`}
-                          onClick={() =>
-                            trackSupplierCatalogClick({
-                              supplierName: fornecedor.nome,
-                              placement: 'supplier_secondary',
-                              url: catalogo.url,
-                            })
-                          }
-                        >
-                          <ExternalLink size={14} aria-hidden="true" />
-                          <span>{catalogo.label}</span>
-                        </ActionButton>
-                      ))}
-                    </div>
-                  )}
+                  <CatalogGroups fornecedor={fornecedor} placement="supplier_grouped_catalogs" />
                 </div>
 
                 <p className={styles.externalNote}>

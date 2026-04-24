@@ -9,6 +9,13 @@ import sevenLeadersLogo from '../assets/images/logo-7leaders.svg';
 import btFixoLogo from '../assets/images/logo_btfixo.png';
 import kifixLogo from '../assets/images/optimized/logo-kifix.png';
 
+export const catalogoCategorias = {
+  tecnico: 'Catálogo técnico',
+  online: 'Catálogo online',
+  downloads: 'Downloads oficiais',
+  institucional: 'Portal institucional',
+};
+
 export const fornecedores = [
   {
     id: 'mitsubishi-materials',
@@ -27,15 +34,18 @@ export const fornecedores = [
     observacoes: 'Fornecedor destaque e com mais de um catálogo oficial disponível.',
     catalogos: [
       {
-        label: 'Catálogo Geral (PDF)',
+        tipo: 'tecnico',
+        label: 'Catálogo geral Mitsubishi Materials (PDF)',
         url: 'https://www.mmc-carbide.com/br/download/catalog-1',
       },
       {
-        label: 'Consulta Online (Web Catalog)',
+        tipo: 'online',
+        label: 'Consulta online Mitsubishi Materials',
         url: 'https://www.mmc-carbide.com/en_jp/webcatalog',
       },
       {
-        label: 'Portal Mitsubishi Brasil',
+        tipo: 'institucional',
+        label: 'Portal Mitsubishi Materials Brasil',
         url: 'https://www.mmc-carbide.com/br',
       },
     ],
@@ -60,11 +70,13 @@ export const fornecedores = [
     observacoes: 'Possui catálogo digital e página de produtos complementar.',
     catalogos: [
       {
-        label: 'Catálogo digital oficial',
+        tipo: 'online',
+        label: 'Catálogo digital 7Leaders',
         url: 'https://www.7leaders.com/e-catalog',
       },
       {
-        label: 'Página geral de produtos',
+        tipo: 'institucional',
+        label: 'Página geral de produtos 7Leaders',
         url: 'https://www.7leaders.com/products',
       },
     ],
@@ -89,7 +101,8 @@ export const fornecedores = [
     observacoes: 'Catálogo principal consolidado em uma central de materiais oficiais.',
     catalogos: [
       {
-        label: 'Central oficial de catálogos',
+        tipo: 'downloads',
+        label: 'Central oficial de catálogos BT Fixo',
         url: 'https://www.btfixo.com.br/catalogos',
       },
     ],
@@ -114,11 +127,13 @@ export const fornecedores = [
     observacoes: 'O catálogo oficial é um PDF versionado; o parâmetro de cache sugere atualização temporária de publicação.',
     catalogos: [
       {
+        tipo: 'tecnico',
         label: 'Catálogo Kifix 2025 (PDF)',
         url: 'https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05',
       },
       {
-        label: 'Página de downloads',
+        tipo: 'downloads',
+        label: 'Página de downloads Kifix',
         url: 'https://www.kifix.com.br/downloads/',
       },
     ],
@@ -139,6 +154,7 @@ export const getCatalogosDoFornecedor = (fornecedor) => {
     return [
       {
         label: fornecedor.catalogoLabel || 'Catálogo oficial',
+        tipo: 'tecnico',
         url: fornecedor.catalogoUrl,
       },
     ];
@@ -148,6 +164,25 @@ export const getCatalogosDoFornecedor = (fornecedor) => {
 };
 
 export const getFornecedorCatalogoPrincipal = (fornecedor) => getCatalogosDoFornecedor(fornecedor)[0] || null;
+
+export const getCatalogosPorCategoria = (fornecedor) => {
+  const grupos = getCatalogosDoFornecedor(fornecedor).reduce((acc, catalogo) => {
+    const tipo = catalogo.tipo || 'tecnico';
+
+    if (!acc[tipo]) {
+      acc[tipo] = [];
+    }
+
+    acc[tipo].push(catalogo);
+    return acc;
+  }, {});
+
+  return Object.entries(grupos).map(([tipo, items]) => ({
+    tipo,
+    titulo: catalogoCategorias[tipo] || 'Catálogo oficial',
+    items,
+  }));
+};
 
 export const hasCatalogoValido = (fornecedor) => {
   const catalogoPrincipal = getFornecedorCatalogoPrincipal(fornecedor);

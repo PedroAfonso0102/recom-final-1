@@ -31,19 +31,20 @@
 .fornecedorGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: var(--space-l);
+  margin-bottom: var(--space-2xl);
 }
 
 .fornecedorCard {
-  padding: 1.75rem;
+  padding: var(--space-l);
   display: flex;
   flex-direction: column;
+  gap: var(--space-m);
   position: relative;
 }
 
 .fornecedorCard.destaque {
-  border-color: var(--accent-blue, #1a3a5c);
+  border-color: var(--accent-blue);
   border-width: 2px;
 }
 
@@ -64,7 +65,7 @@
   height: 64px;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .cardLogo img {
@@ -81,15 +82,16 @@
 
 .fornecedorNome {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: var(--text-h3);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 0.5rem;
+  letter-spacing: 0;
 }
 
 .fornecedorDesc {
-  font-size: 0.9375rem;
-  color: var(--text-secondary, #4a5568);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
   line-height: 1.55;
   margin: 0 0 1.25rem;
   flex: 1;
@@ -107,8 +109,8 @@
 }
 
 .catalogoDisclosure[open] .catalogoSummary {
-  border-color: var(--accent-blue, #1a3a5c);
-  color: var(--accent-blue, #1a3a5c);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .catalogoSummary {
@@ -119,17 +121,17 @@
   width: 100%;
   list-style: none;
   cursor: pointer;
-  border: 1px solid var(--border-light, #e2e8f0);
-  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
   padding: 0.625rem 0.875rem;
-  color: var(--text-secondary, #4a5568);
-  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-size: var(--text-caption);
   font-weight: 600;
-  background: var(--bg-subtle, #f8fafc);
+  background: var(--bg-subtle);
 }
 
 .catalogoSummary:focus-visible {
-  outline: 2px solid var(--accent-blue, #1a3a5c);
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
@@ -147,9 +149,6 @@
 }
 
 .catalogosList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   padding: 0.75rem 0.25rem 0.25rem;
 }
 
@@ -163,8 +162,8 @@
 
 .catalogoLink {
   padding: 0.5rem 0.25rem;
-  border-radius: 6px;
-  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-caption);
   font-weight: 500;
 }
 

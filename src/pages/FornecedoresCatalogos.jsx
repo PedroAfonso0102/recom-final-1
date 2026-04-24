@@ -3,11 +3,13 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
+import CatalogGroups from '../components/CatalogGroups';
 import { Card, ExternalLink as ExternalCatalogLink } from '../components/ui';
 import { fornecedores, getCatalogosDoFornecedor, getFornecedorCatalogoPrincipal, hasCatalogoValido } from '../data/fornecedores';
 import { ArrowRight } from 'lucide-react';
 import { trackSupplierCatalogClick } from '../utils/analytics';
 import styles from './FornecedoresCatalogos.module.css';
+import editorialStyles from '../styles/Editorial.module.css';
 
 /**
  * Hub de Fornecedores & Catálogos.
@@ -26,10 +28,11 @@ const FornecedoresCatalogos = () => {
         { label: 'Fornecedores e Catálogos' },
       ]} />
 
-      <div className={styles.pageContainer}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Fornecedores e Catálogos</h1>
-          <p className={styles.pageSubtitle}>
+      <div className={editorialStyles.pageContainer}>
+        <div className={editorialStyles.pageHeader}>
+          <span className={editorialStyles.kicker}>Hub técnico-comercial</span>
+          <h1 className={editorialStyles.pageTitle}>Fornecedores e Catálogos</h1>
+          <p className={editorialStyles.pageSubtitle}>
             Consulte os fornecedores com os quais a RECOM trabalha e acesse os catálogos oficiais
             para orientar sua cotação, aplicação ou seleção de ferramentas.
           </p>
@@ -43,9 +46,7 @@ const FornecedoresCatalogos = () => {
 
             return (
               <Card key={fornecedor.id} interactive className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
-                {fornecedor.destaque && (
-                  <span className={styles.destaqueBadge}>Principal</span>
-                )}
+                {fornecedor.destaque && <span className={editorialStyles.badge}>Principal</span>}
                 <div className={styles.cardLogo}>
                   <img
                     src={fornecedor.logo}
@@ -98,28 +99,10 @@ const FornecedoresCatalogos = () => {
                   {catalogos.length > 0 && (
                     <details className={styles.catalogoDisclosure}>
                       <summary className={styles.catalogoSummary}>
-                        <span>Todos os catálogos</span>
+                        <span>Catálogos por tipo</span>
                         <span className={styles.catalogoCount}>({catalogos.length})</span>
                       </summary>
-                      <div className={styles.catalogosList}>
-                        {catalogos.map((catalogo) => (
-                          <ExternalCatalogLink
-                            key={catalogo.url}
-                            href={catalogo.url}
-                            className={styles.catalogoLink}
-                            label={`Acessar ${catalogo.label} da ${fornecedor.nome}`}
-                            onClick={() =>
-                              trackSupplierCatalogClick({
-                                supplierName: fornecedor.nome,
-                                placement: 'hub_disclosure',
-                                url: catalogo.url,
-                              })
-                            }
-                          >
-                            {catalogo.label}
-                          </ExternalCatalogLink>
-                        ))}
-                      </div>
+                      <CatalogGroups fornecedor={fornecedor} placement="hub_disclosure" compact className={styles.catalogosList} />
                     </details>
                   )}
                 </div>
@@ -129,8 +112,10 @@ const FornecedoresCatalogos = () => {
         </div>
 
         {/* CTA de contato */}
-        <div className={styles.ctaSection}>
-          <p>Não encontrou o fornecedor ou catálogo que precisa? Envie sua aplicação, código ou operação e a RECOM indica o caminho certo.</p>
+        <div className={editorialStyles.ctaBlock}>
+          <span className={editorialStyles.kicker}>Curadoria RECOM</span>
+          <h2 className={editorialStyles.sectionTitle}>Não encontrou o catálogo certo?</h2>
+          <p className={editorialStyles.cardDesc}>Envie sua aplicação, código ou operação e a RECOM indica o caminho mais seguro para fornecedor, catálogo ou orçamento.</p>
           <ActionButton to="/contato" variant="primary" stackOnMobile>
             Solicitar orientação <ArrowRight size={16} />
           </ActionButton>
