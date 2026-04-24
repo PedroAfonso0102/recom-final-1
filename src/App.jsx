@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 // Pages — Aligned to Etapa 2 sitemap
 import Home from './pages/Home';
@@ -15,6 +15,20 @@ import NotFound from './pages/NotFound';
 
 // Global components
 import WhatsAppFAB from './components/WhatsAppFAB';
+
+const LegacyHashRedirect = () => {
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const hashPath = window.location.hash;
+    if (hashPath.startsWith('#/') && hashPath !== '#/') {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      navigate(hashPath.slice(1), { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+};
 
 /**
  * Routing structure per Etapa 2 sitemap (Batch 2 cleanup):
@@ -34,6 +48,7 @@ import WhatsAppFAB from './components/WhatsAppFAB';
 const App = () => {
   return (
     <Router basename={import.meta.env.BASE_URL}>
+      <LegacyHashRedirect />
       <WhatsAppFAB />
       <Routes>
 

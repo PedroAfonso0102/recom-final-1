@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../assets/images/optimized/logo-sem-fundo.png';
 import { contato } from '../data/contato';
@@ -14,9 +14,11 @@ const navItems = [
 ];
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header>
-      <div>
+      <div className="header-bar">
         <Link to="/" aria-label="RECOM Metal Duro - Início">
           <img
             src={logo}
@@ -34,15 +36,29 @@ const Header = () => {
             {contato.email.display}
           </a>
         </p>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="main-navigation"
+          onClick={() => setMenuOpen((current) => !current)}
+        >
+          {menuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+        </button>
       </div>
 
-      <nav aria-label="Navegação principal">
+      <nav
+        id="main-navigation"
+        className={menuOpen ? 'site-nav site-nav-open' : 'site-nav'}
+        aria-label="Navegação principal"
+      >
         <ul className="flex">
           {navItems.map((item) => (
             <li key={item.to}>
               <NavLink
                 to={item.to}
                 end={item.end}
+                onClick={() => setMenuOpen(false)}
               >
                 {item.label}
               </NavLink>
