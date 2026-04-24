@@ -1,7 +1,15 @@
 .header {
-    position: relative;
-    z-index: 40;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     width: 100%;
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-light);
+    transition: transform var(--transition-base), background var(--transition-fast);
+}
+
+.headerHidden {
+    transform: translateY(-100%);
 }
 
 .topBar {
@@ -164,6 +172,12 @@
 
     .mobileActions {
         display: flex;
+    }
+
+    @media (max-width: 400px) {
+        .mobileActions span {
+            display: none;
+        }
     }
 
     .menuButton {

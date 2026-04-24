@@ -88,7 +88,7 @@
 
 @media (max-width: 768px) {
     .fabContainer {
-        bottom: calc(var(--space-m) + env(safe-area-inset-bottom));
+        bottom: calc(var(--space-l) + 60px + env(safe-area-inset-bottom)); /* Lifted to avoid covering form controls on mobile */
         right: var(--space-m);
         width: 52px;
         height: 52px;
