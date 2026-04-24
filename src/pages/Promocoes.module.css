@@ -203,28 +203,6 @@
   line-height: 1.55;
 }
 
-.fornLink {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--text-secondary);
-  font-size: var(--text-xs, 0.75rem);
-  font-weight: 500;
-  transition: color 0.15s ease;
-}
-
-.fornLink:hover {
-  color: var(--accent-blue);
-}
-
-.fornLogo {
-  max-width: 60px;
-  max-height: 24px;
-  object-fit: contain;
-  opacity: 0.8;
-}
-
 .ctaSection {
   text-align: left;
   padding: var(--space-2xl, 3rem);

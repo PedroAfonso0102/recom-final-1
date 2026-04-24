@@ -68,11 +68,12 @@ Before the form can deliver production leads, the following still needs to be co
 
 ## UI patterns
 
-The site uses React with CSS Modules plus global design tokens in `src/index.css`.
+The site uses React with CSS Modules plus global design tokens in `src/index.css`. See [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md) for the short maintenance guide.
 
 - Use `src/components/ActionButton.jsx` for button-like links and actions. Supported visual variants include `primary`, `secondary`, `contrast`, `contrastSecondary`, `whatsapp`, `ghost`, `link`, `tertiary`, and `danger`.
 - Use `src/components/ui/Card.jsx` for repeated card shells. Keep page-specific layout in each page module, but reuse the base card for border, radius, shadow, and hover behavior.
 - Use `src/components/ui/FormField.jsx` for label/helper/error wiring on form controls. It centralizes `aria-describedby`, `aria-invalid`, `required`, and `aria-required`.
+- Use `src/components/ui/FormControl.jsx` exports (`Input`, `Textarea`, `Select`) for visual form controls.
 - Use `src/components/ui/Notice.jsx` for info, warning, error, and success states instead of creating one-off status panels.
 - Use `src/components/ui/ExternalLink.jsx` for links that open in a new tab, especially catalog links.
 - Prefer tokens from `src/index.css` for spacing, radius, shadows, focus rings, transitions, text colors, semantic colors, container widths, and control heights. Avoid hardcoded colors or bespoke shadows unless the component has a clear visual reason.

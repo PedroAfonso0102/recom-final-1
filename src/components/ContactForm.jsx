@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import ActionButton from './ActionButton';
-import { FormField, Notice } from './ui';
+import { FormField, Input, Notice, Select, Textarea } from './ui';
 import styles from './ContactForm.module.css';
 import {
   CONTACT_FORM_NAME,
@@ -333,11 +333,11 @@ const ContactForm = () => {
 
         <div className={styles.gridRow}>
           <FormField id="contact-name" label="Nome" required error={errors.name}>
-            <input
+            <Input
               id="contact-name"
               name="name"
               type="text"
-              className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+              invalid={Boolean(errors.name)}
               placeholder="Seu nome completo"
               autoComplete="name"
               maxLength={120}
@@ -348,11 +348,11 @@ const ContactForm = () => {
           </FormField>
 
           <FormField id="contact-company" label="Empresa" required error={errors.company}>
-            <input
+            <Input
               id="contact-company"
               name="company"
               type="text"
-              className={`${styles.input} ${errors.company ? styles.inputError : ''}`}
+              invalid={Boolean(errors.company)}
               placeholder="Nome da empresa"
               autoComplete="organization"
               maxLength={120}
@@ -365,11 +365,11 @@ const ContactForm = () => {
 
         <div className={styles.gridRow}>
           <FormField id="contact-email" label="E-mail" required error={errors.email}>
-            <input
+            <Input
               id="contact-email"
               name="email"
               type="email"
-              className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
+              invalid={Boolean(errors.email)}
               placeholder="exemplo@email.com"
               autoComplete="email"
               inputMode="email"
@@ -380,15 +380,15 @@ const ContactForm = () => {
             />
           </FormField>
 
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-phone">
-              Telefone / WhatsApp
-            </label>
-            <input
+          <FormField
+            id="contact-phone"
+            label="Telefone / WhatsApp"
+            helper="Opcional, mas útil se o retorno precisar ser rápido."
+          >
+            <Input
               id="contact-phone"
               name="phone"
               type="tel"
-              className={styles.input}
               placeholder="(19) 0000-0000"
               autoComplete="tel"
               inputMode="tel"
@@ -396,113 +396,88 @@ const ContactForm = () => {
               value={values.phone}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-describedby="contact-phone-hint"
             />
-            <p id="contact-phone-hint" className={styles.helperText}>
-              Opcional, mas útil se o retorno precisar ser rápido.
-            </p>
-          </div>
+          </FormField>
         </div>
 
         <div className={styles.gridRow}>
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-supplier">
-              Fornecedor ou marca de interesse
-            </label>
-            <select
+          <FormField
+            id="contact-supplier"
+            label="Fornecedor ou marca de interesse"
+            helper="Se já tiver uma marca em mente, selecione aqui."
+          >
+            <Select
               id="contact-supplier"
               name="supplier"
-              className={styles.select}
               value={values.supplier}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-describedby="contact-supplier-hint"
             >
               <option value="">Ainda nao sei</option>
               <option value="mitsubishi-materials">Mitsubishi Materials</option>
               <option value="7leaders">7Leaders</option>
               <option value="bt-fixo">BT Fixo</option>
               <option value="kifix">Kifix</option>
-            </select>
-            <p id="contact-supplier-hint" className={styles.helperText}>
-              Se já tiver uma marca em mente, selecione aqui.
-            </p>
-          </div>
+            </Select>
+          </FormField>
 
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-process">
-              Processo / aplicação
-            </label>
-            <select
+          <FormField
+            id="contact-process"
+            label="Processo / aplicação"
+            helper="Isso ajuda a direcionar a resposta comercial e técnica."
+          >
+            <Select
               id="contact-process"
               name="process"
-              className={styles.select}
               value={values.process}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-describedby="contact-process-hint"
             >
               <option value="">Ainda nao defini</option>
               <option value="torneamento">Torneamento</option>
               <option value="fresamento">Fresamento</option>
               <option value="furacao">Furação</option>
               <option value="outro">Outro processo</option>
-            </select>
-            <p id="contact-process-hint" className={styles.helperText}>
-              Isso ajuda a direcionar a resposta comercial e técnica.
-            </p>
-          </div>
+            </Select>
+          </FormField>
         </div>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label} htmlFor="contact-codes">
-            Código(s) ou item(ns) desejado(s)
-          </label>
-          <input
+        <FormField
+          id="contact-codes"
+          label="Código(s) ou item(ns) desejado(s)"
+          helper="Se souber o código, informe. Se não, descreva a necessidade na mensagem."
+        >
+          <Input
             id="contact-codes"
             name="codes"
             type="text"
-            className={styles.input}
             placeholder="Ex: MWS0500SB"
             maxLength={160}
             value={values.codes}
             onChange={updateValue}
             disabled={submission.status === 'submitting'}
-            aria-describedby="contact-codes-hint"
           />
-          <p id="contact-codes-hint" className={styles.helperText}>
-            Se souber o código, informe. Se não, descreva a necessidade na mensagem.
-          </p>
-        </div>
+        </FormField>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label} htmlFor="contact-message">
-            Mensagem / necessidade *
-          </label>
-          <textarea
+        <FormField
+          id="contact-message"
+          label="Mensagem / necessidade"
+          required
+          error={errors.message}
+          helper="Explique o contexto da demanda para acelerar a resposta comercial."
+        >
+          <Textarea
             id="contact-message"
             name="message"
             rows="6"
-            className={`${styles.textarea} ${errors.message ? styles.textareaError : ''}`}
+            invalid={Boolean(errors.message)}
             placeholder="Conte com quais peças, materiais, operações ou quantidades você quer trabalhar."
             maxLength={2000}
             value={values.message}
             onChange={updateValue}
             disabled={submission.status === 'submitting'}
-            aria-invalid={errors.message ? 'true' : 'false'}
-            aria-describedby={errors.message ? 'contact-message-error contact-message-hint' : 'contact-message-hint'}
-            required
-            aria-required="true"
           />
-          {errors.message ? (
-            <span id="contact-message-error" className={styles.errorMessage} role="alert">
-              {errors.message}
-            </span>
-          ) : null}
-          <p id="contact-message-hint" className={styles.helperText}>
-            Explique o contexto da demanda para acelerar a resposta comercial.
-          </p>
-        </div>
+        </FormField>
 
         <div className={styles.inputGroup}>
           <label className={styles.checkboxGroup} htmlFor="contact-consent">

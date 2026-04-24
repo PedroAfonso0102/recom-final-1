@@ -79,9 +79,14 @@
 
   --control-height-sm: 40px;
   --control-height-md: 48px;
+  --control-padding-y: 0.75rem;
   --control-padding-x: 1rem;
   --control-border: var(--border-medium);
   --control-border-focus: var(--accent-blue);
+  --control-radius: var(--radius-md);
+  --control-focus-shadow: 0 0 0 3px var(--focus-ring-soft);
+  --control-error-shadow: 0 0 0 3px var(--accent-red-light);
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 
   --aspect-product: 4 / 3;
   --aspect-technical: 16 / 9;

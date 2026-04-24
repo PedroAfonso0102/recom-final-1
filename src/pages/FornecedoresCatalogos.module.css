@@ -182,24 +182,6 @@
   margin: 0 0 1rem;
 }
 
-.ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.75rem;
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  transition: background 0.15s ease;
-}
-
-.ctaBtn:hover {
-  background: var(--accent-blue-hover, #153050);
-}
-
 @media (max-width: 768px) {
   .fornecedorGrid {
     grid-template-columns: 1fr;

@@ -133,59 +133,6 @@
   flex-wrap: wrap;
 }
 
-.primaryBtn,
-.secondaryBtn,
-.whatsappLink,
-.ctaSidebarBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.78rem 1.1rem;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 700;
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.primaryBtn,
-.ctaSidebarBtn {
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(26, 58, 92, 0.14);
-}
-
-.primaryBtn:hover,
-.ctaSidebarBtn:hover {
-  background: var(--accent-blue-hover, #153050);
-  transform: translateY(-1px);
-}
-
-.secondaryBtn {
-  border: 1px solid var(--border-light, #e2e8f0);
-  color: var(--text-primary, #1a1a2e);
-  background: #fff;
-}
-
-.secondaryBtn:hover {
-  border-color: rgba(26, 58, 92, 0.28);
-  color: var(--accent-blue, #1a3a5c);
-  transform: translateY(-1px);
-}
-
-.whatsappLink {
-  color: var(--text-secondary, #4a5568);
-  background: #fff;
-  border: 1px solid var(--border-light, #e2e8f0);
-}
-
-.whatsappLink:hover {
-  border-color: rgba(26, 58, 92, 0.28);
-  color: var(--accent-blue, #1a3a5c);
-  transform: translateY(-1px);
-}
-
 .heroVisual {
   justify-self: end;
   width: 100%;
