@@ -41,7 +41,7 @@ const FornecedorPage = () => {
       <Breadcrumb
         items={[
           { label: 'Início', to: '/' },
-          { label: 'Fornecedores & Catálogos', to: '/fornecedores-catalogos' },
+          { label: 'Fornecedores e Catálogos', to: '/fornecedores-catalogos' },
           { label: fornecedor.nome },
         ]}
       />
@@ -165,7 +165,7 @@ const FornecedorPage = () => {
                 stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}
               >
-                Falar com especialista <ArrowRight size={14} />
+                Entrar em contato <ArrowRight size={14} />
               </ActionButton>
             </div>
 

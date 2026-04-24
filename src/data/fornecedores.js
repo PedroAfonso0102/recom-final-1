@@ -16,9 +16,9 @@ export const fornecedores = [
     nome: 'Mitsubishi Materials',
     slug: 'mitsubishi-materials',
     logo: mitsubishiLogo,
-    descricaoCurta: 'Referência global em ferramentas de corte para usinagem de alta precisão.',
+    descricaoCurta: 'Ferramentas de corte para torneamento, fresamento e furação em aplicações industriais.',
     descricao:
-      'A Mitsubishi Materials desenvolve soluções para torneamento, fresamento e furação com foco em estabilidade, repetibilidade e vida útil consistente. A linha atende operações industriais que exigem controle dimensional, acabamento uniforme e produtividade previsível.',
+      'A Mitsubishi Materials desenvolve ferramentas para torneamento, fresamento e furação com foco em estabilidade de processo, repetibilidade e produtividade em aplicações industriais.',
     catalogoUrl: 'https://www.mmc-carbide.com/br/download/catalog-1',
     catalogoLabel: 'Catálogo geral oficial da Mitsubishi Materials',
     catalogos: [
@@ -44,9 +44,9 @@ export const fornecedores = [
     nome: '7Leaders',
     slug: '7leaders',
     logo: sevenLeadersLogo,
-    descricaoCurta: 'Linha complementar de ferramentas e acessórios para usinagem industrial.',
+    descricaoCurta: 'Ferramentas em metal duro para fresamento, furação, alargamento e aplicações complementares.',
     descricao:
-      'A 7Leaders reúne soluções complementares para usinagem industrial, ampliando as opções de corte, apoio e acabamento em rotas de produção que pedem flexibilidade e variação de aplicação.',
+      'A 7Leaders reúne ferramentas em metal duro para apoio ao corte, ao acabamento e às operações complementares de usinagem industrial.',
     catalogoUrl: 'https://www.7leaders.com/e-catalog',
     catalogoLabel: 'Catálogo digital oficial da 7Leaders',
     catalogos: [
@@ -68,9 +68,9 @@ export const fornecedores = [
     nome: 'BT Fixo',
     slug: 'bt-fixo',
     logo: `${assetBase}bt-fixo/logo.png`,
-    descricaoCurta: 'Sistemas de fixação e porta-ferramentas para operações de usinagem.',
+    descricaoCurta: 'Porta-ferramentas, sistemas de fixação e acessórios para máquinas CNC.',
     descricao:
-      'A BT Fixo atua com sistemas de fixação e porta-ferramentas voltados à estabilidade da operação, contribuindo para precisão, segurança de setup e melhor desempenho durante a usinagem.',
+      'A BT Fixo atua com porta-ferramentas, sistemas de fixação e acessórios voltados à estabilidade de setup e ao desempenho da operação.',
     catalogoUrl: 'https://www.btfixo.com.br/catalogos',
     catalogoLabel: 'Central oficial de catálogos BT Fixo',
     catalogos: [
@@ -88,9 +88,9 @@ export const fornecedores = [
     nome: 'Kifix',
     slug: 'kifix',
     logo: kifixLogo,
-    descricaoCurta: 'Acessórios de fixação complementar para processos de usinagem.',
+    descricaoCurta: 'Grampos e acessórios de fixação para apoio à montagem e à usinagem.',
     descricao:
-      'A Kifix fornece acessórios de fixação que apoiam a rotina de usinagem com soluções complementares para setup, apoio e organização da ferramenta no chão de fábrica.',
+      'A Kifix fornece grampos e acessórios de fixação para apoio à montagem, ao setup e à rotina industrial de usinagem.',
     catalogoUrl: 'https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05',
     catalogoLabel: 'Catálogo Kifix 2025 (PDF)',
     catalogos: [

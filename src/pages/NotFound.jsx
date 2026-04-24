@@ -30,10 +30,10 @@ const NotFound = () => {
               Voltar ao Início
             </Link>
             <Link to="/fornecedores-catalogos" className={styles.secondaryLink}>
-              Fornecedores & Catálogos <ArrowRight size={14} />
+              Fornecedores e Catálogos <ArrowRight size={14} />
             </Link>
             <Link to="/solucoes" className={styles.secondaryLink}>
-              Soluções / Processos <ArrowRight size={14} />
+              Soluções por processo <ArrowRight size={14} />
             </Link>
             <Link to="/contato" className={styles.secondaryLink}>
               Fale Conosco <ArrowRight size={14} />

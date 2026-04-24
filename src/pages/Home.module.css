@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
   gap: var(--space-2xl);
-  align-items: center;
+  align-items: start;
   margin-top: var(--space-xl);
   padding: var(--space-2xl);
   border: 1px solid var(--border-light);
@@ -27,6 +27,7 @@
 
 .heroCopy {
   min-width: 0;
+  padding-top: 0.15rem;
 }
 
 .heroBadge,
@@ -106,6 +107,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
+  align-self: start;
 }
 
 .heroCarousel {
@@ -116,6 +118,8 @@
 
 .heroCarouselViewport {
   position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-light);
@@ -124,12 +128,15 @@
 }
 
 .heroCarouselFrame {
+  position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   overflow: hidden;
 }
 
 .heroCarouselImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -144,6 +151,7 @@
 .heroCarouselMeta {
   display: grid;
   gap: 0.35rem;
+  min-height: 4.2rem;
 }
 
 .heroCarouselEyebrow {
@@ -165,6 +173,11 @@
   font-size: 1rem;
   line-height: 1.3;
   font-weight: 800;
+  min-height: 2.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .heroCarouselText {
@@ -172,6 +185,11 @@
   color: var(--text-secondary);
   font-size: 0.92rem;
   line-height: 1.5;
+  min-height: 2.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .heroCarouselNote {
@@ -179,6 +197,11 @@
   color: var(--text-secondary);
   font-size: 0.92rem;
   line-height: 1.55;
+  min-height: 2.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .heroCarouselControls {
@@ -700,11 +723,19 @@
     margin-top: var(--space-l);
   }
 
+  .heroCopy {
+    padding-top: 0;
+  }
+
   .heroTitle {
     font-size: clamp(2.1rem, 10vw, 3.2rem);
   }
 
   .heroCarouselFrame {
+    height: 100%;
+  }
+
+  .heroCarouselViewport {
     aspect-ratio: 4 / 3;
   }
 
@@ -716,6 +747,16 @@
   .heroCarouselArrow {
     width: 44px;
     height: 44px;
+  }
+
+  .heroCarouselMeta {
+    min-height: 3.7rem;
+  }
+
+  .heroCarouselTitle,
+  .heroCarouselText,
+  .heroCarouselNote {
+    min-height: auto;
   }
 
   .heroCarouselDots {

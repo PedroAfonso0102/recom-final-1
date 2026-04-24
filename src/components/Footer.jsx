@@ -103,7 +103,7 @@ const Footer = () => {
               onClick={() => trackLeadGen('whatsapp', 'Footer')}
             >
               <MessageCircle size={18} />
-              Falar com especialista
+              Falar com a RECOM
             </ActionButton>
           </div>
         </div>

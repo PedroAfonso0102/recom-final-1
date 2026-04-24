@@ -42,13 +42,13 @@ const Solucoes = () => {
   return (
     <Layout>
       <SEOHead
-        title="Soluções / Processos"
-        description="Selecione torneamento, fresamento ou furação para seguir para fornecedores, catálogos oficiais e contato direto com a RECOM Metal Duro."
+        title="Soluções por processo"
+        description="Encontre fornecedores, catálogos e caminhos de atendimento a partir da operação de usinagem."
       />
       <Breadcrumb
         items={[
           { label: 'Início', to: '/' },
-          { label: 'Soluções / Processos' },
+          { label: 'Soluções por processo' },
         ]}
       />
 
@@ -56,14 +56,17 @@ const Solucoes = () => {
         <section className={styles.heroSection}>
           <div className={styles.heroCopy}>
             <div className={styles.heroMeta}>
-              <span className={styles.heroEyebrow}>Soluções por processo</span>
-              <span className={styles.heroBadge}>Hub técnico</span>
-              <span className={styles.heroBadgeMuted}>{processos.length} rotas principais</span>
+              <span className={styles.heroEyebrow}>Por operação</span>
+              <span className={styles.heroBadge}>Torneamento, fresamento e furação</span>
+              <span className={styles.heroBadgeMuted}>Entrada por processo</span>
             </div>
 
-            <h1 className={styles.pageTitle}>Soluções / Processos</h1>
+            <h1 className={styles.pageTitle}>Soluções por processo</h1>
             <p className={styles.pageSubtitle}>
-              Selecione a operação e siga para fornecedores, catálogo oficial ou contato. A RECOM vende ferramentas e constrói com o cliente a solução mais adequada para cada aplicação.
+              Encontre fornecedores, catálogos e caminhos de atendimento a partir da operação de usinagem.
+            </p>
+            <p className={styles.pageSubtitle}>
+              A RECOM ajuda a cruzar ferramenta, aplicação e fornecedor para que o cliente avance com mais segurança na cotação ou na definição do processo.
             </p>
 
             <div className={styles.heroActions}>
@@ -73,7 +76,7 @@ const Solucoes = () => {
                 stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Solucoes Hub CTA')}
               >
-                Falar com especialista <ArrowRight size={16} />
+                Entrar em contato <ArrowRight size={16} />
               </ActionButton>
               <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
                 Ver fornecedores
@@ -90,34 +93,34 @@ const Solucoes = () => {
             />
             <div className={styles.heroBrandCopy}>
               <span className={styles.heroBrandKicker}>Como a RECOM atua</span>
-              <h2 className={styles.heroBrandTitle}>Venda de ferramentas e definição do processo lado a lado com o cliente</h2>
+              <h2 className={styles.heroBrandTitle}>Da operação à ferramenta correta</h2>
               <p className={styles.heroBrandDesc}>
-                A RECOM orienta a escolha, cruza dados técnicos e encaminha o próximo passo quando a aplicação pede validação de peça, catálogo ou ajuste de processo.
+                A RECOM vende ferramentas para usinagem e apoia o cliente na leitura da aplicação, indicando fornecedores, catálogos e caminhos de atendimento conforme a necessidade da peça.
               </p>
               <ol className={styles.heroSteps}>
                 <li className={styles.heroStep}>
                   <span className={styles.heroStepIndex}>1</span>
-                  <span>Selecione a operação ou traga o dado da peça que você já tem.</span>
+                  <span>Informe a operação, material, código ou dados da peça.</span>
                 </li>
                 <li className={styles.heroStep}>
                   <span className={styles.heroStepIndex}>2</span>
-                  <span>Abra o fornecedor, o catálogo oficial ou o contato direto.</span>
+                  <span>A RECOM cruza a aplicação com fornecedores e catálogos oficiais.</span>
                 </li>
                 <li className={styles.heroStep}>
                   <span className={styles.heroStepIndex}>3</span>
-                  <span>Siga pela rota certa e reduza dúvida, retrabalho e etapas desnecessárias.</span>
+                  <span>Você segue para cotação ou validação com menos dúvida e retrabalho.</span>
                 </li>
               </ol>
             </div>
           </div>
         </section>
 
-        <section className={styles.quickAccessSection} aria-label="Acesso rapido aos processos">
+        <section className={styles.quickAccessSection} aria-label="Acesso rápido aos processos">
           <div className={styles.quickAccessCopy}>
-            <span className={styles.quickAccessEyebrow}>Entrada guiada</span>
-            <h2>Escolha a operação certa e siga pelo caminho mais curto</h2>
+            <span className={styles.quickAccessEyebrow}>Comece pela operação</span>
+            <h2>Escolha o processo de usinagem e siga pela rota certa</h2>
             <p>
-              Se você já tem código, nome da peça ou fabricante, use o acesso rápido. Se ainda precisa definir a rota, siga para o contato ou para os catálogos oficiais.
+              Se já tiver código, desenho, material ou fornecedor de referência, envie para a RECOM e receba um direcionamento mais preciso.
             </p>
           </div>
 
@@ -200,9 +203,9 @@ const Solucoes = () => {
 
         <section className={styles.ctaSection}>
           <span className={styles.ctaEyebrow}>Apoio técnico</span>
-          <h2 className={styles.ctaTitle}>Não sabe por onde começar? Fale com a RECOM.</h2>
+          <h2 className={styles.ctaTitle}>Ainda não sabe qual processo seguir?</h2>
           <p className={styles.ctaDesc}>
-            A equipe ajuda a enquadrar a operação, conferir os dados disponíveis e indicar a rota mais direta para catálogo, fornecedor ou contato.
+            Envie os dados da peça, material, operação ou código de referência. A RECOM ajuda a organizar a demanda e indicar o caminho mais direto para fornecedor, catálogo ou orçamento.
           </p>
           <div className={styles.ctaActions}>
             <ActionButton

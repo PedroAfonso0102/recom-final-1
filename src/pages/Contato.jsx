@@ -136,7 +136,7 @@ const Contato = () => {
               <MessageCircle size={24} />
               <div>
                 <strong>Prefere WhatsApp?</strong>
-                <span>Fale diretamente com um especialista</span>
+                <span>Fale diretamente com a RECOM</span>
               </div>
             </a>
 

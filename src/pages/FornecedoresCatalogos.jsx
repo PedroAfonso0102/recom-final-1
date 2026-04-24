@@ -18,20 +18,20 @@ const FornecedoresCatalogos = () => {
   return (
     <Layout>
       <SEOHead
-        title="Fornecedores & Catálogos"
-        description="Conheça os fornecedores parceiros da RECOM Metal Duro. Acesse catálogos oficiais de Mitsubishi Materials, 7Leaders, BT Fixo e Kifix."
+        title="Fornecedores e Catálogos"
+        description="Consulte os fornecedores com os quais a RECOM trabalha e acesse os catálogos oficiais para orientar sua cotação, aplicação ou seleção de ferramentas."
       />
       <Breadcrumb items={[
         { label: 'Início', to: '/' },
-        { label: 'Fornecedores & Catálogos' },
+        { label: 'Fornecedores e Catálogos' },
       ]} />
 
       <div className={styles.pageContainer}>
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Fornecedores & Catálogos</h1>
+          <h1 className={styles.pageTitle}>Fornecedores e Catálogos</h1>
           <p className={styles.pageSubtitle}>
-            A RECOM seleciona e distribui ferramentas de fornecedores reconhecidos pela qualidade,
-            inovação e confiabilidade no mercado de usinagem.
+            Consulte os fornecedores com os quais a RECOM trabalha e acesse os catálogos oficiais
+            para orientar sua cotação, aplicação ou seleção de ferramentas.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ const FornecedoresCatalogos = () => {
                   {catalogos.length > 0 && (
                     <details className={styles.catalogoDisclosure}>
                       <summary className={styles.catalogoSummary}>
-                        <span>Catálogos oficiais</span>
+                        <span>Catálogos disponíveis</span>
                         <span className={styles.catalogoCount}>({catalogos.length})</span>
                       </summary>
                       <div className={styles.catalogosList}>
@@ -92,9 +92,9 @@ const FornecedoresCatalogos = () => {
 
         {/* CTA de contato */}
         <div className={styles.ctaSection}>
-          <p>Não encontrou o que procura? A RECOM pode ajudar a identificar a solução ideal.</p>
+          <p>Não encontrou o fornecedor ou catálogo que precisa? Envie sua aplicação, código ou operação.</p>
           <ActionButton to="/contato" variant="primary" stackOnMobile>
-            Solicitar Orientação <ArrowRight size={16} />
+            Solicitar orientação <ArrowRight size={16} />
           </ActionButton>
         </div>
       </div>

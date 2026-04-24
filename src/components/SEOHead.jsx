@@ -22,7 +22,7 @@ const SEOHead = ({
     ? `${title} | RECOM Metal Duro`
     : 'RECOM Metal Duro | Ferramentas para usinagem';
 
-  const metaDescription = description || 'RECOM Metal Duro atua desde 1998 com ferramentas para usinagem, atendimento técnico-comercial em Campinas-SP, fornecedores reconhecidos e catálogos oficiais.';
+  const metaDescription = description || 'RECOM Metal Duro atua desde 1990 com ferramentas para usinagem, atendimento técnico-comercial em Campinas-SP, fornecedores reconhecidos e catálogos oficiais.';
 
   return (
     <Helmet>

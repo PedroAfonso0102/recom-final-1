@@ -55,7 +55,7 @@ const processIconMap = {
 };
 
 const heroMetrics = [
-  { value: 'Desde 1998', label: 'atuação em Campinas-SP' },
+  { value: 'Desde 1990', label: 'atuação em Campinas-SP' },
   { value: 'Distribuição autorizada', label: 'Mitsubishi Materials' },
   { value: 'Atendimento a empresas', label: 'suporte técnico-comercial' },
   { value: 'Catálogos oficiais', label: 'fornecedores reconhecidos' },
@@ -67,8 +67,8 @@ const heroSlides = [
     alt: 'Empresa especializada em ferramentas para usinagem com itens de corte em destaque',
     eyebrow: 'Atendimento a empresas',
     title: 'Ferramentas para usinagem',
-    text: 'Ferramentas, fornecedores e soluções para a rotina industrial',
-    note: 'Atuação em Campinas | Confiança, clareza e atendimento próximo.',
+    text: 'Corte, fixação e apoio para a rotina industrial',
+    note: 'Atendimento em Campinas-SP | Compra objetiva e próxima.',
     objectPosition: '74% center',
   },
   {
@@ -76,8 +76,8 @@ const heroSlides = [
     alt: 'Fornecedores e catálogos de ferramentas para usinagem',
     eyebrow: 'Fornecedores e catálogos',
     title: 'Fornecedores e catálogos',
-    text: 'Marcas selecionadas para usinagem',
-    note: 'Escolha a marca certa | Apoio comercial com clareza.',
+    text: 'Marcas selecionadas para consulta e cotação',
+    note: 'Escolha a marca certa | Apoio comercial direto.',
   },
   {
     image: heroSlide3,
@@ -85,15 +85,15 @@ const heroSlides = [
     eyebrow: 'Condições especiais',
     title: 'Promoções',
     text: 'Condições especiais em linhas selecionadas',
-    note: 'Disponibilidade sob consulta | Atendimento rápido e objetivo.',
+    note: 'Disponibilidade sob consulta | Atendimento objetivo.',
   },
   {
     image: heroTecnicoImg,
     alt: 'Planejamento técnico de usinagem com ferramentas e desenho de peça',
     eyebrow: 'Análise técnica',
-    title: 'Aplicação e processo',
-    text: 'Definição técnica para seguir com mais precisão',
-    note: 'Base técnica sólida para orientar a decisão de compra.',
+    title: 'Orientação técnica para definir o processo certo',
+    text: 'A RECOM cruza aplicação, ferramenta e processo antes da compra',
+    note: 'Base técnica para indicar o caminho mais adequado.',
   },
 ];
 
@@ -377,7 +377,7 @@ const Home = () => {
                   Uma empresa de Campinas com trajetória no atendimento industrial
                 </h2>
                 <p className={styles.sectionLead}>
-                  Desde 1998, a RECOM atua no atendimento a clientes industriais, conectando demandas
+                  Desde 1990, a RECOM atua no atendimento a clientes industriais, conectando demandas
                   de usinagem a fornecedores reconhecidos e canais oficiais de catálogo.
                 </p>
 

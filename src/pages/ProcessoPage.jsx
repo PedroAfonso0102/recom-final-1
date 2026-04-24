@@ -288,7 +288,7 @@ const ProcessoPage = () => {
                 stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Processo Sidebar CTA')}
               >
-                Falar com especialista <ArrowRight size={14} />
+                Entrar em contato <ArrowRight size={14} />
               </ActionButton>
             </div>
 
