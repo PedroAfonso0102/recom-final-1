@@ -17,6 +17,8 @@ const SEOHead = ({
   noindex = false,
   jsonLd,
 }) => {
+  const canonicalUrl = canonical ? new URL(canonical, contato.siteUrl).href : null;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : contato.siteUrl;
   const fullTitle = title
     ? `${title} | RECOM Metal Duro`
     : 'RECOM Metal Duro — Distribuidor B2B de Ferramentas para Usinagem';
@@ -28,12 +30,15 @@ const SEOHead = ({
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
-      {canonical && <link rel="canonical" href={canonical} />}
+      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
       {/* Open Graph */}
       <meta property="og:title" content={ogTitle || fullTitle} />
       <meta property="og:description" content={ogDescription || metaDescription} />
+      <meta property="og:url" content={canonicalUrl || currentUrl} />
+      <meta property="og:site_name" content={contato.empresa} />
       {ogImage && <meta property="og:image" content={ogImage} />}
+      <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 
       {/* Structured Data (JSON-LD) */}
       {jsonLd && (

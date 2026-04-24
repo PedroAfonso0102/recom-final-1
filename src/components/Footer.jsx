@@ -7,7 +7,7 @@ import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 
 /**
- * Footer — Rodapé institucional.
+ * Footer â€” Rodapé institucional.
  * Etapa 2: "institucional, fornecedores, processos, contato completo"
  * Etapa 5: "CTA persistente para contato, links de recuperação"
  */
@@ -86,9 +86,9 @@ const Footer = () => {
         <div className={styles.footerBottomContent}>
           <p>© {new Date().getFullYear()} {contato.empresa} — Todos os direitos reservados.</p>
           <div className={styles.footerBottomLinks}>
-            <Link to="/seguranca">Política de Privacidade</Link>
+            <Link to="/seguranca">Segurança nas Ferramentas</Link>
             <span>|</span>
-            <Link to="/sugestoes-de-utilizacao">Termos de Uso</Link>
+            <Link to="/sugestoes-de-utilizacao">Sugestões de Utilização</Link>
           </div>
         </div>
       </div>

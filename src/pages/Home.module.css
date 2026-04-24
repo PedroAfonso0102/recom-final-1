@@ -144,6 +144,18 @@
     max-width: 550px;
 }
 
+.heroTrust {
+    margin: 0 0 var(--space-xl) 0;
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    max-width: 580px;
+}
+
 .heroActions {
     display: flex;
     gap: var(--space-m);

@@ -7,6 +7,7 @@ import styles from './Home.module.css';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
+import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
 
 /**
  * Home — Página principal.
@@ -33,7 +34,7 @@ const Home = () => {
           '@type': 'Organization',
           name: contato.empresa,
           url: contato.siteUrl,
-          logo: `${contato.siteUrl}/logo.png`,
+          logo: logoSchema,
           contactPoint: {
             '@type': 'ContactPoint',
             telephone: contato.telefone.numero,
@@ -65,6 +66,9 @@ const Home = () => {
           </h1>
           <p className={styles.heroDescription}>
             {institucional.propostaDeValor}
+          </p>
+          <p className={styles.heroTrust}>
+            Desde 1990 em Campinas-SP - distribuidor autorizado Mitsubishi Materials desde 1998
           </p>
           <div className={styles.heroActions}>
             <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Home Hero CTA')}>Solicitar Orçamento</Link>

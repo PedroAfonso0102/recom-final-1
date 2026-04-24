@@ -15,7 +15,7 @@ export const trackEvent = (eventName, eventParams = {}) => {
   }
 
   // Fallback / Debug para console em ambiente de desenvolvimento
-  if (process.env.NODE_ENV !== 'production') {
+  if (import.meta.env.DEV) {
     console.log(`[Analytics Stub] Event: ${eventName}`, eventParams);
   }
 };

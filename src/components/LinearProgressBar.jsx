@@ -8,7 +8,8 @@ const LinearProgressBar = () => {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scroll = `${totalScroll / windowHeight}`;
+      const denominator = windowHeight > 0 ? windowHeight : 1;
+      const scroll = Math.min(totalScroll / denominator, 1);
       
       setScrollProgress(scroll);
     };

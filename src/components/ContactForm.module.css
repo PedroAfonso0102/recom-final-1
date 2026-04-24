@@ -4,6 +4,12 @@
   gap: 20px;
 }
 
+.gridRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -19,7 +25,9 @@
   letter-spacing: 0.5px;
 }
 
-.input, .textarea {
+.input,
+.textarea,
+.select {
   width: 100%;
   padding: 12px;
   border: 1px solid var(--border-color, #eee);
@@ -29,19 +37,47 @@
   transition: border-color 0.2s ease;
 }
 
-.input:focus, .textarea:focus {
+.input:focus,
+.textarea:focus,
+.select:focus {
   outline: none;
   border-color: var(--text-primary, #000);
 }
 
-.flexRow {
+.select {
+  background-color: #fff;
+  color: inherit;
+}
+
+.helperText {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted, #666);
+  line-height: 1.4;
+}
+
+.checkboxGroup {
   display: flex;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--text-secondary, #4a5568);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.checkboxInput {
+  margin-top: 3px;
+  accent-color: var(--accent-blue, #1a3a5c);
+}
+
+.checkboxCopy {
+  display: block;
 }
 
 @media (max-width: 600px) {
-  .flexRow {
-    flex-direction: column;
+  .gridRow {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -62,6 +98,11 @@
 
 .submitBtn:hover {
   opacity: 0.9;
+}
+
+.submitBtn:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .requiredNote {

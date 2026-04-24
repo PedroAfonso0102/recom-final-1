@@ -1,6 +1,5 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ContactForm from '../components/ContactForm';
@@ -8,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import styles from './Contato.module.css';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
+import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
 
 /**
  * Contato / Orçamento — Página de conversão principal.
@@ -31,7 +31,7 @@ const Contato = () => {
           '@context': 'https://schema.org',
           '@type': 'LocalBusiness',
           name: contato.empresa,
-          image: `${contato.siteUrl}/logo.png`,
+          image: logoSchema,
           '@id': contato.siteUrl,
           url: contato.siteUrl,
           telephone: contato.telefone.numero,
@@ -41,25 +41,26 @@ const Contato = () => {
             addressLocality: contato.endereco.cidade,
             addressRegion: contato.endereco.estado,
             postalCode: contato.endereco.cep,
-            addressCountry: 'BR'
+            addressCountry: 'BR',
           },
+          hasMap: contato.endereco.googleMapsUrl,
           geo: {
             '@type': 'GeoCoordinates',
             latitude: -22.893202, // approximated from Campinas Centro
-            longitude: -47.065842
+            longitude: -47.065842,
           },
-          openingHoursSpecification: {
+          openingHoursSpecification: [{
             '@type': 'OpeningHoursSpecification',
             dayOfWeek: [
               'Monday',
               'Tuesday',
               'Wednesday',
               'Thursday',
-              'Friday'
+              'Friday',
             ],
             opens: '08:00',
-            closes: '17:30'
-          }
+            closes: '17:30',
+          }],
         }}
       />
 
@@ -69,7 +70,7 @@ const Contato = () => {
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Contato / Orçamento</h1>
           <p className={styles.pageSubtitle}>
-            Solicite um orçamento ou tire dúvidas técnicas com nossa equipe especializada em ferramentas para usinagem.
+            Solicite um orçamento, envie código ou desenho e fale com nossa equipe especializada em ferramentas para usinagem.
           </p>
         </div>
 
@@ -138,19 +139,28 @@ const Contato = () => {
               </div>
             </a>
 
-            {/* Mapa */}
+            {/* Localização */}
             <div className={styles.mapBox}>
               <h3 className={styles.infoTitle}>Onde Estamos</h3>
-              <div className={styles.mapContainer}>
-                <iframe
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(contato.endereco.completo)}&output=embed`}
-                  width="100%"
-                  height="100%"
-                  className={styles.mapIframe}
-                  allowFullScreen=""
-                  loading="lazy"
-                  title={`Localização da ${contato.empresa}`}
-                ></iframe>
+              <div className={styles.mapCard}>
+                <address className={styles.mapAddress}>
+                  <strong>{contato.empresa}</strong>
+                  <span>{contato.endereco.rua}</span>
+                  <span>{contato.endereco.cidade} - {contato.endereco.estado}</span>
+                  <span>CEP {contato.endereco.cep}</span>
+                </address>
+                <p className={styles.mapNote}>
+                  Atendimento comercial de segunda a sexta, das 8h às 17h30.
+                </p>
+                <a
+                  href={contato.endereco.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mapButton}
+                  onClick={() => trackLeadGen('map', 'Contato Route CTA')}
+                >
+                  Ver rota no Google Maps
+                </a>
               </div>
             </div>
           </div>

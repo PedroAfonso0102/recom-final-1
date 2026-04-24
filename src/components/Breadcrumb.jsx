@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Breadcrumb.module.css';
+import { contato } from '../data/contato';
 
 /**
  * Breadcrumb — Navegação hierárquica com JSON-LD structured data.
@@ -23,7 +24,9 @@ const Breadcrumb = ({ items = [] }) => {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      ...(getLink(item) ? { item: `https://www.recommetalduro.com.br${getLink(item)}` } : {}),
+      ...(getLink(item)
+        ? { item: new URL(getLink(item), contato.siteUrl).href }
+        : {}),
     })),
   };
 
