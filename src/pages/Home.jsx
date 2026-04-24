@@ -159,11 +159,10 @@ const Home = () => {
           <section className={styles.heroSection} aria-labelledby="home-hero-title">
             <div className={styles.heroCopy}>
               <span className={styles.heroBadge}>Desde {contato.fundacao} em Campinas-SP</span>
-              <h1 id="home-hero-title" className={styles.heroTitle} style={{ color: '#2c56a3' }}>
-                RECOM<span style={{ verticalAlign: 'super', fontSize: '0.5em', fontWeight: 'bold' }}>®</span>
+              <h1 id="home-hero-title" className={styles.heroTitle}>
+                <span className={styles.heroBrand}>RECOM<span className={styles.heroRegistered}>®</span></span>
                 <br />
-                <span style={{ color: '#000' }}>Metal Duro</span>
-                <hr />
+                <span className={styles.heroBrandSubline}>Metal Duro</span>
               </h1>
               <p className={styles.heroDescription}>
                 A RECOM conecta clientes industriais a fornecedores reconhecidos e catálogos oficiais,
