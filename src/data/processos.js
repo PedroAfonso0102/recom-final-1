@@ -136,6 +136,43 @@ export const processos = [
       },
     ],
   },
+  {
+    id: 'fixacao-porta-ferramentas',
+    nome: 'Fixação e porta-ferramentas',
+    slug: 'fixacao-porta-ferramentas',
+    icone: 'Wrench',
+    descricaoCurta: 'Apoio ao setup, fixação, porta-ferramentas e acessórios usados para dar estabilidade à operação.',
+    descricao:
+      'Esta rota atende demandas em que o cliente precisa organizar setup, fixação, porta-ferramentas, grampos ou acessórios antes de definir a ferramenta de corte. A RECOM usa esta página para ligar a necessidade prática aos fornecedores e catálogos relacionados.',
+    fornecedoresRelacionados: ['bt-fixo', 'kifix'],
+    keywords: ['fixação', 'porta-ferramentas', 'grampos', 'setup', 'acessórios de usinagem'],
+    metaTitle: 'Fixação e Porta-ferramentas - Fornecedores e Catálogos | RECOM Metal Duro',
+    metaDescription:
+      'Consulte fornecedores e catálogos relacionados a fixação, porta-ferramentas e acessórios para usinagem com apoio comercial da RECOM.',
+    atalhos: [
+      {
+        titulo: 'Tenho medida, código ou tipo de fixação',
+        descricao:
+          'Envie a referência para a RECOM avaliar o caminho comercial com o fornecedor relacionado.',
+        ctaLabel: 'Solicitar orientação comercial',
+        to: '/contato',
+      },
+      {
+        titulo: 'Quero consultar catálogos oficiais',
+        descricao:
+          'Veja fornecedores relacionados a fixação, porta-ferramentas e acessórios antes de abrir os materiais oficiais.',
+        ctaLabel: 'Ver fornecedores relacionados',
+        to: '/fornecedores-catalogos',
+      },
+      {
+        titulo: 'A demanda envolve ferramenta de corte',
+        descricao:
+          'Volte ao hub de processos para escolher torneamento, fresamento ou furação.',
+        ctaLabel: 'Ver soluções por processo',
+        to: '/solucoes',
+      },
+    ],
+  },
 ];
 
 export const getProcessoBySlug = (slug) => processos.find((p) => p.slug === slug);

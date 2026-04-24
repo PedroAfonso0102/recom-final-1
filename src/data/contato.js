@@ -45,7 +45,17 @@ export const contato = {
  */
 export const institucional = {
   tagline: 'Ferramentas para usinagem desde 1990',
-  propostaDeValor: 'Conectamos clientes industriais a fornecedores reconhecidos, com atendimento técnico-comercial próximo, leitura objetiva da aplicação e apoio direto à compra de usinagem.',
-  descricaoCurta: 'A RECOM atua com ferramentas e soluções para usinagem, com presença consolidada desde 1990 em Campinas-SP, atendimento técnico-comercial e acesso a fornecedores reconhecidos.',
-  descricaoFooter: 'Ferramentas para usinagem desde 1990. Atendimento técnico-comercial em Campinas-SP e todo o interior paulista.',
+  propostaDeValor: 'A RECOM orienta clientes industriais na consulta a fornecedores, catálogos oficiais e caminhos comerciais para ferramentas e soluções de usinagem.',
+  descricaoCurta: 'A RECOM atua como distribuidor B2B de ferramentas e soluções para usinagem, com base em Campinas-SP, atendimento técnico-comercial e acesso organizado a fornecedores e catálogos oficiais.',
+  descricaoFooter: 'Distribuidor B2B de ferramentas para usinagem. Atendimento técnico-comercial em Campinas-SP.',
+};
+
+export const mensagensGlobais = {
+  listaVazia: 'Ainda não há itens cadastrados nesta lista. Fale com a RECOM para receber orientação comercial.',
+  fornecedorSemCatalogo: 'Catálogo oficial não cadastrado no site. Fale com a RECOM para receber orientação sobre esta marca.',
+  processoSemFornecedor: 'Ainda não há fornecedores relacionados a este processo no site. Envie sua aplicação para a RECOM orientar o próximo passo.',
+  promocaoEncerrada: 'Esta condição especial não está mais ativa. Consulte a RECOM para verificar disponibilidade atual.',
+  imagemIndisponivel: 'Imagem indisponível no momento.',
+  erroFormulario: 'Não foi possível enviar agora. Tente novamente ou fale com a RECOM por telefone ou e-mail.',
+  linkExternoIndisponivel: 'Link externo não cadastrado no site. Fale com a RECOM para receber o material correto.',
 };

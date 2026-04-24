@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import { contato } from '../data/contato';
@@ -7,75 +8,94 @@ const PoliticaPrivacidade = () => {
   return (
     <Layout>
       <SEOHead
-        title="Política de Privacidade"
-        description="Conheça a política de privacidade da RECOM Metal Duro e como tratamos os dados coletados em nosso site."
+        title="Política de privacidade"
+        description="Entenda quais dados o site da RECOM pode coletar pelo formulário de contato e como esses dados são usados para retorno comercial."
         canonical="/politica-de-privacidade"
       />
 
       <main>
-        <h1>Política de Privacidade</h1>
-        
-        <p>
-          A <strong>{contato.empresa}</strong> ({contato.razaoSocial}), inscrita no CNPJ sob o nº {contato.cnpj}, valoriza a privacidade de seus usuários e clientes. Esta política descreve como coletamos, usamos e protegemos as informações fornecidas através deste site.
-        </p>
-
         <section>
-          <h2>1. Coleta de Informações</h2>
+          <h1>Política de privacidade</h1>
           <p>
-            Coletamos informações que você nos fornece voluntariamente ao preencher formulários de contato ou orçamento, tais como nome, e-mail, telefone e informações da empresa. Também podemos coletar dados técnicos de navegação (cookies e endereço IP) para fins estatísticos e de melhoria da experiência do usuário.
+            Esta página explica, em linguagem simples, como o site da {contato.empresa} pode coletar
+            e usar dados enviados pelo formulário de contato e orçamento.
+          </p>
+          <p>
+            TODO revisão jurídica: este texto é uma base editorial e deve ser validado por responsável
+            jurídico antes de publicação final.
           </p>
         </section>
 
         <section>
-          <h2>2. Uso das Informações</h2>
+          <h2>1. Dados informados pelo usuário</h2>
           <p>
-            As informações coletadas são utilizadas exclusivamente para:
+            O formulário pode solicitar nome, empresa, e-mail, telefone ou WhatsApp, fornecedor de
+            interesse, processo ou aplicação, códigos ou itens desejados e mensagem livre.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Finalidade de uso</h2>
+          <p>
+            Os dados enviados são usados para responder solicitações comerciais, orientar consultas de
+            fornecedores e catálogos, preparar retorno de orçamento e manter registro operacional do
+            atendimento.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Canais de contato</h2>
+          <p>
+            Além do formulário, o usuário pode falar com a RECOM por telefone, e-mail ou WhatsApp.
+            Esses canais podem receber as mesmas informações necessárias para retorno comercial.
           </p>
           <ul>
-            <li>Responder a solicitações de orçamento e dúvidas técnicas;</li>
-            <li>Processar pedidos e solicitações comerciais;</li>
-            <li>Melhorar o conteúdo e a navegabilidade do site;</li>
-            <li>Cumprir obrigações legais.</li>
+            <li>Telefone: <a href={contato.telefone.href}>{contato.telefone.display}</a></li>
+            <li>E-mail: <a href={contato.email.href}>{contato.email.display}</a></li>
+            <li>WhatsApp: <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer">iniciar conversa</a></li>
           </ul>
         </section>
 
         <section>
-          <h2>3. Proteção de Dados</h2>
+          <h2>4. Compartilhamento e fornecedores externos</h2>
           <p>
-            Implementamos medidas de segurança técnicas e administrativas para proteger seus dados pessoais contra acesso não autorizado, perda ou alteração. Não vendemos ou compartilhamos suas informações com terceiros para fins de marketing sem seu consentimento explícito.
+            O site possui links para catálogos e páginas oficiais de fornecedores. Ao acessar esses
+            links, o usuário sai do site da RECOM e passa a navegar em ambientes externos, sujeitos às
+            políticas próprias de cada fornecedor.
           </p>
         </section>
 
         <section>
-          <h2>4. Seus Direitos</h2>
+          <h2>5. Segurança e retenção</h2>
           <p>
-            Você tem o direito de solicitar o acesso, a correção ou a exclusão de seus dados pessoais a qualquer momento. Para isso, entre em contato através do e-mail <strong>{contato.email.display}</strong>.
+            A RECOM deve manter apenas dados necessários ao atendimento comercial e à operação do
+            contato. Prazos de retenção, sistemas internos e responsáveis precisam ser confirmados
+            pela equipe antes da versão final desta política.
           </p>
         </section>
 
         <section>
-          <h2>5. Cookies</h2>
+          <h2>6. Solicitações sobre dados</h2>
           <p>
-            Utilizamos cookies para melhorar sua experiência. Você pode configurar seu navegador para recusar cookies, mas isso pode afetar a funcionalidade de algumas partes do site.
+            Para solicitar correção, atualização ou exclusão de dados enviados pelo site, entre em
+            contato pelo e-mail <a href={contato.email.href}>{contato.email.display}</a>.
           </p>
         </section>
 
         <section>
-          <h2>6. Alterações</h2>
+          <h2>Próximo passo</h2>
           <p>
-            Esta política pode ser atualizada periodicamente. Recomendamos a consulta regular desta página para estar ciente de qualquer modificação.
+            Se sua dúvida é comercial, use a página de contato. Se sua dúvida é sobre privacidade,
+            envie uma mensagem identificando o assunto.
           </p>
+          <div className="flex">
+            <Link to="/contato">Falar com a RECOM</Link>
+            <Link to="/">Voltar ao início</Link>
+          </div>
         </section>
-
-        <footer>
-          <p>
-            Última atualização: 24 de abril de 2026.
-          </p>
-        </footer>
       </main>
     </Layout>
   );
 };
 
 export default PoliticaPrivacidade;
-

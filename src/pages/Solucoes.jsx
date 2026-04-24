@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import { processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
+import { mensagensGlobais } from '../data/contato';
 import editorialImg from '../assets/images/optimized/recom-editorial-3.jpg';
 
 const Solucoes = () => {
@@ -20,47 +21,40 @@ const Solucoes = () => {
     <Layout>
       <SEOHead
         title="Soluções por processo"
-        description="Encontre fornecedores, catálogos e caminhos de atendimento a partir da operação de usinagem."
+        description="Encontre caminhos por tipo de operação e consulte fornecedores relacionados a cada processo de usinagem."
+        canonical="/solucoes"
       />
 
       <main>
         <section>
-          <p>Por operação | Torneamento, fresamento e furação</p>
+          <p>Por aplicação | Por operação | Por necessidade comercial</p>
           <h1>Soluções por processo</h1>
           <p>
-            Encontre fornecedores, catálogos e caminhos de atendimento a partir da operação de usinagem.
+            Encontre caminhos por tipo de operação e consulte fornecedores relacionados a cada
+            processo. Esta seção atende quem sabe a aplicação, mas ainda não sabe qual marca ou
+            catálogo consultar.
           </p>
-          <p>
-            A RECOM ajuda a cruzar ferramenta, aplicação e fornecedor para que o cliente avance com mais segurança na cotação ou na definição do processo.
-          </p>
-
           <div className="flex">
-            <Link to="/contato">Entrar em contato</Link>
-            <Link to="/fornecedores-catalogos">Ver fornecedores</Link>
+            <Link to="/contato">Solicitar orientação comercial</Link>
+            <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
           </div>
-
-          <img src={editorialImg} alt="Soluções RECOM" width="400" />
+          <img src={editorialImg} alt="Ferramentas e aplicações de usinagem" width="400" />
         </section>
 
         <section>
-          <h2>Como a RECOM atua</h2>
-          <p>A RECOM vende ferramentas para usinagem e apoia o cliente na leitura da aplicação.</p>
+          <h2>Como navegar por processo</h2>
           <ol>
-            <li>Informe a operação, material, código ou dados da peça.</li>
-            <li>A RECOM cruza a aplicação com fornecedores e catálogos oficiais.</li>
-            <li>Você segue para cotação ou validação com menos dúvida e retrabalho.</li>
+            <li>Escolha o processo mais próximo da operação.</li>
+            <li>Veja fornecedores e catálogos úteis relacionados.</li>
+            <li>Envie código, aplicação ou dúvida para a RECOM quando precisar de orientação.</li>
           </ol>
         </section>
 
         <section>
-          <h2>Escolha o processo de usinagem</h2>
-          <label htmlFor="processo-select">Selecionar processo: </label>
-          <select
-            id="processo-select"
-            defaultValue=""
-            onChange={handleProcessSelect}
-          >
-            <option value="" disabled>Ir direto para...</option>
+          <h2>Ir direto para um processo</h2>
+          <label htmlFor="processo-select">Selecionar processo</label>
+          <select id="processo-select" defaultValue="" onChange={handleProcessSelect}>
+            <option value="" disabled>Escolha um processo</option>
             {processos.map((processo) => (
               <option key={processo.id} value={processo.slug}>
                 {processo.nome}
@@ -69,31 +63,47 @@ const Solucoes = () => {
           </select>
         </section>
 
-        <section className="grid">
-          {processos.map((processo) => {
-            const relatedCount = fornecedores.filter((fornecedor) =>
-              processo.fornecedoresRelacionados.includes(fornecedor.id)
-            ).length;
+        <section>
+          <h2>Processos cadastrados</h2>
+          {processos.length === 0 ? (
+            <p>{mensagensGlobais.listaVazia}</p>
+          ) : (
+            <div className="grid">
+              {processos.map((processo) => {
+                const relacionados = fornecedores.filter((fornecedor) =>
+                  processo.fornecedoresRelacionados.includes(fornecedor.id)
+                );
 
-            return (
-              <div key={processo.id} style={{ border: '1px solid #ccc', padding: '1rem' }}>
-                <h2>{processo.nome}</h2>
-                <p>{processo.descricaoCurta}</p>
-                <p><small>{relatedCount} fornecedores relacionados</small></p>
-                <Link to={`/solucoes/${processo.slug}`}>Ver processo</Link>
-              </div>
-            );
-          })}
+                return (
+                  <article key={processo.id} style={{ border: '1px solid #ccc', padding: '1rem' }}>
+                    <h3>{processo.nome}</h3>
+                    <p>{processo.descricaoCurta}</p>
+                    <p>
+                      <strong>Fornecedores relacionados:</strong>{' '}
+                      {relacionados.length > 0
+                        ? relacionados.map((fornecedor) => fornecedor.nome).join(', ')
+                        : 'não mapeado no site'}
+                    </p>
+                    <div className="flex">
+                      <Link to={`/solucoes/${processo.slug}`}>Ver processo</Link>
+                      <Link to="/contato">Falar com a RECOM</Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         <section>
           <h2>Ainda não sabe qual processo seguir?</h2>
           <p>
-            Envie os dados da peça, material, operação ou código de referência.
+            Envie os dados da peça, material, operação, código de referência ou marca desejada. A
+            RECOM ajuda a escolher se o próximo passo é fornecedor, catálogo ou orçamento.
           </p>
           <div className="flex">
-            <Link to="/contato">Solicitar orientação</Link>
-            <Link to="/fornecedores-catalogos">Ver fornecedores</Link>
+            <Link to="/contato">Enviar aplicação para orientação</Link>
+            <Link to="/fornecedores-catalogos">Consultar fornecedores primeiro</Link>
           </div>
         </section>
       </main>

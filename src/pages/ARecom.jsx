@@ -7,129 +7,113 @@ import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 
 const ARecom = () => {
-  const providerHighlights = fornecedores.slice(0, 4);
-
   return (
     <Layout>
       <SEOHead
-        title="A RECOM - Quem Somos"
-        description={`A RECOM Metal Duro atua com ferramentas para usinagem desde 1990, em Campinas-SP, com distribuição autorizada Mitsubishi Materials desde ${contato.parceriaMitsubishiDesde}.`}
+        title="A RECOM - Distribuidor B2B para usinagem"
+        description="Conheça a RECOM Metal Duro: atendimento técnico-comercial em Campinas-SP para fornecedores, catálogos e orçamentos de ferramentas para usinagem."
         canonical="/a-recom"
       />
 
       <main>
         <section>
-          <p>Sobre a empresa | Desde 1990 | Campinas-SP</p>
+          <p>Institucional | Campinas-SP | Atendimento técnico-comercial</p>
           <h1>A RECOM</h1>
           <p>
-            A RECOM é distribuidora de ferramentas para usinagem, com base em Campinas-SP e atendimento técnico-comercial em todo o interior paulista.
+            A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem. Seu papel no
+            site é orientar empresas a encontrar fornecedores, catálogos oficiais e caminhos de
+            contato para orçamento.
           </p>
           <p>
-            Atuamos junto a indústrias, ferramentarias, áreas de compras e produção, ajudando o cliente a chegar ao fornecedor, catálogo ou linha mais adequada para cada aplicação.
+            A empresa atende a partir de Campinas-SP e atua como ponte comercial entre demandas
+            industriais, marcas do setor e materiais oficiais de consulta.
           </p>
-
           <div className="flex">
             <Link to="/contato">Falar com a RECOM</Link>
-            <Link to="/fornecedores-catalogos">Ver fornecedores</Link>
+            <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
           </div>
-
-          <img src={empresaImg} alt="RECOM Metal Duro" width="400" />
-          <p>Distribuidor autorizado Mitsubishi Materials, com atuação comercial contínua no interior paulista.</p>
+          <img src={empresaImg} alt="Ambiente institucional da RECOM" width="400" />
         </section>
 
         <section>
-          <h2>Estatísticas e Perfil</h2>
-          <div className="grid">
-            <article>
-              <strong>Fundação</strong>
-              <p>Desde 1990 - trajetória comercial construída em Campinas-SP</p>
-            </article>
-            <article>
-              <strong>Base operacional</strong>
-              <p>Campinas-SP - atendimento técnico-comercial para o interior paulista</p>
-            </article>
-            <article>
-              <strong>Distribuição</strong>
-              <p>Autorizada - parceria oficial com a Mitsubishi Materials</p>
-            </article>
-            <article>
-              <strong>Perfil</strong>
-              <p>Empresas - atendimento técnico-comercial para clientes industriais</p>
-            </article>
-          </div>
+          <h2>Resumo institucional</h2>
+          <p>{institucional.descricaoCurta}</p>
+          <ul>
+            <li>Empresa: {contato.empresa}</li>
+            <li>Razão social: {contato.razaoSocial}</li>
+            <li>CNPJ: {contato.cnpj}</li>
+            <li>Base: {contato.endereco.completo}</li>
+          </ul>
         </section>
 
         <section>
-          <h2>Nossa história</h2>
-          <div className="grid">
-            <article>
-              <strong>1990</strong>
-              <h3>Início da RECOM em Campinas</h3>
-              <p>A empresa nasce em Campinas-SP com atuação voltada ao fornecimento de ferramentas para a indústria metalmecânica.</p>
-            </article>
-            <article>
-              <strong>{contato.parceriaMitsubishiDesde}</strong>
-              <h3>Distribuição autorizada</h3>
-              <p>A RECOM fortalece sua atuação como distribuidora autorizada, aproximando clientes industriais das linhas e catálogos oficiais da marca.</p>
-            </article>
-            <article>
-              <strong>Hoje</strong>
-              <h3>Atendimento em todo o interior paulista</h3>
-              <p>A empresa atende clientes industriais com foco em ferramentas para usinagem, fornecedores reconhecidos e suporte técnico-comercial próximo.</p>
-            </article>
-          </div>
-        </section>
-
-        <section>
-          <h2>Como atuamos</h2>
-          <p>{institucional.propostaDeValor}</p>
-          <div className="grid">
-            <article>
-              <h3>Seleção industrial</h3>
-              <p>Indicamos ferramentas e marcas com foco em aplicação real, produtividade e confiabilidade comercial.</p>
-            </article>
-            <article>
-              <h3>Parcerias reconhecidas</h3>
-              <p>Trabalhamos com fornecedores oficiais e materiais de catálogo que dão base técnica à decisão de compra.</p>
-            </article>
-            <article>
-              <h3>Atendimento próximo</h3>
-              <p>Acompanhamos a seleção de soluções com suporte direto, técnico e objetivo.</p>
-            </article>
-          </div>
-        </section>
-
-        <section>
-          <h2>Contato direto</h2>
-          <address>
-            Endereço: {contato.endereco.completo}<br />
-            Telefone: {contato.telefone.display}<br />
-            Email: {contato.email.display}
-          </address>
+          <h2>História curta</h2>
           <p>
-            <Link to="/contato">Solicitar contato</Link>
+            O dado editorial disponível indica atuação desde {contato.fundacao}. Esse histórico
+            deve ser usado de forma objetiva: presença comercial, atendimento a clientes industriais
+            e continuidade no segmento de ferramentas para usinagem.
+          </p>
+          <p>
+            TODO validação humana: confirmar documentos, marcos históricos e vínculos comerciais
+            específicos antes de transformar esses pontos em afirmações institucionais finais.
           </p>
         </section>
 
         <section>
-          <h2>Nossos fornecedores</h2>
-          <p>Marcas que sustentam nosso atendimento.</p>
+          <h2>Atuação atual</h2>
+          <p>
+            A RECOM não se apresenta como fabricante nem como e-commerce. A lógica comercial é
+            orientar o cliente, organizar o acesso a fornecedores e receber solicitações de orçamento
+            com contexto suficiente para direcionamento.
+          </p>
+          <ol>
+            <li>Recebe demanda por código, marca, processo, desenho, peça ou aplicação.</li>
+            <li>Relaciona a demanda a fornecedores e catálogos oficiais disponíveis.</li>
+            <li>Encaminha o cliente para contato comercial, orçamento ou orientação complementar.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Relação com fornecedores e catálogos</h2>
+          <p>
+            O site organiza fornecedores cadastrados e links para catálogos oficiais. Quando um
+            catálogo não estiver cadastrado, o próximo passo correto é falar com a RECOM.
+          </p>
           <div className="grid">
-            {providerHighlights.map((fornecedor) => (
-              <div key={fornecedor.id}>
-                <img src={fornecedor.logo} alt={fornecedor.nome} width="150" />
-                <strong>{fornecedor.nome}</strong>
+            {fornecedores.map((fornecedor) => (
+              <article key={fornecedor.id}>
+                <h3>{fornecedor.nome}</h3>
                 <p>{fornecedor.descricaoCurta}</p>
-                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>Ver fornecedor</Link>
-              </div>
+                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>
+                  Ver fornecedor e catálogos
+                </Link>
+              </article>
             ))}
           </div>
         </section>
 
         <section>
-          <h2>Precisa selecionar ferramentas ou validar um fornecedor?</h2>
-          <p>Fale com a RECOM. A equipe ajuda a organizar as informações da aplicação.</p>
-          <Link to="/contato">Solicitar orientação</Link>
+          <h2>Como a RECOM ajuda o cliente</h2>
+          <ul>
+            <li>Identifica se a entrada mais útil é fornecedor, processo ou contato direto.</li>
+            <li>Ajuda a transformar uma demanda solta em solicitação comercial compreensível.</li>
+            <li>Indica catálogos oficiais quando há link cadastrado.</li>
+            <li>Recebe informações técnicas básicas para orientar o orçamento.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Quando falar com a RECOM</h2>
+          <ul>
+            <li>Quando você tem código, desenho, peça, material ou aplicação.</li>
+            <li>Quando não sabe qual fornecedor consultar.</li>
+            <li>Quando encontrou o catálogo, mas precisa consultar disponibilidade ou condição comercial.</li>
+            <li>Quando o catálogo oficial não está cadastrado no site.</li>
+          </ul>
+          <div className="flex">
+            <Link to="/contato">Solicitar orçamento</Link>
+            <Link to="/solucoes">Ver soluções por processo</Link>
+          </div>
         </section>
       </main>
     </Layout>

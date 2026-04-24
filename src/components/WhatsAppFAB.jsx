@@ -10,6 +10,7 @@ const WhatsAppFAB = () => {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Falar com a RECOM pelo WhatsApp"
       >
         WhatsApp
       </a>

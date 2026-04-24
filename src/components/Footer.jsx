@@ -31,6 +31,7 @@ const Footer = () => {
             <li><Link to="/solucoes/torneamento">Torneamento</Link></li>
             <li><Link to="/solucoes/fresamento">Fresamento</Link></li>
             <li><Link to="/solucoes/furacao">Furação</Link></li>
+            <li><Link to="/solucoes/fixacao-porta-ferramentas">Fixação e porta-ferramentas</Link></li>
           </ul>
         </div>
 
@@ -38,12 +39,12 @@ const Footer = () => {
           <h4>Contato</h4>
           <address>
             {contato.endereco.completo}<br />
-            Telefone: {contato.telefone.display}<br />
-            Email: {contato.email.display}
+            Telefone: <a href={contato.telefone.href}>{contato.telefone.display}</a><br />
+            Email: <a href={contato.email.href}>{contato.email.display}</a>
           </address>
           <p>
             <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer">
-              WhatsApp
+              Falar com a RECOM pelo WhatsApp
             </a>
           </p>
         </div>

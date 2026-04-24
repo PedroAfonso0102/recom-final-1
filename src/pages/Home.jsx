@@ -7,21 +7,15 @@ import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import heroTecnicoImg from '../assets/images/optimized/egd-tecnico-gerada.jpg';
 import pecasImg from '../assets/images/optimized/pecas.jpg';
-import logoSchema from '../assets/images/optimized/logo-sem-fundo.png';
-
-const heroSlides = [
-  {
-    image: heroTecnicoImg,
-    title: 'Orientação técnica para definir o processo certo',
-    text: 'A RECOM cruza aplicação, ferramenta e processo antes da compra',
-  },
-];
 
 const Home = () => {
+  const principaisFornecedores = fornecedores.slice(0, 4);
+  const principaisProcessos = processos.slice(0, 4);
+
   return (
     <Layout>
       <SEOHead
-        title="Ferramentas e soluções para usinagem"
+        title="RECOM Metal Duro - Fornecedores e catálogos para usinagem"
         description={institucional.descricaoCurta}
         canonical="/"
         ogImage={heroTecnicoImg}
@@ -29,125 +23,129 @@ const Home = () => {
 
       <main>
         <section>
-          <p>Desde {contato.fundacao} em Campinas-SP</p>
+          <p>Distribuidor B2B | Ferramentas para usinagem | Campinas-SP</p>
           <h1>RECOM Metal Duro</h1>
           <p>
-            A RECOM conecta clientes industriais a fornecedores reconhecidos e catálogos oficiais,
-            com atendimento técnico-comercial para apoiar decisões de compra em torneamento,
-            fresamento, furação e fixação.
+            A RECOM atende empresas que precisam consultar fornecedores, catálogos oficiais e
+            caminhos comerciais para ferramentas e soluções de usinagem. O site não é um e-commerce
+            nem um catálogo próprio de SKUs: ele organiza caminhos para orientação, consulta e orçamento.
           </p>
-
           <div className="flex">
             <Link to="/contato">Solicitar orçamento</Link>
             <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
           </div>
-
-          <ul>
-            <li>Catálogos oficiais</li>
-            <li>Distribuição autorizada</li>
-            <li>Atendimento técnico-comercial</li>
-            <li>Campinas-SP</li>
-          </ul>
         </section>
 
         <section>
-          <h2>Imagens em Destaque</h2>
-          <div className="grid">
-            {heroSlides.map((slide, index) => (
-              <div key={index}>
-                <img src={slide.image} alt={slide.title} width="400" />
-                <h3>{slide.title}</h3>
-                <p>{slide.text}</p>
-              </div>
-            ))}
-          </div>
+          <h2>O que o usuário deve fazer aqui</h2>
+          <p>
+            Escolha o caminho mais próximo da sua necessidade: procurar por fornecedor, procurar por
+            processo de usinagem ou falar diretamente com a RECOM para orientar a cotação.
+          </p>
+          <ol>
+            <li>Se você já sabe a marca, acesse fornecedores e catálogos oficiais.</li>
+            <li>Se você sabe a operação, navegue por soluções por processo.</li>
+            <li>Se você tem código, desenho, peça ou dúvida de aplicação, envie a solicitação.</li>
+          </ol>
         </section>
 
         <section>
-          <h2>Atendimento técnico-comercial</h2>
-          <p>Da aplicação ao fornecedor certo. Entrada direta: catálogo, processo ou cotação.</p>
-          <div className="grid">
-            <div>
-              <h3>Análise da aplicação</h3>
-              <p>Recebemos código, desenho, peça ou processo e direcionamos o caminho de compra.</p>
-              <Link to="/contato">Enviar demanda</Link>
-            </div>
-            <div>
-              <h3>Catálogos oficiais</h3>
-              <p>Organizamos o acesso às marcas e materiais técnicos usados na seleção das linhas.</p>
-              <Link to="/fornecedores-catalogos">Ver catálogos</Link>
-            </div>
-            <div>
-              <h3>Soluções por processo</h3>
-              <p>Separe a busca por torneamento, fresamento ou furação e avance para fornecedores relacionados.</p>
-              <Link to="/solucoes">Ver processos</Link>
-            </div>
-          </div>
+          <h2>Presença institucional</h2>
+          <p>
+            Desde {contato.fundacao}, a RECOM atua no atendimento comercial de ferramentas e
+            soluções para usinagem, conectando clientes industriais a marcas, catálogos e canais de
+            orientação técnico-comercial.
+          </p>
+          <p>
+            Base de atendimento: {contato.endereco.cidade}-{contato.endereco.estado}. Dados
+            históricos e vínculos comerciais específicos devem ser validados pela equipe antes de uso
+            em peças institucionais finais.
+          </p>
+          <Link to="/a-recom">Conhecer a RECOM</Link>
         </section>
 
         <section>
-          <h2>Fornecedores e catálogos oficiais</h2>
-          <p>Marcas reconhecidas em um acesso padronizado.</p>
+          <h2>Caminho por fornecedores</h2>
+          <p>
+            Consulte marcas, linhas e catálogos oficiais. Caso não encontre a informação que procura,
+            fale com a RECOM para receber orientação comercial.
+          </p>
           <div className="grid">
-            {fornecedores.map((fornecedor) => (
-              <div key={fornecedor.id}>
+            {principaisFornecedores.map((fornecedor) => (
+              <article key={fornecedor.id}>
                 <img src={fornecedor.logo} alt={fornecedor.nome} width="150" />
                 <h3>{fornecedor.nome}</h3>
                 <p>{fornecedor.descricaoCurta}</p>
-                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>Ver fornecedor</Link>
-              </div>
+                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>
+                  Ver página do fornecedor
+                </Link>
+              </article>
             ))}
           </div>
-          <p>
-            <Link to="/fornecedores-catalogos">Ver todos os fornecedores e catálogos</Link>
-          </p>
+          <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
         </section>
 
         <section>
-          <h2>Encontre por processo de usinagem</h2>
-          <p>Use esta rota quando a aplicação já está definida.</p>
+          <h2>Caminho por processos</h2>
+          <p>
+            Use esta rota quando a aplicação já está clara, mas o fornecedor ou catálogo ainda precisa
+            ser localizado.
+          </p>
           <div className="grid">
-            {processos.map((processo) => (
-              <div key={processo.id}>
+            {principaisProcessos.map((processo) => (
+              <article key={processo.id}>
                 <h3>{processo.nome}</h3>
                 <p>{processo.descricaoCurta}</p>
-                <Link to={`/solucoes/${processo.slug}`}>Ver processo</Link>
-              </div>
+                <Link to={`/solucoes/${processo.slug}`}>Ver detalhes do processo</Link>
+              </article>
             ))}
           </div>
-          <p>
-            <Link to="/solucoes">Ver soluções por processo</Link>
-          </p>
+          <Link to="/solucoes">Ver soluções por processo</Link>
         </section>
 
         <section>
-          <h2>Prova institucional</h2>
-          <p>Uma empresa de Campinas com trajetória no atendimento industrial.</p>
-          <ul>
-            <li>Fundação: {contato.fundacao}</li>
-            <li>Base comercial: Campinas-SP</li>
-            <li>Distribuição: Fornecedores reconhecidos</li>
-            <li>Atendimento: Suporte técnico-comercial</li>
-          </ul>
-          <img src={pecasImg} alt="Conjunto de peças industriais" width="400" />
+          <h2>Contato rápido</h2>
+          <p>
+            Para agilizar o atendimento, informe marca, processo, código, desenho, material ou
+            aplicação desejada sempre que possível.
+          </p>
           <address>
             {contato.empresa}<br />
-            {contato.endereco.rua}<br />
-            {contato.endereco.cidade} - {contato.endereco.estado}<br />
-            CEP {contato.endereco.cep}<br />
+            {contato.endereco.completo}<br />
+            Telefone: <a href={contato.telefone.href}>{contato.telefone.display}</a><br />
+            E-mail: <a href={contato.email.href}>{contato.email.display}</a><br />
+            WhatsApp: <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer">iniciar conversa</a>
+          </address>
+          <div className="flex">
+            <Link to="/contato">Enviar solicitação pelo formulário</Link>
             <a href={contato.endereco.googleMapsUrl} target="_blank" rel="noopener noreferrer">
               Ver rota no Google Maps
             </a>
-          </address>
+          </div>
         </section>
 
         <section>
-          <h2>Precisa de apoio para selecionar ferramentas ou fornecedores?</h2>
-          <p>Envie sua referência, código, desenho ou aplicação.</p>
-          <div className="flex">
-            <Link to="/contato">Solicitar orçamento</Link>
-            <a href={contato.telefone.href}>Ligar agora: {contato.telefone.display}</a>
-          </div>
+          <h2>Promoções e condições especiais</h2>
+          <p>
+            Nenhuma promoção ativa no momento. Fale com a RECOM para consultar condições comerciais,
+            disponibilidade e oportunidades sob consulta.
+          </p>
+          <Link to="/promocoes">Consultar promoções e condições especiais</Link>
+        </section>
+
+        <section>
+          <h2>Prova de confiança</h2>
+          <p>
+            A confiança aqui deve vir de presença real, canais diretos, histórico declarado,
+            fornecedores identificados e orientação comercial humana, não de promessas genéricas.
+          </p>
+          <ul>
+            <li>Base em Campinas-SP.</li>
+            <li>Canais diretos de telefone, e-mail, WhatsApp e formulário.</li>
+            <li>Fornecedores e catálogos apresentados com links oficiais.</li>
+            <li>Processos organizados para orientar o caminho da solicitação.</li>
+          </ul>
+          <img src={pecasImg} alt="Peças industriais relacionadas a usinagem" width="400" />
         </section>
       </main>
     </Layout>
@@ -155,4 +153,3 @@ const Home = () => {
 };
 
 export default Home;
-

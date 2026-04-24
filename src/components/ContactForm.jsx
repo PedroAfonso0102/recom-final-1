@@ -14,6 +14,8 @@ import {
   trackContactFormInvalid,
   trackLeadGen,
 } from '../utils/analytics';
+import { fornecedores } from '../data/fornecedores';
+import { processos } from '../data/processos';
 
 const initialValues = {
   name: '',
@@ -76,6 +78,14 @@ const ContactForm = () => {
         protocol: null,
         errorType: 'validation',
       });
+
+      window.setTimeout(() => {
+        const firstInvalidName = ['name', 'company', 'email', 'message', 'consent'].find(
+          (fieldName) => validation.errors[fieldName]
+        );
+        const firstInvalid = firstInvalidName ? formRef.current?.elements[firstInvalidName] : null;
+        firstInvalid?.focus();
+      }, 0);
 
       trackContactFormInvalid({
         errorTypes: Object.keys(validation.errors),
@@ -156,7 +166,7 @@ const ContactForm = () => {
 
   if (submission.status === 'success') {
     return (
-      <div style={{ border: '1px solid green', padding: '1rem' }}>
+      <div role="status" style={{ border: '1px solid green', padding: '1rem' }}>
         <h2>Sucesso!</h2>
         <p>{submission.message}</p>
         {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
@@ -172,12 +182,22 @@ const ContactForm = () => {
   return (
     <div style={{ border: '1px solid #ccc', padding: '1rem' }}>
       {submission.message && (
-        <div style={{ color: submission.status === 'invalid' || submission.status === 'error' ? 'red' : 'inherit' }}>
+        <div
+          role={submission.status === 'invalid' || submission.status === 'error' || submission.status === 'unavailable' ? 'alert' : 'status'}
+          style={{ color: submission.status === 'invalid' || submission.status === 'error' ? 'red' : 'inherit' }}
+        >
           {submission.message}
+          {(submission.status === 'error' || submission.status === 'unavailable') && (
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
+              <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
+              <a href={fallbackLinks.emailHref} onClick={() => handleFallbackClick('email')}>E-mail</a>
+            </div>
+          )}
         </div>
       )}
 
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit} noValidate>
         <div style={{ display: 'none' }}>
           <label htmlFor="bot_field">Não preencha</label>
           <input id="bot_field" name="bot_field" type="text" value={values.bot_field} onChange={updateValue} />
@@ -189,7 +209,6 @@ const ContactForm = () => {
             id="contact-name"
             name="name"
             type="text"
-            required
             style={{ display: 'block', width: '100%', borderColor: errors.name ? 'red' : '#ccc' }}
             value={values.name}
             onChange={updateValue}
@@ -203,7 +222,6 @@ const ContactForm = () => {
             id="contact-company"
             name="company"
             type="text"
-            required
             style={{ display: 'block', width: '100%', borderColor: errors.company ? 'red' : '#ccc' }}
             value={values.company}
             onChange={updateValue}
@@ -217,7 +235,6 @@ const ContactForm = () => {
             id="contact-email"
             name="email"
             type="email"
-            required
             style={{ display: 'block', width: '100%', borderColor: errors.email ? 'red' : '#ccc' }}
             value={values.email}
             onChange={updateValue}
@@ -226,11 +243,76 @@ const ContactForm = () => {
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-phone">Telefone/WhatsApp</label>
+          <input
+            id="contact-phone"
+            name="phone"
+            type="tel"
+            style={{ display: 'block', width: '100%', borderColor: errors.phone ? 'red' : '#ccc' }}
+            value={values.phone}
+            onChange={updateValue}
+            placeholder="Informe se preferir retorno por telefone ou WhatsApp"
+          />
+          {errors.phone && <span style={{ color: 'red' }}>{errors.phone}</span>}
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-supplier">Fornecedor ou marca de interesse</label>
+          <select
+            id="contact-supplier"
+            name="supplier"
+            style={{ display: 'block', width: '100%', borderColor: errors.supplier ? 'red' : '#ccc' }}
+            value={values.supplier}
+            onChange={updateValue}
+          >
+            <option value="">Selecione se souber</option>
+            {fornecedores.map((fornecedor) => (
+              <option key={fornecedor.id} value={fornecedor.id}>
+                {fornecedor.nome}
+              </option>
+            ))}
+          </select>
+          {errors.supplier && <span style={{ color: 'red' }}>{errors.supplier}</span>}
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-process">Processo ou aplicação</label>
+          <select
+            id="contact-process"
+            name="process"
+            style={{ display: 'block', width: '100%', borderColor: errors.process ? 'red' : '#ccc' }}
+            value={values.process}
+            onChange={updateValue}
+          >
+            <option value="">Selecione se souber</option>
+            {processos.map((processo) => (
+              <option key={processo.id} value={processo.id}>
+                {processo.nome}
+              </option>
+            ))}
+          </select>
+          {errors.process && <span style={{ color: 'red' }}>{errors.process}</span>}
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="contact-codes">Código ou item desejado</label>
+          <input
+            id="contact-codes"
+            name="codes"
+            type="text"
+            style={{ display: 'block', width: '100%', borderColor: errors.codes ? 'red' : '#ccc' }}
+            value={values.codes}
+            onChange={updateValue}
+            placeholder="Código, família, medida, desenho ou referência"
+          />
+          {errors.codes && <span style={{ color: 'red' }}>{errors.codes}</span>}
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="contact-message">Mensagem *</label>
           <textarea
             id="contact-message"
             name="message"
-            required
             rows="5"
             style={{ display: 'block', width: '100%', borderColor: errors.message ? 'red' : '#ccc' }}
             value={values.message}
@@ -246,15 +328,19 @@ const ContactForm = () => {
               type="checkbox"
               checked={values.consent}
               onChange={updateValue}
-              required
             />
-            Autorizo a RECOM a retornar meu contato.
+            Autorizo a RECOM a retornar meu contato e tratar os dados enviados para esta solicitação.
           </label>
+          <p>
+            <small>
+              Consulte a <Link to="/politica-de-privacidade">política de privacidade</Link>.
+            </small>
+          </p>
           {errors.consent && <div style={{ color: 'red' }}>{errors.consent}</div>}
         </div>
 
         <button type="submit" disabled={submission.status === 'submitting'}>
-          {submission.status === 'submitting' ? 'Enviando...' : 'Solicitar orçamento'}
+          {submission.status === 'submitting' ? 'Enviando...' : 'Enviar mensagem'}
         </button>
       </form>
     </div>

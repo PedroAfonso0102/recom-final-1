@@ -14,16 +14,17 @@ const NotFound = () => {
       <main>
         <section>
           <strong>404</strong>
-          <h1>Página não encontrada</h1>
+          <h1>Não encontramos esta página.</h1>
           <p>
-            A página que você está procurando pode ter sido movida ou não está mais disponível.
+            A página pode ter mudado de endereço, ou o link pode estar incompleto.
+            Use um dos caminhos abaixo para continuar.
           </p>
           <nav>
             <ul>
-              <li><Link to="/">Voltar ao Início</Link></li>
-              <li><Link to="/fornecedores-catalogos">Fornecedores e Catálogos</Link></li>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/fornecedores-catalogos">Fornecedores e catálogos</Link></li>
               <li><Link to="/solucoes">Soluções por processo</Link></li>
-              <li><Link to="/contato">Fale Conosco</Link></li>
+              <li><Link to="/contato">Contato e orçamento</Link></li>
             </ul>
           </nav>
         </section>

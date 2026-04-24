@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import ContactForm from '../components/ContactForm';
@@ -15,25 +16,33 @@ const Contato = () => {
 
       <main>
         <section>
-          <h1>Contato / Orçamento</h1>
+          <h1>Contato e orçamento</h1>
           <p>
-            Solicite um orçamento, envie código ou descreva a aplicação e fale com nossa equipe especializada em
-            ferramentas para usinagem.
+            Envie sua solicitação ou fale diretamente com a RECOM. Se possível, informe marca,
+            processo, código ou aplicação desejada.
           </p>
+          <div className="flex">
+            <a href={contato.telefone.href}>Ligar para a RECOM</a>
+            <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer">
+              Falar pelo WhatsApp
+            </a>
+            <a href={contato.email.href}>Enviar e-mail</a>
+          </div>
         </section>
 
         <div className="grid">
           <section>
-            <h2>Solicitar Orçamento</h2>
+            <h2>Solicitar orçamento</h2>
             <p>
-              Preencha os campos abaixo e, se o canal online estiver indisponível, use os contatos diretos.
+              Quanto mais contexto você enviar, mais fácil será direcionar a solicitação.
+              O formulário deve funcionar como apoio; os canais diretos continuam disponíveis.
             </p>
             <ContactForm />
           </section>
 
           <aside>
             <section>
-              <h2>Informações de Contato</h2>
+              <h2>Canais diretos</h2>
               <ul>
                 <li>
                   <strong>Endereço:</strong> {contato.endereco.rua}, {contato.endereco.cidade} - {contato.endereco.estado}, {contato.endereco.cep}
@@ -45,7 +54,7 @@ const Contato = () => {
                   <strong>E-mail:</strong> <a href={contato.email.href}>{contato.email.display}</a>
                 </li>
                 <li>
-                  <strong>Horário:</strong> Segunda a Sexta: 8h às 17h30
+                  <strong>Horário:</strong> segunda a sexta, 8h às 17h30. TODO validação humana.
                 </li>
               </ul>
             </section>
@@ -70,6 +79,20 @@ const Contato = () => {
               <a href={contato.endereco.googleMapsUrl} target="_blank" rel="noopener noreferrer">
                 Ver rota no Google Maps
               </a>
+            </section>
+
+            <section>
+              <h2>Antes de enviar</h2>
+              <ul>
+                <li>Fornecedor ou marca de interesse, se houver.</li>
+                <li>Processo ou aplicação: torneamento, fresamento, furação, fixação ou outro.</li>
+                <li>Código, item, desenho, medida, material ou quantidade.</li>
+                <li>Canal preferido para retorno.</li>
+              </ul>
+              <div className="flex">
+                <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
+                <Link to="/solucoes">Ver soluções por processo</Link>
+              </div>
             </section>
           </aside>
         </div>

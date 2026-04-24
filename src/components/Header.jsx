@@ -2,12 +2,13 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../assets/images/optimized/logo-sem-fundo.png';
 import { contato } from '../data/contato';
+import { trackLeadGen } from '../utils/analytics';
 
 const navItems = [
   { to: '/', label: 'Início', end: true },
   { to: '/a-recom', label: 'A RECOM' },
   { to: '/fornecedores-catalogos', label: 'Fornecedores e Catálogos' },
-  { to: '/solucoes', label: 'Soluções' },
+  { to: '/solucoes', label: 'Soluções por processo' },
   { to: '/promocoes', label: 'Promoções' },
   { to: '/contato', label: 'Contato' },
 ];
@@ -25,7 +26,13 @@ const Header = () => {
           />
         </Link>
         <p>
-          {contato.telefone.display} | {contato.email.display}
+          <a href={contato.telefone.href} onClick={() => trackLeadGen('phone', 'Header')}>
+            {contato.telefone.display}
+          </a>
+          {' | '}
+          <a href={contato.email.href} onClick={() => trackLeadGen('email', 'Header')}>
+            {contato.email.display}
+          </a>
         </p>
       </div>
 
