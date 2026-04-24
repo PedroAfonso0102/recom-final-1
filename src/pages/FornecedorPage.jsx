@@ -109,24 +109,26 @@ const FornecedorPage = () => {
                 </p>
 
                 <div className={styles.catalogoActions}>
-                  <ActionButton
-                    href={catalogoPrincipal.url}
-                    target="_blank"
-                    variant="primary"
-                    compact
-                    stackOnMobile
-                    ariaLabel={`Acessar catálogo oficial da ${fornecedor.nome}`}
-                    onClick={() =>
-                      trackSupplierCatalogClick({
-                        supplierName: fornecedor.nome,
-                        placement: 'supplier_hero',
-                        url: catalogoPrincipal.url,
-                      })
-                    }
-                  >
-                    <ExternalLink size={16} aria-hidden="true" />
-                    Acessar catálogo oficial da {fornecedor.nome}
-                  </ActionButton>
+                  <div className={styles.catalogoMainAction}>
+                    <ActionButton
+                      href={catalogoPrincipal.url}
+                      target="_blank"
+                      variant="primary"
+                      compact
+                      stackOnMobile
+                      ariaLabel={`Acessar ${catalogoPrincipal.label} da ${fornecedor.nome}`}
+                      onClick={() =>
+                        trackSupplierCatalogClick({
+                          supplierName: fornecedor.nome,
+                          placement: 'supplier_hero',
+                          url: catalogoPrincipal.url,
+                        })
+                      }
+                    >
+                      <ExternalLink size={16} aria-hidden="true" />
+                      {catalogoPrincipal.label}
+                    </ActionButton>
+                  </div>
 
                   {catalogosSecundarios.length > 0 && (
                     <div className={styles.catalogoSecondaryList}>
@@ -138,7 +140,7 @@ const FornecedorPage = () => {
                           variant="secondary"
                           compact
                           stackOnMobile
-                          ariaLabel={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                          ariaLabel={`Acessar ${catalogo.label} da ${fornecedor.nome}`}
                           onClick={() =>
                             trackSupplierCatalogClick({
                               supplierName: fornecedor.nome,
@@ -148,7 +150,7 @@ const FornecedorPage = () => {
                           }
                         >
                           <ExternalLink size={14} aria-hidden="true" />
-                          <span>Acessar catálogo oficial da {fornecedor.nome}</span>
+                          <span>{catalogo.label}</span>
                         </ActionButton>
                       ))}
                     </div>

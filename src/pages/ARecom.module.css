@@ -28,42 +28,50 @@
 .heroEyebrow,
 .heroBadge,
 .heroBadgeMuted,
-.sectionEyebrow {
+.sectionEyebrow,
+.heroImageLabel,
+.heroImageBadge,
+.timelineYear {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.6875rem;
+  padding: 0 0 0 0.85rem;
+  border-left: 2px solid var(--accent-blue);
+  background: transparent;
+  color: var(--accent-blue);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.heroBadgeMuted,
+.heroImageBadge {
+  color: var(--text-secondary);
+  border-left-color: var(--border-medium);
 }
 
 .heroEyebrow,
 .sectionEyebrow {
-  background: rgba(26, 58, 92, 0.08);
-  color: var(--accent-blue, #1a3a5c);
+  color: var(--accent-blue);
 }
 
 .heroBadge {
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
+  color: var(--accent-blue);
 }
 
 .heroBadgeMuted {
-  border: 1px solid var(--border-light, #e2e8f0);
-  color: var(--text-secondary, #4a5568);
-  background: #fff;
+  color: var(--text-secondary);
 }
 
 .pageTitle {
-  font-size: clamp(2rem, 4.8vw, 3.35rem);
-  font-weight: 750;
-  letter-spacing: 0;
-  color: var(--text-primary, #1a1a2e);
-  margin: 0 0 0.6rem;
-  line-height: 1.06;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0.75rem 0 1rem;
+  line-height: 1.05;
 }
 
 .pageSubtitle {
@@ -253,13 +261,23 @@
 .contactCard h3,
 .contactCta h3,
 .footerCta h2 {
-  margin: 0.35rem 0 0;
-  color: var(--text-primary, #1a1a2e);
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  margin: 0.5rem 0 0;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  font-weight: 750;
 }
 
-.sectionHeading h2 {
-  font-size: 1.35rem;
+.sectionHeading h2,
+.footerCta h2 {
+  font-size: var(--text-xl);
+  line-height: 1.1;
+}
+
+.contactCard h3,
+.contactCta h3 {
+  font-size: var(--text-lg);
+  line-height: 1.2;
 }
 
 .sectionLead,
@@ -288,16 +306,7 @@
 }
 
 .timelineYear {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.28rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(26, 58, 92, 0.08);
-  color: var(--accent-blue, #1a3a5c);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  color: var(--accent-blue);
 }
 
 .timelineCard h3 {
@@ -472,9 +481,11 @@
 }
 
 .supplierMeta strong {
-  color: var(--text-primary, #1a1a2e);
-  font-size: 1rem;
-  line-height: 1.25;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .supplierMeta span {

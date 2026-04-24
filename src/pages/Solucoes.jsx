@@ -7,6 +7,7 @@ import ActionButton from '../components/ActionButton';
 import { Card } from '../components/ui';
 import { ArrowRight, ChevronDown, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './Solucoes.module.css';
+import editorialStyles from '../styles/Editorial.module.css';
 import { processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
@@ -53,20 +54,20 @@ const Solucoes = () => {
         ]}
       />
 
-      <div className={styles.pageContainer}>
-        <section className={styles.heroSection}>
+      <div className={editorialStyles.pageContainer}>
+        <section className={editorialStyles.heroSection}>
           <div className={styles.heroCopy}>
             <div className={styles.heroMeta}>
-              <span className={styles.heroEyebrow}>Por operação</span>
+              <span className={editorialStyles.kicker}>Por operação</span>
               <span className={styles.heroBadge}>Torneamento, fresamento e furação</span>
               <span className={styles.heroBadgeMuted}>Entrada por processo</span>
             </div>
 
-            <h1 className={styles.pageTitle}>Soluções por processo</h1>
-            <p className={styles.pageSubtitle}>
+            <h1 className={editorialStyles.pageTitle}>Soluções por processo</h1>
+            <p className={editorialStyles.pageSubtitle}>
               Encontre fornecedores, catálogos e caminhos de atendimento a partir da operação de usinagem.
             </p>
-            <p className={styles.pageSubtitle}>
+            <p className={editorialStyles.pageSubtitle}>
               A RECOM ajuda a cruzar ferramenta, aplicação e fornecedor para que o cliente avance com mais segurança na cotação ou na definição do processo.
             </p>
 
@@ -98,9 +99,9 @@ const Solucoes = () => {
               decoding="async"
             />
             <div className={styles.heroBrandCopy}>
-              <span className={styles.heroBrandKicker}>Como a RECOM atua</span>
+              <span className={editorialStyles.kicker}>Como a RECOM atua</span>
               <h2 className={styles.heroBrandTitle}>Da operação à ferramenta correta</h2>
-              <p className={styles.heroBrandDesc}>
+              <p className={editorialStyles.cardDesc}>
                 A RECOM vende ferramentas para usinagem e apoia o cliente na leitura da aplicação, indicando fornecedores, catálogos e caminhos de atendimento conforme a necessidade da peça.
               </p>
               <ol className={styles.heroSteps}>
@@ -123,15 +124,15 @@ const Solucoes = () => {
 
         <section className={styles.quickAccessSection} aria-label="Acesso rápido aos processos">
           <div className={styles.quickAccessCopy}>
-            <span className={styles.quickAccessEyebrow}>Comece pela operação</span>
-            <h2>Escolha o processo de usinagem e siga pela rota certa</h2>
-            <p>
+            <span className={editorialStyles.kicker}>Comece pela operação</span>
+            <h2 className={editorialStyles.sectionTitle}>Escolha o processo de usinagem e siga pela rota certa</h2>
+            <p className={editorialStyles.cardDesc}>
               Se já tiver código, desenho, material ou fornecedor de referência, envie para a RECOM e receba um direcionamento mais preciso.
             </p>
           </div>
 
           <div className={styles.quickAccessPanel}>
-            <label className={styles.quickAccessLabel} htmlFor="processo-select">
+            <label className={editorialStyles.kicker} htmlFor="processo-select">
               Selecionar processo
             </label>
             <div className={styles.quickAccessForm}>
@@ -186,8 +187,8 @@ const Solucoes = () => {
                   </span>
                 </div>
 
-                <h2 className={styles.processoNome}>{processo.nome}</h2>
-                <p className={styles.processoDesc}>{processo.descricaoCurta}</p>
+                <h2 className={editorialStyles.cardTitle}>{processo.nome}</h2>
+                <p className={editorialStyles.cardDesc}>{processo.descricaoCurta}</p>
 
                 {tags.length > 0 && (
                   <div className={styles.processoTags}>
@@ -199,7 +200,7 @@ const Solucoes = () => {
                   </div>
                 )}
 
-                <span className={styles.processoLink}>
+                <span className={editorialStyles.cardAction}>
                   Ver processo <ArrowRight size={14} />
                 </span>
               </Card>
@@ -207,10 +208,10 @@ const Solucoes = () => {
           })}
         </div>
 
-        <section className={styles.ctaSection}>
-          <span className={styles.ctaEyebrow}>Apoio técnico</span>
-          <h2 className={styles.ctaTitle}>Ainda não sabe qual processo seguir?</h2>
-          <p className={styles.ctaDesc}>
+        <section className={editorialStyles.ctaBlock}>
+          <span className={editorialStyles.kicker}>Apoio técnico</span>
+          <h2 className={editorialStyles.sectionTitle}>Ainda não sabe qual processo seguir?</h2>
+          <p className={editorialStyles.cardDesc}>
             Envie os dados da peça, material, operação ou código de referência. A RECOM ajuda a organizar a demanda e indicar o caminho mais direto para fornecedor, catálogo ou orçamento.
           </p>
           <div className={styles.ctaActions}>

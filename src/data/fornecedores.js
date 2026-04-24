@@ -27,15 +27,15 @@ export const fornecedores = [
     observacoes: 'Fornecedor destaque e com mais de um catálogo oficial disponível.',
     catalogos: [
       {
-        label: 'Catálogo geral oficial',
+        label: 'Catálogo Geral (PDF)',
         url: 'https://www.mmc-carbide.com/br/download/catalog-1',
       },
       {
-        label: 'Catálogo digital / consulta online',
+        label: 'Consulta Online (Web Catalog)',
         url: 'https://www.mmc-carbide.com/en_jp/webcatalog',
       },
       {
-        label: 'Página da Mitsubishi Materials do Brasil',
+        label: 'Portal Mitsubishi Brasil',
         url: 'https://www.mmc-carbide.com/br',
       },
     ],

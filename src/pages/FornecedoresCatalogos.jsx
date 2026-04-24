@@ -64,7 +64,7 @@ const FornecedoresCatalogos = () => {
                       <ExternalCatalogLink
                         href={catalogoPrincipal.url}
                         className={styles.catalogoLink}
-                        label={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                        label={`Acessar ${catalogoPrincipal.label} da ${fornecedor.nome}`}
                         onClick={() =>
                           trackSupplierCatalogClick({
                             supplierName: fornecedor.nome,
@@ -73,7 +73,7 @@ const FornecedoresCatalogos = () => {
                           })
                         }
                       >
-                        Acessar catálogo oficial da {fornecedor.nome}
+                        {catalogoPrincipal.label}
                       </ExternalCatalogLink>
                     ) : (
                       <ActionButton
@@ -92,13 +92,13 @@ const FornecedoresCatalogos = () => {
                       compact
                       stackOnMobile
                     >
-                      Ver fornecedor <ArrowRight size={14} />
+                      Ver detalhes <ArrowRight size={14} />
                     </ActionButton>
                   </div>
                   {catalogos.length > 0 && (
                     <details className={styles.catalogoDisclosure}>
                       <summary className={styles.catalogoSummary}>
-                        <span>Catálogos disponíveis</span>
+                        <span>Todos os catálogos</span>
                         <span className={styles.catalogoCount}>({catalogos.length})</span>
                       </summary>
                       <div className={styles.catalogosList}>
@@ -107,7 +107,7 @@ const FornecedoresCatalogos = () => {
                             key={catalogo.url}
                             href={catalogo.url}
                             className={styles.catalogoLink}
-                            label={`Acessar catálogo oficial da ${fornecedor.nome}`}
+                            label={`Acessar ${catalogo.label} da ${fornecedor.nome}`}
                             onClick={() =>
                               trackSupplierCatalogClick({
                                 supplierName: fornecedor.nome,
@@ -116,7 +116,7 @@ const FornecedoresCatalogos = () => {
                               })
                             }
                           >
-                            Acessar catálogo oficial da {fornecedor.nome}
+                            {catalogo.label}
                           </ExternalCatalogLink>
                         ))}
                       </div>

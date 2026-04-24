@@ -58,10 +58,11 @@
 }
 
 .pageTitle {
-  font-size: clamp(2rem, 4.8vw, 3.3rem);
-  font-weight: 750;
-  letter-spacing: 0;
-  color: var(--text-primary, #1a1a2e);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
   margin: 0 0 0.6rem;
   line-height: 1.06;
 }
@@ -118,12 +119,25 @@
   text-transform: uppercase;
 }
 
+.heroBrandTitle,
+.quickAccessCopy h2,
+.ctaTitle {
+  font-family: var(--font-display);
+  margin: 0.5rem 0 0.5rem;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  font-weight: 750;
+}
+
 .heroBrandTitle {
-  margin: 0.85rem 0 0.45rem;
-  color: var(--text-primary, #1a1a2e);
-  font-size: 1.18rem;
-  line-height: 1.25;
-  letter-spacing: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.quickAccessCopy h2,
+.ctaTitle {
+  font-size: var(--text-xl);
+  line-height: 1.1;
 }
 
 .heroBrandDesc {
@@ -306,11 +320,13 @@
 }
 
 .processoNome {
+  font-family: var(--font-display);
   margin: 0;
-  color: var(--text-primary, #1a1a2e);
-  font-size: 1.18rem;
+  color: var(--text-primary);
+  font-size: 1.25rem;
   line-height: 1.2;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .processoDesc {

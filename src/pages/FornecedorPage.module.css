@@ -31,13 +31,13 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(26, 58, 92, 0.08);
-  color: var(--accent-blue, #1a3a5c);
-  font-size: 0.6875rem;
+  padding: 0 0 0 0.85rem;
+  border-left: 2px solid var(--accent-blue);
+  background: transparent;
+  color: var(--accent-blue);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -65,12 +65,13 @@
 }
 
 .fornecedorTitle {
-  font-size: clamp(2rem, 4.8vw, 3.2rem);
-  font-weight: 750;
-  letter-spacing: 0;
-  color: var(--text-primary, #1a1a2e);
-  margin: 0 0 0.6rem;
-  line-height: 1.06;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+  line-height: 1.05;
 }
 
 .fornecedorTagline {
@@ -138,19 +139,19 @@
   margin-bottom: 1rem;
 }
 
-.sectionHeading h2,
-.sectionHeading h3 {
-  margin: 0.35rem 0 0;
-  color: var(--text-primary, #1a1a2e);
-  letter-spacing: 0;
-}
-
 .sectionHeading h2 {
-  font-size: 1.35rem;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 0.5rem;
 }
 
 .sectionHeading h3 {
-  font-size: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
 }
 
 .sectionBlock p,
@@ -175,36 +176,23 @@
 .catalogoActions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-harmonic);
+  border: 1px solid var(--border-light);
 }
 
-.catalogoBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: fit-content;
-  padding: 0.75rem 1.15rem;
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  box-shadow: 0 8px 18px rgba(26, 58, 92, 0.14);
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.catalogoBtn:hover {
-  background: var(--accent-blue-hover, #153050);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(26, 58, 92, 0.18);
+.catalogoMainAction {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .catalogoSecondaryList {
   display: grid;
-  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
 }
 
 .catalogoSecondaryBtn {
@@ -246,19 +234,19 @@
 .processoCard {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  padding: 1rem;
-  border: 1px solid var(--border-light, #e2e8f0);
-  border-radius: 14px;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
   text-decoration: none;
   background: #fff;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .processoCard:hover {
   transform: translateY(-2px);
-  border-color: rgba(26, 58, 92, 0.35);
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-md);
 }
 
 .processoMark {

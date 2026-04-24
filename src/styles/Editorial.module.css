@@ -1,0 +1,162 @@
+/* ================================================
+   CENTRAL DE EDIÇÕES — SISTEMA EDITORIAL RECOM
+   Uso universal para Soluções, Processos e Hubs
+   ================================================ */
+
+/* ─── Containers e Layout Base ─── */
+.pageContainer {
+  max-width: var(--container-width, 1180px);
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 0.9rem 1rem 3rem;
+  }
+}
+
+/* ─── Hero e Seções Principais ─── */
+.heroSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 460px);
+  gap: 2rem;
+  align-items: center;
+  padding: 1.25rem 0 2.25rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+@media (max-width: 960px) {
+  .heroSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 0.4rem;
+    margin-bottom: 1.45rem;
+  }
+}
+
+/* ─── Tipografia Editorial ─── */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0 0 0 0.85rem;
+  border-left: 2px solid var(--accent-blue);
+  background: transparent;
+  color: var(--accent-blue);
+  font-size: 0.725rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0.75rem 0 0.6rem;
+  line-height: 1.05;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: clamp(1.85rem, 8vw, 2.8rem);
+  }
+}
+
+.pageSubtitle {
+  max-width: 62ch;
+  font-size: 1.08rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 0.8rem 0 0.5rem;
+  line-height: 1.1;
+}
+
+/* ─── Cards Industriais ─── */
+.cardBase {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md, 16px);
+  padding: 1.35rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  text-decoration: none;
+}
+
+.cardBase:hover {
+  transform: translateY(-2px);
+  border-color: rgba(26, 58, 92, 0.28);
+  box-shadow: var(--shadow-md);
+}
+
+.cardIcon {
+  flex: 0 0 auto;
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-blue);
+  background: rgba(26, 58, 92, 0.08);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  margin: 0.5rem 0 0.4rem;
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.cardDesc {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.cardAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--accent-blue);
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+/* ─── Seções de CTA ─── */
+.ctaBlock {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-radius: 18px;
+  border: 1px solid var(--border-light);
+  background: linear-gradient(180deg, rgba(26, 58, 92, 0.04), rgba(255, 255, 255, 1));
+}
+
+@media (max-width: 768px) {
+  .ctaBlock {
+    padding: 2rem 1.25rem;
+  }
+}

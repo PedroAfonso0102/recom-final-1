@@ -6,6 +6,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
 import { ArrowRight, MessageCircle, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './ProcessoPage.module.css';
+import editorialStyles from '../styles/Editorial.module.css';
 import { getProcessoBySlug, processos } from '../data/processos';
 import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
 import { contato } from '../data/contato';
@@ -66,24 +67,24 @@ const ProcessoPage = () => {
         canonical={`/solucoes/${processo.slug}`}
       />
 
-      <div className={styles.pageContainer}>
+      <div className={editorialStyles.pageContainer}>
         <Breadcrumb items={breadcrumbItems} />
 
-        <section className={styles.heroSection}>
+        <section className={editorialStyles.heroSection}>
           <div className={styles.heroCopy}>
             <div className={styles.heroMeta}>
-              <span className={styles.heroEyebrow}>Soluções por processo</span>
+              <span className={editorialStyles.kicker}>Soluções por processo</span>
               <span className={styles.heroBadge}>
                 {fornecedoresRelacionados.length} fornecedor{fornecedoresRelacionados.length === 1 ? '' : 'es'} relacionado{fornecedoresRelacionados.length === 1 ? '' : 's'}
               </span>
               <span className={styles.heroBadgeMuted}>{processo.keywords.length} palavras-chave</span>
             </div>
 
-            <h1 className={styles.processTitle}>{processo.nome}</h1>
-            <p className={styles.processTagline}>{processo.descricaoCurta}</p>
+            <h1 className={editorialStyles.pageTitle}>{processo.nome}</h1>
+            <p className={editorialStyles.pageSubtitle}>{processo.descricaoCurta}</p>
 
             <div className={styles.heroProcessBlock}>
-              <p className={styles.heroProcessBody}>{processo.descricao}</p>
+              <p className={editorialStyles.cardDesc}>{processo.descricao}</p>
               <p className={styles.heroSupport}>
                 Se você já tem o código, o nome da peça ou a dúvida de aplicação, siga pelos atalhos abaixo para chegar ao catálogo, ao fornecedor ou ao contato certo.
               </p>
@@ -127,7 +128,7 @@ const ProcessoPage = () => {
           <div className={styles.heroVisual}>
             <div className={styles.heroVisualCard}>
               <div className={styles.heroVisualLabelRow}>
-                <span className={styles.heroVisualLabel}>Referência visual</span>
+                <span className={editorialStyles.kicker}>Referência visual</span>
                 <span className={styles.heroVisualBadge}>{processo.nome}</span>
               </div>
 
@@ -175,10 +176,10 @@ const ProcessoPage = () => {
           <div className={styles.mainContent}>
             <section className={styles.sectionBox}>
               <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Acesso guiado</span>
-                <h2 className={styles.sectionTitle}>Escolha o caminho certo para esta operação</h2>
+                <span className={editorialStyles.kicker}>Acesso guiado</span>
+                <h2 className={editorialStyles.sectionTitle}>Escolha o caminho certo para esta operação</h2>
               </div>
-              <p className={styles.sectionLead}>
+              <p className={editorialStyles.cardDesc}>
                 Selecione a opção que combina com a informação que você já tem. Assim, você chega mais rápido ao catálogo, ao fornecedor ou ao contato da RECOM.
               </p>
               <div className={styles.atalhosGrid}>
@@ -186,11 +187,11 @@ const ProcessoPage = () => {
                   const destino = atalho.to === 'catalogo-principal' ? hrefCatalogoPrincipal : atalho.to;
 
                   return (
-                    <Link to={destino} key={atalho.titulo} className={styles.atalhoCard}>
-                      <span className={styles.atalhoBadge}>Atalho</span>
-                      <h3>{atalho.titulo}</h3>
-                      <p>{atalho.descricao}</p>
-                      <span className={styles.atalhoLink}>
+                    <Link to={destino} key={atalho.titulo} className={editorialStyles.cardBase}>
+                      <span className={editorialStyles.kicker}>Atalho</span>
+                      <h3 className={editorialStyles.cardTitle}>{atalho.titulo}</h3>
+                      <p className={editorialStyles.cardDesc}>{atalho.descricao}</p>
+                      <span className={editorialStyles.cardAction}>
                         {atalho.ctaLabel} <ArrowRight size={14} />
                       </span>
                     </Link>
@@ -202,12 +203,12 @@ const ProcessoPage = () => {
             {fornecedoresRelacionados.length > 0 ? (
               <section className={styles.sectionBox}>
                 <div className={styles.sectionHeader}>
-                  <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
-                  <h2 className={styles.sectionTitle}>
+                  <span className={editorialStyles.kicker}>Fornecedores relacionados</span>
+                  <h2 className={editorialStyles.sectionTitle}>
                     Marcas mais aderentes a {processo.nome.toLowerCase()}
                   </h2>
                 </div>
-                <p className={styles.sectionLead}>
+                <p className={editorialStyles.cardDesc}>
                   Estes parceiros oferecem linhas e catálogos que conversam diretamente com este processo.
                 </p>
                 <div className={styles.fornecedoresGrid}>
@@ -218,7 +219,7 @@ const ProcessoPage = () => {
                       <Link
                         to={`/fornecedores-catalogos/${fornecedor.slug}`}
                         key={fornecedor.id}
-                        className={styles.fornecedorCard}
+                        className={editorialStyles.cardBase}
                       >
                         <div className={styles.fornecedorCardTop}>
                           <div className={styles.fornecedorLogoCard}>
@@ -235,8 +236,8 @@ const ProcessoPage = () => {
                         </div>
 
                         <div className={styles.fornecedorInfo}>
-                          <h3>{fornecedor.nome}</h3>
-                          <p>{fornecedor.descricaoCurta}</p>
+                          <h3 className={editorialStyles.cardTitle}>{fornecedor.nome}</h3>
+                          <p className={editorialStyles.cardDesc}>{fornecedor.descricaoCurta}</p>
                         </div>
 
                         <div className={styles.fornecedorMeta}>
@@ -246,7 +247,7 @@ const ProcessoPage = () => {
                           <span className={styles.fornecedorPillMuted}>Fornecedor parceiro</span>
                         </div>
 
-                        <span className={styles.fornecedorLink}>
+                        <span className={editorialStyles.cardAction}>
                           Ver fornecedor <ArrowRight size={14} />
                         </span>
                       </Link>
@@ -257,12 +258,12 @@ const ProcessoPage = () => {
             ) : (
               <section className={styles.sectionBox}>
                 <div className={styles.sectionHeader}>
-                  <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
-                  <h2 className={styles.sectionTitle}>
+                  <span className={editorialStyles.kicker}>Fornecedores relacionados</span>
+                  <h2 className={editorialStyles.sectionTitle}>
                     Ainda não há fornecedores mapeados para {processo.nome.toLowerCase()}
                   </h2>
                 </div>
-                <p className={styles.sectionLead}>
+                <p className={editorialStyles.cardDesc}>
                   Quando a relação não está validada, a melhor rota é falar com a RECOM e informar a aplicação, o material ou a referência que você já possui.
                 </p>
                 <ActionButton to="/contato" variant="secondary" stackOnMobile>
@@ -273,10 +274,10 @@ const ProcessoPage = () => {
 
             <section className={styles.sectionBox}>
               <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Outros processos</span>
-                <h2 className={styles.sectionTitle}>Explore outras rotas de usinagem</h2>
+                <span className={editorialStyles.kicker}>Outros processos</span>
+                <h2 className={editorialStyles.sectionTitle}>Explore outras rotas de usinagem</h2>
               </div>
-              <p className={styles.sectionLead}>
+              <p className={editorialStyles.cardDesc}>
                 Se a sua necessidade estiver em outro tipo de operação, estas páginas ajudam a refinar a busca.
               </p>
               <div className={styles.outrosGrid}>
@@ -284,16 +285,16 @@ const ProcessoPage = () => {
                   const IconeOutro = processoIconMap[p.slug] || Crosshair;
 
                   return (
-                    <Link to={`/solucoes/${p.slug}`} key={p.id} className={styles.outroCard}>
+                    <Link to={`/solucoes/${p.slug}`} key={p.id} className={editorialStyles.cardBase}>
                       <div className={styles.outroTop}>
                         <div className={styles.outroIcon}>
                           <IconeOutro size={20} strokeWidth={1.85} />
                         </div>
                         <span className={styles.outroBadge}>Processo</span>
                       </div>
-                      <h3>{p.nome}</h3>
-                      <p>{p.descricaoCurta}</p>
-                      <span className={styles.outroLink}>
+                      <h3 className={editorialStyles.cardTitle}>{p.nome}</h3>
+                      <p className={editorialStyles.cardDesc}>{p.descricaoCurta}</p>
+                      <span className={editorialStyles.cardAction}>
                         Ver página <ArrowRight size={14} />
                       </span>
                     </Link>
@@ -305,9 +306,9 @@ const ProcessoPage = () => {
 
           <aside className={styles.sidebar}>
             <div className={styles.ctaCard}>
-              <span className={styles.sidebarEyebrow}>Suporte comercial</span>
-              <h3>Solicite um orçamento</h3>
-              <p>
+              <span className={editorialStyles.kicker}>Suporte comercial</span>
+              <h3 className={editorialStyles.cardTitle}>Solicite um orçamento</h3>
+              <p className={editorialStyles.cardDesc}>
                 Precisa de ferramentas para {processo.nome.toLowerCase()}? A RECOM indica a solução mais adequada a partir dos dados que você já tem.
               </p>
               <ActionButton
@@ -321,9 +322,9 @@ const ProcessoPage = () => {
             </div>
 
             <div className={styles.infoCard}>
-              <span className={styles.sidebarEyebrow}>Palavras-chave</span>
-              <h3>Aplicações comuns</h3>
-              <p>
+              <span className={editorialStyles.kicker}>Palavras-chave</span>
+              <h3 className={editorialStyles.cardTitle}>Aplicações comuns</h3>
+              <p className={editorialStyles.cardDesc}>
                 Use estes termos para localizar catálogo, fornecedor e aplicação com menos etapas.
               </p>
               <div className={styles.keywordList}>
