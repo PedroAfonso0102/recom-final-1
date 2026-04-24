@@ -40,11 +40,11 @@ export const contato = {
 
 /**
  * Textos institucionais centralizados.
- * Alinhado à Etapa 3: tom profissional, claro, B2B.
+ * Alinhado à Etapa 3: tom profissional, claro e direto.
  */
 export const institucional = {
-  tagline: 'Distribuidor B2B de ferramentas para usinagem desde 1998',
+  tagline: 'Ferramentas para usinagem desde 1998',
   propostaDeValor: 'Conectamos clientes industriais a fornecedores reconhecidos, com atendimento técnico-comercial próximo, seleção criteriosa de linhas e apoio objetivo para compras de usinagem.',
-  descricaoCurta: 'A RECOM é um distribuidor B2B de ferramentas e soluções para usinagem, com atuação consolidada desde 1998 em Campinas-SP, atendimento técnico-comercial e acesso a fornecedores reconhecidos.',
-  descricaoFooter: 'Distribuidor B2B de ferramentas para usinagem desde 1998. Atendimento técnico-comercial em Campinas-SP com fornecedores reconhecidos.',
+  descricaoCurta: 'A RECOM atua com ferramentas e soluções para usinagem, com presença consolidada desde 1998 em Campinas-SP, atendimento técnico-comercial e acesso a fornecedores reconhecidos.',
+  descricaoFooter: 'Ferramentas para usinagem desde 1998. Atendimento técnico-comercial em Campinas-SP com fornecedores reconhecidos.',
 };

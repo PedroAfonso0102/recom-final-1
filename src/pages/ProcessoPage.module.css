@@ -62,7 +62,7 @@
 .processTitle {
   font-size: clamp(2rem, 4.8vw, 3.3rem);
   font-weight: 750;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   color: var(--text-primary, #1a1a2e);
   margin: 0 0 0.6rem;
   line-height: 1.06;
@@ -345,7 +345,7 @@
 .infoCard h3 {
   margin: 0.35rem 0 0;
   color: var(--text-primary, #1a1a2e);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .sectionTitle {
@@ -421,7 +421,7 @@
   color: var(--text-primary, #1a1a2e);
   font-size: 1rem;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .atalhoCard p {

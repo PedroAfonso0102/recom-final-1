@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import ActionButton from '../components/ActionButton';
-import { ArrowRight, BookOpen, CalendarDays, Cog, Crosshair, Factory, Layers3, MapPin, Phone, Search, ShieldCheck, Users, Circle } from 'lucide-react';
+import { ArrowRight, BookOpen, CalendarDays, ChevronLeft, ChevronRight, Cog, Crosshair, Factory, Layers3, MapPin, Phone, Search, ShieldCheck, Users, Circle } from 'lucide-react';
 import styles from './Home.module.css';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { trackLeadGen } from '../utils/analytics';
 import heroTecnicoImg from '../assets/images/editorial/egd-tecnico-gerada.png';
+import heroSlide1 from '../assets/images/editorial/RECOM_EDITORIAL-1.png';
+import heroSlide2 from '../assets/images/editorial/RECOM_EDITORIAL-2.png';
+import heroSlide3 from '../assets/images/editorial/RECOM_EDITORIAL-5.png';
 import pecasImg from '../assets/images/editorial/pecas.png';
-import logoSchema from '../assets/images/Upscaled/logo-marca-somente-triangulo.png';
+import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
 
 const heroProofs = [
   'Catálogos oficiais',
@@ -54,15 +57,67 @@ const processIconMap = {
 const heroMetrics = [
   { value: 'Desde 1998', label: 'atuação em Campinas-SP' },
   { value: 'Distribuição autorizada', label: 'Mitsubishi Materials' },
-  { value: 'Atendimento B2B', label: 'suporte técnico-comercial' },
+  { value: 'Atendimento a empresas', label: 'suporte técnico-comercial' },
   { value: 'Catálogos oficiais', label: 'fornecedores reconhecidos' },
 ];
 
+const heroSlides = [
+  {
+    image: heroSlide1,
+    alt: 'Empresa especializada em ferramentas para usinagem com itens de corte em destaque',
+    eyebrow: 'Atendimento a empresas',
+    title: 'Ferramentas para usinagem',
+    text: 'Ferramentas, fornecedores e soluções para a rotina industrial',
+    note: 'Atuação em Campinas | Confiança, clareza e atendimento próximo.',
+    objectPosition: '74% center',
+  },
+  {
+    image: heroSlide2,
+    alt: 'Fornecedores e catálogos de ferramentas para usinagem',
+    eyebrow: 'Fornecedores e catálogos',
+    title: 'Fornecedores e catálogos',
+    text: 'Marcas selecionadas para usinagem',
+    note: 'Escolha a marca certa | Apoio comercial com clareza.',
+  },
+  {
+    image: heroSlide3,
+    alt: 'Promoções e condições especiais para ferramentas de usinagem',
+    eyebrow: 'Condições especiais',
+    title: 'Promoções',
+    text: 'Condições especiais em linhas selecionadas',
+    note: 'Disponibilidade sob consulta | Atendimento rápido e objetivo.',
+  },
+  {
+    image: heroTecnicoImg,
+    alt: 'Planejamento técnico de usinagem com ferramentas e desenho de peça',
+    eyebrow: 'Análise técnica',
+    title: 'Aplicação e processo',
+    text: 'Definição técnica para seguir com mais precisão',
+    note: 'Base técnica sólida para orientar a decisão de compra.',
+  },
+];
+
 const Home = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    }, 5500);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const goToSlide = (index) => {
+    setActiveSlide((index + heroSlides.length) % heroSlides.length);
+  };
+
+  const currentSlide = heroSlides[activeSlide];
+
   return (
     <Layout>
       <SEOHead
-        title="Distribuidor B2B de ferramentas para usinagem"
+        title="RECOM Metal Duro | Ferramentas e soluções para usinagem"
         description={institucional.descricaoCurta}
         canonical="/"
         ogImage={heroTecnicoImg}
@@ -96,8 +151,11 @@ const Home = () => {
           <section className={styles.heroSection} aria-labelledby="home-hero-title">
             <div className={styles.heroCopy}>
               <span className={styles.heroBadge}>Desde {contato.fundacao} em Campinas-SP</span>
-              <h1 id="home-hero-title" className={styles.heroTitle}>
-                Distribuidor B2B de ferramentas para usinagem
+              <h1 id="home-hero-title" className={styles.heroTitle} style={{ color: '#2c56a3' }}>
+                RECOM<span style={{ verticalAlign: 'super', fontSize: '0.5em;', fontWeight: 'bold' }}>®</span>
+                <br />
+                <span style={{ color: '#000' }}>Metal Duro</span>
+                <hr />
               </h1>
               <p className={styles.heroDescription}>
                 A RECOM conecta clientes industriais a fornecedores reconhecidos e catálogos oficiais,
@@ -129,14 +187,56 @@ const Home = () => {
             </div>
 
             <div className={styles.heroVisual}>
-              <div className={styles.heroImageFrame}>
-                <img
-                  src={heroTecnicoImg}
-                  alt="Planejamento técnico de usinagem com ferramentas e desenho de peça"
-                  className={styles.heroImage}
-                  loading="eager"
-                  fetchPriority="high"
-                />
+              <div className={styles.heroCarousel}>
+                <div className={styles.heroCarouselViewport}>
+                  <div className={styles.heroCarouselFrame}>
+                    <img
+                      src={currentSlide.image}
+                      alt={currentSlide.alt}
+                      className={styles.heroCarouselImage}
+                      style={{ objectPosition: currentSlide.objectPosition || 'center center' }}
+                      loading="eager"
+                      fetchPriority="high"
+                    />
+                  </div>
+                </div>
+                <div className={styles.heroCarouselFooter}>
+                  <div className={styles.heroCarouselMeta}>
+                    <span className={styles.heroCarouselEyebrow}>{currentSlide.eyebrow}</span>
+                    <strong className={styles.heroCarouselTitle}>{currentSlide.title}</strong>
+                    <p className={styles.heroCarouselText}>{currentSlide.text}</p>
+                  </div>
+                  <p className={styles.heroCarouselNote}>{currentSlide.note}</p>
+                  <div className={styles.heroCarouselControls} aria-label="Controle do carrossel da Home">
+                    <button
+                      type="button"
+                      className={styles.heroCarouselArrow}
+                      onClick={() => goToSlide(activeSlide - 1)}
+                      aria-label="Slide anterior"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                    <div className={styles.heroCarouselDots}>
+                      {heroSlides.map((slide, index) => (
+                        <button
+                          key={slide.title}
+                          type="button"
+                          className={`${styles.heroCarouselDot} ${index === activeSlide ? styles.heroCarouselDotActive : ''}`}
+                          onClick={() => goToSlide(index)}
+                          aria-label={`Ir para o slide ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.heroCarouselArrow}
+                      onClick={() => goToSlide(activeSlide + 1)}
+                      aria-label="Próximo slide"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className={styles.heroMetricGrid}>
@@ -170,7 +270,7 @@ const Home = () => {
                   <Link
                     to={card.to}
                     key={card.title}
-                  className={styles.intentCard}
+                    className={styles.intentCard}
                     onClick={card.trackLabel ? () => trackLeadGen('form_intent', card.trackLabel) : undefined}
                   >
                     <div className={styles.intentIcon}>
@@ -246,17 +346,17 @@ const Home = () => {
                 return (
                   <Link to={`/solucoes/${processo.slug}`} key={processo.id} className={styles.processCard}>
                     <div className={styles.processCardTop}>
-                    <div className={styles.processIcon}>
-                      <Icon size={22} strokeWidth={1.9} />
+                      <div className={styles.processIcon}>
+                        <Icon size={22} strokeWidth={1.9} />
+                      </div>
                     </div>
-                  </div>
 
-                  <h3 className={styles.processTitle}>{processo.nome}</h3>
-                  <p className={styles.processCopy}>{processo.descricaoCurta}</p>
+                    <h3 className={styles.processTitle}>{processo.nome}</h3>
+                    <p className={styles.processCopy}>{processo.descricaoCurta}</p>
 
-                  <span className={styles.processAction}>
-                    Ver processo <ArrowRight size={14} />
-                  </span>
+                    <span className={styles.processAction}>
+                      Ver processo <ArrowRight size={14} />
+                    </span>
                   </Link>
                 );
               })}

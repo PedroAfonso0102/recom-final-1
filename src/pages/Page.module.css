@@ -103,7 +103,7 @@
     color: var(--accent-blue);
     margin-bottom: var(--space-xl);
     text-transform: uppercase;
-    letter-spacing: -0.02em; /* Tighter layout for mega heading */
+    letter-spacing: 0;
     line-height: 1.2;
 }
 

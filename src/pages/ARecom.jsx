@@ -5,7 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
 import styles from './ARecom.module.css';
-import escritorioImg from '../assets/images/escritorio.jpg';
+import empresaImg from '../assets/images/escritorio.jpg';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import {
@@ -51,7 +51,7 @@ const ARecom = () => {
     {
       icon: Users,
       label: 'Perfil',
-      value: 'B2B',
+      value: 'Empresas',
       text: 'atendimento técnico-comercial para clientes industriais',
     },
   ];
@@ -78,7 +78,7 @@ const ARecom = () => {
     <Layout>
       <SEOHead
         title="A RECOM - Quem Somos"
-        description="A RECOM Metal Duro é um distribuidor B2B de ferramentas para usinagem, com atuação desde 1998 em Campinas-SP e distribuição autorizada Mitsubishi Materials."
+        description="A RECOM Metal Duro atua com ferramentas para usinagem desde 1998, em Campinas-SP, com distribuição autorizada Mitsubishi Materials."
         canonical="/a-recom"
       />
       <Breadcrumb
@@ -100,7 +100,7 @@ const ARecom = () => {
             <h1 className={styles.pageTitle}>A RECOM</h1>
             <p className={styles.pageSubtitle}>{institucional.descricaoCurta}</p>
             <p className={styles.heroSupport}>
-              Distribuição B2B de ferramentas para usinagem com seleção de marcas, apoio técnico e relacionamento comercial próximo.
+              Ferramentas para usinagem com seleção de marcas, apoio técnico e relacionamento comercial próximo.
             </p>
 
             <div className={styles.heroActions}>
@@ -125,9 +125,10 @@ const ARecom = () => {
                 <span className={styles.heroImageBadge}>Campinas-SP</span>
               </div>
               <img
-                src={escritorioImg}
-                alt="Escritório da RECOM Metal Duro em Campinas, SP"
+                src={empresaImg}
+                alt="RECOM Metal Duro com ferramentas de usinagem em contexto industrial"
                 className={styles.heroImage}
+                style={{ objectPosition: 'center center' }}
               />
               <div className={styles.heroVisualNote}>
                 <span className={styles.heroVisualNoteIcon}>
@@ -185,7 +186,7 @@ const ARecom = () => {
 
             <article className={styles.timelineCard}>
               <span className={styles.timelineYear}>Hoje</span>
-              <h3>Atendimento industrial B2B</h3>
+              <h3>Atendimento industrial</h3>
               <p>
                 A RECOM atende clientes industriais com fornecedores reconhecidos, catálogos oficiais e suporte técnico-comercial.
               </p>

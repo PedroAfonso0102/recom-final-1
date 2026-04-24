@@ -4,6 +4,10 @@
  * Etapa 4: "cada card com logo, descrição curta, CTA para página individual"
  */
 
+import mitsubishiLogo from '../assets/images/Mitsubishi.png';
+import sevenLeadersLogo from '../assets/images/logo-7leaders.svg';
+import kifixLogo from '../assets/images/logo-kifix.png';
+
 const assetBase = `${import.meta.env.BASE_URL}assets/fornecedores/`;
 
 export const fornecedores = [
@@ -11,7 +15,7 @@ export const fornecedores = [
     id: 'mitsubishi-materials',
     nome: 'Mitsubishi Materials',
     slug: 'mitsubishi-materials',
-    logo: `${assetBase}mitsubishi-materials/logo.png`,
+    logo: mitsubishiLogo,
     descricaoCurta: 'Referência global em ferramentas de corte para usinagem de alta precisão.',
     descricao:
       'A Mitsubishi Materials desenvolve soluções para torneamento, fresamento e furação com foco em estabilidade, repetibilidade e vida útil consistente. A linha atende operações industriais que exigem controle dimensional, acabamento uniforme e produtividade previsível.',
@@ -23,11 +27,11 @@ export const fornecedores = [
         url: 'https://www.mmc-carbide.com/br/download/catalog-1',
       },
       {
-        label: 'Catálogo eletrônico / Web Catalog',
+        label: 'Catálogo digital / consulta online',
         url: 'https://www.mmc-carbide.com/en_jp/webcatalog',
       },
       {
-        label: 'Portal da Mitsubishi Materials do Brasil',
+        label: 'Página da Mitsubishi Materials do Brasil',
         url: 'https://www.mmc-carbide.com/br',
       },
     ],
@@ -39,15 +43,15 @@ export const fornecedores = [
     id: '7leaders',
     nome: '7Leaders',
     slug: '7leaders',
-    logo: `${assetBase}7leaders/logo.png`,
+    logo: sevenLeadersLogo,
     descricaoCurta: 'Linha complementar de ferramentas e acessórios para usinagem industrial.',
     descricao:
       'A 7Leaders reúne soluções complementares para usinagem industrial, ampliando as opções de corte, apoio e acabamento em rotas de produção que pedem flexibilidade e variação de aplicação.',
     catalogoUrl: 'https://www.7leaders.com/e-catalog',
-    catalogoLabel: 'E-Catalog oficial da 7Leaders',
+    catalogoLabel: 'Catálogo digital oficial da 7Leaders',
     catalogos: [
       {
-        label: 'E-Catalog oficial',
+        label: 'Catálogo digital oficial',
         url: 'https://www.7leaders.com/e-catalog',
       },
       {
@@ -83,7 +87,7 @@ export const fornecedores = [
     id: 'kifix',
     nome: 'Kifix',
     slug: 'kifix',
-    logo: `${assetBase}kifix/logo.png`,
+    logo: kifixLogo,
     descricaoCurta: 'Acessórios de fixação complementar para processos de usinagem.',
     descricao:
       'A Kifix fornece acessórios de fixação que apoiam a rotina de usinagem com soluções complementares para setup, apoio e organização da ferramenta no chão de fábrica.',

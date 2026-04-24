@@ -1,22 +1,13 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
 import { ArrowRight, MessageCircle, Tag, Calendar, Info } from 'lucide-react';
 import styles from './Promocoes.module.css';
 import { contato } from '../data/contato';
-import { fornecedores } from '../data/fornecedores';
 import { campanhasPromocionais } from '../data/promocoes';
-
-/**
- * Promoções — Página de condições especiais e campanhas.
- * NÃO é e-commerce. NÃO exibe preços públicos.
- * 
- * Etapa 3: "tom editorial, não catálogo de venda"
- * Etapa 4: "promoções como aceleradoras de contato, não como checkout"
- */
+import editorialImg from '../assets/images/editorial/RECOM_EDITORIAL-4.png';
 
 const breadcrumbItems = [
   { label: 'Início', path: '/' },
@@ -28,76 +19,87 @@ const Promocoes = () => {
     <Layout>
       <SEOHead
         title="Promoções e Condições Especiais"
-        description="Condições diferenciadas em ferramentas de usinagem Mitsubishi Materials e 7Leaders. Campanhas exclusivas para clientes B2B. Solicite orçamento."
+        description="Condições especiais da RECOM sob consulta. No momento não há promoções ativas publicadas."
       />
 
       <div className={styles.container}>
         <Breadcrumb items={breadcrumbItems} />
 
-        {/* Header */}
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Promoções e Condições Especiais</h1>
-          <p className={styles.pageSubtitle}>
-            A RECOM negocia periodicamente condições diferenciadas com nossos fornecedores.
-            Confira as campanhas ativas e solicite um orçamento.
-          </p>
-        </div>
+        <section className={styles.promoHero} aria-labelledby="promo-title">
+          <div className={styles.pageHeader}>
+            <h1 id="promo-title" className={styles.pageTitle}>Promoções e Condições Especiais</h1>
+            <p className={styles.pageSubtitle}>
+              No momento, não há promoção ativa publicada. Este espaço fica reservado para condições comerciais sob consulta
+              e oportunidades negociadas pela equipe.
+            </p>
+          </div>
 
-        {/* Aviso editorial */}
+          <div className={styles.promoVisual}>
+            <div className={styles.promoVisualCard}>
+              <img
+                src={editorialImg}
+                alt="Imagem institucional da RECOM"
+                className={styles.promoVisualImage}
+              />
+              <div className={styles.promoVisualNote}>
+                <span className={styles.promoVisualKicker}>Condições sob consulta</span>
+                <strong>Fale com a equipe comercial para conhecer novas oportunidades.</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div className={styles.aviso}>
           <Info size={18} />
           <p>
-            <strong>Preços sob consulta.</strong> As condições abaixo são negociadas diretamente
-            com cada cliente. Entre em contato para receber uma proposta personalizada.
+            <strong>Atenção:</strong> hoje não existe promoção ativa nesta página.
+            Fale com a equipe comercial para conhecer oportunidades sob consulta.
           </p>
         </div>
 
-        {/* Campanhas */}
         <div className={styles.campanhasGrid}>
-          {campanhasPromocionais.map(c => {
-            const forn = fornecedores.find(f => f.id === c.fornecedor);
-            return (
-              <div key={c.id} className={styles.campanhaCard}>
-                <div className={styles.campanhaHeader}>
-                  <span className={styles.campanhaTipo}>
-                    <Tag size={14} />
-                    {c.tipo}
-                  </span>
-                  <span className={styles.campanhaVigencia}>
-                    <Calendar size={14} />
-                    {c.vigencia}
-                  </span>
-                </div>
-                <h3 className={styles.campanhaTitulo}>{c.titulo}</h3>
-                <p className={styles.campanhaSubtitulo}>{c.subtitulo}</p>
-                <ul className={styles.campanhaDestaques}>
-                  {c.destaques.map((d, i) => (
-                    <li key={i}>{d}</li>
-                  ))}
-                </ul>
-                <div className={styles.campanhaFooter}>
-                  {forn && (
-                    <Link to={`/fornecedores-catalogos/${forn.slug}`} className={styles.fornLink}>
-                      <img src={forn.logo} alt={forn.altText} className={styles.fornLogo} />
-                      <span>{forn.nome}</span>
-                    </Link>
-                  )}
-                  <ActionButton to="/contato" variant="secondary" compact stackOnMobile>
-                    Solicitar orçamento <ArrowRight size={14} />
-                  </ActionButton>
-                </div>
-                <p className={styles.campanhaNota}>{c.ressalva}</p>
+          {campanhasPromocionais.map((campanha) => (
+            <div
+              key={campanha.id}
+              className={`${styles.campanhaCard} ${campanha.vazio ? styles.campanhaCardEmpty : ''}`}
+            >
+              <div className={styles.campanhaHeader}>
+                <span className={styles.campanhaTipo}>
+                  <Tag size={14} />
+                  {campanha.tipo}
+                </span>
+                <span className={styles.campanhaVigencia}>
+                  <Calendar size={14} />
+                  {campanha.vigencia}
+                </span>
               </div>
-            );
-          })}
+
+              <h3 className={styles.campanhaTitulo}>{campanha.titulo}</h3>
+              <p className={styles.campanhaSubtitulo}>{campanha.subtitulo}</p>
+
+              <ul className={styles.campanhaDestaques}>
+                {campanha.destaques.map((destaque, index) => (
+                  <li key={index}>{destaque}</li>
+                ))}
+              </ul>
+
+              <div className={styles.campanhaFooter}>
+                <ActionButton to="/contato" variant="contrast" compact stackOnMobile>
+                  Falar com a equipe
+                  <ArrowRight size={14} />
+                </ActionButton>
+              </div>
+
+              <p className={styles.campanhaNota}>{campanha.ressalva}</p>
+            </div>
+          ))}
         </div>
 
-        {/* CTA final */}
         <div className={styles.ctaSection}>
-          <h2 className={styles.ctaTitle}>Não encontrou o que precisa?</h2>
+          <h2 className={styles.ctaTitle}>Sem promoção ativa, mas com atendimento comercial disponível</h2>
           <p className={styles.ctaDesc}>
-            Trabalhamos com condições especiais sob demanda. Nossa equipe pode negociar
-            diretamente com o fabricante para atender sua necessidade específica.
+            Se a sua necessidade for específica, a RECOM pode avaliar condições e oportunidades sob consulta.
+            Entre em contato para entender o que faz mais sentido para o seu cenário.
           </p>
           <div className={styles.ctaActions}>
             <ActionButton to="/contato" variant="contrast" stackOnMobile>

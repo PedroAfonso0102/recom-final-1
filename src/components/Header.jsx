@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import ActionButton from './ActionButton';
 import styles from './Header.module.css';
-import logoMark from '../assets/images/Upscaled/logo-marca-somente-triangulo.png';
+import logo from '../assets/images/Upscaled/logo-sem-fundo.png';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
 
@@ -31,12 +31,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.topBar}>
         <Link to="/" className={styles.brand} onClick={closeMenu} aria-label="RECOM Metal Duro - Início">
-          <img src={logoMark} alt="" className={styles.brandMark} aria-hidden="true" />
-          <span className={styles.brandText}>
-            <span className={styles.brandName}>RECOM</span>
-            <span className={styles.brandDescriptor}>Metal Duro</span>
-            <span className={styles.brandSince}>Desde {contato.fundacao}</span>
-          </span>
+          <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
         </Link>
 
         <div className={styles.utilityNav}>

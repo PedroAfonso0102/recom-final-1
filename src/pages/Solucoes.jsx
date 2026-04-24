@@ -9,6 +9,7 @@ import styles from './Solucoes.module.css';
 import { processos } from '../data/processos';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
+import editorialImg from '../assets/images/editorial/RECOM_EDITORIAL-3.png';
 
 const processIconMap = {
   torneamento: Crosshair,
@@ -81,25 +82,33 @@ const Solucoes = () => {
           </div>
 
           <div className={styles.heroBrandCard}>
-            <span className={styles.heroBrandKicker}>Como a RECOM atua</span>
-            <h2 className={styles.heroBrandTitle}>Venda de ferramentas e definição do processo lado a lado com o cliente</h2>
-            <p className={styles.heroBrandDesc}>
-              A RECOM orienta a escolha, cruza dados técnicos e encaminha o próximo passo quando a aplicação pede validação de peça, catálogo ou ajuste de processo.
-            </p>
-            <ol className={styles.heroSteps}>
-              <li className={styles.heroStep}>
-                <span className={styles.heroStepIndex}>1</span>
-                <span>Selecione a operação ou traga o dado da peça que você já tem.</span>
-              </li>
-              <li className={styles.heroStep}>
-                <span className={styles.heroStepIndex}>2</span>
-                <span>Abra o fornecedor, o catálogo oficial ou o contato direto.</span>
-              </li>
-              <li className={styles.heroStep}>
-                <span className={styles.heroStepIndex}>3</span>
-                <span>Siga pela rota certa e reduza dúvida, retrabalho e etapas desnecessárias.</span>
-              </li>
-            </ol>
+            <img
+              src={editorialImg}
+              alt="Soluções e processos de usinagem da RECOM Metal Duro"
+              className={styles.heroBrandImage}
+              style={{ objectPosition: '72% center' }}
+            />
+            <div className={styles.heroBrandCopy}>
+              <span className={styles.heroBrandKicker}>Como a RECOM atua</span>
+              <h2 className={styles.heroBrandTitle}>Venda de ferramentas e definição do processo lado a lado com o cliente</h2>
+              <p className={styles.heroBrandDesc}>
+                A RECOM orienta a escolha, cruza dados técnicos e encaminha o próximo passo quando a aplicação pede validação de peça, catálogo ou ajuste de processo.
+              </p>
+              <ol className={styles.heroSteps}>
+                <li className={styles.heroStep}>
+                  <span className={styles.heroStepIndex}>1</span>
+                  <span>Selecione a operação ou traga o dado da peça que você já tem.</span>
+                </li>
+                <li className={styles.heroStep}>
+                  <span className={styles.heroStepIndex}>2</span>
+                  <span>Abra o fornecedor, o catálogo oficial ou o contato direto.</span>
+                </li>
+                <li className={styles.heroStep}>
+                  <span className={styles.heroStepIndex}>3</span>
+                  <span>Siga pela rota certa e reduza dúvida, retrabalho e etapas desnecessárias.</span>
+                </li>
+              </ol>
+            </div>
           </div>
         </section>
 

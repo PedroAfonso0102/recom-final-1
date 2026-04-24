@@ -6,7 +6,7 @@
 
 .heroSection {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(0, 1.18fr) minmax(380px, 460px);
   gap: 2rem;
   align-items: center;
   padding: 1.25rem 0 2.25rem;
@@ -60,7 +60,7 @@
 .pageTitle {
   font-size: clamp(2rem, 4.8vw, 3.3rem);
   font-weight: 750;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   color: var(--text-primary, #1a1a2e);
   margin: 0 0 0.6rem;
   line-height: 1.06;
@@ -127,13 +127,24 @@
 .heroBrandCard {
   justify-self: end;
   width: 100%;
-  max-width: 300px;
-  padding: 1.35rem;
+  max-width: 460px;
+  overflow: hidden;
   border-radius: 18px;
   border: 1px solid var(--border-light, #e2e8f0);
   background:
     linear-gradient(180deg, rgba(26, 58, 92, 0.04), rgba(26, 58, 92, 0.01)),
     #fff;
+}
+
+.heroBrandImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.heroBrandCopy {
+  padding: 1.1rem 1.15rem 1.25rem;
 }
 
 .heroBrandKicker {
@@ -155,7 +166,7 @@
   color: var(--text-primary, #1a1a2e);
   font-size: 1.18rem;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .heroBrandDesc {
@@ -216,7 +227,7 @@
   color: var(--text-primary, #1a1a2e);
   font-size: 1.15rem;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .quickAccessCopy p {
@@ -378,7 +389,7 @@
   color: var(--text-primary, #1a1a2e);
   font-size: 1.18rem;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .processoDesc {
@@ -435,7 +446,7 @@
   color: var(--text-primary, #1a1a2e);
   font-size: clamp(1.4rem, 3vw, 1.85rem);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .ctaDesc {
@@ -460,7 +471,7 @@
 
   .heroBrandCard {
     justify-self: start;
-    max-width: 320px;
+    max-width: 360px;
   }
 
   .quickAccessSection {
