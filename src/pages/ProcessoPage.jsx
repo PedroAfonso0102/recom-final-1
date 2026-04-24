@@ -44,6 +44,10 @@ const ProcessoPage = () => {
   const fornecedoresRelacionados = fornecedores.filter((fornecedor) =>
     processo.fornecedoresRelacionados.includes(fornecedor.id)
   );
+  const fornecedorPrincipal = fornecedoresRelacionados[0];
+  const hrefCatalogoPrincipal = fornecedorPrincipal
+    ? `/fornecedores-catalogos/${fornecedorPrincipal.slug}`
+    : '/fornecedores-catalogos';
   const outrosProcessos = processos.filter((p) => p.id !== processo.id);
   const palavrasChave = processo.keywords.slice(0, 4);
 
@@ -75,9 +79,13 @@ const ProcessoPage = () => {
 
             <h1 className={styles.processTitle}>{processo.nome}</h1>
             <p className={styles.processTagline}>{processo.descricaoCurta}</p>
-            <p className={styles.heroSupport}>
-              Use esta página como ponto de partida para abrir fornecedores relacionados, catálogos oficiais e o contato comercial da RECOM.
-            </p>
+
+            <div className={styles.heroProcessBlock}>
+              <p className={styles.heroProcessBody}>{processo.descricao}</p>
+              <p className={styles.heroSupport}>
+                Se você já tem o código, o nome da peça ou a dúvida de aplicação, siga pelos atalhos abaixo para chegar ao catálogo, ao fornecedor ou ao contato certo.
+              </p>
+            </div>
 
             {palavrasChave.length > 0 && (
               <div className={styles.keywordRow}>
@@ -114,9 +122,9 @@ const ProcessoPage = () => {
           </div>
 
           <div className={styles.heroVisual}>
-              <div className={styles.heroVisualCard}>
-                <div className={styles.heroVisualLabelRow}>
-                  <span className={styles.heroVisualLabel}>Referência visual</span>
+            <div className={styles.heroVisualCard}>
+              <div className={styles.heroVisualLabelRow}>
+                <span className={styles.heroVisualLabel}>Referência visual</span>
                 <span className={styles.heroVisualBadge}>{processo.nome}</span>
               </div>
 
@@ -159,18 +167,33 @@ const ProcessoPage = () => {
           <div className={styles.mainContent}>
             <section className={styles.sectionBox}>
               <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Sobre o processo</span>
-                <h2 className={styles.sectionTitle}>Contexto e aplicações</h2>
+                <span className={styles.sectionEyebrow}>Acesso guiado</span>
+                <h2 className={styles.sectionTitle}>Escolha o caminho certo para esta operação</h2>
               </div>
               <p className={styles.sectionLead}>
-                A RECOM organiza esta rota por necessidade prática para conectar rapidamente a operação aos fornecedores certos.
+                Selecione a opção que combina com a informação que você já tem. Assim, você chega mais rápido ao catálogo, ao fornecedor ou ao contato da RECOM.
               </p>
-              <p className={styles.sectionBody}>{processo.descricao}</p>
+              <div className={styles.atalhosGrid}>
+                {processo.atalhos.map((atalho) => {
+                  const destino = atalho.to === 'catalogo-principal' ? hrefCatalogoPrincipal : atalho.to;
+
+                  return (
+                    <Link to={destino} key={atalho.titulo} className={styles.atalhoCard}>
+                      <span className={styles.atalhoBadge}>Atalho</span>
+                      <h3>{atalho.titulo}</h3>
+                      <p>{atalho.descricao}</p>
+                      <span className={styles.atalhoLink}>
+                        {atalho.ctaLabel} <ArrowRight size={14} />
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
             </section>
 
             {fornecedoresRelacionados.length > 0 && (
               <section className={styles.sectionBox}>
-              <div className={styles.sectionHeader}>
+                <div className={styles.sectionHeader}>
                   <span className={styles.sectionEyebrow}>Fornecedores relacionados</span>
                   <h2 className={styles.sectionTitle}>
                     Marcas mais aderentes a {processo.nome.toLowerCase()}
@@ -233,7 +256,7 @@ const ProcessoPage = () => {
                   return (
                     <Link to={`/solucoes/${p.slug}`} key={p.id} className={styles.outroCard}>
                       <div className={styles.outroTop}>
-                      <div className={styles.outroIcon}>
+                        <div className={styles.outroIcon}>
                           <IconeOutro size={20} strokeWidth={1.85} />
                         </div>
                         <span className={styles.outroBadge}>Processo</span>
@@ -255,7 +278,7 @@ const ProcessoPage = () => {
               <span className={styles.sidebarEyebrow}>Suporte comercial</span>
               <h3>Solicite um orçamento</h3>
               <p>
-                Precisa de ferramentas para {processo.nome.toLowerCase()}? A RECOM pode ajudar a indicar a melhor solução.
+                Precisa de ferramentas para {processo.nome.toLowerCase()}? A RECOM indica a solução mais adequada a partir dos dados que você já tem.
               </p>
               <Link
                 to="/contato"
@@ -266,11 +289,11 @@ const ProcessoPage = () => {
               </Link>
             </div>
 
-          <div className={styles.infoCard}>
+            <div className={styles.infoCard}>
               <span className={styles.sidebarEyebrow}>Palavras-chave</span>
               <h3>Aplicações comuns</h3>
               <p>
-                Use estes termos para acelerar a navegação entre soluções, fornecedores e catálogos oficiais.
+                Use estes termos para localizar catálogo, fornecedor e aplicação com menos etapas.
               </p>
               <div className={styles.keywordList}>
                 {processo.keywords.map((keyword) => (

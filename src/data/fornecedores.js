@@ -12,8 +12,9 @@ export const fornecedores = [
     nome: 'Mitsubishi Materials',
     slug: 'mitsubishi-materials',
     logo: `${assetBase}mitsubishi-materials/logo.png`,
-    descricaoCurta: 'Líder global em ferramentas de corte e soluções de usinagem de alta performance.',
-    descricao: 'A Mitsubishi Materials é uma das maiores fabricantes de ferramentas de corte do mundo, com tecnologia avançada para torneamento, fresamento e furação. A RECOM é distribuidor autorizado Mitsubishi Materials desde 1998, conectando clientes industriais na região de Campinas e interior de São Paulo às soluções mais avançadas da marca.',
+    descricaoCurta: 'Referência global em ferramentas de corte para usinagem de alta precisão.',
+    descricao:
+      'A Mitsubishi Materials desenvolve soluções para torneamento, fresamento e furação com foco em estabilidade, repetibilidade e vida útil consistente. A linha atende operações industriais que exigem controle dimensional, acabamento uniforme e produtividade previsível.',
     catalogoUrl: 'https://www.mmc-carbide.com/br/download/catalog-1',
     catalogoLabel: 'Catálogo geral oficial da Mitsubishi Materials',
     catalogos: [
@@ -39,8 +40,9 @@ export const fornecedores = [
     nome: '7Leaders',
     slug: '7leaders',
     logo: `${assetBase}7leaders/logo.png`,
-    descricaoCurta: 'Soluções complementares em ferramentas e acessórios para usinagem industrial.',
-    descricao: 'A 7Leaders oferece uma linha complementar de ferramentas e acessórios voltados à usinagem industrial, ampliando as opções disponíveis para operações de corte e acabamento.',
+    descricaoCurta: 'Linha complementar de ferramentas e acessórios para usinagem industrial.',
+    descricao:
+      'A 7Leaders reúne soluções complementares para usinagem industrial, ampliando as opções de corte, apoio e acabamento em rotas de produção que pedem flexibilidade e variação de aplicação.',
     catalogoUrl: 'https://www.7leaders.com/e-catalog',
     catalogoLabel: 'E-Catalog oficial da 7Leaders',
     catalogos: [
@@ -63,7 +65,8 @@ export const fornecedores = [
     slug: 'bt-fixo',
     logo: `${assetBase}bt-fixo/logo.png`,
     descricaoCurta: 'Sistemas de fixação e porta-ferramentas para operações de usinagem.',
-    descricao: 'A BT Fixo é especializada em sistemas de fixação e porta-ferramentas, oferecendo soluções robustas que garantem estabilidade e precisão durante operações de usinagem.',
+    descricao:
+      'A BT Fixo atua com sistemas de fixação e porta-ferramentas voltados à estabilidade da operação, contribuindo para precisão, segurança de setup e melhor desempenho durante a usinagem.',
     catalogoUrl: 'https://www.btfixo.com.br/catalogos',
     catalogoLabel: 'Central oficial de catálogos BT Fixo',
     catalogos: [
@@ -81,8 +84,9 @@ export const fornecedores = [
     nome: 'Kifix',
     slug: 'kifix',
     logo: `${assetBase}kifix/logo.png`,
-    descricaoCurta: 'Acessórios e fixação complementar para processos de usinagem.',
-    descricao: 'A Kifix fornece acessórios de fixação complementares para processos de usinagem, contribuindo para uma cadeia de ferramentaria mais completa e eficiente.',
+    descricaoCurta: 'Acessórios de fixação complementar para processos de usinagem.',
+    descricao:
+      'A Kifix fornece acessórios de fixação que apoiam a rotina de usinagem com soluções complementares para setup, apoio e organização da ferramenta no chão de fábrica.',
     catalogoUrl: 'https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05',
     catalogoLabel: 'Catálogo Kifix 2025 (PDF)',
     catalogos: [
@@ -101,7 +105,7 @@ export const fornecedores = [
   },
 ];
 
-export const getFornecedorBySlug = (slug) => fornecedores.find(f => f.slug === slug);
+export const getFornecedorBySlug = (slug) => fornecedores.find((f) => f.slug === slug);
 
 export const getCatalogosDoFornecedor = (fornecedor) => {
   if (fornecedor.catalogos?.length) {
@@ -109,10 +113,12 @@ export const getCatalogosDoFornecedor = (fornecedor) => {
   }
 
   if (fornecedor.catalogoUrl) {
-    return [{
-      label: fornecedor.catalogoLabel || 'Catálogo oficial',
-      url: fornecedor.catalogoUrl,
-    }];
+    return [
+      {
+        label: fornecedor.catalogoLabel || 'Catálogo oficial',
+        url: fornecedor.catalogoUrl,
+      },
+    ];
   }
 
   return [];

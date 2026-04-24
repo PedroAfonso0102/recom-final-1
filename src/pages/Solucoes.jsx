@@ -41,7 +41,7 @@ const Solucoes = () => {
     <Layout>
       <SEOHead
         title="Soluções / Processos"
-        description="Explore torneamento, fresamento e furação com uma navegação direta para processos, fornecedores e contato comercial da RECOM Metal Duro."
+        description="Selecione torneamento, fresamento ou furação para seguir para fornecedores, catálogos oficiais e contato direto com a RECOM Metal Duro."
       />
       <Breadcrumb
         items={[
@@ -61,7 +61,7 @@ const Solucoes = () => {
 
             <h1 className={styles.pageTitle}>Soluções / Processos</h1>
             <p className={styles.pageSubtitle}>
-              Organize a busca pela operação e encontre rapidamente as marcas, ferramentas e caminhos comerciais mais aderentes para torneamento, fresamento e furação.
+              Selecione a operação e siga para fornecedores, catálogo oficial ou contato. A RECOM vende ferramentas e constrói com o cliente a solução mais adequada para cada aplicação.
             </p>
 
             <div className={styles.heroActions}>
@@ -79,23 +79,23 @@ const Solucoes = () => {
           </div>
 
           <div className={styles.heroBrandCard}>
-            <span className={styles.heroBrandKicker}>Fluxo de navegação</span>
-            <h2 className={styles.heroBrandTitle}>Escolha a operação e siga para a solução certa</h2>
+            <span className={styles.heroBrandKicker}>Como a RECOM atua</span>
+            <h2 className={styles.heroBrandTitle}>Venda de ferramentas e definição do processo lado a lado com o cliente</h2>
             <p className={styles.heroBrandDesc}>
-              Uma entrada rápida para processos, {fornecedores.length} fornecedores parceiros e contato comercial com a RECOM.
+              A RECOM orienta a escolha, cruza dados técnicos e encaminha o próximo passo quando a aplicação pede validação de peça, catálogo ou ajuste de processo.
             </p>
             <ol className={styles.heroSteps}>
               <li className={styles.heroStep}>
                 <span className={styles.heroStepIndex}>1</span>
-                <span>Selecione o processo que melhor representa a aplicação.</span>
+                <span>Selecione a operação ou traga o dado da peça que você já tem.</span>
               </li>
               <li className={styles.heroStep}>
                 <span className={styles.heroStepIndex}>2</span>
-                <span>Abra a página com fornecedores e soluções relacionadas.</span>
+                <span>Abra o fornecedor, o catálogo oficial ou o contato direto.</span>
               </li>
               <li className={styles.heroStep}>
                 <span className={styles.heroStepIndex}>3</span>
-                <span>Avance para o contato ou para o fornecedor oficial.</span>
+                <span>Siga pela rota certa e reduza dúvida, retrabalho e etapas desnecessárias.</span>
               </li>
             </ol>
           </div>
@@ -103,10 +103,10 @@ const Solucoes = () => {
 
         <section className={styles.quickAccessSection} aria-label="Acesso rapido aos processos">
           <div className={styles.quickAccessCopy}>
-            <span className={styles.quickAccessEyebrow}>Acesso rápido</span>
-            <h2>Entre no processo sem depender só dos cards</h2>
+            <span className={styles.quickAccessEyebrow}>Entrada guiada</span>
+            <h2>Escolha a operação certa e siga pelo caminho mais curto</h2>
             <p>
-              Escolha diretamente uma operação ou abra a lista completa de soluções em um clique.
+              Se você já tem código, nome da peça ou fabricante, use o acesso rápido. Se ainda precisa definir a rota, siga para o contato ou para os catálogos oficiais.
             </p>
           </div>
 
@@ -135,7 +135,7 @@ const Solucoes = () => {
               </div>
 
               <button type="button" className={styles.quickAccessBtn} onClick={scrollToProcesses}>
-                Ver processos
+                Ver opções
               </button>
             </div>
           </div>
@@ -185,7 +185,7 @@ const Solucoes = () => {
           <span className={styles.ctaEyebrow}>Apoio técnico</span>
           <h2 className={styles.ctaTitle}>Não sabe por onde começar? Fale com a RECOM.</h2>
           <p className={styles.ctaDesc}>
-            Nossa equipe ajuda a traduzir a operação, o material e a necessidade técnica em uma rota de fornecimento mais precisa.
+            A equipe ajuda a enquadrar a operação, conferir os dados disponíveis e indicar a rota mais direta para catálogo, fornecedor ou contato.
           </p>
           <div className={styles.ctaActions}>
             <Link

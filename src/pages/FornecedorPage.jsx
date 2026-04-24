@@ -61,7 +61,7 @@ const FornecedorPage = () => {
             <h1 className={styles.fornecedorTitle}>{fornecedor.nome}</h1>
             <p className={styles.fornecedorTagline}>{fornecedor.descricaoCurta}</p>
             <p className={styles.heroSupport}>
-              Fornecedor global de ferramentas de corte com distribuição RECOM para a região de Campinas e interior de SP.
+              Linha técnica com acesso ao catálogo oficial e atuação comercial da RECOM para Campinas e interior de SP.
             </p>
           </div>
 
@@ -75,7 +75,7 @@ const FornecedorPage = () => {
             <section className={styles.sectionBlock}>
               <div className={styles.sectionHeading}>
                 <span className={styles.sectionEyebrow}>Sobre a marca</span>
-                <h2>Contexto e aplicação</h2>
+                <h2>Visão técnica e aplicação</h2>
               </div>
               <p>{fornecedor.descricao}</p>
             </section>
