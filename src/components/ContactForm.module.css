@@ -1,123 +1,132 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .gridRow {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .gridRow {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.5rem;
 }
 
 .label {
-  display: block;
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--text-primary, #111827);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .input,
-.textarea,
-.select {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--border-light, #e2e8f0);
-  border-radius: 12px;
+.select,
+.textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
   font-family: inherit;
-  font-size: 14px;
-  background: var(--bg-white, #ffffff);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-primary);
+  background-color: var(--bg-white);
+  transition: all 0.2s ease-in-out;
 }
 
 .input:focus,
-.textarea:focus,
-.select:focus {
+.select:focus,
+.textarea:focus {
   outline: none;
-  border-color: var(--accent-blue, #0057a8);
-  box-shadow: 0 0 0 3px rgba(0, 87, 168, 0.08);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 87, 168, 0.1);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.inputError,
+.selectError,
+.textareaError {
+  border-color: var(--accent-red);
+}
+
+.inputError:focus,
+.selectError:focus,
+.textareaError:focus {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--accent-red);
+  margin-top: 0.25rem;
 }
 
 .select {
-  color: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
 }
 
 .helperText {
+  font-size: 0.75rem;
+  color: var(--text-muted);
   margin: 0;
-  font-size: 12px;
-  color: var(--text-muted, #64748b);
-  line-height: 1.4;
 }
 
 .checkboxGroup {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.75rem;
   cursor: pointer;
-  color: var(--text-secondary, #475569);
-  font-size: 13px;
-  line-height: 1.5;
 }
 
 .checkboxInput {
-  margin-top: 3px;
-  accent-color: var(--accent-blue, #0057a8);
+  margin-top: 0.25rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--accent-blue);
+  cursor: pointer;
 }
 
 .checkboxCopy {
-  display: block;
-}
-
-@media (max-width: 600px) {
-  .gridRow {
-    grid-template-columns: 1fr;
-  }
-}
-
-.submitBtn {
-  padding: 14px 28px;
-  background-color: var(--accent-blue, #0057a8);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  align-self: flex-start;
-  transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.submitBtn:hover {
-  background-color: var(--accent-blue-hover, #00427f);
-  transform: translateY(-1px);
-}
-
-.submitBtn:disabled {
-  cursor: wait;
-  opacity: 0.72;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .requiredNote {
-  font-size: 11px;
-  color: var(--text-muted, #64748b);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem 0;
 }
 
 .successMessage {
-  padding: 24px;
-  background-color: var(--bg-harmonic, #f8fafc);
-  border: 1px solid var(--border-light, #e2e8f0);
-  color: var(--text-primary, #111827);
-  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: var(--bg-harmonic);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
   text-align: center;
   font-weight: 500;
 }
