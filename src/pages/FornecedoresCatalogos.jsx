@@ -45,7 +45,7 @@ const FornecedoresCatalogos = () => {
                   <span className={styles.destaqueBadge}>Principal</span>
                 )}
                 <div className={styles.cardLogo}>
-                  <img src={fornecedor.logo} alt={fornecedor.altText} />
+                  <img src={fornecedor.logo} alt={fornecedor.altText} loading="lazy" />
                 </div>
                 <div className={styles.cardContent}>
                   <h2 className={styles.fornecedorNome}>{fornecedor.nome}</h2>
@@ -74,10 +74,10 @@ const FornecedoresCatalogos = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className={styles.catalogoLink}
-                            aria-label={catalogo.label}
+                            aria-label={`${catalogo.label} (abre em nova aba)`}
                             onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
                           >
-                            <ExternalLink size={14} />
+                            <ExternalLink size={14} aria-hidden="true" />
                             {catalogo.label}
                           </a>
                         ))}

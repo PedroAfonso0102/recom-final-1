@@ -98,10 +98,10 @@ const FornecedorPage = () => {
                     variant="primary"
                     compact
                     stackOnMobile
-                    aria-label={catalogoPrincipal.label}
+                    aria-label={`${catalogoPrincipal.label} (abre em nova aba)`}
                     onClick={() => trackOutboundLink(catalogoPrincipal.url, 'catalogo')}
                   >
-                    <ExternalLink size={16} />
+                    <ExternalLink size={16} aria-hidden="true" />
                     {catalogoPrincipal.label}
                   </ActionButton>
 
@@ -115,10 +115,10 @@ const FornecedorPage = () => {
                           variant="secondary"
                           compact
                           stackOnMobile
-                          aria-label={catalogo.label}
+                          aria-label={`${catalogo.label} (abre em nova aba)`}
                           onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
                         >
-                          <ExternalLink size={14} />
+                          <ExternalLink size={14} aria-hidden="true" />
                           <span>{catalogo.label}</span>
                         </ActionButton>
                       ))}
@@ -179,7 +179,7 @@ const FornecedorPage = () => {
                   {outrosFornecedores.map(f => (
                     <li key={f.id}>
                       <Link to={`/fornecedores-catalogos/${f.slug}`} className={styles.outroLink}>
-                        <img src={f.logo} alt={f.altText} className={styles.outroLogo} />
+                        <img src={f.logo} alt={f.altText} className={styles.outroLogo} loading="lazy" />
                         <span className={styles.outroName}>{f.nome}</span>
                         <span className={styles.outroCta}>Ver fornecedor</span>
                       </Link>

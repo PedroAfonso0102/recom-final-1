@@ -216,7 +216,7 @@ const ProcessoPage = () => {
                       >
                         <div className={styles.fornecedorCardTop}>
                           <div className={styles.fornecedorLogoCard}>
-                            <img src={fornecedor.logo} alt={fornecedor.altText} />
+                            <img src={fornecedor.logo} alt={fornecedor.altText} loading="lazy" />
                           </div>
                           {fornecedor.destaque && <span className={styles.fornecedorBadge}>Principal</span>}
                         </div>

@@ -12,12 +12,12 @@ const WhatsAppFAB = () => {
       className={styles.fabContainer}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Falar com a RECOM pelo WhatsApp"
+      aria-label="Falar com a RECOM pelo WhatsApp (abre em nova aba)"
       title="Falar com a RECOM pelo WhatsApp"
     >
       <div className={styles.pulseRing}></div>
       <div className={styles.fabIcon}>
-        <MessageCircle size={30} />
+        <MessageCircle size={30} aria-hidden="true" />
       </div>
       <span className={styles.tooltip}>WhatsApp</span>
     </a>

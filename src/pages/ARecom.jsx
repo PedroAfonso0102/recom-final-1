@@ -131,6 +131,7 @@ const ARecom = () => {
                 alt="RECOM Metal Duro com ferramentas de usinagem em contexto industrial"
                 className={styles.heroImage}
                 style={{ objectPosition: 'center center' }}
+                loading="eager"
               />
               <div className={styles.heroVisualNote}>
                 <span className={styles.heroVisualNoteIcon}>
@@ -287,7 +288,7 @@ const ARecom = () => {
                 className={styles.supplierCard}
               >
                 <div className={styles.supplierLogoFrame}>
-                  <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.supplierLogo} />
+                  <img src={fornecedor.logo} alt={fornecedor.altText} className={styles.supplierLogo} loading="lazy" />
                 </div>
                 <div className={styles.supplierMeta}>
                   <strong>{fornecedor.nome}</strong>

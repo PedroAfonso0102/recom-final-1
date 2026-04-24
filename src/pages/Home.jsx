@@ -152,7 +152,7 @@ const Home = () => {
             <div className={styles.heroCopy}>
               <span className={styles.heroBadge}>Desde {contato.fundacao} em Campinas-SP</span>
               <h1 id="home-hero-title" className={styles.heroTitle} style={{ color: '#2c56a3' }}>
-                RECOM<span style={{ verticalAlign: 'super', fontSize: '0.5em;', fontWeight: 'bold' }}>®</span>
+                RECOM<span style={{ verticalAlign: 'super', fontSize: '0.5em', fontWeight: 'bold' }}>®</span>
                 <br />
                 <span style={{ color: '#000' }}>Metal Duro</span>
                 <hr />
@@ -439,6 +439,7 @@ const Home = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.mapLink}
+                    aria-label="Ver rota no Google Maps (abre em nova aba)"
                   >
                     Ver rota no Google Maps
                   </a>

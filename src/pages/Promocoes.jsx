@@ -50,7 +50,7 @@ const Promocoes = () => {
         </section>
 
         <div className={styles.aviso}>
-          <Info size={18} />
+          <Info size={18} aria-hidden="true" />
           <p>
             <strong>Atenção:</strong> hoje não existe promoção ativa nesta página.
             Fale com a equipe comercial para conhecer oportunidades sob consulta.
@@ -65,11 +65,11 @@ const Promocoes = () => {
             >
               <div className={styles.campanhaHeader}>
                 <span className={styles.campanhaTipo}>
-                  <Tag size={14} />
+                  <Tag size={14} aria-hidden="true" />
                   {campanha.tipo}
                 </span>
                 <span className={styles.campanhaVigencia}>
-                  <Calendar size={14} />
+                  <Calendar size={14} aria-hidden="true" />
                   {campanha.vigencia}
                 </span>
               </div>
@@ -105,8 +105,8 @@ const Promocoes = () => {
             <ActionButton to="/contato" variant="contrast" stackOnMobile>
               Solicitar orientação comercial
             </ActionButton>
-            <ActionButton href={contato.whatsapp.hrefComMensagem} target="_blank" variant="whatsapp" stackOnMobile>
-              <MessageCircle size={16} />
+            <ActionButton href={contato.whatsapp.hrefComMensagem} target="_blank" variant="whatsapp" stackOnMobile aria-label={`Falar no WhatsApp: ${contato.telefone.display} (abre em nova aba)`}>
+              <MessageCircle size={16} aria-hidden="true" />
               {contato.telefone.display}
             </ActionButton>
           </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
+import ActionButton from '../components/ActionButton';
 import SEOHead from '../components/SEOHead';
 import { Home, ArrowRight } from 'lucide-react';
 import styles from './NotFound.module.css';
@@ -25,19 +26,19 @@ const NotFound = () => {
             A página que você está procurando pode ter sido movida ou não está mais disponível.
           </p>
           <div className={styles.links}>
-            <Link to="/" className={styles.primaryLink}>
+            <ActionButton to="/" variant="primary" stackOnMobile>
               <Home size={16} />
               Voltar ao Início
-            </Link>
-            <Link to="/fornecedores-catalogos" className={styles.secondaryLink}>
+            </ActionButton>
+            <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
               Fornecedores e Catálogos <ArrowRight size={14} />
-            </Link>
-            <Link to="/solucoes" className={styles.secondaryLink}>
+            </ActionButton>
+            <ActionButton to="/solucoes" variant="secondary" stackOnMobile>
               Soluções por processo <ArrowRight size={14} />
-            </Link>
-            <Link to="/contato" className={styles.secondaryLink}>
+            </ActionButton>
+            <ActionButton to="/contato" variant="secondary" stackOnMobile>
               Fale Conosco <ArrowRight size={14} />
-            </Link>
+            </ActionButton>
           </div>
         </div>
       </div>

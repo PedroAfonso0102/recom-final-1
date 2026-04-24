@@ -10,12 +10,6 @@ import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
 import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
 
-/**
- * Contato / Orçamento — Página de conversão principal.
- * Etapa 5: "formulário como canal primário de conversão"
- * Etapa 6: "dados de contato centralizados, sem hardcode"
- */
-
 const breadcrumbItems = [
   { label: 'Início', path: '/' },
   { label: 'Contato / Orçamento' },
@@ -47,21 +41,17 @@ const Contato = () => {
           hasMap: contato.endereco.googleMapsUrl,
           geo: {
             '@type': 'GeoCoordinates',
-            latitude: -22.893202, // approximated from Campinas Centro
+            latitude: -22.893202,
             longitude: -47.065842,
           },
-          openingHoursSpecification: [{
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: [
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-            ],
-            opens: '08:00',
-            closes: '17:30',
-          }],
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+              opens: '08:00',
+              closes: '17:30',
+            },
+          ],
         }}
       />
 
@@ -71,25 +61,24 @@ const Contato = () => {
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Contato / Orçamento</h1>
           <p className={styles.pageSubtitle}>
-            Solicite um orçamento, envie código ou desenho e fale com nossa equipe especializada em ferramentas para usinagem.
+            Solicite um orçamento, envie código ou descreva a aplicação e fale com nossa equipe especializada em
+            ferramentas para usinagem.
           </p>
         </div>
 
         <div className={styles.twoColumns}>
-          {/* Coluna principal — Formulário */}
           <div className={styles.colMain}>
             <div className={styles.formBox}>
               <h2 className={styles.formTitle}>Solicitar Orçamento</h2>
               <p className={styles.formDesc}>
-                Preencha os campos abaixo e nosso comercial retornará em até 24 horas úteis.
+                Preencha os campos abaixo e, se o canal online estiver indisponível, use os contatos diretos sem perder
+                a conversa.
               </p>
               <ContactForm />
             </div>
           </div>
 
-          {/* Coluna lateral — Informações */}
           <div className={styles.colSide}>
-            {/* Card de informações */}
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>Informações de Contato</h3>
               <ul className={styles.infoList}>
@@ -98,21 +87,27 @@ const Contato = () => {
                   <div>
                     <strong>Endereço</strong>
                     <span>{contato.endereco.rua}</span>
-                    <span>{contato.endereco.cidade} - {contato.endereco.estado}, {contato.endereco.cep}</span>
+                    <span>
+                      {contato.endereco.cidade} - {contato.endereco.estado}, {contato.endereco.cep}
+                    </span>
                   </div>
                 </li>
                 <li>
                   <Phone size={18} className={styles.infoIcon} />
                   <div>
                     <strong>Telefone</strong>
-                    <a href={contato.telefone.href} onClick={() => trackLeadGen('phone')}>{contato.telefone.display}</a>
+                    <a href={contato.telefone.href} onClick={() => trackLeadGen('phone', 'Contato Sidebar')}>
+                      {contato.telefone.display}
+                    </a>
                   </div>
                 </li>
                 <li>
                   <Mail size={18} className={styles.infoIcon} />
                   <div>
                     <strong>E-mail</strong>
-                    <a href={contato.email.href} onClick={() => trackLeadGen('email')}>{contato.email.display}</a>
+                    <a href={contato.email.href} onClick={() => trackLeadGen('email', 'Contato Sidebar')}>
+                      {contato.email.display}
+                    </a>
                   </div>
                 </li>
                 <li>
@@ -125,7 +120,6 @@ const Contato = () => {
               </ul>
             </div>
 
-            {/* WhatsApp CTA */}
             <a
               href={contato.whatsapp.hrefComMensagem}
               target="_blank"
@@ -140,14 +134,15 @@ const Contato = () => {
               </div>
             </a>
 
-            {/* Localização */}
             <div className={styles.mapBox}>
               <h3 className={styles.infoTitle}>Onde Estamos</h3>
               <div className={styles.mapCard}>
                 <address className={styles.mapAddress}>
                   <strong>{contato.empresa}</strong>
                   <span>{contato.endereco.rua}</span>
-                  <span>{contato.endereco.cidade} - {contato.endereco.estado}</span>
+                  <span>
+                    {contato.endereco.cidade} - {contato.endereco.estado}
+                  </span>
                   <span>CEP {contato.endereco.cep}</span>
                 </address>
                 <p className={styles.mapNote}>

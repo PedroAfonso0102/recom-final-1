@@ -25,20 +25,38 @@
     opacity var(--transition-fast);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+  .button:hover,
+  .button:active {
+    transform: none;
+  }
+}
+
 .button:hover {
   transform: translateY(-1px);
 }
 
+.button:active {
+  transform: scale(0.98);
+}
+
 .button:focus-visible {
-  outline: 2px solid var(--accent-blue);
-  outline-offset: 3px;
+  outline: 3px solid rgba(0, 87, 168, 0.4);
+  outline-offset: 2px;
 }
 
 .button:disabled {
-  opacity: 0.6;
-  cursor: wait;
+  opacity: 0.5;
+  cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+.button[aria-busy="true"] {
+  cursor: wait;
 }
 
 .primary {
@@ -114,6 +132,7 @@
 
 .tertiary:hover {
   color: var(--accent-blue-hover);
+  transform: none; /* Previne trepidação em botões sem fundo */
 }
 
 .compact {

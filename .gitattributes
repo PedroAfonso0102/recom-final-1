@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.txt text=auto eol=lf
+*.png binary
+
+/MVPs/5/recom-final-1/src/data/fornecedores.json binary

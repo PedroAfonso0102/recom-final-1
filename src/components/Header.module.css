@@ -181,7 +181,7 @@
         max-height: 0;
         overflow: hidden;
         box-shadow: var(--shadow-md);
-        transition: opacity var(--transition-base), transform var(--transition-base), max-height var(--transition-base);
+        transition: opacity var(--transition-spring), transform var(--transition-spring), max-height var(--transition-base);
     }
 
     .navOpen {
@@ -212,5 +212,13 @@
     .navLinkActive {
         background: rgba(255, 255, 255, 0.06);
         border-bottom-color: transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quoteButton,
+    .navLink,
+    .navBar {
+        transition: none !important;
     }
 }
