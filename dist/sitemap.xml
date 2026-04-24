@@ -67,17 +67,7 @@
       <priority>0.6</priority>
     </url>
     <url>
-      <loc>https://www.recommetalduro.com.br/seguranca</loc>
-      <changefreq>monthly</changefreq>
-      <priority>0.6</priority>
-    </url>
-    <url>
-      <loc>https://www.recommetalduro.com.br/sugestoes-de-utilizacao</loc>
-      <changefreq>monthly</changefreq>
-      <priority>0.6</priority>
-    </url>
-    <url>
-      <loc>https://www.recommetalduro.com.br/videos</loc>
+      <loc>https://www.recommetalduro.com.br/politica-de-privacidade</loc>
       <changefreq>monthly</changefreq>
       <priority>0.6</priority>
     </url>
