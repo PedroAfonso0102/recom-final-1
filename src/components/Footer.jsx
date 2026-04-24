@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import ActionButton from './ActionButton';
 import styles from './Footer.module.css';
-import logo from '../assets/images/Upscaled/logo-branco.png';
+import logoMark from '../assets/images/Upscaled/logo-marca-somente-triangulo-branco.png';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { trackLeadGen } from '../utils/analytics';
@@ -18,7 +18,12 @@ const Footer = () => {
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
           <div className={styles.footerLogo}>
-            <img src={logo} alt="RECOM Metal Duro" />
+            <img src={logoMark} alt="" aria-hidden="true" />
+            <span className={styles.footerBrandText}>
+              <span className={styles.footerBrandName}>RECOM</span>
+              <span className={styles.footerBrandDescriptor}>Metal Duro</span>
+              <span className={styles.footerBrandSince}>Desde {contato.fundacao}</span>
+            </span>
           </div>
           <p className={styles.footerText}>{institucional.descricaoFooter}</p>
           <div className={styles.footerCta}>
@@ -49,7 +54,7 @@ const Footer = () => {
             <li><Link to="/solucoes/furacao">Furação</Link></li>
           </ul>
 
-          <h4 className={styles.footerTitle} style={{ marginTop: '1.25rem' }}>Empresa</h4>
+          <h4 className={`${styles.footerTitle} ${styles.footerTitleSpaced}`}>Empresa</h4>
           <ul className={styles.footerLinks}>
             <li><Link to="/a-recom">A RECOM</Link></li>
             <li><Link to="/promocoes">Promoções</Link></li>

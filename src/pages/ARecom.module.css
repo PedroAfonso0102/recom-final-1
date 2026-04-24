@@ -60,7 +60,7 @@
 .pageTitle {
   font-size: clamp(2rem, 4.8vw, 3.35rem);
   font-weight: 750;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   color: var(--text-primary, #1a1a2e);
   margin: 0 0 0.6rem;
   line-height: 1.06;
@@ -89,49 +89,6 @@
   flex-wrap: wrap;
 }
 
-.primaryBtn,
-.secondaryBtn,
-.contactBtn,
-.footerCtaBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.78rem 1.1rem;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 700;
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.primaryBtn,
-.contactBtn,
-.footerCtaBtn {
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(26, 58, 92, 0.14);
-}
-
-.primaryBtn:hover,
-.contactBtn:hover,
-.footerCtaBtn:hover {
-  background: var(--accent-blue-hover, #153050);
-  transform: translateY(-1px);
-}
-
-.secondaryBtn {
-  border: 1px solid var(--border-light, #e2e8f0);
-  color: var(--text-primary, #1a1a2e);
-  background: #fff;
-}
-
-.secondaryBtn:hover {
-  border-color: rgba(26, 58, 92, 0.28);
-  color: var(--accent-blue, #1a3a5c);
-  transform: translateY(-1px);
-}
-
 .heroVisual {
   justify-self: end;
   width: 100%;
@@ -143,7 +100,7 @@
   flex-direction: column;
   gap: 0.9rem;
   padding: 1.35rem;
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light, #e2e8f0);
   background:
     linear-gradient(180deg, rgba(26, 58, 92, 0.04), rgba(26, 58, 92, 0.01)),
@@ -184,7 +141,7 @@
 .heroImage {
   width: 100%;
   display: block;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   border: 1px solid rgba(26, 58, 92, 0.08);
   object-fit: cover;
 }
@@ -194,7 +151,7 @@
   align-items: flex-start;
   gap: 0.7rem;
   padding: 0.95rem 1rem;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   background: #fff;
   border: 1px solid rgba(226, 232, 240, 0.92);
   color: var(--text-secondary, #4a5568);
@@ -228,7 +185,7 @@
   display: flex;
   gap: 0.85rem;
   padding: 1rem 1.05rem;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(226, 232, 240, 0.92);
   background: #fff;
   box-shadow: 0 1px 1px rgba(15, 23, 42, 0.02);
@@ -279,7 +236,7 @@
 .footerCta {
   background: #fff;
   border: 1px solid rgba(226, 232, 240, 0.92);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 1.35rem;
   box-shadow: 0 1px 1px rgba(15, 23, 42, 0.02);
 }
@@ -298,7 +255,7 @@
 .footerCta h2 {
   margin: 0.35rem 0 0;
   color: var(--text-primary, #1a1a2e);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .sectionHeading h2 {

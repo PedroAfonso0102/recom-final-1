@@ -8,7 +8,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import styles from './Contato.module.css';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
-import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
+import logoSchema from '../assets/images/Upscaled/logo-marca-somente-triangulo.png';
 
 /**
  * Contato / Orçamento — Página de conversão principal.

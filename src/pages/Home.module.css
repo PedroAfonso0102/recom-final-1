@@ -18,7 +18,7 @@
   margin-top: var(--space-xl);
   padding: var(--space-2xl);
   border: 1px solid var(--border-light);
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at top right, rgba(0, 87, 168, 0.08), transparent 36%),
     linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
@@ -36,7 +36,7 @@
   align-items: center;
   width: fit-content;
   padding: 0.35rem 0.65rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   background: var(--accent-blue-light);
   color: var(--accent-blue);
   font-size: 0.6875rem;
@@ -50,7 +50,7 @@
   color: var(--text-primary);
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   line-height: 0.98;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   font-weight: 800;
 }
 
@@ -69,14 +69,10 @@
   flex-wrap: wrap;
 }
 
-.primaryBtn,
-.secondaryBtn,
 .intentAction,
 .supplierAction,
 .processAction,
 .sectionFooterLink,
-.promoAction,
-.finalPrimary,
 .finalSecondary {
   display: inline-flex;
   align-items: center;
@@ -85,39 +81,6 @@
   text-decoration: none;
   font-weight: 700;
   transition: transform var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.primaryBtn,
-.finalPrimary {
-  padding: 0.9rem 1.2rem;
-  border-radius: 999px;
-  background: var(--accent-blue);
-  color: var(--bg-white);
-  box-shadow: var(--shadow-sm);
-}
-
-.primaryBtn:hover,
-.finalPrimary:hover {
-  background: var(--accent-blue-hover);
-  color: var(--bg-white);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.secondaryBtn,
-.finalSecondary {
-  padding: 0.9rem 1.2rem;
-  border-radius: 999px;
-  border: 1px solid var(--border-light);
-  color: var(--text-primary);
-  background: var(--bg-white);
-}
-
-.secondaryBtn:hover,
-.finalSecondary:hover {
-  color: var(--accent-blue);
-  border-color: rgba(0, 87, 168, 0.28);
-  transform: translateY(-1px);
 }
 
 .heroProofs {
@@ -131,7 +94,7 @@
 
 .heroProof {
   padding: 0.55rem 0.75rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
   color: var(--text-secondary);
@@ -148,7 +111,7 @@
 .heroImageFrame {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
   box-shadow: var(--shadow-lg);
@@ -160,46 +123,6 @@
   object-fit: cover;
 }
 
-.heroFloatingCard {
-  position: absolute;
-  left: var(--space-l);
-  right: var(--space-l);
-  bottom: var(--space-l);
-  max-width: 320px;
-  padding: 1rem 1.1rem;
-  border-radius: 18px;
-  background: rgba(5, 6, 8, 0.78);
-  color: var(--bg-white);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.22);
-}
-
-.heroFloatingLabel {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 0.3rem;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.heroFloatingTitle {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-size: 1.2rem;
-  line-height: 1.2;
-}
-
-.heroFloatingCopy {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.84);
-  line-height: 1.55;
-  font-size: 0.94rem;
-}
-
 .heroMetricGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -208,7 +131,7 @@
 
 .heroMetricCard {
   padding: 1rem 1rem 0.95rem;
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
   box-shadow: var(--shadow-xs);
@@ -232,11 +155,11 @@
 
 .sectionFrame {
   margin-top: var(--space-3xl);
-  padding: var(--space-2xl);
-  border: 1px solid var(--border-light);
-  border-radius: 28px;
-  background: var(--bg-white);
-  box-shadow: var(--shadow-xs);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .sectionIntro {
@@ -249,7 +172,7 @@
   color: var(--text-primary);
   font-size: clamp(1.7rem, 3.3vw, 2.7rem);
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .sectionLead {
@@ -261,7 +184,7 @@
 
 .intentGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-l);
 }
 
@@ -271,7 +194,7 @@
   flex-direction: column;
   gap: 0.8rem;
   padding: 1.25rem;
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   background:
     linear-gradient(180deg, rgba(0, 87, 168, 0.02), rgba(255, 255, 255, 1)),
@@ -290,7 +213,7 @@
 .intentIcon {
   width: 52px;
   height: 52px;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   display: grid;
   place-items: center;
   background: var(--accent-blue-light);
@@ -302,7 +225,7 @@
   color: var(--text-primary);
   font-size: 1.12rem;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .intentCopy {
@@ -330,7 +253,7 @@
   flex-direction: column;
   gap: 0.85rem;
   padding: 1rem;
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   background:
     linear-gradient(180deg, rgba(0, 87, 168, 0.02), rgba(255, 255, 255, 1)),
@@ -346,31 +269,13 @@
   box-shadow: var(--shadow-md);
 }
 
-.supplierFeatured {
-  border-color: rgba(0, 87, 168, 0.34);
-}
-
-.supplierBadge {
-  position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
-  padding: 0.35rem 0.55rem;
-  border-radius: 999px;
-  background: var(--accent-blue);
-  color: var(--bg-white);
-  font-size: 0.64rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .supplierLogoFrame {
   min-height: 92px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
 }
@@ -397,8 +302,7 @@
 
 .supplierAction,
 .processAction,
-.sectionFooterLink,
-.promoSupplier {
+.sectionFooterLink {
   color: var(--accent-blue);
   font-size: 0.875rem;
   font-weight: 700;
@@ -427,7 +331,7 @@
   flex-direction: column;
   gap: 0.85rem;
   padding: 1.25rem;
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   background:
     linear-gradient(180deg, rgba(0, 87, 168, 0.02), rgba(255, 255, 255, 1)),
@@ -453,25 +357,11 @@
 .processIcon {
   width: 52px;
   height: 52px;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   display: grid;
   place-items: center;
   background: var(--accent-blue-light);
   color: var(--accent-blue);
-}
-
-.processBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.32rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid var(--border-light);
-  background: var(--bg-white);
-  color: var(--text-secondary);
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .processTitle {
@@ -486,24 +376,6 @@
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.65;
-}
-
-.processTagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.processTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.34rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 87, 168, 0.12);
-  background: rgba(0, 87, 168, 0.04);
-  color: var(--accent-blue);
-  font-size: 0.74rem;
-  font-weight: 700;
 }
 
 .processAction {
@@ -533,7 +405,7 @@
   flex-direction: column;
   gap: 0.35rem;
   padding: 1rem;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
   background: linear-gradient(180deg, rgba(0, 87, 168, 0.02), rgba(255, 255, 255, 1));
 }
@@ -562,7 +434,7 @@
 .institutionalVisual {
   position: relative;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
   box-shadow: var(--shadow-md);
@@ -603,7 +475,7 @@
 
 .mapCard {
   padding: 1.15rem;
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-light);
   background: var(--bg-white);
   box-shadow: var(--shadow-xs);
@@ -639,131 +511,10 @@
   font-weight: 700;
 }
 
-.promoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-l);
-}
-
-.promoCard {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.25rem;
-  border-radius: 24px;
-  border: 1px solid var(--border-light);
-  background:
-    linear-gradient(180deg, rgba(0, 87, 168, 0.02), rgba(255, 255, 255, 1)),
-    var(--bg-white);
-  box-shadow: var(--shadow-xs);
-}
-
-.promoCardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.promoCardBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.32rem 0.55rem;
-  border-radius: 999px;
-  background: var(--accent-blue-light);
-  color: var(--accent-blue);
-  font-size: 0.67rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.promoCardValidity {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.promoCardTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.12rem;
-  line-height: 1.25;
-}
-
-.promoCardCopy {
-  margin: 0;
-  color: var(--text-secondary);
-  line-height: 1.65;
-}
-
-.promoList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.45rem;
-}
-
-.promoItem {
-  position: relative;
-  padding-left: 1rem;
-  color: var(--text-secondary);
-  font-size: 0.94rem;
-  line-height: 1.5;
-}
-
-.promoItem::before {
-  content: '';
-  position: absolute;
-  top: 0.65rem;
-  left: 0;
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 50%;
-  background: var(--accent-blue);
-}
-
-.promoFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  padding-top: 0.9rem;
-  border-top: 1px solid var(--border-light);
-}
-
-.promoSupplier {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.promoAction {
-  padding: 0.72rem 0.95rem;
-  border-radius: 999px;
-  background: var(--accent-blue);
-  color: var(--bg-white);
-}
-
-.promoAction:hover {
-  background: var(--accent-blue-hover);
-  color: var(--bg-white);
-}
-
-.promoNote {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.55;
-}
-
 .finalCta {
   margin-top: var(--space-3xl);
   padding: var(--space-2xl);
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 34%),
     linear-gradient(180deg, var(--accent-blue), var(--brand-blue-deep));
@@ -778,7 +529,7 @@
   margin: 0.65rem 0 0.55rem;
   font-size: clamp(1.55rem, 3vw, 2.4rem);
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .finalCtaText {
@@ -796,21 +547,11 @@
   align-items: flex-end;
 }
 
-.finalPrimary {
-  background: var(--bg-white);
-  color: var(--accent-blue);
-}
-
-.finalPrimary:hover {
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--accent-blue-hover);
-}
-
 .finalSecondary {
   color: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.22);
   padding: 0.9rem 1.2rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
 }
 
 .finalSecondary:hover {
@@ -836,10 +577,9 @@
   }
 
   .heroSection,
-  .sectionFrame,
   .finalCta {
     padding: var(--space-xl);
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
   }
 
   .heroSection {
@@ -855,9 +595,6 @@
     align-items: stretch;
   }
 
-  .primaryBtn,
-  .secondaryBtn,
-  .finalPrimary,
   .finalSecondary {
     width: 100%;
     justify-content: center;
@@ -867,15 +604,8 @@
   .proofGrid,
   .intentGrid,
   .supplierRail,
-  .processGrid,
-  .promoGrid {
+  .processGrid {
     grid-template-columns: 1fr;
-  }
-
-  .heroFloatingCard {
-    left: var(--space-m);
-    right: var(--space-m);
-    max-width: none;
   }
 
   .sectionFrame {

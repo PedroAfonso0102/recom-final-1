@@ -34,7 +34,7 @@ const ARecom = () => {
       icon: CalendarDays,
       label: 'Fundação',
       value: String(contato.fundacao),
-      text: 'atuação contínua em Campinas-SP',
+      text: 'trajetória comercial em Campinas-SP',
     },
     {
       icon: MapPin,
@@ -52,25 +52,25 @@ const ARecom = () => {
       icon: Users,
       label: 'Perfil',
       value: 'B2B',
-      text: 'curadoria técnica para o cliente industrial',
+      text: 'atendimento técnico-comercial para clientes industriais',
     },
   ];
 
   const capabilities = [
     {
       icon: Factory,
-      title: 'Curadoria industrial',
-      text: 'Selecionamos ferramentas e marcas com foco em aplicação real, produtividade e confiabilidade comercial.',
+      title: 'Seleção industrial',
+      text: 'Indicamos ferramentas e marcas com foco em aplicação real, produtividade e confiabilidade comercial.',
     },
     {
       icon: BadgeCheck,
       title: 'Parcerias reconhecidas',
-      text: 'Trabalhamos com fornecedores oficiais e materiais de catálogo que simplificam a tomada de decisão.',
+      text: 'Trabalhamos com fornecedores oficiais e materiais de catálogo que dão base técnica à decisão de compra.',
     },
     {
       icon: ShieldCheck,
       title: 'Atendimento próximo',
-      text: 'Acompanhamos a seleção de soluções com suporte comercial direto, técnico e objetivo.',
+      text: 'Acompanhamos a seleção de soluções com suporte direto, técnico e objetivo.',
     },
   ];
 
@@ -78,7 +78,7 @@ const ARecom = () => {
     <Layout>
       <SEOHead
         title="A RECOM - Quem Somos"
-        description="A RECOM Metal Duro é um distribuidor B2B de ferramentas para usinagem, fundada em 1990 em Campinas-SP. Representante e distribuidor autorizado da Mitsubishi Materials desde 1998."
+        description="A RECOM Metal Duro é um distribuidor B2B de ferramentas para usinagem, com atuação desde 1998 em Campinas-SP e distribuição autorizada Mitsubishi Materials."
         canonical="/a-recom"
       />
       <Breadcrumb
@@ -93,14 +93,14 @@ const ARecom = () => {
           <div className={styles.heroCopy}>
             <div className={styles.heroMeta}>
               <span className={styles.heroEyebrow}>Sobre a empresa</span>
-              <span className={styles.heroBadge}>Desde 1990</span>
+              <span className={styles.heroBadge}>Desde {contato.fundacao}</span>
               <span className={styles.heroBadgeMuted}>Campinas-SP</span>
             </div>
 
             <h1 className={styles.pageTitle}>A RECOM</h1>
             <p className={styles.pageSubtitle}>{institucional.descricaoCurta}</p>
             <p className={styles.heroSupport}>
-              Distribuição B2B de ferramentas para usinagem com foco em curadoria de marcas, apoio técnico e relacionamento comercial próximo.
+              Distribuição B2B de ferramentas para usinagem com seleção de marcas, apoio técnico e relacionamento comercial próximo.
             </p>
 
             <div className={styles.heroActions}>
@@ -134,7 +134,7 @@ const ARecom = () => {
                   <Factory size={16} strokeWidth={1.9} />
                 </span>
                 <p>
-                  Distribuidor autorizado Mitsubishi Materials desde 1998, com atuação comercial contínua no interior paulista.
+                  Distribuidor autorizado Mitsubishi Materials, com atuação comercial contínua no interior paulista.
                 </p>
               </div>
             </div>
@@ -168,26 +168,26 @@ const ARecom = () => {
 
           <div className={styles.timelineGrid}>
             <article className={styles.timelineCard}>
-              <span className={styles.timelineYear}>1990</span>
-              <h3>Origem em Campinas</h3>
-              <p>
-                A RECOM nasceu com foco em ferramentas de corte rotativas e estáticas para a indústria metalúrgica.
-              </p>
-            </article>
-
-            <article className={styles.timelineCard}>
-              <span className={styles.timelineYear}>1992</span>
-              <h3>Primeira representação</h3>
-              <p>
-                Iniciamos a atuação com a Mitsubishi Carbide, expandindo atendimento para Campinas e interior de São Paulo.
-              </p>
-            </article>
-
-            <article className={styles.timelineCard}>
               <span className={styles.timelineYear}>1998</span>
+              <h3>Atuação consolidada em Campinas</h3>
+              <p>
+                A RECOM estruturou sua atuação comercial em ferramentas de corte para a indústria metalúrgica.
+              </p>
+            </article>
+
+            <article className={styles.timelineCard}>
+              <span className={styles.timelineYear}>Mitsubishi Materials</span>
               <h3>Distribuição autorizada</h3>
               <p>
-                Tornamo-nos representante e distribuidor autorizado da MMC Metal do Brasil, relação que segue até hoje.
+                A empresa mantém parceria autorizada para atendimento comercial e acesso a linhas reconhecidas de usinagem.
+              </p>
+            </article>
+
+            <article className={styles.timelineCard}>
+              <span className={styles.timelineYear}>Hoje</span>
+              <h3>Atendimento industrial B2B</h3>
+              <p>
+                A RECOM atende clientes industriais com fornecedores reconhecidos, catálogos oficiais e suporte técnico-comercial.
               </p>
             </article>
           </div>
@@ -197,7 +197,7 @@ const ARecom = () => {
           <div className={styles.sectionBlock}>
             <div className={styles.sectionHeading}>
               <span className={styles.sectionEyebrow}>Como atuamos</span>
-              <h2>Uma ponte objetiva entre cliente e fornecedor</h2>
+              <h2>Atendimento objetivo entre cliente e fornecedor</h2>
             </div>
             <p className={styles.sectionLead}>{institucional.propostaDeValor}</p>
 
@@ -223,7 +223,7 @@ const ARecom = () => {
               <span className={styles.sectionEyebrow}>Contato direto</span>
               <h3>Onde estamos</h3>
               <p>
-                Atendimento em Campinas-SP, com suporte comercial para clientes industriais da região e interior paulista.
+                Atendimento em Campinas-SP, com suporte técnico-comercial para clientes industriais da região e interior paulista.
               </p>
 
               <ul className={styles.contactList}>
@@ -254,7 +254,7 @@ const ARecom = () => {
             <div className={styles.contactCta}>
               <span className={styles.sectionEyebrow}>Precisando de apoio?</span>
               <h3>Fale com a RECOM</h3>
-              <p>Podemos indicar o fornecedor e a linha de produto mais aderentes à sua aplicação.</p>
+              <p>A equipe direciona sua demanda para o fornecedor, catálogo ou linha mais aderente à aplicação.</p>
               <ActionButton
                 to="/contato"
                 variant="primary"
@@ -273,7 +273,7 @@ const ARecom = () => {
             <h2>Marcas que sustentam nosso portfólio</h2>
           </div>
           <p className={styles.sectionLead}>
-            A RECOM conecta clientes industriais a fornecedores reconhecidos no mercado de ferramentas de corte.
+            A RECOM conecta clientes industriais a fornecedores reconhecidos no mercado de ferramentas de corte e fixação.
           </p>
 
           <div className={styles.supplierGrid}>
@@ -303,7 +303,7 @@ const ARecom = () => {
             <span className={styles.sectionEyebrow}>Próximo passo</span>
             <h2>Precisa de apoio para selecionar ferramentas e fornecedores?</h2>
             <p>
-              Fale com a equipe da RECOM e receba uma orientação comercial alinhada à sua operação.
+              Fale com a equipe da RECOM e receba atendimento técnico-comercial alinhado à sua operação.
             </p>
           </div>
           <ActionButton

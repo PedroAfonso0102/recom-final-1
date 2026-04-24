@@ -3,17 +3,17 @@ import { Link, NavLink } from 'react-router-dom';
 import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import ActionButton from './ActionButton';
 import styles from './Header.module.css';
-import logo from '../assets/images/Upscaled/logo-sem-fundo.png';
+import logoMark from '../assets/images/Upscaled/logo-marca-somente-triangulo.png';
 import { contato } from '../data/contato';
 import { trackLeadGen } from '../utils/analytics';
 
 const navItems = [
   { to: '/', label: 'Início', end: true },
   { to: '/a-recom', label: 'A RECOM' },
-  { to: '/fornecedores-catalogos', label: 'Fornecedores & Catálogos' },
-  { to: '/solucoes', label: 'Soluções / Processos' },
+  { to: '/fornecedores-catalogos', label: 'Fornecedores e Catálogos' },
+  { to: '/solucoes', label: 'Soluções' },
   { to: '/promocoes', label: 'Promoções' },
-  { to: '/contato', label: 'Contato / Orçamento' },
+  { to: '/contato', label: 'Contato' },
 ];
 
 const Header = () => {
@@ -31,7 +31,12 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.topBar}>
         <Link to="/" className={styles.brand} onClick={closeMenu} aria-label="RECOM Metal Duro - Início">
-          <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
+          <img src={logoMark} alt="" className={styles.brandMark} aria-hidden="true" />
+          <span className={styles.brandText}>
+            <span className={styles.brandName}>RECOM</span>
+            <span className={styles.brandDescriptor}>Metal Duro</span>
+            <span className={styles.brandSince}>Desde {contato.fundacao}</span>
+          </span>
         </Link>
 
         <div className={styles.utilityNav}>

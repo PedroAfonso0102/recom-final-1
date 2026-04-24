@@ -30,7 +30,7 @@ const BrandLogo = ({ variant = 'default', className = '', ...props }) => {
         d="M10 20 H30 V60 H10 Z m5 5 h10 v30 h-10 Z" 
         fill={colors.blue}
       />
-      {/* Tipografia RECOM (Simplified paths for the purpose of the MVP) */}
+      {/* Tipografia RECOM em vetor para identificação institucional. */}
       <text 
         x="45" 
         y="58" 

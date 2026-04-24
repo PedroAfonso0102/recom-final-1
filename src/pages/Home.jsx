@@ -3,56 +3,45 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import ActionButton from '../components/ActionButton';
-import { ArrowRight, BookOpen, CalendarDays, Cog, Crosshair, Factory, Layers3, MapPin, MessageCircle, Phone, Search, ShieldCheck, Users, Circle } from 'lucide-react';
+import { ArrowRight, BookOpen, CalendarDays, Cog, Crosshair, Factory, Layers3, MapPin, Phone, Search, ShieldCheck, Users, Circle } from 'lucide-react';
 import styles from './Home.module.css';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
-import { campanhasPromocionais } from '../data/promocoes';
 import { trackLeadGen } from '../utils/analytics';
 import heroTecnicoImg from '../assets/images/editorial/egd-tecnico-gerada.png';
 import pecasImg from '../assets/images/editorial/pecas.png';
-import logoSchema from '../assets/images/Upscaled/logo-sem-fundo.png';
-
-const yearsActive = new Date().getFullYear() - contato.fundacao;
+import logoSchema from '../assets/images/Upscaled/logo-marca-somente-triangulo.png';
 
 const heroProofs = [
   'Catálogos oficiais',
-  'Atendimento comercial direto',
+  'Distribuição autorizada',
+  'Atendimento técnico-comercial',
   'Campinas-SP',
-  'Curadoria B2B',
 ];
 
-const quickAccessCards = [
+const serviceHighlights = [
   {
     icon: Search,
-    title: 'Tenho código, desenho ou nome da peça',
-    text: 'Envie a referência para validação comercial e indicação do caminho mais adequado.',
+    title: 'Análise da aplicação',
+    text: 'Recebemos código, desenho, peça ou processo e direcionamos o caminho de compra.',
     to: '/contato',
-    cta: 'Solicitar orçamento',
+    cta: 'Enviar demanda',
     trackLabel: 'Home Quick Access - Codigo',
   },
   {
     icon: BookOpen,
-    title: 'Quero acessar um catálogo oficial',
-    text: 'Consulte fornecedores parceiros e materiais oficiais das marcas.',
+    title: 'Catálogos oficiais',
+    text: 'Organizamos o acesso às marcas e materiais técnicos usados na seleção das linhas.',
     to: '/fornecedores-catalogos',
-    cta: 'Ver fornecedores',
+    cta: 'Ver catálogos',
   },
   {
     icon: Cog,
-    title: 'Sei o processo de usinagem',
-    text: 'Comece por torneamento, fresamento ou furação e veja marcas relacionadas.',
+    title: 'Soluções por processo',
+    text: 'Separe a busca por torneamento, fresamento ou furação e avance para fornecedores relacionados.',
     to: '/solucoes',
-    cta: 'Ver soluções',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Preciso falar com alguém',
-    text: 'Entre em contato por telefone, e-mail, WhatsApp ou formulário.',
-    to: '/contato',
-    cta: 'Falar com a RECOM',
-    trackLabel: 'Home Quick Access - Contato',
+    cta: 'Ver processos',
   },
 ];
 
@@ -63,15 +52,13 @@ const processIconMap = {
 };
 
 const heroMetrics = [
-  { value: `Desde ${contato.fundacao}`, label: 'atuação em Campinas-SP' },
-  { value: `${yearsActive}+ anos`, label: 'de presença comercial' },
-  { value: `${fornecedores.length}`, label: 'fornecedores organizados' },
-  { value: `${processos.length}`, label: 'processos principais' },
+  { value: 'Desde 1998', label: 'atuação em Campinas-SP' },
+  { value: 'Distribuição autorizada', label: 'Mitsubishi Materials' },
+  { value: 'Atendimento B2B', label: 'suporte técnico-comercial' },
+  { value: 'Catálogos oficiais', label: 'fornecedores reconhecidos' },
 ];
 
 const Home = () => {
-  const promotionHighlights = campanhasPromocionais.slice(0, 2);
-
   return (
     <Layout>
       <SEOHead
@@ -108,13 +95,13 @@ const Home = () => {
         <div className={styles.shell}>
           <section className={styles.heroSection} aria-labelledby="home-hero-title">
             <div className={styles.heroCopy}>
-              <span className={styles.heroBadge}>Desde 1990 em Campinas-SP</span>
+              <span className={styles.heroBadge}>Desde {contato.fundacao} em Campinas-SP</span>
               <h1 id="home-hero-title" className={styles.heroTitle}>
                 Distribuidor B2B de ferramentas para usinagem
               </h1>
               <p className={styles.heroDescription}>
-                A RECOM conecta clientes industriais a fornecedores e catálogos oficiais,
-                com atendimento comercial próximo para orientar a escolha certa em torneamento,
+                A RECOM conecta clientes industriais a fornecedores reconhecidos e catálogos oficiais,
+                com atendimento técnico-comercial para apoiar decisões de compra em torneamento,
                 fresamento, furação e fixação.
               </p>
 
@@ -150,13 +137,6 @@ const Home = () => {
                   loading="eager"
                   fetchPriority="high"
                 />
-                <div className={styles.heroFloatingCard}>
-                  <span className={styles.heroFloatingLabel}>Presença real</span>
-                  <strong className={styles.heroFloatingTitle}>Campinas-SP</strong>
-                  <p className={styles.heroFloatingCopy}>
-                    Atendimento comercial, curadoria de fornecedores e orientação para catálogo oficial.
-                  </p>
-                </div>
               </div>
 
               <div className={styles.heroMetricGrid}>
@@ -170,27 +150,27 @@ const Home = () => {
             </div>
           </section>
 
-          <section className={styles.sectionFrame} aria-labelledby="home-quick-title">
+          <section className={`${styles.sectionFrame} ${styles.serviceSection}`} aria-labelledby="home-quick-title">
             <div className={styles.sectionIntro}>
-              <span className={styles.sectionKicker}>Entrada guiada</span>
+              <span className={styles.sectionKicker}>Atendimento técnico-comercial</span>
               <h2 id="home-quick-title" className={styles.sectionTitle}>
-                O que você precisa encontrar?
+                Da aplicação ao fornecedor certo
               </h2>
               <p className={styles.sectionLead}>
-                Escolha o caminho mais próximo da sua necessidade. A RECOM ajuda a chegar ao
-                fornecedor, catálogo ou contato correto.
+                Uma Home mais direta para quem já sabe o que precisa: catálogo, processo ou
+                atendimento para orçamento.
               </p>
             </div>
 
             <div className={styles.intentGrid}>
-              {quickAccessCards.map((card) => {
+              {serviceHighlights.map((card) => {
                 const Icon = card.icon;
 
                 return (
                   <Link
                     to={card.to}
                     key={card.title}
-                    className={styles.intentCard}
+                  className={styles.intentCard}
                     onClick={card.trackLabel ? () => trackLeadGen('form_intent', card.trackLabel) : undefined}
                   >
                     <div className={styles.intentIcon}>
@@ -214,8 +194,8 @@ const Home = () => {
                 Marcas reconhecidas em um acesso padronizado
               </h2>
               <p className={styles.sectionLead}>
-                A RECOM organiza o acesso a marcas reconhecidas para apoiar a seleção de ferramentas
-                e acessórios para usinagem.
+                A RECOM reúne marcas reconhecidas e materiais oficiais para apoiar compras técnicas
+                de ferramentas e acessórios para usinagem.
               </p>
             </div>
 
@@ -224,11 +204,8 @@ const Home = () => {
                 <Link
                   to={`/fornecedores-catalogos/${fornecedor.slug}`}
                   key={fornecedor.id}
-                  className={`${styles.supplierCard} ${fornecedor.destaque ? styles.supplierFeatured : ''}`}
+                  className={styles.supplierCard}
                 >
-                  {fornecedor.destaque && (
-                    <span className={styles.supplierBadge}>Principal</span>
-                  )}
                   <div className={styles.supplierLogoFrame}>
                     <img src={fornecedor.logo} alt={fornecedor.altText} className="res-img-logo" />
                   </div>
@@ -257,39 +234,29 @@ const Home = () => {
                 Encontre por processo de usinagem
               </h2>
               <p className={styles.sectionLead}>
-                Use esta rota quando você sabe a aplicação, mas ainda precisa localizar o fornecedor
-                ou catálogo mais aderente.
+                Use esta rota quando a aplicação já está definida e o próximo passo é localizar
+                fornecedores, linhas e catálogos relacionados.
               </p>
             </div>
 
             <div className={styles.processGrid}>
               {processos.map((processo) => {
                 const Icon = processIconMap[processo.slug] || Crosshair;
-                const tags = processo.keywords.slice(0, 2);
 
                 return (
                   <Link to={`/solucoes/${processo.slug}`} key={processo.id} className={styles.processCard}>
                     <div className={styles.processCardTop}>
-                      <div className={styles.processIcon}>
-                        <Icon size={22} strokeWidth={1.9} />
-                      </div>
-                      <span className={styles.processBadge}>{processo.nome}</span>
+                    <div className={styles.processIcon}>
+                      <Icon size={22} strokeWidth={1.9} />
                     </div>
+                  </div>
 
-                    <h3 className={styles.processTitle}>{processo.nome}</h3>
-                    <p className={styles.processCopy}>{processo.descricaoCurta}</p>
+                  <h3 className={styles.processTitle}>{processo.nome}</h3>
+                  <p className={styles.processCopy}>{processo.descricaoCurta}</p>
 
-                    <div className={styles.processTagList}>
-                      {tags.map((tag) => (
-                        <span key={tag} className={styles.processTag}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className={styles.processAction}>
-                      Ver processo <ArrowRight size={14} />
-                    </span>
+                  <span className={styles.processAction}>
+                    Ver processo <ArrowRight size={14} />
+                  </span>
                   </Link>
                 );
               })}
@@ -310,7 +277,7 @@ const Home = () => {
                   Uma empresa de Campinas com trajetória no atendimento industrial
                 </h2>
                 <p className={styles.sectionLead}>
-                  Desde 1990, a RECOM atua no atendimento a clientes industriais, conectando demandas
+                  Desde 1998, a RECOM atua no atendimento a clientes industriais, conectando demandas
                   de usinagem a fornecedores reconhecidos e canais oficiais de catálogo.
                 </p>
 
@@ -328,12 +295,12 @@ const Home = () => {
                   <div className={styles.proofCard}>
                     <ShieldCheck size={18} strokeWidth={1.9} />
                     <strong>Distribuição</strong>
-                    <span>B2B e curadoria de fornecedores</span>
+                    <span>Fornecedores reconhecidos</span>
                   </div>
                   <div className={styles.proofCard}>
                     <Users size={18} strokeWidth={1.9} />
                     <strong>Atendimento</strong>
-                    <span>Orientação comercial direta</span>
+                    <span>Suporte técnico-comercial</span>
                   </div>
                 </div>
               </div>
@@ -349,9 +316,9 @@ const Home = () => {
                   <div className={styles.institutionalNote}>
                     <Factory size={18} strokeWidth={1.9} className={styles.institutionalNoteIcon} />
                     <div>
-                      <strong>Presença real em Campinas-SP</strong>
+                      <strong>Presença comercial em Campinas-SP</strong>
                       <p>
-                        Atendimento comercial próximo, base local e suporte para catálogo, fornecedor ou orçamento.
+                        Base local e atendimento direto para catálogo, fornecedor ou orçamento.
                       </p>
                     </div>
                   </div>
@@ -381,66 +348,6 @@ const Home = () => {
             </div>
           </section>
 
-          <section className={styles.sectionFrame} aria-labelledby="home-promotions-title">
-            <div className={styles.sectionIntro}>
-              <span className={styles.sectionKicker}>Condições especiais</span>
-              <h2 id="home-promotions-title" className={styles.sectionTitle}>
-                Condições especiais e campanhas ativas
-              </h2>
-              <p className={styles.sectionLead}>
-                Mostramos poucas chamadas para manter a Home objetiva. Se a sua aplicação pede
-                condição especial, fale com a RECOM.
-              </p>
-            </div>
-
-            <div className={styles.promoGrid}>
-              {promotionHighlights.map((campanha) => {
-                const fornecedor = fornecedores.find((item) => item.id === campanha.fornecedor);
-
-                return (
-                  <article key={campanha.id} className={styles.promoCard}>
-                    <div className={styles.promoCardHeader}>
-                      <span className={styles.promoCardBadge}>{campanha.tipo}</span>
-                      <span className={styles.promoCardValidity}>{campanha.vigencia}</span>
-                    </div>
-
-                    <h3 className={styles.promoCardTitle}>{campanha.titulo}</h3>
-                    <p className={styles.promoCardCopy}>{campanha.subtitulo}</p>
-
-                    <ul className={styles.promoList}>
-                      {campanha.destaques.slice(0, 3).map((item) => (
-                        <li key={item} className={styles.promoItem}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className={styles.promoFooter}>
-                      {fornecedor && (
-                        <Link to={`/fornecedores-catalogos/${fornecedor.slug}`} className={styles.promoSupplier}>
-                          <span>{fornecedor.nome}</span>
-                          <ArrowRight size={14} />
-                        </Link>
-                      )}
-
-                      <Link to="/contato" className={styles.promoAction}>
-                        Solicitar orçamento
-                      </Link>
-                    </div>
-
-                    <p className={styles.promoNote}>{campanha.ressalva}</p>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className={styles.sectionFooterLinkWrap}>
-              <Link to="/promocoes" className={styles.sectionFooterLink}>
-                Ver promoções <ArrowRight size={14} />
-              </Link>
-            </div>
-          </section>
-
           <section className={styles.finalCta} aria-labelledby="home-final-cta-title">
             <div className={styles.finalCtaCopy}>
               <span className={styles.finalCtaKicker}>Próximo passo</span>
@@ -448,8 +355,8 @@ const Home = () => {
                 Precisa de apoio para selecionar ferramentas ou fornecedores?
               </h2>
               <p className={styles.finalCtaText}>
-                Envie sua referência, código, desenho ou aplicação. A equipe da RECOM orienta o
-                caminho mais direto para catálogo, fornecedor ou orçamento.
+                Envie sua referência, código, desenho ou aplicação. A equipe da RECOM encaminha
+                sua demanda para catálogo, fornecedor ou orçamento.
               </p>
             </div>
 
