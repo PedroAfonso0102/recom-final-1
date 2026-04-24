@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
+import { Card, Notice } from '../components/ui';
 import { ArrowRight, MessageCircle, Tag, Calendar, Info } from 'lucide-react';
 import styles from './Promocoes.module.css';
 import { contato } from '../data/contato';
@@ -49,18 +50,18 @@ const Promocoes = () => {
           </div>
         </section>
 
-        <div className={styles.aviso}>
-          <Info size={18} aria-hidden="true" />
+        <Notice className={styles.aviso} icon={<Info size={18} aria-hidden="true" />}>
           <p>
             <strong>Atenção:</strong> hoje não existe promoção ativa nesta página.
             Fale com a equipe comercial para conhecer oportunidades sob consulta.
           </p>
-        </div>
+        </Notice>
 
         <div className={styles.campanhasGrid}>
           {campanhasPromocionais.map((campanha) => (
-            <div
+            <Card
               key={campanha.id}
+              variant={campanha.vazio ? 'dashed' : 'default'}
               className={`${styles.campanhaCard} ${campanha.vazio ? styles.campanhaCardEmpty : ''}`}
             >
               <div className={styles.campanhaHeader}>
@@ -91,7 +92,7 @@ const Promocoes = () => {
               </div>
 
               <p className={styles.campanhaNota}>{campanha.ressalva}</p>
-            </div>
+            </Card>
           ))}
         </div>
 

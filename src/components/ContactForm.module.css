@@ -12,29 +12,8 @@
 }
 
 .endpointNotice,
-.statusPanelError,
-.statusPanelSuccess {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem 1.1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-medium);
-}
-
-.endpointNotice {
-  background: rgba(255, 244, 179, 0.5);
-  color: var(--text-primary);
-}
-
 .statusPanelError {
-  background: rgba(254, 242, 242, 0.95);
-  border-color: rgba(220, 38, 38, 0.2);
-}
-
-.statusPanelSuccess {
-  background: rgba(236, 253, 245, 0.92);
-  border-color: rgba(16, 185, 129, 0.2);
+  margin: 0;
 }
 
 .statusTitle {
@@ -112,21 +91,24 @@
 .select,
 .textarea {
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-md);
-  font-size: 1rem;
+  font-size: var(--text-base);
   font-family: inherit;
   color: var(--text-primary);
   background-color: var(--bg-white);
-  transition: all 0.2s ease-in-out;
+  transition:
+    border-color var(--transition-interactive),
+    box-shadow var(--transition-interactive),
+    background-color var(--transition-interactive);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(0, 87, 168, 0.25);
+  border-color: var(--control-border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring-soft);
 }
 
 .input::placeholder,
@@ -144,7 +126,7 @@
 .selectError:focus,
 .textareaError:focus {
   border-color: var(--accent-red);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  box-shadow: 0 0 0 3px var(--accent-red-light);
 }
 
 .errorMessage {

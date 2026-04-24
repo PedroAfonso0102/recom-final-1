@@ -41,6 +41,9 @@
 
   --accent-red: #dc2626;
   --accent-red-hover: #b91c1c;
+  --accent-red-light: rgba(220, 38, 38, 0.1);
+  --accent-green: #0f9d58;
+  --accent-green-light: rgba(15, 157, 88, 0.1);
 
   --header-grad-top: #050608;
   --header-grad-bottom: #111827;
@@ -53,6 +56,13 @@
   --shadow-lg: 0 20px 36px rgba(15, 23, 42, 0.12);
   --shadow-xl: 0 28px 72px rgba(0, 87, 168, 0.16);
 
+  --bg-card: linear-gradient(180deg, rgba(0, 87, 168, 0.02), #ffffff);
+  --bg-subtle: #f8fafc;
+  --border-card: rgba(226, 232, 240, 0.92);
+  --border-interactive-hover: rgba(0, 87, 168, 0.28);
+  --focus-ring: rgba(0, 87, 168, 0.4);
+  --focus-ring-soft: rgba(0, 87, 168, 0.25);
+
   --iso-p: #0057a8;
   --iso-m: #d97706;
   --iso-k: #dc2626;
@@ -64,7 +74,14 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 18px;
   --radius-full: 9999px;
+
+  --control-height-sm: 40px;
+  --control-height-md: 48px;
+  --control-padding-x: 1rem;
+  --control-border: var(--border-medium);
+  --control-border-focus: var(--accent-blue);
 
   --aspect-product: 4 / 3;
   --aspect-technical: 16 / 9;
@@ -75,6 +92,7 @@
   --transition-base: 250ms ease-out;
   --transition-slow: 400ms ease-out;
   --transition-spring: 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-interactive: 150ms ease-out;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
@@ -141,7 +159,8 @@ a:hover {
 
 :focus-visible {
   outline: 2px solid var(--accent-blue);
-  outline-offset: 3px;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--bg-white);
   border-radius: var(--radius-sm);
 }
 

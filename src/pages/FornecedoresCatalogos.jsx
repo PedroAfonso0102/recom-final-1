@@ -1,11 +1,11 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
+import { Card, ExternalLink as ExternalCatalogLink } from '../components/ui';
 import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { trackOutboundLink } from '../utils/analytics';
 import styles from './FornecedoresCatalogos.module.css';
 
@@ -40,7 +40,7 @@ const FornecedoresCatalogos = () => {
             const catalogos = getCatalogosDoFornecedor(fornecedor);
 
             return (
-              <div key={fornecedor.id} className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
+              <Card key={fornecedor.id} interactive className={`${styles.fornecedorCard} ${fornecedor.destaque ? styles.destaque : ''}`}>
                 {fornecedor.destaque && (
                   <span className={styles.destaqueBadge}>Principal</span>
                 )}
@@ -68,24 +68,21 @@ const FornecedoresCatalogos = () => {
                       </summary>
                       <div className={styles.catalogosList}>
                         {catalogos.map((catalogo) => (
-                          <a
+                          <ExternalCatalogLink
                             key={catalogo.url}
                             href={catalogo.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className={styles.catalogoLink}
-                            aria-label={`${catalogo.label} (abre em nova aba)`}
+                            label={`${catalogo.label} (abre em nova aba)`}
                             onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
                           >
-                            <ExternalLink size={14} aria-hidden="true" />
                             {catalogo.label}
-                          </a>
+                          </ExternalCatalogLink>
                         ))}
                       </div>
                     </details>
                   )}
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>

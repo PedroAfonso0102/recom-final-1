@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import ActionButton from './ActionButton';
@@ -18,6 +18,7 @@ const navItems = [
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
 
   const toggleMenu = () => {
     setMenuOpen((current) => !current);
@@ -26,6 +27,17 @@ const Header = () => {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (menuOpen && e.key === 'Escape') {
+        closeMenu();
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
 
   return (
     <header className={styles.header}>
@@ -68,6 +80,7 @@ const Header = () => {
             <span>WhatsApp</span>
           </ActionButton>
           <button
+            ref={menuButtonRef}
             type="button"
             className={styles.menuButton}
             onClick={toggleMenu}

@@ -35,19 +35,10 @@
 }
 
 .fornecedorCard {
-  background: #fff;
-  border: 1px solid var(--border-light, #e2e8f0);
-  border-radius: 12px;
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.fornecedorCard:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
 }
 
 .fornecedorCard.destaque {
@@ -169,40 +160,11 @@
   color: var(--text-secondary, #4a5568);
 }
 
-.cardBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.5rem 1rem;
-  background: var(--accent-blue, #1a3a5c);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  transition: background 0.15s ease;
-}
-
-.cardBtn:hover {
-  background: var(--accent-blue-hover, #153050);
-}
-
 .catalogoLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
   padding: 0.5rem 0.25rem;
-  border: 0;
-  color: var(--text-secondary, #4a5568);
-  text-decoration: none;
   border-radius: 6px;
   font-size: 0.8125rem;
   font-weight: 500;
-  transition: color 0.15s ease;
-}
-
-.catalogoLink:hover {
-  color: var(--accent-blue, #1a3a5c);
 }
 
 /* CTA Section */

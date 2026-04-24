@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ActionButton from '../components/ActionButton';
+import { Card } from '../components/ui';
 import { ArrowRight, ChevronDown, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './Solucoes.module.css';
 import { processos } from '../data/processos';
@@ -170,7 +171,7 @@ const Solucoes = () => {
             const tags = processo.keywords.slice(0, 3);
 
             return (
-              <Link to={`/solucoes/${processo.slug}`} key={processo.id} className={styles.processoCard}>
+              <Card to={`/solucoes/${processo.slug}`} key={processo.id} className={styles.processoCard}>
                 <div className={styles.processoTop}>
                   <div className={styles.processoIcon}>
                     <Icon size={24} strokeWidth={1.85} />
@@ -196,7 +197,7 @@ const Solucoes = () => {
                 <span className={styles.processoLink}>
                   Ver processo <ArrowRight size={14} />
                 </span>
-              </Link>
+              </Card>
             );
           })}
         </div>

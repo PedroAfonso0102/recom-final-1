@@ -29,11 +29,22 @@ const ActionButton = ({
     .filter(Boolean)
     .join(' ');
 
+  const handleClick = (e) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   const sharedProps = {
     className: classes,
-    onClick,
+    onClick: handleClick,
     title,
     'aria-label': ariaLabel,
+    ...(disabled ? { 'aria-disabled': true } : {}),
     ...rest,
   };
 

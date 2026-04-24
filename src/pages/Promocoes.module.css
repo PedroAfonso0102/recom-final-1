@@ -76,27 +76,7 @@
 }
 
 .aviso {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-m, 1rem);
-  padding: var(--space-m, 1rem) var(--space-l, 1.5rem);
-  background: var(--accent-blue-light, #e8f0fe);
-  border-left: 4px solid var(--accent-blue, #1a3a5c);
-  border-radius: var(--radius-sm, 6px);
   margin-bottom: var(--space-xl, 2rem);
-  color: var(--text-primary, #1a1a2e);
-}
-
-.aviso svg {
-  flex: 0 0 auto;
-  margin-top: 2px;
-  color: var(--accent-blue);
-}
-
-.aviso p {
-  margin: 0;
-  font-size: var(--text-sm, 0.875rem);
-  line-height: 1.6;
 }
 
 .campanhasGrid {
@@ -107,23 +87,13 @@
 }
 
 .campanhaCard {
-  border: 1px solid var(--border-light, #e2e8f0);
-  border-radius: var(--radius-md, 12px);
   padding: var(--space-l, 1.5rem);
-  background: var(--bg-white, #fff);
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.15s ease;
 }
 
 .campanhaCardEmpty {
-  background: linear-gradient(180deg, rgba(26, 58, 92, 0.03), rgba(255, 255, 255, 1));
-  border-style: dashed;
   box-shadow: none;
-}
-
-.campanhaCard:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .campanhaHeader {

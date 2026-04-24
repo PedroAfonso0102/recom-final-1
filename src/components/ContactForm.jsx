@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import ActionButton from './ActionButton';
+import { FormField, Notice } from './ui';
 import styles from './ContactForm.module.css';
 import {
   CONTACT_FORM_NAME,
@@ -239,8 +240,7 @@ const ContactForm = () => {
 
   if (submission.status === 'success') {
     return (
-      <div className={styles.statusPanelSuccess} role="status" aria-live="polite">
-        <p className={styles.statusTitle}>{submission.message}</p>
+      <Notice variant="success" title={submission.message} aria-live="polite">
         {submission.protocol ? (
           <p className={styles.statusProtocol}>Protocolo interno: {submission.protocol}</p>
         ) : null}
@@ -280,35 +280,35 @@ const ContactForm = () => {
             Ver fornecedores e catálogos
           </ActionButton>
         </div>
-      </div>
+      </Notice>
     );
   }
 
   return (
     <div className={styles.formShell}>
       {!endpointAvailable ? (
-        <div className={styles.endpointNotice} role="note">
+        <Notice variant="warning" className={styles.endpointNotice}>
           <strong>Envio online indisponível.</strong>
           <span>Use os canais diretos abaixo enquanto o endpoint de contato não estiver configurado.</span>
-        </div>
+        </Notice>
       ) : null}
 
       {submission.status === 'invalid' ? (
-        <div className={styles.statusPanelError} role="alert" aria-live="assertive">
+        <Notice variant="error" className={styles.statusPanelError} aria-live="assertive">
           <p className={styles.statusTitle}>{submission.message}</p>
           {renderFallbackActions('Campos obrigatórios pendentes ou inválidos.')}
-        </div>
+        </Notice>
       ) : null}
 
       {submission.status === 'error' || submission.status === 'unavailable' ? (
-        <div className={styles.statusPanelError} role="alert" aria-live="assertive">
+        <Notice variant="error" className={styles.statusPanelError} aria-live="assertive">
           <p className={styles.statusTitle}>{submission.message}</p>
           {renderFallbackActions(
             submission.status === 'unavailable'
               ? 'Canal online indisponível.'
               : 'Falha técnica no envio.'
           )}
-        </div>
+        </Notice>
       ) : null}
 
       <form
@@ -319,7 +319,7 @@ const ContactForm = () => {
         aria-busy={submission.status === 'submitting'}
       >
         <div className={styles.honeypot} aria-hidden="true">
-          <label htmlFor="bot_field">Nao preencha este campo</label>
+          <label htmlFor="bot_field">Não preencha este campo</label>
           <input
             id="bot_field"
             name="bot_field"
@@ -332,10 +332,7 @@ const ContactForm = () => {
         </div>
 
         <div className={styles.gridRow}>
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-name">
-              Nome *
-            </label>
+          <FormField id="contact-name" label="Nome" required error={errors.name}>
             <input
               id="contact-name"
               name="name"
@@ -347,20 +344,10 @@ const ContactForm = () => {
               value={values.name}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-invalid={errors.name ? 'true' : 'false'}
-              aria-describedby={errors.name ? 'contact-name-error' : undefined}
             />
-            {errors.name ? (
-              <span id="contact-name-error" className={styles.errorMessage} role="alert">
-                {errors.name}
-              </span>
-            ) : null}
-          </div>
+          </FormField>
 
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-company">
-              Empresa *
-            </label>
+          <FormField id="contact-company" label="Empresa" required error={errors.company}>
             <input
               id="contact-company"
               name="company"
@@ -372,22 +359,12 @@ const ContactForm = () => {
               value={values.company}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-invalid={errors.company ? 'true' : 'false'}
-              aria-describedby={errors.company ? 'contact-company-error' : undefined}
             />
-            {errors.company ? (
-              <span id="contact-company-error" className={styles.errorMessage} role="alert">
-                {errors.company}
-              </span>
-            ) : null}
-          </div>
+          </FormField>
         </div>
 
         <div className={styles.gridRow}>
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor="contact-email">
-              E-mail *
-            </label>
+          <FormField id="contact-email" label="E-mail" required error={errors.email}>
             <input
               id="contact-email"
               name="email"
@@ -400,15 +377,8 @@ const ContactForm = () => {
               value={values.email}
               onChange={updateValue}
               disabled={submission.status === 'submitting'}
-              aria-invalid={errors.email ? 'true' : 'false'}
-              aria-describedby={errors.email ? 'contact-email-error' : undefined}
             />
-            {errors.email ? (
-              <span id="contact-email-error" className={styles.errorMessage} role="alert">
-                {errors.email}
-              </span>
-            ) : null}
-          </div>
+          </FormField>
 
           <div className={styles.inputGroup}>
             <label className={styles.label} htmlFor="contact-phone">
@@ -521,6 +491,8 @@ const ContactForm = () => {
             disabled={submission.status === 'submitting'}
             aria-invalid={errors.message ? 'true' : 'false'}
             aria-describedby={errors.message ? 'contact-message-error contact-message-hint' : 'contact-message-hint'}
+            required
+            aria-required="true"
           />
           {errors.message ? (
             <span id="contact-message-error" className={styles.errorMessage} role="alert">
@@ -544,6 +516,8 @@ const ContactForm = () => {
               disabled={submission.status === 'submitting'}
               aria-invalid={errors.consent ? 'true' : 'false'}
               aria-describedby={errors.consent ? 'contact-consent-error' : undefined}
+              required
+              aria-required="true"
             />
             <span className={styles.checkboxCopy}>
               Autorizo a RECOM a retornar meu contato por e-mail, telefone ou WhatsApp.
