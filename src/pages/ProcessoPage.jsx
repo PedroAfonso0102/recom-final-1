@@ -3,7 +3,8 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { ArrowRight, Phone, Crosshair, Drill, Layers3 } from 'lucide-react';
+import ActionButton from '../components/ActionButton';
+import { ArrowRight, MessageCircle, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './ProcessoPage.module.css';
 import { getProcessoBySlug, processos } from '../data/processos';
 import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
@@ -98,26 +99,27 @@ const ProcessoPage = () => {
             )}
 
             <div className={styles.heroActions}>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.primaryBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Processo Hero CTA')}
               >
                 Solicitar Orçamento
-              </Link>
-              <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>
+              </ActionButton>
+              <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
                 Ver fornecedores
-              </Link>
-              <a
+              </ActionButton>
+              <ActionButton
                 href={contato.whatsapp.hrefComMensagem}
                 target="_blank"
-                rel="noopener noreferrer"
-                className={styles.whatsappLink}
+                variant="whatsapp"
+                stackOnMobile
                 onClick={() => trackLeadGen('whatsapp', 'Processo Hero CTA')}
               >
-                <Phone size={16} />
+                <MessageCircle size={16} />
                 {contato.telefone.display}
-              </a>
+              </ActionButton>
             </div>
           </div>
 
@@ -280,13 +282,14 @@ const ProcessoPage = () => {
               <p>
                 Precisa de ferramentas para {processo.nome.toLowerCase()}? A RECOM indica a solução mais adequada a partir dos dados que você já tem.
               </p>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.ctaSidebarBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Processo Sidebar CTA')}
               >
                 Falar com especialista <ArrowRight size={14} />
-              </Link>
+              </ActionButton>
             </div>
 
             <div className={styles.infoCard}>

@@ -158,6 +158,13 @@
   flex-wrap: wrap;
 }
 
+.campanhaNota {
+  margin: 0;
+  color: var(--text-muted, #718096);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
 .fornLink {
   display: flex;
   align-items: center;

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
+import ActionButton from '../components/ActionButton';
 import { ArrowRight, ChevronDown, Crosshair, Drill, Layers3 } from 'lucide-react';
 import styles from './Solucoes.module.css';
 import { processos } from '../data/processos';
@@ -65,16 +66,17 @@ const Solucoes = () => {
             </p>
 
             <div className={styles.heroActions}>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.primaryBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Solucoes Hub CTA')}
               >
                 Falar com especialista <ArrowRight size={16} />
-              </Link>
-              <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>
+              </ActionButton>
+              <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
                 Ver fornecedores
-              </Link>
+              </ActionButton>
             </div>
           </div>
 
@@ -134,9 +136,15 @@ const Solucoes = () => {
                 <ChevronDown size={16} className={styles.selectIcon} />
               </div>
 
-              <button type="button" className={styles.quickAccessBtn} onClick={scrollToProcesses}>
+              <ActionButton
+                type="button"
+                variant="secondary"
+                compact
+                stackOnMobile
+                onClick={scrollToProcesses}
+              >
                 Ver opções
-              </button>
+              </ActionButton>
             </div>
           </div>
         </section>
@@ -188,16 +196,17 @@ const Solucoes = () => {
             A equipe ajuda a enquadrar a operação, conferir os dados disponíveis e indicar a rota mais direta para catálogo, fornecedor ou contato.
           </p>
           <div className={styles.ctaActions}>
-            <Link
+            <ActionButton
               to="/contato"
-              className={styles.ctaBtn}
+              variant="primary"
+              stackOnMobile
               onClick={() => trackLeadGen('form_intent', 'Solucoes Footer CTA')}
             >
               Solicitar orientação
-            </Link>
-            <Link to="/fornecedores-catalogos" className={styles.ctaSecondaryBtn}>
+            </ActionButton>
+            <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
               Ver fornecedores
-            </Link>
+            </ActionButton>
           </div>
         </section>
       </div>

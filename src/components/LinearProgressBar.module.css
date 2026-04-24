@@ -10,7 +10,7 @@
 
 .progressBar {
     height: 100%;
-    background-color: var(--accent-red); /* Friction orange */
-    transform-origin: 0% 50%; /* scaleX expands from the left */
+    background-color: var(--accent-blue);
+    transform-origin: 0% 50%;
     transition: transform 0.1s ease-out;
 }

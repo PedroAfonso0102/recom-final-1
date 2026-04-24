@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
+import ActionButton from '../components/ActionButton';
 import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
 import { processos } from '../data/processos';
 import { ArrowRight, ExternalLink } from 'lucide-react';
@@ -91,33 +92,35 @@ const FornecedorPage = () => {
                 </p>
 
                 <div className={styles.catalogoActions}>
-                  <a
+                  <ActionButton
                     href={catalogoPrincipal.url}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.catalogoBtn}
+                    variant="primary"
+                    compact
+                    stackOnMobile
                     aria-label={catalogoPrincipal.label}
                     onClick={() => trackOutboundLink(catalogoPrincipal.url, 'catalogo')}
                   >
                     <ExternalLink size={16} />
                     {catalogoPrincipal.label}
-                  </a>
+                  </ActionButton>
 
                   {catalogosSecundarios.length > 0 && (
                     <div className={styles.catalogoSecondaryList}>
                       {catalogosSecundarios.map((catalogo) => (
-                        <a
+                        <ActionButton
                           key={catalogo.url}
                           href={catalogo.url}
                           target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.catalogoSecondaryBtn}
+                          variant="secondary"
+                          compact
+                          stackOnMobile
                           aria-label={catalogo.label}
                           onClick={() => trackOutboundLink(catalogo.url, 'catalogo')}
                         >
                           <ExternalLink size={14} />
                           <span>{catalogo.label}</span>
-                        </a>
+                        </ActionButton>
                       ))}
                     </div>
                   )}
@@ -156,13 +159,14 @@ const FornecedorPage = () => {
               <span className={styles.sidebarEyebrow}>Suporte comercial</span>
               <h3>Solicite um orçamento</h3>
               <p>Precisa de ferramentas {fornecedor.nome}? A RECOM pode ajudar a indicar a melhor solução.</p>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.ctaSidebarBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'Fornecedor Sidebar CTA')}
               >
                 Falar com especialista <ArrowRight size={14} />
-              </Link>
+              </ActionButton>
             </div>
 
             {outrosFornecedores.length > 0 && (

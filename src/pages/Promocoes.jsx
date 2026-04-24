@@ -3,10 +3,12 @@ import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
-import { ArrowRight, Phone, Tag, Calendar, Info } from 'lucide-react';
+import ActionButton from '../components/ActionButton';
+import { ArrowRight, MessageCircle, Tag, Calendar, Info } from 'lucide-react';
 import styles from './Promocoes.module.css';
 import { contato } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
+import { campanhasPromocionais } from '../data/promocoes';
 
 /**
  * Promoções — Página de condições especiais e campanhas.
@@ -15,51 +17,6 @@ import { fornecedores } from '../data/fornecedores';
  * Etapa 3: "tom editorial, não catálogo de venda"
  * Etapa 4: "promoções como aceleradoras de contato, não como checkout"
  */
-
-const campanhas = [
-  {
-    id: 1,
-    titulo: 'Condições Especiais em Insertos Mitsubishi',
-    subtitulo: 'Insertos das séries WNMG e CNMG com condições diferenciadas para pedidos em volume',
-    tipo: 'Campanha do Fabricante',
-    vigencia: 'Válido enquanto durarem os estoques',
-    destaques: [
-      'Classes VP15TF e UC6110 para torneamento geral',
-      'Condições progressivas por quantidade',
-      'Pronta entrega para os diâmetros mais comuns',
-      'Suporte de engenharia de aplicação incluso',
-    ],
-    fornecedor: 'mitsubishi-materials',
-  },
-  {
-    id: 2,
-    titulo: 'Fresas de Topo 7Leaders — Lote Especial',
-    subtitulo: 'Fresas inteiriças com revestimento TiAlN para operações de desbaste e acabamento',
-    tipo: 'Estoque Promocional',
-    vigencia: 'Válido enquanto durarem os estoques',
-    destaques: [
-      'Diâmetros de 6mm a 20mm disponíveis',
-      'Revestimento multicamada de alta performance',
-      'Geometria otimizada para redução de vibrações',
-      'Preço especial para compras acima de 5 unidades',
-    ],
-    fornecedor: '7leaders',
-  },
-  {
-    id: 3,
-    titulo: 'Brocas WSTAR — Condição de Lançamento',
-    subtitulo: 'Brocas inteiriças com refrigeração interna para furação de alta produtividade',
-    tipo: 'Lançamento',
-    vigencia: 'Condições por tempo limitado',
-    destaques: [
-      'Refrigeração interna por 2 canais otimizados',
-      'Cobertura de última geração para vida útil estendida',
-      'Geometria autocentrante — elimina pré-furação',
-      'Consultoria técnica gratuita para seleção do modelo',
-    ],
-    fornecedor: 'mitsubishi-materials',
-  },
-];
 
 const breadcrumbItems = [
   { label: 'Início', path: '/' },
@@ -97,7 +54,7 @@ const Promocoes = () => {
 
         {/* Campanhas */}
         <div className={styles.campanhasGrid}>
-          {campanhas.map(c => {
+          {campanhasPromocionais.map(c => {
             const forn = fornecedores.find(f => f.id === c.fornecedor);
             return (
               <div key={c.id} className={styles.campanhaCard}>
@@ -125,10 +82,11 @@ const Promocoes = () => {
                       <span>{forn.nome}</span>
                     </Link>
                   )}
-                  <Link to="/contato" className={styles.campanhaBtn}>
-                    Solicitar Orçamento <ArrowRight size={14} />
-                  </Link>
+                  <ActionButton to="/contato" variant="secondary" compact stackOnMobile>
+                    Solicitar orçamento <ArrowRight size={14} />
+                  </ActionButton>
                 </div>
+                <p className={styles.campanhaNota}>{c.ressalva}</p>
               </div>
             );
           })}
@@ -142,13 +100,13 @@ const Promocoes = () => {
             diretamente com o fabricante para atender sua necessidade específica.
           </p>
           <div className={styles.ctaActions}>
-            <Link to="/contato" className={styles.ctaPrimary}>
-              Falar com o Comercial
-            </Link>
-            <a href={contato.whatsapp.hrefComMensagem} target="_blank" rel="noopener noreferrer" className={styles.ctaWhatsapp}>
-              <Phone size={16} />
+            <ActionButton to="/contato" variant="contrast" stackOnMobile>
+              Solicitar orientação comercial
+            </ActionButton>
+            <ActionButton href={contato.whatsapp.hrefComMensagem} target="_blank" variant="whatsapp" stackOnMobile>
+              <MessageCircle size={16} />
               {contato.telefone.display}
-            </a>
+            </ActionButton>
           </div>
         </div>
       </div>

@@ -1,55 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import ActionButton from './ActionButton';
 import styles from './Footer.module.css';
 import logo from '../assets/images/Upscaled/logo-branco.png';
 import { contato, institucional } from '../data/contato';
 import { fornecedores } from '../data/fornecedores';
+import { trackLeadGen } from '../utils/analytics';
 
 /**
- * Footer â€” Rodapé institucional.
- * Etapa 2: "institucional, fornecedores, processos, contato completo"
- * Etapa 5: "CTA persistente para contato, links de recuperação"
+ * Footer institucional e comercial da RECOM.
+ * Mantém os caminhos principais acessíveis até o fim da página.
  */
 const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
-        {/* Col 1: Institucional */}
         <div className={styles.footerCol}>
           <div className={styles.footerLogo}>
             <img src={logo} alt="RECOM Metal Duro" />
           </div>
-          <p className={styles.footerText}>
-            {institucional.descricaoFooter}
-          </p>
+          <p className={styles.footerText}>{institucional.descricaoFooter}</p>
           <div className={styles.footerCta}>
-            <Link to="/contato" className={styles.footerBtn}>Solicitar Orçamento</Link>
+            <ActionButton to="/contato" variant="contrast" stackOnMobile>
+              Solicitar orçamento
+            </ActionButton>
           </div>
         </div>
 
-        {/* Col 2: Fornecedores & Catálogos */}
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Fornecedores</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/fornecedores-catalogos">Todos os Fornecedores</Link></li>
-            {fornecedores.map(f => (
-              <li key={f.id}>
-                <Link to={`/fornecedores-catalogos/${f.slug}`}>{f.nome}</Link>
+            <li><Link to="/fornecedores-catalogos">Todos os fornecedores</Link></li>
+            {fornecedores.map((fornecedor) => (
+              <li key={fornecedor.id}>
+                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>{fornecedor.nome}</Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Col 3: Soluções / Processos */}
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Soluções</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/solucoes">Todos os Processos</Link></li>
+            <li><Link to="/solucoes">Todos os processos</Link></li>
             <li><Link to="/solucoes/torneamento">Torneamento</Link></li>
             <li><Link to="/solucoes/fresamento">Fresamento</Link></li>
             <li><Link to="/solucoes/furacao">Furação</Link></li>
           </ul>
+
           <h4 className={styles.footerTitle} style={{ marginTop: '1.25rem' }}>Empresa</h4>
           <ul className={styles.footerLinks}>
             <li><Link to="/a-recom">A RECOM</Link></li>
@@ -57,31 +56,59 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Col 4: Atendimento completo */}
         <div className={styles.footerCol}>
           <h4 className={styles.footerTitle}>Atendimento</h4>
           <ul className={styles.footerContact}>
             <li>
               <MapPin size={16} className={styles.contactIcon} />
-              <span>{contato.endereco.completo}</span>
+              <address className={styles.contactAddress}>
+                <span>{contato.endereco.completo}</span>
+                <a
+                  href={contato.endereco.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mapLink}
+                >
+                  Ver no Google Maps
+                </a>
+              </address>
             </li>
             <li>
               <Phone size={16} className={styles.contactIcon} />
-              <a href={contato.telefone.href} className={styles.phoneLink}>{contato.telefone.display}</a>
+              <a
+                href={contato.telefone.href}
+                className={styles.phoneLink}
+                onClick={() => trackLeadGen('phone', 'Footer')}
+              >
+                {contato.telefone.display}
+              </a>
             </li>
             <li>
               <Mail size={16} className={styles.contactIcon} />
-              <a href={contato.email.href} className={styles.emailLink}>{contato.email.display}</a>
+              <a
+                href={contato.email.href}
+                className={styles.emailLink}
+                onClick={() => trackLeadGen('email', 'Footer')}
+              >
+                {contato.email.display}
+              </a>
             </li>
           </ul>
           <div className={styles.footerActions}>
-             <a href={contato.whatsapp.href} target="_blank" rel="noopener noreferrer" className={styles.whatsappBtn}>
-                <MessageCircle size={18} />
-                Falar com Especialista
-             </a>
+            <ActionButton
+              href={contato.whatsapp.hrefComMensagem}
+              target="_blank"
+              variant="whatsapp"
+              stackOnMobile
+              onClick={() => trackLeadGen('whatsapp', 'Footer')}
+            >
+              <MessageCircle size={18} />
+              Falar com especialista
+            </ActionButton>
           </div>
         </div>
       </div>
+
       <div className={styles.footerBottom}>
         <div className={styles.footerBottomContent}>
           <p>© {new Date().getFullYear()} {contato.empresa} — Todos os direitos reservados.</p>

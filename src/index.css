@@ -1,5 +1,4 @@
 :root {
-  /* --- Spacing System (8pt Grid) --- */
   --space-xs: 4px;
   --space-s: 8px;
   --space-m: 16px;
@@ -8,83 +7,77 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
 
-  /* --- Typography (Major Third Scale 1.25 — base 16px) --- */
   --font-size-base: 16px;
-  --text-xs: 0.75rem;    /* 12px */
-  --text-sm: 0.875rem;   /* 14px */
-  --text-base: 1rem;     /* 16px */
-  --text-md: 1.125rem;   /* 18px */
-  --text-lg: 1.5rem;     /* 24px */
-  --text-xl: 2rem;       /* 32px */
-  --text-2xl: 3rem;      /* 48px */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.5rem;
+  --text-xl: 2rem;
+  --text-2xl: 3rem;
 
-  /* --- Font Families --- */
-  --font-body: 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-ui: 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-ui);
 
-  /* --- Colors — Swiss Modern Industrial Palette --- */
-  --bg-main: #FFFFFF; /* Stark White surface */
-  --bg-harmonic: #F8F8F8; /* Subtle contrast */
-  --bg-white: #FFFFFF;
-  --bg-dark: #000000; /* Primary: Solid Black */
-  
-  --text-primary: #000000; /* Solid Black */
-  --text-secondary: #4A4A4A; /* Metal Grey */
-  --text-muted: #7A7A7A; /* Lighter grey */
-  
-  --accent-blue: #004A99; /* Technical Blueprint Blue */
-  --accent-blue-light: rgba(0, 74, 153, 0.05);
-  --accent-blue-hover: #003366;
-  
-  --accent-caution: #FFD700; /* Caution Yellow */
-  --accent-caution-light: rgba(255, 215, 0, 0.1);
-  --accent-caution-dark: #CCA000;
-  
-  --accent-red: #E60000; /* Warning Red for critical alerts */
-  --accent-red-hover: #CC0000;
+  --bg-main: #ffffff;
+  --bg-harmonic: #f8fafc;
+  --bg-white: #ffffff;
+  --bg-dark: #050608;
 
-  --header-grad-top: #000000;
-  --header-grad-bottom: #1A1A1A;
-  --border-light: #E0E0E0;
-  --border-medium: #CCCCCC;
+  --text-primary: #111827;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
 
-  /* --- Shadows --- */
-  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 24px 64px rgba(0, 74, 153, 0.15); /* Blueprint glow on big shadows */
+  --accent-blue: #0057a8;
+  --accent-blue-light: rgba(0, 87, 168, 0.08);
+  --accent-blue-hover: #00427f;
+  --brand-blue-deep: #003061;
+  --brand-whatsapp: #25d366;
 
-  /* --- ISO Material Category Colors --- */
-  --iso-p: #004A99; /* Blue - Steel */
-  --iso-m: #FFD700; /* Yellow - Stainless Steel */
-  --iso-k: #E60000; /* Red - Cast Iron */
-  --iso-n: #009944; /* Green - Non-ferrous */
-  --iso-s: #E67E22; /* Orange - Superalloys */
-  --iso-h: #4A4A4A; /* Grey - Hardened Materials */
+  --accent-caution: #d97706;
+  --accent-caution-light: rgba(217, 119, 6, 0.12);
+  --accent-caution-dark: #b45309;
 
-  /* --- Radii --- */
+  --accent-red: #dc2626;
+  --accent-red-hover: #b91c1c;
+
+  --header-grad-top: #050608;
+  --header-grad-bottom: #111827;
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 4px 10px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 12px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 36px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 28px 72px rgba(0, 87, 168, 0.16);
+
+  --iso-p: #0057a8;
+  --iso-m: #d97706;
+  --iso-k: #dc2626;
+  --iso-n: #0f9d58;
+  --iso-s: #ea580c;
+  --iso-h: #334155;
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* Image Ratios & Constraints */
   --aspect-product: 4 / 3;
   --aspect-technical: 16 / 9;
   --logo-max-w: 320px;
   --logo-max-h: 100px;
 
-  /* --- Motion / Transitions --- */
   --transition-fast: 150ms ease-out;
   --transition-base: 250ms ease-out;
   --transition-slow: 400ms ease-out;
-  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-spring: 300ms cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* --- Containers & Breakpoints --- */
   --container-narrow: 960px;
   --container-width: 1200px;
   --container-wide: 1400px;
@@ -92,17 +85,32 @@
   --tablet-breakpoint: 1024px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   font-family: var(--font-body);
   font-size: var(--font-size-base);
-  background-color: var(--bg-main);
+  background:
+    radial-gradient(circle at top, rgba(0, 87, 168, 0.05), transparent 38%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   color: var(--text-primary);
-  line-height: 1.7; /* Swiss modern breathing room */
-  text-align: left; /* Strict removal of justification */
+  line-height: 1.6;
+  text-align: left;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-body);
 }
 
 * {
@@ -112,6 +120,13 @@ body {
 *::selection {
   background: var(--accent-blue);
   color: var(--bg-white);
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
 }
 
 a {
@@ -124,19 +139,22 @@ a:hover {
   color: var(--accent-blue-hover);
 }
 
-/* Utility: smooth focus ring for keyboard nav */
 :focus-visible {
   outline: 2px solid var(--accent-blue);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
 img {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
-/* --- Precision Image Scaling Utilities --- */
+#root {
+  min-height: 100vh;
+}
+
 .res-img-standard {
   max-width: 480px;
   width: 100%;
@@ -157,7 +175,7 @@ img {
   width: 100%;
   height: 100%;
   max-width: var(--logo-max-w);
-  max-height: clamp(60px, 12vh, var(--logo-max-h));
+  max-height: clamp(56px, 10vh, var(--logo-max-h));
   display: block;
   object-fit: contain;
   transition: all var(--transition-base);

@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
+import ActionButton from '../components/ActionButton';
 import { ShieldCheck, AlertTriangle, ExternalLink, ArrowRight } from 'lucide-react';
 import styles from './Page.module.css';
 
@@ -93,9 +93,9 @@ const Seguranca = () => (
             A RECOM prioriza a integridade técnica de seus processos. Em caso de dúvidas sobre o manuseio seguro de ferramentas, entre em contato com nosso suporte técnico especializado.
           </p>
           <div className={styles.ctaGrid}>
-            <Link to="/contato" className={styles.promoCta}>
+            <ActionButton to="/contato" variant="primary" stackOnMobile>
               Consultar Engenharia <ArrowRight size={14} style={{ verticalAlign: 'middle', marginLeft: '0.25rem' }} />
-            </Link>
+            </ActionButton>
           </div>
         </div>
 

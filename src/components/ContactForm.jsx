@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ActionButton from './ActionButton';
 import styles from './ContactForm.module.css';
 import { trackLeadGen } from '../utils/analytics';
 
@@ -30,7 +31,6 @@ const ContactForm = () => {
 
     setStatus({ submitted: false, submitting: true });
 
-    // Simulate API call for form submission
     timerRef.current = window.setTimeout(() => {
       timerRef.current = null;
       setStatus({ submitted: true, submitting: false });
@@ -41,7 +41,7 @@ const ContactForm = () => {
   if (status.submitted) {
     return (
       <div className={styles.successMessage} role="status" aria-live="polite">
-        Mensagem enviada com sucesso. Entraremos em contato em breve.
+        Solicitação recebida. Entraremos em contato em breve.
       </div>
     );
   }
@@ -188,9 +188,9 @@ const ContactForm = () => {
       </label>
 
       <p className={styles.requiredNote}>* Campos obrigatórios</p>
-      <button type="submit" className={styles.submitBtn} disabled={status.submitting}>
-        {status.submitting ? 'Enviando...' : 'Enviar solicitação'}
-      </button>
+      <ActionButton type="submit" variant="primary" stackOnMobile disabled={status.submitting}>
+        {status.submitting ? 'Enviando...' : 'Solicitar orçamento'}
+      </ActionButton>
     </form>
   );
 };

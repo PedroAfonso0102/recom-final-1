@@ -1,0 +1,47 @@
+export const campanhasPromocionais = [
+  {
+    id: 'mitsubishi-insertos',
+    titulo: 'Condições especiais em insertos Mitsubishi',
+    subtitulo: 'Campanha sob consulta para famílias de torneamento com volume e aplicação definidos.',
+    tipo: 'Campanha do fabricante',
+    vigencia: 'Sob consulta',
+    destaques: [
+      'Famílias de insertos para torneamento geral',
+      'Condição progressiva por volume',
+      'Orientação comercial para a aplicação correta',
+      'Disponibilidade sujeita à negociação do momento',
+    ],
+    fornecedor: 'mitsubishi-materials',
+    ressalva: 'A condição final depende de volume, disponibilidade e aplicação.',
+  },
+  {
+    id: '7leaders-fresas',
+    titulo: 'Fresas 7Leaders com condição comercial',
+    subtitulo: 'Linha selecionada para desbaste e acabamento, com disponibilidade sob consulta.',
+    tipo: 'Estoque promocional',
+    vigencia: 'Enquanto durarem os estoques',
+    destaques: [
+      'Diâmetros selecionados para usinagem industrial',
+      'Acabamento com foco em estabilidade de corte',
+      'Condição especial para compras recorrentes',
+      'Suporte comercial para comparar a linha equivalente',
+    ],
+    fornecedor: '7leaders',
+    ressalva: 'Condição sujeita a revisão conforme disponibilidade e volume.',
+  },
+  {
+    id: 'mitsubishi-drilling',
+    titulo: 'Brocas Mitsubishi para furação de alta performance',
+    subtitulo: 'Apoio comercial em famílias de brocas e sistemas para furação precisa.',
+    tipo: 'Lançamento',
+    vigencia: 'Tempo limitado',
+    destaques: [
+      'Linha voltada a furação repetitiva e confiável',
+      'Consultoria para seleção do diâmetro e da geometria',
+      'Possibilidade de combinação com outras famílias da marca',
+      'Condição negociada diretamente com a equipe comercial',
+    ],
+    fornecedor: 'mitsubishi-materials',
+    ressalva: 'Condições sob consulta e sujeitas à disponibilidade do fabricante.',
+  },
+];

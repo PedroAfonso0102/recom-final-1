@@ -18,9 +18,9 @@
 
 .label {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13px;
-  color: var(--text-primary, #000);
+  color: var(--text-primary, #111827);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -29,30 +29,31 @@
 .textarea,
 .select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border-color, #eee);
-  border-radius: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: 12px;
   font-family: inherit;
   font-size: 14px;
-  transition: border-color 0.2s ease;
+  background: var(--bg-white, #ffffff);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input:focus,
 .textarea:focus,
 .select:focus {
   outline: none;
-  border-color: var(--text-primary, #000);
+  border-color: var(--accent-blue, #0057a8);
+  box-shadow: 0 0 0 3px rgba(0, 87, 168, 0.08);
 }
 
 .select {
-  background-color: #fff;
   color: inherit;
 }
 
 .helperText {
   margin: 0;
   font-size: 12px;
-  color: var(--text-muted, #666);
+  color: var(--text-muted, #64748b);
   line-height: 1.4;
 }
 
@@ -61,14 +62,14 @@
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
-  color: var(--text-secondary, #4a5568);
+  color: var(--text-secondary, #475569);
   font-size: 13px;
   line-height: 1.5;
 }
 
 .checkboxInput {
   margin-top: 3px;
-  accent-color: var(--accent-blue, #1a3a5c);
+  accent-color: var(--accent-blue, #0057a8);
 }
 
 .checkboxCopy {
@@ -83,21 +84,22 @@
 
 .submitBtn {
   padding: 14px 28px;
-  background-color: var(--text-primary, #000);
+  background-color: var(--accent-blue, #0057a8);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 999px;
   cursor: pointer;
   font-weight: 700;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
   align-self: flex-start;
-  transition: opacity 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .submitBtn:hover {
-  opacity: 0.9;
+  background-color: var(--accent-blue-hover, #00427f);
+  transform: translateY(-1px);
 }
 
 .submitBtn:disabled {
@@ -107,15 +109,15 @@
 
 .requiredNote {
   font-size: 11px;
-  color: var(--text-muted, #666);
+  color: var(--text-muted, #64748b);
 }
 
 .successMessage {
   padding: 24px;
-  background-color: #f8fcf8;
-  border: 1px solid #d4edda;
-  color: #155724;
-  border-radius: 4px;
+  background-color: var(--bg-harmonic, #f8fafc);
+  border: 1px solid var(--border-light, #e2e8f0);
+  color: var(--text-primary, #111827);
+  border-radius: 12px;
   text-align: center;
   font-weight: 500;
 }

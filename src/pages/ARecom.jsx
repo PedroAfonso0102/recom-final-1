@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
+import ActionButton from '../components/ActionButton';
 import styles from './ARecom.module.css';
 import escritorioImg from '../assets/images/escritorio.jpg';
 import { contato, institucional } from '../data/contato';
@@ -103,16 +104,17 @@ const ARecom = () => {
             </p>
 
             <div className={styles.heroActions}>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.primaryBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'ARecom Hero CTA')}
               >
                 Falar com a RECOM <ArrowRight size={16} />
-              </Link>
-              <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>
+              </ActionButton>
+              <ActionButton to="/fornecedores-catalogos" variant="secondary" stackOnMobile>
                 Ver fornecedores
-              </Link>
+              </ActionButton>
             </div>
           </div>
 
@@ -253,13 +255,14 @@ const ARecom = () => {
               <span className={styles.sectionEyebrow}>Precisando de apoio?</span>
               <h3>Fale com a RECOM</h3>
               <p>Podemos indicar o fornecedor e a linha de produto mais aderentes à sua aplicação.</p>
-              <Link
+              <ActionButton
                 to="/contato"
-                className={styles.contactBtn}
+                variant="primary"
+                stackOnMobile
                 onClick={() => trackLeadGen('form_intent', 'ARecom Sidebar CTA')}
               >
                 Solicitar contato <ArrowRight size={14} />
-              </Link>
+              </ActionButton>
             </div>
           </aside>
         </section>
@@ -303,13 +306,14 @@ const ARecom = () => {
               Fale com a equipe da RECOM e receba uma orientação comercial alinhada à sua operação.
             </p>
           </div>
-          <Link
+          <ActionButton
             to="/contato"
-            className={styles.footerCtaBtn}
+            variant="primary"
+            stackOnMobile
             onClick={() => trackLeadGen('form_intent', 'ARecom Footer CTA')}
           >
             Solicitar orientação <ArrowRight size={16} />
-          </Link>
+          </ActionButton>
         </section>
       </div>
     </Layout>

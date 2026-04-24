@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
+import ActionButton from '../components/ActionButton';
 import { fornecedores, getCatalogosDoFornecedor } from '../data/fornecedores';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { trackOutboundLink } from '../utils/analytics';
@@ -50,9 +51,14 @@ const FornecedoresCatalogos = () => {
                   <h2 className={styles.fornecedorNome}>{fornecedor.nome}</h2>
                   <p className={styles.fornecedorDesc}>{fornecedor.descricaoCurta}</p>
                   <div className={styles.cardActions}>
-                    <Link to={`/fornecedores-catalogos/${fornecedor.slug}`} className={styles.cardBtn}>
+                    <ActionButton
+                      to={`/fornecedores-catalogos/${fornecedor.slug}`}
+                      variant="secondary"
+                      compact
+                      stackOnMobile
+                    >
                       Ver fornecedor <ArrowRight size={14} />
-                    </Link>
+                    </ActionButton>
                   </div>
                   {catalogos.length > 0 && (
                     <details className={styles.catalogoDisclosure}>
@@ -87,9 +93,9 @@ const FornecedoresCatalogos = () => {
         {/* CTA de contato */}
         <div className={styles.ctaSection}>
           <p>Não encontrou o que procura? A RECOM pode ajudar a identificar a solução ideal.</p>
-          <Link to="/contato" className={styles.ctaBtn}>
+          <ActionButton to="/contato" variant="primary" stackOnMobile>
             Solicitar Orientação <ArrowRight size={16} />
-          </Link>
+          </ActionButton>
         </div>
       </div>
     </Layout>

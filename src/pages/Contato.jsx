@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
 import ContactForm from '../components/ContactForm';
+import ActionButton from '../components/ActionButton';
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import styles from './Contato.module.css';
 import { contato } from '../data/contato';
@@ -152,15 +153,16 @@ const Contato = () => {
                 <p className={styles.mapNote}>
                   Atendimento comercial de segunda a sexta, das 8h às 17h30.
                 </p>
-                <a
+                <ActionButton
                   href={contato.endereco.googleMapsUrl}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.mapButton}
+                  variant="secondary"
+                  compact
+                  stackOnMobile
                   onClick={() => trackLeadGen('map', 'Contato Route CTA')}
                 >
                   Ver rota no Google Maps
-                </a>
+                </ActionButton>
               </div>
             </div>
           </div>
