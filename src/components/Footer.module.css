@@ -9,17 +9,24 @@
     width: 100%;
     max-width: var(--container-width);
     margin: 0 auto;
-    padding: var(--space-2xl) var(--space-m);
+    padding: var(--space-3xl) var(--space-m);
     display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr;
-    gap: var(--space-xl);
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: var(--space-2xl);
+}
+
+@media (max-width: 1024px) {
+    .footerGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+    }
 }
 
 @media (max-width: 768px) {
     .footerGrid {
         grid-template-columns: 1fr;
         gap: var(--space-l);
-        padding: var(--space-xl) var(--space-m);
+        padding: var(--space-2xl) var(--space-m);
     }
 }
 
@@ -49,7 +56,7 @@
 }
 
 .footerLogo img {
-    height: 80px;
+    height: 60px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
@@ -81,33 +88,38 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: var(--text-sm); /* Slightly larger for readability */
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.8;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
 }
 
-.footerPhone {
-    font-weight: 700;
-    margin-top: var(--space-s);
-    font-size: var(--text-base);
+.footerContact li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
 }
 
-.footerPhone a {
+.contactIcon {
+    color: var(--accent-blue);
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.phoneLink {
     color: var(--bg-white);
+    font-weight: 700;
+    font-size: var(--text-base);
+    text-decoration: none;
 }
 
-.footerEmail a {
+.emailLink {
     color: var(--accent-blue);
     font-weight: 600;
-}
-
-.footerContact a {
     text-decoration: none;
-    transition: all var(--transition-fast);
 }
 
 .footerContact a:hover {
-    color: var(--accent-blue);
     text-decoration: underline;
 }
 
@@ -116,32 +128,88 @@
 }
 
 .whatsappBtn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
     background: #25D366;
     color: white;
-    padding: var(--space-s) var(--space-l);
+    padding: var(--space-m) var(--space-l);
     border-radius: var(--radius-sm);
     font-weight: 700;
     font-size: var(--text-sm);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     transition: all var(--transition-fast);
+    width: 100%;
+    justify-content: center;
 }
 
 .whatsappBtn:hover {
     background: #128C7E;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     color: white;
+}
+
+.footerCta {
+    margin-top: var(--space-l);
+}
+
+.footerBtn {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: var(--bg-white);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all var(--transition-fast);
+}
+
+.footerBtn:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
 }
 
 .footerBottom {
     width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footerBottomContent {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: var(--space-m);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: var(--text-xs);
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.footerBottomLinks {
+    display: flex;
+    gap: var(--space-m);
+    align-items: center;
+}
+
+.footerBottomLinks a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.footerBottomLinks a:hover {
+    color: var(--bg-white);
+}
+
+@media (max-width: 768px) {
+    .footerBottomContent {
+        flex-direction: column;
+        gap: var(--space-s);
+        text-align: center;
+    }
 }

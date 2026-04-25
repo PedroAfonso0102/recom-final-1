@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './ContactForm.module.css';
 
+import { trackLeadGen } from '../utils/analytics';
+
 const ContactForm = () => {
   const [status, setStatus] = useState({ submitted: false, error: false });
 
@@ -9,6 +11,7 @@ const ContactForm = () => {
     // Simulate API call for form submission
     setTimeout(() => {
       setStatus({ submitted: true, error: false });
+      trackLeadGen('form', 'Contact Form');
     }, 500);
   };
 

@@ -1,53 +1,96 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import styles from './Footer.module.css';
 import logo from '../assets/images/Upscaled/logo-branco.png';
+import { contato, institucional } from '../data/contato';
+import { fornecedores } from '../data/fornecedores';
 
+/**
+ * Footer — Rodapé institucional.
+ * Etapa 2: "institucional, fornecedores, processos, contato completo"
+ * Etapa 5: "CTA persistente para contato, links de recuperação"
+ */
 const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
+        {/* Col 1: Institucional */}
         <div className={styles.footerCol}>
           <div className={styles.footerLogo}>
-            <img src={logo} alt="RECOM Metal Duro" className="res-img-logo" />
+            <img src={logo} alt="RECOM Metal Duro" />
           </div>
           <p className={styles.footerText}>
-            Distribuidor técnico autorizado Mitsubishi Materials desde 1990.
-            Soluções em ferramentas de corte para a indústria metalúrgica.
+            {institucional.descricaoFooter}
           </p>
+          <div className={styles.footerCta}>
+            <Link to="/contato" className={styles.footerBtn}>Solicitar Orçamento</Link>
+          </div>
         </div>
+
+        {/* Col 2: Fornecedores & Catálogos */}
         <div className={styles.footerCol}>
-          <h4 className={styles.footerTitle}>Navegação</h4>
+          <h4 className={styles.footerTitle}>Fornecedores</h4>
           <ul className={styles.footerLinks}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/empresa">A Empresa</Link></li>
-            <li><Link to="/produtos">Produtos</Link></li>
-            <li><Link to="/catalogo">Catálogo</Link></li>
+            <li><Link to="/fornecedores-catalogos">Todos os Fornecedores</Link></li>
+            {fornecedores.map(f => (
+              <li key={f.id}>
+                <Link to={`/fornecedores-catalogos/${f.slug}`}>{f.nome}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 3: Soluções / Processos */}
+        <div className={styles.footerCol}>
+          <h4 className={styles.footerTitle}>Soluções</h4>
+          <ul className={styles.footerLinks}>
+            <li><Link to="/solucoes">Todos os Processos</Link></li>
+            <li><Link to="/solucoes/torneamento">Torneamento</Link></li>
+            <li><Link to="/solucoes/fresamento">Fresamento</Link></li>
+            <li><Link to="/solucoes/furacao">Furação</Link></li>
+          </ul>
+          <h4 className={styles.footerTitle} style={{ marginTop: '1.25rem' }}>Empresa</h4>
+          <ul className={styles.footerLinks}>
+            <li><Link to="/a-recom">A RECOM</Link></li>
             <li><Link to="/promocoes">Promoções</Link></li>
           </ul>
         </div>
+
+        {/* Col 4: Atendimento completo */}
         <div className={styles.footerCol}>
-          <h4 className={styles.footerTitle}>Contato</h4>
+          <h4 className={styles.footerTitle}>Atendimento</h4>
           <ul className={styles.footerContact}>
-            <li>Rua Alferes João José, 350</li>
-            <li>Jardim Chapadão — Campinas/SP</li>
-            <li>CEP 13070-188</li>
-            <li className={styles.footerPhone}>
-              <a href="tel:+551932332224">(19) 3233-2224</a>
+            <li>
+              <MapPin size={16} className={styles.contactIcon} />
+              <span>{contato.endereco.completo}</span>
             </li>
-            <li className={styles.footerEmail}>
-              <a href="mailto:vendas.recom@montelione.com.br">vendas.recom@montelione.com.br</a>
+            <li>
+              <Phone size={16} className={styles.contactIcon} />
+              <a href={contato.telefone.href} className={styles.phoneLink}>{contato.telefone.display}</a>
+            </li>
+            <li>
+              <Mail size={16} className={styles.contactIcon} />
+              <a href={contato.email.href} className={styles.emailLink}>{contato.email.display}</a>
             </li>
           </ul>
           <div className={styles.footerActions}>
-             <a href="https://wa.me/551932332224" target="_blank" rel="noopener noreferrer" className={styles.whatsappBtn}>
-                Falar pelo WhatsApp
+             <a href={contato.whatsapp.href} target="_blank" rel="noopener noreferrer" className={styles.whatsappBtn}>
+                <MessageCircle size={18} />
+                Falar com Especialista
              </a>
           </div>
         </div>
       </div>
       <div className={styles.footerBottom}>
-        © {new Date().getFullYear()} RECOM Metal Duro — Todos os direitos reservados.
+        <div className={styles.footerBottomContent}>
+          <p>© {new Date().getFullYear()} {contato.empresa} — Todos os direitos reservados.</p>
+          <div className={styles.footerBottomLinks}>
+            <Link to="/seguranca">Política de Privacidade</Link>
+            <span>|</span>
+            <Link to="/sugestoes-de-utilizacao">Termos de Uso</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

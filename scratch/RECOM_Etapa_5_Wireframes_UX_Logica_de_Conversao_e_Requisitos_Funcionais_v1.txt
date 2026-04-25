@@ -1,0 +1,191 @@
+RECOM — Etapa 5
+Wireframes, UX, lógica de conversão e requisitos funcionais para o projeto de presença digital
+
+1. Objetivo do documento
+Este documento converte as decisões estratégicas, de arquitetura e de conteúdo das etapas anteriores em critérios de interface, comportamento, conversão e implementação. O foco não é “desenhar telas bonitas”, mas especificar como o site da RECOM deve funcionar para reduzir atrito, orientar tarefas reais e transformar confiança em contato comercial qualificado.
+2. Escopo
+Definir a lógica estrutural dos wireframes do MVP, em desktop e mobile.
+Traduzir objetivos de negócio em fluxos, CTAs, hierarquia de interface e comportamento esperado.
+Estabelecer requisitos funcionais para navegação, filtros, páginas, formulários, links externos, estados, analytics, SEO técnico, acessibilidade e performance.
+Registrar decisões, pendências, riscos, critérios de aceitação e instruções para programação.
+Preparar o terreno para a Etapa 6 — implementação, SEO técnico, analytics, operação e governança.
+3. Entradas consideradas nesta etapa
+Diagnóstico empresarial e posicionamento das etapas anteriores: a RECOM deve operar digitalmente como distribuidor B2B, não como catálogo varejista de SKUs.
+Arquitetura de informação da Etapa 2: Home, A RECOM, Fornecedores & Catálogos, Soluções / Processos, Promoções, Contato / Orçamento e páginas auxiliares.
+Estratégia de marca e direção de arte da Etapa 3: sobriedade industrial, legitimidade, clareza comercial e orientação à confiança.
+Estrutura de conteúdo da Etapa 4: blueprint editorial por página, campos para CMS, CTAs e regras transversais de conteúdo.
+Fatos públicos do site legado: páginas Home, A Empresa, Produtos, Promoções e Contato; dados de contato em Campinas; presença de fornecedores e sinais claros de desatualização editorial e técnica. [Ref. 1]
+Recomendações oficiais do Google sobre conteúdo útil, experiência de página, Core Web Vitals, links rastreáveis, indexação mobile-first, Search Console e Business Profile. [Ref. 2] [Ref. 3] [Ref. 4] [Ref. 5] [Ref. 6] [Ref. 7] [Ref. 8] [Ref. 9] [Ref. 10]
+Boas práticas de UX da Nielsen Norman Group e da W3C sobre homepage, user flows, wireframes, formulários, mensagens de erro, tamanhos de alvo, labels, instruções, feedback e acessibilidade. [Ref. 11] [Ref. 12] [Ref. 13] [Ref. 14] [Ref. 15] [Ref. 16] [Ref. 17] [Ref. 18] [Ref. 19] [Ref. 20] [Ref. 21] [Ref. 22] [Ref. 23] [Ref. 24] [Ref. 25] [Ref. 26] [Ref. 27] [Ref. 28] [Ref. 29]
+4. Princípios de UX e conversão adotados
+A RECOM não precisa de uma experiência “sofisticada” no sentido ornamental; precisa de uma experiência clara, confiável e orientada a tarefa. O Google recomenda conteúdo útil e boa experiência de página, enquanto a Nielsen Norman Group destaca que usuários buscam clareza, scent informacional, hierarquia visível e redução do ruído. [Ref. 2] [Ref. 3] [Ref. 11] [Ref. 27]
+4.1. Princípios operacionais
+Orientação antes de persuasão: o usuário deve entender rapidamente quem é a RECOM, o que ela oferece e qual caminho deve seguir.
+Uma ação principal por contexto: cada página deve deixar claro qual é o próximo passo mais importante, sem competir com muitos CTAs equivalentes. [Ref. 11] [Ref. 27]
+Transparência de destino: quando o clique levar para um catálogo externo, isso deve ser comunicado claramente no rótulo e no comportamento do componente. [Ref. 7] [Ref. 28]
+Fricção mínima, não fricção zero: o formulário deve pedir o necessário para uma resposta comercial útil, sem exigir excesso de dados no primeiro contato. [Ref. 16] [Ref. 17]
+Desktop e mobile com equivalência funcional: o conteúdo essencial não pode desaparecer na versão móvel; o Google usa a versão mobile para indexação e ranking. [Ref. 6]
+Acessibilidade como requisito básico de qualidade: labels, instruções, mensagens de erro, foco visível, tamanhos de alvo e estados de interface não são opcionais. [Ref. 20] [Ref. 21] [Ref. 22] [Ref. 23] [Ref. 24] [Ref. 25]
+Performance como parte da UX: Core Web Vitals, HTTPS, estabilidade visual e interatividade impactam a experiência do usuário e são recomendados pelo Google. [Ref. 3] [Ref. 4] [Ref. 5]
+4.2. Hierarquia de conversão recomendada
+Matriz de prioridades de conversão
+
+5. Modelo de entrega de wireframes
+Para este projeto, recomenda-se tratar wireframes como especificação funcional de baixa a média fidelidade, não como arte final. A Nielsen Norman Group define wireframes como representações esquemáticas úteis para discutir estrutura, prioridade e comportamento antes do refinamento visual; wireflows são particularmente úteis para ligar telas e interações em fluxos claros. [Ref. 14] [Ref. 15]
+Cada wireframe deve identificar áreas, ordem dos blocos, objetivos do bloco, CTA principal e principais estados.
+Anotações de comportamento devem acompanhar o wireframe: hover, clique, expansão, erro, loading, empty state, retorno e comportamento mobile.
+Não usar wireframe para decidir tipografia final, paleta final ou tratamento fotográfico definitivo; isso pertence ao refinamento de interface.
+Fluxos críticos devem ser entregues em wireflow: entrada, decisão, saída, retorno e rastreamento.
+Todo wireframe deve deixar explícito se o conteúdo é editável por CMS, automático, estático ou dependente de integração.
+6. Wireframe-base do site (casca global)
+6.1. Estrutura global: header, navegação, conteúdo, rodapé e CTA persistente
+
+6.2. Regras globais de comportamento
+Comportamentos globais obrigatórios
+
+7. Wireframes por página do MVP
+7.1. Home
+
+7.2. A RECOM / Institucional
+
+7.3. Fornecedores & Catálogos
+
+7.4. Página individual de fornecedor
+
+7.5. Soluções / Processos
+
+7.6. Página individual de processo
+
+7.7. Promoções
+
+7.8. Contato / Orçamento
+
+8. Lógica de conversão e wireflows prioritários
+A etapa de wireframes precisa refletir wireflows claros. A Nielsen Norman Group diferencia jornadas e fluxos: a jornada cobre a experiência ampla, enquanto o flow aprofunda um caminho específico dentro do produto. Para a RECOM, os fluxos críticos são relativamente simples, e isso é uma vantagem. [Ref. 12] [Ref. 15]
+8.1. Wireflows principais do MVP
+
+8.2. Regras de conversão por contexto
+
+9. Requisitos funcionais
+9.1. Navegação, URLs e comportamento de páginas
+Todas as páginas navegáveis do MVP devem existir em URLs únicas, limpas e estáveis.
+Navegação principal deve usar links HTML rastreáveis; evitar dependência de elementos que não exponham href válido. [Ref. 7]
+Não usar fragmentos (#) para representar conteúdo principal diferente entre estados de página. [Ref. 6] [Ref. 7]
+Breadcrumbs obrigatórios em páginas internas profundas.
+Página 404 real com links de recuperação e status correto.
+Menu deve indicar página ativa e manter rótulos consistentes em todas as telas. [Ref. 25]
+9.2. Cards, grids e filtros
+Cards de fornecedor e processo devem ter área clicável ampla, título claro, descrição curta e CTA compreensível. [Ref. 28]
+Filtros só entram no MVP quando realmente ajudarem; caso o volume inicial seja baixo, preferir organização editorial simples.
+Se houver filtros, as categorias e valores devem ser previsíveis, relevantes e livres de jargão desnecessário. [Ref. 29]
+Resultados filtrados precisam ter estado vazio útil, com mensagem humana e caminho alternativo.
+Evitar recarregamentos confusos, saltos de rolagem inesperados e perda de contexto durante filtragem. [Ref. 29]
+9.3. Links externos para catálogos
+Todo link externo de catálogo deve ter rotulagem específica: “Acessar catálogo oficial da marca X”.
+Indicar visualmente quando o usuário está saindo do domínio da RECOM.
+Rastrear clique em catálogo com metadados mínimos: página de origem, fornecedor, posição do clique e tipo de CTA.
+Quando o link estiver indisponível, exibir fallback para contato comercial, e não erro seco.
+Abrir em nova aba é aceitável quando o objetivo é preservar o site da RECOM como base da jornada, mas essa decisão deve ser consistente e comunicada.
+9.4. Formulário de contato / orçamento
+Campos recomendados para o MVP
+
+Labels devem ser permanentes; placeholder não substitui label. [Ref. 20] [Ref. 21]
+Marcar campos obrigatórios com convenção clara e consistente. [Ref. 17] [Ref. 22]
+Mensagens de erro precisam aparecer junto ao campo problemático, em linguagem humana e acionável. [Ref. 18] [Ref. 19]
+Não limpar o formulário inteiro após erro de validação; preservar o esforço do usuário. [Ref. 19]
+Validação client-side melhora a UX, mas não substitui validação server-side. [Ref. 22]
+Ao submeter com sucesso, mostrar confirmação clara e caminhos alternativos de contato. [Ref. 23]
+Anti-spam preferencial: honeypot, rate limit e validação server-side. CAPTCHA só se o volume de spam justificar o atrito adicional.
+9.5. Responsividade, acessibilidade e interação
+Todos os controles clicáveis devem respeitar tamanho mínimo de alvo e espaçamento adequado; a WAI recomenda 24x24 CSS px como mínimo para o critério 2.5.8. [Ref. 24]
+Estados de foco devem ser visíveis e discerníveis para navegação por teclado. [Ref. 25]
+Links, botões e controles de formulário precisam ser operáveis por teclado e leitor de tela.
+Campo, label, instrução e mensagem de erro devem estar semanticamente associados. [Ref. 20] [Ref. 21] [Ref. 22] [Ref. 23]
+Mobile e desktop devem manter equivalência funcional e editorial. [Ref. 6]
+Evitar intersticiais e overlays intrusivos que prejudiquem acesso ao conteúdo. [Ref. 3]
+9.6. Performance, SEO técnico e analytics
+Monitorar Core Web Vitals via Search Console e ferramentas correlatas; priorizar LCP, INP e CLS. [Ref. 4] [Ref. 5]
+Garantir HTTPS em todas as páginas e recursos carregados. [Ref. 3]
+Imagens devem ser dimensionadas corretamente, com prioridade adequada para o que aparece acima da dobra. [Ref. 3] [Ref. 7]
+Cada página deve ter title, meta description, heading principal, links internos e conteúdo HTML indexável. [Ref. 2] [Ref. 7] [Ref. 8]
+Eventos mínimos de analytics: clique em telefone, e-mail, WhatsApp, CTA primário, filtro, fornecedor, catálogo externo, envio de formulário e erro de formulário.
+Preparar Search Console desde o lançamento para indexação, desempenho e Core Web Vitals. [Ref. 5] [Ref. 8]
+9.7. CMS, edição e governança funcional
+Fornecedores, processos, promoções e campos SEO devem ser editáveis sem deploy de código.
+Componentes com conteúdo recorrente devem puxar de coleções únicas, evitando duplicação manual.
+Contato, endereço e dados institucionais devem partir de uma única fonte de verdade no CMS, usada no header, rodapé e página de contato.
+Links de catálogo precisam de status, data de revisão e responsável pela atualização.
+Toda funcionalidade editável deve ter regras de fallback para ausência de imagem, link ou texto.
+10. Estados de interface obrigatórios
+Estados mínimos para QA funcional
+
+11. Critérios de aceitação para programação e homologação
+O usuário entende, em até poucos segundos, quem é a RECOM, o que ela faz e quais caminhos principais pode seguir.
+Todos os CTAs principais têm rótulo claro, comportamento previsível e rastreamento configurado.
+Páginas de fornecedor deixam explícito quando o clique leva a catálogo externo.
+O formulário é preenchível sem ambiguidade, com labels visíveis, mensagens de erro úteis e confirmação de sucesso.
+Header, menu, breadcrumbs e rodapé mantêm consistência de rótulos e comportamento em todo o site.
+A experiência mobile preserva o conteúdo essencial e a capacidade de conversão da versão desktop.
+Os principais elementos de interação atendem requisitos mínimos de acessibilidade, incluindo foco visível e alvos clicáveis adequados. [Ref. 24] [Ref. 25]
+As páginas usam links HTML rastreáveis, URLs limpas e conteúdo indexável.
+As funcionalidades editáveis realmente podem ser operadas sem alterar código.
+Core Web Vitals, HTTPS e Search Console ficam previstos na implantação técnica. [Ref. 3] [Ref. 4] [Ref. 5]
+12. Decisões consolidadas desta etapa
+O MVP será orientado por poucos fluxos críticos e claros, sem adicionar funcionalidades “porque todo site tem”.
+A Home terá função de triagem e confiança; a conversão principal continua sendo contato/orçamento.
+Fornecedores & Catálogos será o principal hub de descoberta por marca.
+Soluções / Processos será o principal hub de descoberta por necessidade prática.
+Busca interna não é requisito obrigatório do MVP; entra apenas se o volume de conteúdo justificar.
+Links externos de catálogo exigem sinalização clara e rastreamento próprio.
+O formulário do MVP será curto, com validação amigável e proteção anti-spam de baixo atrito.
+Acessibilidade, performance e equivalência mobile não serão tratadas como “acabamento”, e sim como requisito funcional.
+13. Pendências e validações necessárias
+Validar com o proprietário a prioridade entre telefone, e-mail e WhatsApp como CTA de contato imediato.
+Confirmar se o WhatsApp será realmente canal oficial do projeto e quem será responsável por sua operação.
+Definir volume inicial de fornecedores do MVP para decidir se filtros entram já na versão 1.
+Validar quais promoções serão publicadas e com qual cadência de atualização.
+Escolher stack/CMS e detalhar o impacto disso na modelagem de componentes e governança.
+Confirmar política para links externos: abrir sempre em nova aba ou seguir regra por contexto.
+14. Riscos
+Risco de excesso de CTA visual, enfraquecendo a ação principal e aumentando ruído. [Ref. 27]
+Risco de cards pouco claros, com rótulos genéricos e baixo scent informacional. [Ref. 7] [Ref. 28] [Ref. 29]
+Risco de atrito alto em mobile se targets forem pequenos, formulários densos ou overlays intrusivos. [Ref. 24] [Ref. 25]
+Risco de queda de confiança se links externos de catálogo parecerem “quebra” inesperada de jornada.
+Risco operacional se o CMS não centralizar dados como contato, links de catálogo e status de promoções.
+Risco de indexação e descoberta piores se o site depender de navegação não rastreável, fragmentos ou conteúdo importante fora do HTML. [Ref. 6] [Ref. 7]
+15. Próximos passos
+Desenhar os wireframes efetivos com base nesta especificação, incluindo versão desktop e mobile das páginas principais.
+Transformar os wireframes prioritários em backlog técnico e componentes reutilizáveis.
+Definir stack/CMS e mapear a viabilidade dos requisitos funcionais detalhados nesta etapa.
+Fechar o plano de analytics, eventos e nomenclatura antes da implementação.
+Avançar para a Etapa 6 — implementação, SEO técnico, analytics, operação e governança.
+16. Referências e fontes públicas
+[Ref. 1] RECOM Metal Duro. Domínio principal com páginas observáveis, fornecedores, promoções, contato e sinais de conteúdo legado. Disponível em: https://www.recommetalduro.com.br/
+[Ref. 2] Google Search Central. Creating helpful, reliable, people-first content. Disponível em: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+[Ref. 3] Google Search Central. Understanding page experience in Google Search results. Disponível em: https://developers.google.com/search/docs/appearance/page-experience
+[Ref. 4] Google Search Central. Understanding Core Web Vitals and Google search results. Disponível em: https://developers.google.com/search/docs/appearance/core-web-vitals
+[Ref. 5] Search Console Help. Core Web Vitals report. Disponível em: https://support.google.com/webmasters/answer/9205520
+[Ref. 6] Google Search Central. Mobile-first indexing best practices. Disponível em: https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing
+[Ref. 7] Google Search Central. Link best practices for Google. Disponível em: https://developers.google.com/search/docs/crawling-indexing/links-crawlable
+[Ref. 8] Google Search Console. About Search Console. Disponível em: https://search.google.com/search-console/about
+[Ref. 9] Google Business Profile Help. Edit your Business Profile. Disponível em: https://support.google.com/business/answer/3039617
+[Ref. 10] Google Business Profile Help. Tips to improve your local ranking on Google. Disponível em: https://support.google.com/business/answer/7091
+[Ref. 11] Nielsen Norman Group. Homepage Design: 5 Fundamental Principles. Disponível em: https://www.nngroup.com/articles/homepage-design-principles/
+[Ref. 12] Nielsen Norman Group. User Journeys vs. User Flows. Disponível em: https://www.nngroup.com/articles/user-journeys-vs-user-flows/
+[Ref. 13] Nielsen Norman Group. Task Analysis: Support Users in Achieving Their Goals. Disponível em: https://www.nngroup.com/articles/task-analysis/
+[Ref. 14] Nielsen Norman Group. How to Draw a Wireframe (Even if You Can’t Draw). Disponível em: https://www.nngroup.com/articles/draw-wireframe-even-if-you-cant-draw/
+[Ref. 15] Nielsen Norman Group. Wireflows: A UX Deliverable for Workflows and Apps. Disponível em: https://www.nngroup.com/articles/wireflows/
+[Ref. 16] Nielsen Norman Group. Website Forms Usability: Top 10 Recommendations. Disponível em: https://www.nngroup.com/articles/web-form-design/
+[Ref. 17] Nielsen Norman Group. Marking Required Fields in Forms. Disponível em: https://www.nngroup.com/articles/required-fields/
+[Ref. 18] Nielsen Norman Group. 10 Design Guidelines for Reporting Errors in Forms. Disponível em: https://www.nngroup.com/articles/errors-forms-design-guidelines/
+[Ref. 19] Nielsen Norman Group. Error-Message Guidelines. Disponível em: https://www.nngroup.com/articles/error-message-guidelines/
+[Ref. 20] W3C WAI. Labeling Controls. Disponível em: https://www.w3.org/WAI/tutorials/forms/labels/
+[Ref. 21] W3C WAI. Form Instructions. Disponível em: https://www.w3.org/WAI/tutorials/forms/instructions/
+[Ref. 22] W3C WAI. Validating Input. Disponível em: https://www.w3.org/WAI/tutorials/forms/validation/
+[Ref. 23] W3C WAI. User Notifications. Disponível em: https://www.w3.org/WAI/tutorials/forms/notifications/
+[Ref. 24] W3C WAI. Understanding SC 2.5.8: Target Size (Minimum). Disponível em: https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
+[Ref. 25] W3C WAI. Understanding SC 2.4.13: Focus Appearance. Disponível em: https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html
+[Ref. 26] Nielsen Norman Group. The 3-Click Rule for Navigation Is False. Disponível em: https://www.nngroup.com/articles/3-click-rule/
+[Ref. 27] Nielsen Norman Group. Signal-to-Noise Ratio. Disponível em: https://www.nngroup.com/articles/signal-noise-ratio/
+[Ref. 28] Nielsen Norman Group. Beyond Blue Links: Making Clickable Elements Recognizable. Disponível em: https://www.nngroup.com/articles/clickable-elements/
+[Ref. 29] Nielsen Norman Group. Defining Helpful Filter Categories and Values for Better UX. Disponível em: https://www.nngroup.com/articles/filter-categories-values/

@@ -1,9 +1,10 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
+import Breadcrumb from '../components/Breadcrumb';
 import styles from './Page.module.css';
-import ProductSidebar from '../components/ProductSidebar';
-import { AlertTriangle, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const SAFETY_DATA = [
   {
@@ -97,18 +98,26 @@ const SAFETY_DATA = [
   }
 ];
 
+/**
+ * Sugestões de Utilização — Guia de segurança técnica.
+ * Batch 3: Removido ProductSidebar, adicionado SEOHead + Breadcrumb.
+ * Breadcrumb: Início › Suporte Técnico › Sugestões de Utilização
+ */
 const SugestoesUtilizacao = () => (
   <Layout>
-    <div className={styles.location}>
-      <div className={styles.whereCenter}>
-        Você está em: <Link to="/">Home</Link> &gt; Produtos &gt; Sugestões de Utilização
-      </div>
-    </div>
-    <div className={styles.centerData}>
-      <ProductSidebar />
+    <SEOHead
+      title="Sugestões de Utilização Segura"
+      description="Guia de segurança para utilização de ferramentas de metal duro em operações industriais. Precauções para insertos, brocas, fresas e suportes — baseado nas diretrizes Mitsubishi Materials."
+    />
+    <Breadcrumb items={[
+      { label: 'Início', to: '/' },
+      { label: 'Suporte Técnico' },
+      { label: 'Sugestões de Utilização' },
+    ]} />
 
+    <div className={styles.centerData}>
       <div className={styles.textBox}>
-        <div className={styles.mainProductTitle}>Sugestões de Utilização Segura</div>
+        <h1 className={styles.mainProductTitle}>Sugestões de Utilização Segura</h1>
         <p className={styles.just}>
           A RECOM prioriza a segurança na operação industrial. Consulte abaixo os 
           principais riscos durante a usinagem e as precauções oficiais exigidas 
@@ -144,6 +153,20 @@ const SugestoesUtilizacao = () => (
            <p>Este guia complementa as precauções básicas para operação segura de produtos RECOM em ambiente industrial.</p>
         </div>
 
+        <div style={{ textAlign: 'center', margin: '2rem 0' }}>
+          <Link to="/seguranca" style={{
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'var(--accent-blue, #1a3a5c)',
+            color: '#fff',
+            textDecoration: 'none',
+            borderRadius: '6px',
+            fontWeight: 600,
+            fontSize: '0.875rem',
+          }}>
+            Ver Segurança nas Ferramentas <ArrowRight size={14} style={{ verticalAlign: 'middle', marginLeft: '0.25rem' }} />
+          </Link>
+        </div>
       </div>
     </div>
   </Layout>

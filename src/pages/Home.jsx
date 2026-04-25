@@ -1,187 +1,189 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
-import { Target, Droplets, Layers, Hexagon, Play, ArrowRight } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
+import { ArrowRight, Phone, Crosshair, Box, Circle } from 'lucide-react';
 import styles from './Home.module.css';
-
-import logoMitsubishi from '../assets/images/logo_mitsubishi.png';
-import logo7leaders from '../assets/images/logo_7leaders.png';
-import logoBTFixo from '../assets/images/logo_btfixo.png';
-import logoKifix from '../assets/images/logo_kifix.png';
+import { contato, institucional } from '../data/contato';
+import { fornecedores } from '../data/fornecedores';
 import logoMit from '../assets/images/LOGO-MIT.png';
+import { trackLeadGen } from '../utils/analytics';
 
-// - [x] Integrate high-fidelity 3D technical renders for featured products
-// - [x] Fix layout overlaps in the "Sistemas de Usinagem em Destaque" section
-// - [x] Implement CSS-based tooltips for ISO material categories
-// - [x] Ensure consistent 8pt Swiss grid alignment across all interactive cards
-// - [x] Standardize color-coded ISO badges (P, M, K, N, S, H)
+/**
+ * Home — Página principal.
+ * Etapa 3: "hierarquia: credibilidade → caminhos de descoberta → CTAs"
+ * Etapa 4: "proposta de valor B2B, seção institucional curta, fornecedores como caminhos"
+ * Etapa 5: "CTA persistente, redução de fricção"
+ */
 
-// Import featured product technical renders
-import featuredDrill from '../assets/images/featured_drill.png';
-import featuredMilling from '../assets/images/Upscaled/fresa-Bf0r_sxm.png';
-import featuredMws from '../assets/images/featured_mws.png';
-import featuredWstar from '../assets/images/featured_wstar.png';
-
-const isoLabels = {
-  P: 'Aços',
-  M: 'Aços Inoxidáveis',
-  K: 'Ferros Fundidos',
-  N: 'Metais Não Ferrosos',
-  S: 'Superligas Termorresistentes',
-  H: 'Materiais Endurecidos'
+const processoIcons = {
+  Crosshair: <Crosshair size={24} />,
+  Box: <Box size={24} />,
+  Circle: <Circle size={24} />,
 };
 
 const Home = () => {
   return (
     <Layout>
-      {/* Hero Banner Industrial */}
+      <SEOHead
+        title={null}
+        description={institucional.descricaoCurta}
+        canonical="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: contato.empresa,
+          url: contato.siteUrl,
+          logo: `${contato.siteUrl}/logo.png`,
+          contactPoint: {
+            '@type': 'ContactPoint',
+            telephone: contato.telefone.numero,
+            contactType: 'sales',
+            email: contato.email.display,
+            areaServed: 'BR',
+            availableLanguage: 'Portuguese'
+          },
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: contato.endereco.rua,
+            addressLocality: contato.endereco.cidade,
+            addressRegion: contato.endereco.estado,
+            postalCode: contato.endereco.cep,
+            addressCountry: 'BR'
+          }
+        }}
+      />
+
+      {/* ═══════════════════════════════════════════════
+          HERO — Proposta de valor B2B
+          ═══════════════════════════════════════════════ */}
       <div className={styles.heroBanner}>
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>PRECISÃO ABSOLUTA</span>
-          <h1 className={styles.heroTitle}>A EXCELÊNCIA EM METAL DURO</h1>
+          <span className={styles.heroBadge}>DESDE 1990 EM CAMPINAS-SP</span>
+          <h1 className={styles.heroTitle}>
+            Seu Distribuidor B2B de Ferramentas para Usinagem
+          </h1>
           <p className={styles.heroDescription}>
-            Distribuidor técnico autorizado Mitsubishi Materials desde 1990. 
-            Soluções avançadas em ferramentas de corte e usinagem de alta performance para a indústria metalúrgica.
+            {institucional.propostaDeValor}
           </p>
           <div className={styles.heroActions}>
-            <Link to="/catalogo" className={styles.primaryBtn}>Ver Catálogo Completo</Link>
-            <Link to="/contato" className={styles.secondaryBtn}>Solicitar Orçamento</Link>
+            <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Home Hero CTA')}>Solicitar Orçamento</Link>
+            <Link to="/fornecedores-catalogos" className={styles.secondaryBtn}>Ver Fornecedores</Link>
           </div>
         </div>
       </div>
 
       <div className={styles.centerData}>
-        {/* Fornecedores */}
+
+        {/* ═══════════════════════════════════════════════
+            SEÇÃO 1 — Quem é a RECOM (prova institucional curta)
+            ═══════════════════════════════════════════════ */}
         <div className={styles.sectionBox}>
-          <h3 className={styles.sectionTitle}>Fornecedores Oficiais</h3>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Quem é a RECOM</h2>
+            <p className={styles.sectionSubtitle}>
+              {institucional.descricaoCurta}
+            </p>
+          </div>
+          <div className={styles.trustBadges}>
+            <div className={styles.trustItem}>
+              <strong>+35 anos</strong>
+              <span>de atuação no mercado</span>
+            </div>
+            <div className={styles.trustItem}>
+              <strong>Desde 1998</strong>
+              <span>distribuidor autorizado Mitsubishi</span>
+            </div>
+            <div className={styles.trustItem}>
+              <strong>Campinas-SP</strong>
+              <span>atendimento regional especializado</span>
+            </div>
+            <div className={styles.trustItem}>
+              <strong>{fornecedores.length} fornecedores</strong>
+              <span>curadoria de marcas líderes</span>
+            </div>
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <Link to="/a-recom" className={styles.linkSutil}>
+              Conheça a RECOM <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════
+            SEÇÃO 2 — Fornecedores (caminhos de navegação)
+            ═══════════════════════════════════════════════ */}
+        <div className={styles.sectionBox}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Nossos Fornecedores</h2>
+            <p className={styles.sectionSubtitle}>
+              Marcas reconhecidas globalmente, distribuídas pela RECOM com atendimento local.
+            </p>
+          </div>
           <div className={styles.brandsRow}>
-            <a href="/catalogo-mitsubishi"><img src={logoMitsubishi} alt="Mitsubishi" className="res-img-logo" /></a>
-            <a href="/catalogo-7leaders"><img src={logo7leaders} alt="7Leaders" className="res-img-logo" /></a>
-            <a href="/btfixo"><img src={logoBTFixo} alt="BT Fixo" className="res-img-logo" /></a>
-            <a href="/catalogo-kifix"><img src={logoKifix} alt="Kifix" className="res-img-logo" /></a>
+            {fornecedores.map(f => (
+              <Link to={`/fornecedores-catalogos/${f.slug}`} key={f.id} className={styles.brandLink}>
+                <img src={f.logo} alt={f.altText} className="res-img-logo" />
+              </Link>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <Link to="/fornecedores-catalogos" className={styles.linkSutil}>
+              Ver todos os fornecedores e catálogos <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
 
-        {/* Produtos em Destaque - full width */}
+        {/* ═══════════════════════════════════════════════
+            SEÇÃO 3 — Soluções / Processos (cards de descoberta)
+            ═══════════════════════════════════════════════ */}
         <div className={styles.sectionBox}>
-          <h3 className={styles.sectionTitle}>Sistemas de Usinagem em Destaque</h3>
-          <div className={styles.produtosGrid}>
-            <Link to="/produtos" className={styles.produtoCard}>
-              <div className={styles.cardVisual}>
-                <img src={featuredDrill} alt="S-TAW System" className="res-img-card" />
-              </div>
-              <div className={styles.produtoIcon}>
-                <Target size={24} strokeWidth={2} />
-              </div>
-              <strong>S-TAW / TAW</strong>
-              <p>Brocas intercambiáveis de alta performance para furação precisa</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoK}`} data-label={isoLabels.K}>K</span>
-              </div>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Soluções por Processo</h2>
+            <p className={styles.sectionSubtitle}>
+              Encontre ferramentas e fornecedores organizados pelo processo produtivo da sua operação.
+            </p>
+          </div>
+          <div className={styles.processosRow}>
+            <Link to="/solucoes/torneamento" className={styles.processoCardHome}>
+              <div className={styles.processoIconHome}>{processoIcons.Crosshair}</div>
+              <strong>Torneamento</strong>
+              <span>Insertos, suportes e ferramentas para torno CNC</span>
+              <span className={styles.processoArrow}><ArrowRight size={14} /></span>
             </Link>
-
-            <Link to="/produtos" className={styles.produtoCard}>
-              <div className={styles.cardVisual}>
-                <img src={featuredMws} alt="MWS Series" className="res-img-card" />
-              </div>
-              <div className={styles.produtoIcon}>
-                <Droplets size={24} strokeWidth={2} />
-              </div>
-              <strong>MWS Series</strong>
-              <p>Brocas inteiriças com refrigeração interna para maior vida útil</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoM}`} data-label={isoLabels.M}>M</span>
-              </div>
+            <Link to="/solucoes/fresamento" className={styles.processoCardHome}>
+              <div className={styles.processoIconHome}>{processoIcons.Box}</div>
+              <strong>Fresamento</strong>
+              <span>Fresas, insertos e porta-ferramentas para centros de usinagem</span>
+              <span className={styles.processoArrow}><ArrowRight size={14} /></span>
             </Link>
-
-            <Link to="/produtos" className={styles.produtoCard}>
-              <div className={styles.cardVisual}>
-                <img src={featuredWstar} alt="WSTAR Long" className="res-img-card" />
-              </div>
-              <div className={styles.produtoIcon}>
-                <Layers size={24} strokeWidth={2} />
-              </div>
-              <strong>WSTAR Long</strong>
-              <p>Sistemas otimizados para furação profunda e extrema precisão</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoH}`} data-label={isoLabels.H}>H</span>
-              </div>
-            </Link>
-
-
-            <Link to="/produtos" className={styles.produtoCard}>
-              <div className={styles.cardVisual}>
-                <img src={featuredMilling} alt="High Feed Milling" className="res-img-card" />
-              </div>
-              <div className={styles.produtoIcon}>
-                <Hexagon size={24} strokeWidth={2} />
-              </div>
-              <strong>Fresamento XP</strong>
-              <p>Insertos multiarestas para desbaste em alto avanço</p>
-              <div className={styles.isoBadgeRow}>
-                <span className={`${styles.isoBadge} ${styles.isoP}`} data-label={isoLabels.P}>P</span>
-                <span className={`${styles.isoBadge} ${styles.isoS}`} data-label={isoLabels.S}>S</span>
-              </div>
+            <Link to="/solucoes/furacao" className={styles.processoCardHome}>
+              <div className={styles.processoIconHome}>{processoIcons.Circle}</div>
+              <strong>Furação</strong>
+              <span>Brocas inteiriças e com insertos para furação de alta performance</span>
+              <span className={styles.processoArrow}><ArrowRight size={14} /></span>
             </Link>
           </div>
         </div>
 
-
-        {/* Two-column: Vídeo + Atualizações Técnicas */}
-        <div className={styles.twoColumnRow}>
-          {/* Vídeo */}
-          <div className={styles.columnLeft}>
-            <div className={styles.sectionBox}>
-              <h3 className={styles.sectionTitle}>
-                Demonstração Técnica
-                <img src={logoMit} className={styles.videoLogo} alt="Mitsubishi" />
-              </h3>
-              <div className={styles.videoWrapper}>
-                <div className={styles.mockVideo}>
-                   <Play size={48} fill="currentColor" className={styles.playIcon} />
-                   <p>Apresentação Sistema DIAEDGE</p>
-                </div>
-              </div>
-            </div>
+        {/* ═══════════════════════════════════════════════
+            SEÇÃO 4 — CTA de Contato
+            ═══════════════════════════════════════════════ */}
+        <div className={styles.ctaSection}>
+          <h2 className={styles.ctaTitle}>Precisa de ferramentas para usinagem?</h2>
+          <p className={styles.ctaDesc}>
+            A equipe da RECOM está pronta para ajudar na seleção de fornecedores e ferramentas ideais para sua operação.
+          </p>
+          <div className={styles.ctaActions}>
+            <Link to="/contato" className={styles.primaryBtn} onClick={() => trackLeadGen('form_intent', 'Home Footer CTA')}>
+              Solicitar Orçamento
+            </Link>
+            <a href={contato.whatsapp.href} target="_blank" rel="noopener noreferrer" className={styles.whatsappLink} onClick={() => trackLeadGen('whatsapp', 'Home Footer CTA')}>
+              <Phone size={16} />
+              {contato.telefone.display}
+            </a>
           </div>
-
-          {/* Novidades */}
-          <div className={styles.columnRight}>
-            <div className={styles.sectionBox}>
-              <h3 className={styles.sectionTitle}>Atualizações Técnicas</h3>
-              <ul className={styles.newsList}>
-                <li>
-                  <h4>Nova Geração de Classes CVD - MC6100</h4>
-                  <p className={styles.newsDesc}>Maior resistência ao desgaste em torneamento de aços ISO P.</p>
-                  <div className={styles.newsFooter}>
-                    <span className={styles.newsDate}>Tecnologia 2026</span>
-                    <ArrowRight size={14} />
-                  </div>
-                </li>
-                <li>
-                  <h4>Catálogo Digital DIAEDGE</h4>
-                  <p className={styles.newsDesc}>Acesse a versão atualizada com a nova linha completa de fresamento.</p>
-                  <div className={styles.newsFooter}>
-                    <span className={styles.newsDate}>Lançamento Recente</span>
-                    <ArrowRight size={14} />
-                  </div>
-                </li>
-                <li>
-                  <h4>Soluções de Furação MV</h4>
-                  <p className={styles.newsDesc}>Geometrias inovadoras que superam os limites do aço inoxidável.</p>
-                  <div className={styles.newsFooter}>
-                    <span className={styles.newsDate}>Em Destaque</span>
-                    <ArrowRight size={14} />
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-
         </div>
       </div>
     </Layout>
