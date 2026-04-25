@@ -1,0 +1,10 @@
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+@import './sections.css';
+@import './utilities.css';
+@import './states.css';
+@import './motion.css';
+
+/* Central hook layer for future RECOM styling.
+   This file is intentionally non-visual in this pass. */

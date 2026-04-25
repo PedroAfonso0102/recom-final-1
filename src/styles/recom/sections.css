@@ -1,0 +1,14 @@
+/* Future section hook targets.
+   Keep this layer non-visual until the design system lands. */
+
+[data-recom-section] {
+  /* Future section-level styling hook. */
+}
+
+[data-recom-section="global-header"] {
+  /* Future global header hook. */
+}
+
+[data-recom-section="global-footer"] {
+  /* Future global footer hook. */
+}

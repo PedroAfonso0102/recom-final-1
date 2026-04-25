@@ -1,0 +1,78 @@
+/* Future component hook targets.
+   These selectors are intentionally no-op for the current pass. */
+
+[data-recom-component="button"] {
+  /* Future button styling hook. */
+}
+
+[data-recom-component="text-link"] {
+  /* Future text link styling hook. */
+}
+
+[data-recom-component="external-link"] {
+  /* Future external link styling hook. */
+}
+
+[data-recom-component="site-header"] {
+  /* Future site header styling hook. */
+}
+
+[data-recom-component="nav-menu"] {
+  /* Future navigation menu styling hook. */
+}
+
+[data-recom-component="mobile-menu"] {
+  /* Future mobile menu styling hook. */
+}
+
+[data-recom-component="site-footer"] {
+  /* Future site footer styling hook. */
+}
+
+[data-recom-component="card"] {
+  /* Future generic card styling hook. */
+}
+
+[data-recom-component="supplier-card"] {
+  /* Future supplier card styling hook. */
+}
+
+[data-recom-component="process-card"] {
+  /* Future process card styling hook. */
+}
+
+[data-recom-component="promotion-card"] {
+  /* Future promotion card styling hook. */
+}
+
+[data-recom-component="contact-form"] {
+  /* Future contact form styling hook. */
+}
+
+[data-recom-component="form-field"] {
+  /* Future form field styling hook. */
+}
+
+[data-recom-component="empty-state"] {
+  /* Future empty state styling hook. */
+}
+
+[data-recom-component="alert"] {
+  /* Future alert styling hook. */
+}
+
+[data-recom-component="breadcrumb"] {
+  /* Future breadcrumb styling hook. */
+}
+
+[data-recom-component="image"] {
+  /* Future image styling hook. */
+}
+
+[data-recom-component="logo"] {
+  /* Future logo styling hook. */
+}
+
+[data-recom-component="cta-section"] {
+  /* Future CTA section styling hook. */
+}

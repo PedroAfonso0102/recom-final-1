@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead';
 import { mensagensGlobais } from '../data/contato';
 import { getFornecedorBySlug, fornecedores, getCatalogosDoFornecedor, getFornecedorCatalogoPrincipal, hasCatalogoValido } from '../data/fornecedores';
 import { processos } from '../data/processos';
+import { recomStyleHooks } from '../styles/recom/styleRegistry';
 
 const FornecedorPage = () => {
   const { slug } = useParams();
@@ -30,54 +31,116 @@ const FornecedorPage = () => {
         canonical={`/fornecedores-catalogos/${fornecedor.slug}`}
       />
 
-      <main>
-        <section>
-          <p>Fornecedor | Catálogos oficiais | Orientação comercial</p>
-          <h1>{fornecedor.nome}</h1>
-          <p>{fornecedor.descricaoCurta}</p>
-          <p>
+      <main
+        id="main-content"
+        tabIndex={-1}
+        data-recom-page={recomStyleHooks.pages.supplierDetail}
+      >
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.hero}
+          data-recom-state={
+            catalogoDisponivel
+              ? recomStyleHooks.states.catalogAvailable
+              : recomStyleHooks.states.catalogUnavailable
+          }
+        >
+          <p data-recom-element={recomStyleHooks.elements.subtitle}>
+            Fornecedor | Catálogos oficiais | Orientação comercial
+          </p>
+          <h1 data-recom-slot="title">{fornecedor.nome}</h1>
+          <p data-recom-element={recomStyleHooks.elements.body}>{fornecedor.descricaoCurta}</p>
+          <p data-recom-element={recomStyleHooks.elements.body}>
             Esta página organiza a marca no contexto comercial da RECOM. Para especificação final,
             disponibilidade, preço ou condição, fale com a equipe.
           </p>
-          <img src={fornecedor.logo} alt={fornecedor.altText || fornecedor.nome} width="200" />
-          <div className="flex">
+          <img
+            src={fornecedor.logo}
+            alt={fornecedor.altText || fornecedor.nome}
+            width="200"
+            data-recom-component={recomStyleHooks.components.image}
+            data-recom-element={recomStyleHooks.elements.cardImage}
+          />
+          <div className="flex" data-recom-component={recomStyleHooks.components.ctaSection}>
             {catalogoDisponivel ? (
-              <a href={catalogoPrincipal.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={catalogoPrincipal.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-recom-component={recomStyleHooks.components.externalLink}
+                data-recom-role={recomStyleHooks.roles.catalogLink}
+                data-recom-track={recomStyleHooks.track.supplierCatalogClick}
+              >
                 Acessar catálogo oficial da {fornecedor.nome}
               </a>
             ) : (
-              <Link to="/contato">Solicitar catálogo ou orientação sobre {fornecedor.nome}</Link>
+              <Link
+                to="/contato"
+                data-recom-component={recomStyleHooks.components.button}
+                data-recom-variant={recomStyleHooks.variants.primary}
+                data-recom-role={recomStyleHooks.roles.primaryCta}
+              >
+                Solicitar catálogo ou orientação sobre {fornecedor.nome}
+              </Link>
             )}
-            <Link to="/contato">Solicitar orientação comercial</Link>
+            <Link
+              to="/contato"
+              data-recom-component={recomStyleHooks.components.button}
+              data-recom-variant={recomStyleHooks.variants.secondary}
+              data-recom-role={recomStyleHooks.roles.secondaryCta}
+            >
+              Solicitar orientação comercial
+            </Link>
           </div>
         </section>
 
-        <div className="grid">
+        <div className="grid" data-recom-component={recomStyleHooks.components.section}>
           <div>
-            <section>
-              <h2>Resumo da marca no contexto da RECOM</h2>
-              <p>{fornecedor.descricao}</p>
+            <section
+              data-recom-component={recomStyleHooks.components.section}
+              data-recom-section={recomStyleHooks.sections.supplierOverview}
+            >
+              <h2 data-recom-slot="title">Resumo da marca no contexto da RECOM</h2>
+              <p data-recom-element={recomStyleHooks.elements.body}>{fornecedor.descricao}</p>
               {fornecedor.linkInstitucional ? (
                 <p>
                   Site institucional oficial:{' '}
-                  <a href={fornecedor.linkInstitucional} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={fornecedor.linkInstitucional}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-recom-component={recomStyleHooks.components.externalLink}
+                    data-recom-role={recomStyleHooks.roles.catalogLink}
+                  >
                     {fornecedor.linkInstitucional}
                   </a>
                 </p>
               ) : (
-                <p>{mensagensGlobais.linkExternoIndisponivel}</p>
+                <p data-recom-component={recomStyleHooks.components.emptyState} data-recom-state={recomStyleHooks.states.empty}>
+                  {mensagensGlobais.linkExternoIndisponivel}
+                </p>
               )}
             </section>
 
-            <section>
-              <h2>Catálogos oficiais</h2>
+            <section
+              data-recom-component={recomStyleHooks.components.section}
+              data-recom-section={recomStyleHooks.sections.catalogList}
+            >
+              <h2 data-recom-slot="title">Catálogos oficiais</h2>
               {catalogos.length > 0 ? (
                 <>
                   <p>Links externos abrem materiais do fabricante ou da marca em nova aba.</p>
                   <ul>
                     {catalogos.map((catalogo) => (
                       <li key={catalogo.url}>
-                        <a href={catalogo.url} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={catalogo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-recom-component={recomStyleHooks.components.externalLink}
+                          data-recom-role={recomStyleHooks.roles.catalogLink}
+                          data-recom-track={recomStyleHooks.track.supplierCatalogClick}
+                        >
                           {catalogo.label || `Catálogo oficial da ${fornecedor.nome}`}
                         </a>
                       </li>
@@ -91,47 +154,94 @@ const FornecedorPage = () => {
                   </p>
                 </>
               ) : (
-                <p>{mensagensGlobais.fornecedorSemCatalogo}</p>
+                <p data-recom-component={recomStyleHooks.components.emptyState} data-recom-state={recomStyleHooks.states.empty}>
+                  {mensagensGlobais.fornecedorSemCatalogo}
+                </p>
               )}
             </section>
 
-            <section>
-              <h2>Processos ou linhas relacionadas</h2>
+            <section
+              data-recom-component={recomStyleHooks.components.section}
+              data-recom-section={recomStyleHooks.sections.relatedItems}
+            >
+              <h2 data-recom-slot="title">Processos ou linhas relacionadas</h2>
               {processosRelacionados.length > 0 ? (
                 <ul>
                   {processosRelacionados.map((processo) => (
                     <li key={processo.id}>
-                      <Link to={`/solucoes/${processo.slug}`}>
+                      <Link
+                        to={`/solucoes/${processo.slug}`}
+                        data-recom-component={recomStyleHooks.components.textLink}
+                        data-recom-role={recomStyleHooks.roles.processCardClick}
+                        data-recom-track={recomStyleHooks.track.processCardClick}
+                      >
                         {processo.nome}: {processo.descricaoCurta}
                       </Link>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p>{mensagensGlobais.processoSemFornecedor}</p>
+                <p data-recom-component={recomStyleHooks.components.emptyState} data-recom-state={recomStyleHooks.states.empty}>
+                  {mensagensGlobais.processoSemFornecedor}
+                </p>
               )}
             </section>
           </div>
 
           <aside>
-            <section>
-              <h2>Quando falar com a RECOM</h2>
+            <section
+              data-recom-component={recomStyleHooks.components.section}
+              data-recom-section={recomStyleHooks.sections.contactStrip}
+            >
+              <h2 data-recom-slot="title">Quando falar com a RECOM</h2>
               <ul>
                 <li>Quando você tem código ou referência da marca.</li>
                 <li>Quando precisa consultar disponibilidade comercial.</li>
                 <li>Quando não encontrou a linha correta no catálogo oficial.</li>
               </ul>
-              <Link to="/contato">Falar com a RECOM sobre {fornecedor.nome}</Link>
+              <Link
+                to="/contato"
+                data-recom-component={recomStyleHooks.components.button}
+                data-recom-variant={recomStyleHooks.variants.primary}
+                data-recom-role={recomStyleHooks.roles.primaryCta}
+              >
+                Falar com a RECOM sobre {fornecedor.nome}
+              </Link>
             </section>
 
-            <section>
-              <h2>Retorno e navegação</h2>
+            <section
+              data-recom-component={recomStyleHooks.components.section}
+              data-recom-section={recomStyleHooks.sections.fallbackLinks}
+            >
+              <h2 data-recom-slot="title">Retorno e navegação</h2>
               <ul>
-                <li><Link to="/fornecedores-catalogos">Voltar para fornecedores e catálogos</Link></li>
-                <li><Link to="/solucoes">Ver soluções por processo</Link></li>
+                <li>
+                  <Link
+                    to="/fornecedores-catalogos"
+                    data-recom-component={recomStyleHooks.components.textLink}
+                    data-recom-variant={recomStyleHooks.variants.inline}
+                  >
+                    Voltar para fornecedores e catálogos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/solucoes"
+                    data-recom-component={recomStyleHooks.components.textLink}
+                    data-recom-variant={recomStyleHooks.variants.inline}
+                  >
+                    Ver soluções por processo
+                  </Link>
+                </li>
                 {outrosFornecedores.map((item) => (
                   <li key={item.id}>
-                    <Link to={`/fornecedores-catalogos/${item.slug}`}>Ver {item.nome}</Link>
+                    <Link
+                      to={`/fornecedores-catalogos/${item.slug}`}
+                      data-recom-component={recomStyleHooks.components.textLink}
+                      data-recom-variant={recomStyleHooks.variants.inline}
+                    >
+                      Ver {item.nome}
+                    </Link>
                   </li>
                 ))}
               </ul>

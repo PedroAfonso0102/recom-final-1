@@ -4,7 +4,8 @@ import Layout from '../components/Layout';
 import SEOHead from '../components/SEOHead';
 import empresaImg from '../assets/images/optimized/escritorio.jpg';
 import { contato, institucional } from '../data/contato';
-import { fornecedores } from '../data/fornecedores';
+import { fornecedores, hasCatalogoValido } from '../data/fornecedores';
+import { recomStyleHooks } from '../styles/recom/styleRegistry';
 
 const ARecom = () => {
   return (
@@ -15,31 +16,64 @@ const ARecom = () => {
         canonical="/a-recom"
       />
 
-      <main>
-        <section>
-          <p>Distribuidor de ferramentas para usinagem | Campinas-SP</p>
-          <h1>A RECOM</h1>
-          <p>
-            A RECOM atua como um elo estratégico entre a indústria e os principais fabricantes 
-            globais de ferramentas para usinagem. Com sede em Campinas-SP, oferecemos 
-            atendimento comercial especializado para orientar sua empresa na escolha das 
+      <main
+        id="main-content"
+        tabIndex={-1}
+        data-recom-page={recomStyleHooks.pages.about}
+      >
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.hero}
+        >
+          <p data-recom-element={recomStyleHooks.elements.subtitle}>
+            Distribuidor de ferramentas para usinagem | Campinas-SP
+          </p>
+          <h1 data-recom-slot="title">A RECOM</h1>
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            A RECOM atua como um elo estratégico entre a indústria e os principais fabricantes
+            globais de ferramentas para usinagem. Com sede em Campinas-SP, oferecemos
+            atendimento comercial especializado para orientar sua empresa na escolha das
             melhores soluções técnicas.
           </p>
-          <p>
-            Nosso papel é simplificar o acesso a catálogos oficiais, marcas consolidadas e 
-            processos de cotação, garantindo que sua demanda técnica receba o direcionamento 
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            Nosso papel é simplificar o acesso a catálogos oficiais, marcas consolidadas e
+            processos de cotação, garantindo que sua demanda técnica receba o direcionamento
             comercial adequado.
           </p>
-          <div className="flex">
-            <Link to="/contato">Falar com a RECOM</Link>
-            <Link to="/fornecedores-catalogos">Ver fornecedores e catálogos</Link>
+          <div className="flex" data-recom-component={recomStyleHooks.components.ctaSection}>
+            <Link
+              to="/contato"
+              data-recom-component={recomStyleHooks.components.button}
+              data-recom-variant={recomStyleHooks.variants.primary}
+              data-recom-role={recomStyleHooks.roles.primaryCta}
+              data-recom-track={recomStyleHooks.track.primaryCtaClick}
+            >
+              Falar com a RECOM
+            </Link>
+            <Link
+              to="/fornecedores-catalogos"
+              data-recom-component={recomStyleHooks.components.button}
+              data-recom-variant={recomStyleHooks.variants.secondary}
+              data-recom-role={recomStyleHooks.roles.secondaryCta}
+            >
+              Ver fornecedores e catálogos
+            </Link>
           </div>
-          <img src={empresaImg} alt="Ambiente institucional da RECOM" width="400" />
+          <img
+            src={empresaImg}
+            alt="Ambiente institucional da RECOM"
+            width="400"
+            data-recom-component={recomStyleHooks.components.image}
+            data-recom-element={recomStyleHooks.elements.cardImage}
+          />
         </section>
 
-        <section>
-          <h2>Resumo institucional</h2>
-          <p>{institucional.descricaoCurta}</p>
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.pageSummary}
+        >
+          <h2 data-recom-slot="title">Resumo institucional</h2>
+          <p data-recom-element={recomStyleHooks.elements.body}>{institucional.descricaoCurta}</p>
           <ul>
             <li>Empresa: {contato.empresa}</li>
             <li>Razão social: {contato.razaoSocial}</li>
@@ -48,24 +82,30 @@ const ARecom = () => {
           </ul>
         </section>
 
-        <section>
-          <h2>Presença e Atendimento</h2>
-          <p>
-            Fundada em 1990, a RECOM consolidou sua presença no mercado industrial através de um 
-            atendimento focado em resultados e na parceria com fornecedores de alta performance, 
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.pageBody}
+        >
+          <h2 data-recom-slot="title">Presença e Atendimento</h2>
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            Fundada em 1990, a RECOM consolidou sua presença no mercado industrial através de um
+            atendimento focado em resultados e na parceria com fornecedores de alta performance,
             como a Mitsubishi Materials.
           </p>
-          <p>
-            Operamos com uma estrutura ágil para atender solicitações de orçamento, consulta de 
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            Operamos com uma estrutura ágil para atender solicitações de orçamento, consulta de
             disponibilidade e suporte técnico na especificação de ferramentas de corte.
           </p>
         </section>
 
-        <section>
-          <h2>Como atuamos</h2>
-          <p>
-            Diferente de um e-commerce tradicional, a RECOM prioriza a orientação consultiva. 
-            Acreditamos que cada operação de usinagem possui particularidades que exigem a 
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.pageGuidance}
+        >
+          <h2 data-recom-slot="title">Como atuamos</h2>
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            Diferente de um e-commerce tradicional, a RECOM prioriza a orientação consultiva.
+            Acreditamos que cada operação de usinagem possui particularidades que exigem a
             ferramenta correta e o suporte de catálogos oficiais atualizados.
           </p>
           <ul>
@@ -75,19 +115,35 @@ const ARecom = () => {
           </ul>
         </section>
 
-        <section>
-          <h2>Foco no Cliente Industrial</h2>
-          <p>
-            Nossa plataforma organiza o acesso a links oficiais de consulta. Quando uma marca 
-            específica não possui catálogo cadastrado, nossa equipe está pronta para fornecer a 
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.supplierHub}
+        >
+          <h2 data-recom-slot="title">Foco no Cliente Industrial</h2>
+          <p data-recom-element={recomStyleHooks.elements.body}>
+            Nossa plataforma organiza o acesso a links oficiais de consulta. Quando uma marca
+            específica não possui catálogo cadastrado, nossa equipe está pronta para fornecer a
             orientação necessária via canais diretos.
           </p>
           <div className="grid">
             {fornecedores.map((fornecedor) => (
-              <article key={fornecedor.id}>
-                <h3>{fornecedor.nome}</h3>
-                <p>{fornecedor.descricaoCurta}</p>
-                <Link to={`/fornecedores-catalogos/${fornecedor.slug}`}>
+              <article
+                key={fornecedor.id}
+                data-recom-component={recomStyleHooks.components.supplierCard}
+                data-recom-state={
+                  hasCatalogoValido(fornecedor)
+                    ? recomStyleHooks.states.catalogAvailable
+                    : recomStyleHooks.states.catalogUnavailable
+                }
+              >
+                <h3 data-recom-element={recomStyleHooks.elements.cardTitle}>{fornecedor.nome}</h3>
+                <p data-recom-element={recomStyleHooks.elements.cardDescription}>{fornecedor.descricaoCurta}</p>
+                <Link
+                  to={`/fornecedores-catalogos/${fornecedor.slug}`}
+                  data-recom-component={recomStyleHooks.components.textLink}
+                  data-recom-role={recomStyleHooks.roles.supplierCardClick}
+                  data-recom-track={recomStyleHooks.track.supplierCardClick}
+                >
                   Ver fornecedor e catálogos
                 </Link>
               </article>
@@ -95,8 +151,11 @@ const ARecom = () => {
           </div>
         </section>
 
-        <section>
-          <h2>Como a RECOM ajuda o cliente</h2>
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.pageBody}
+        >
+          <h2 data-recom-slot="title">Como a RECOM ajuda o cliente</h2>
           <ul>
             <li>Identifica se a entrada mais útil é fornecedor, processo ou contato direto.</li>
             <li>Ajuda a transformar uma demanda solta em solicitação comercial compreensível.</li>
@@ -105,17 +164,34 @@ const ARecom = () => {
           </ul>
         </section>
 
-        <section>
-          <h2>Quando falar com a RECOM</h2>
+        <section
+          data-recom-component={recomStyleHooks.components.section}
+          data-recom-section={recomStyleHooks.sections.contactStrip}
+        >
+          <h2 data-recom-slot="title">Quando falar com a RECOM</h2>
           <ul>
             <li>Quando você tem código, desenho, peça, material ou aplicação.</li>
             <li>Quando não sabe qual fornecedor consultar.</li>
             <li>Quando encontrou o catálogo, mas precisa consultar disponibilidade ou condição comercial.</li>
             <li>Quando o catálogo oficial não está cadastrado no site.</li>
           </ul>
-          <div className="flex">
-            <Link to="/contato">Solicitar orçamento</Link>
-            <Link to="/solucoes">Ver soluções por processo</Link>
+          <div className="flex" data-recom-component={recomStyleHooks.components.ctaSection}>
+            <Link
+              to="/contato"
+              data-recom-component={recomStyleHooks.components.button}
+              data-recom-variant={recomStyleHooks.variants.primary}
+              data-recom-role={recomStyleHooks.roles.primaryCta}
+            >
+              Solicitar orçamento
+            </Link>
+            <Link
+              to="/solucoes"
+              data-recom-component={recomStyleHooks.components.button}
+              data-recom-variant={recomStyleHooks.variants.secondary}
+              data-recom-role={recomStyleHooks.roles.secondaryCta}
+            >
+              Ver soluções por processo
+            </Link>
           </div>
         </section>
       </main>

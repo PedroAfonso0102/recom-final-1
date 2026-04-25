@@ -16,6 +16,7 @@ import {
 } from '../utils/analytics';
 import { fornecedores } from '../data/fornecedores';
 import { processos } from '../data/processos';
+import { recomStyleHooks } from '../styles/recom/styleRegistry';
 
 const initialValues = {
   name: '',
@@ -165,44 +166,126 @@ const ContactForm = () => {
   };
 
   if (submission.status === 'success') {
-    <div role="status" style={{ border: '1px solid green', padding: '1rem' }}>
-      <h2>Solicitação Enviada</h2>
-      <p>{submission.message}</p>
-      {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
-        <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
-        <Link to={fallbackLinks.catalogHref}>Ver catálogos</Link>
+    return (
+      <div
+        data-recom-component={recomStyleHooks.components.alert}
+        data-recom-state={recomStyleHooks.states.success}
+        data-recom-element={recomStyleHooks.elements.statusMessage}
+        role="status"
+        style={{ border: '1px solid green', padding: '1rem' }}
+      >
+        <h2 data-recom-element={recomStyleHooks.elements.title}>Solicitação Enviada</h2>
+        <p data-recom-element={recomStyleHooks.elements.body}>{submission.message}</p>
+        {submission.protocol && <p>Protocolo: {submission.protocol}</p>}
+        <div className="flex" data-recom-component={recomStyleHooks.components.ctaSection}>
+          <a
+            href={fallbackLinks.phoneHref}
+            onClick={() => handleFallbackClick('phone')}
+            data-recom-component={recomStyleHooks.components.externalLink}
+            data-recom-variant={recomStyleHooks.variants.external}
+            data-recom-track={recomStyleHooks.track.contactPhoneClick}
+          >
+            Ligar agora
+          </a>
+          <a
+            href={fallbackLinks.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => handleFallbackClick('whatsapp')}
+            data-recom-component={recomStyleHooks.components.externalLink}
+            data-recom-variant={recomStyleHooks.variants.external}
+            data-recom-track={recomStyleHooks.track.whatsappClick}
+          >
+            WhatsApp
+          </a>
+          <Link
+            to={fallbackLinks.catalogHref}
+            data-recom-component={recomStyleHooks.components.textLink}
+            data-recom-variant={recomStyleHooks.variants.inline}
+          >
+            Ver catálogos
+          </Link>
+        </div>
       </div>
-    </div>
+    );
   }
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '1rem' }}>
+    <div
+      data-recom-component={recomStyleHooks.components.contactForm}
+      data-recom-state={submission.status}
+      style={{ border: '1px solid #ccc', padding: '1rem' }}
+    >
       {submission.message && (
         <div
-          role={submission.status === 'invalid' || submission.status === 'error' || submission.status === 'unavailable' ? 'alert' : 'status'}
+          role={
+            submission.status === 'invalid' || submission.status === 'error' || submission.status === 'unavailable'
+              ? 'alert'
+              : 'status'
+          }
+          data-recom-component={recomStyleHooks.components.alert}
+          data-recom-state={submission.status}
+          data-recom-element={recomStyleHooks.elements.statusMessage}
           style={{ color: submission.status === 'invalid' || submission.status === 'error' ? 'red' : 'inherit' }}
         >
           {submission.message}
           {(submission.status === 'error' || submission.status === 'unavailable') && (
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <a href={fallbackLinks.phoneHref} onClick={() => handleFallbackClick('phone')}>Ligar agora</a>
-              <a href={fallbackLinks.whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => handleFallbackClick('whatsapp')}>WhatsApp</a>
-              <a href={fallbackLinks.emailHref} onClick={() => handleFallbackClick('email')}>E-mail</a>
+            <div className="flex" data-recom-component={recomStyleHooks.components.ctaSection}>
+              <a
+                href={fallbackLinks.phoneHref}
+                onClick={() => handleFallbackClick('phone')}
+                data-recom-component={recomStyleHooks.components.externalLink}
+                data-recom-variant={recomStyleHooks.variants.external}
+                data-recom-track={recomStyleHooks.track.contactPhoneClick}
+              >
+                Ligar agora
+              </a>
+              <a
+                href={fallbackLinks.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => handleFallbackClick('whatsapp')}
+                data-recom-component={recomStyleHooks.components.externalLink}
+                data-recom-variant={recomStyleHooks.variants.external}
+                data-recom-track={recomStyleHooks.track.whatsappClick}
+              >
+                WhatsApp
+              </a>
+              <a
+                href={fallbackLinks.emailHref}
+                data-recom-component={recomStyleHooks.components.externalLink}
+                data-recom-variant={recomStyleHooks.variants.external}
+                data-recom-track={recomStyleHooks.track.contactEmailClick}
+                onClick={() => handleFallbackClick('email')}
+              >
+                E-mail
+              </a>
             </div>
           )}
         </div>
       )}
 
-      <form ref={formRef} onSubmit={handleSubmit} noValidate>
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        noValidate
+        data-recom-component={recomStyleHooks.components.contactForm}
+        data-recom-role={recomStyleHooks.roles.leadForm}
+        data-recom-state={submission.status}
+      >
         <div style={{ display: 'none' }}>
           <label htmlFor="bot_field">Não preencha</label>
           <input id="bot_field" name="bot_field" type="text" value={values.bot_field} onChange={updateValue} />
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-name">Nome *</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.name ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-name" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Nome *
+          </label>
           <input
             id="contact-name"
             name="name"
@@ -210,12 +293,23 @@ const ContactForm = () => {
             style={{ display: 'block', width: '100%', borderColor: errors.name ? 'red' : '#ccc' }}
             value={values.name}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
+          {errors.name && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.name}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-company">Empresa *</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.company ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-company" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Empresa *
+          </label>
           <input
             id="contact-company"
             name="company"
@@ -223,12 +317,23 @@ const ContactForm = () => {
             style={{ display: 'block', width: '100%', borderColor: errors.company ? 'red' : '#ccc' }}
             value={values.company}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.company && <span style={{ color: 'red' }}>{errors.company}</span>}
+          {errors.company && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.company}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-email">E-mail *</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.email ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-email" data-recom-element={recomStyleHooks.elements.formLabel}>
+            E-mail *
+          </label>
           <input
             id="contact-email"
             name="email"
@@ -236,12 +341,23 @@ const ContactForm = () => {
             style={{ display: 'block', width: '100%', borderColor: errors.email ? 'red' : '#ccc' }}
             value={values.email}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+          {errors.email && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.email}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-phone">Telefone/WhatsApp</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.phone ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-phone" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Telefone/WhatsApp
+          </label>
           <input
             id="contact-phone"
             name="phone"
@@ -250,18 +366,30 @@ const ContactForm = () => {
             value={values.phone}
             onChange={updateValue}
             placeholder="Informe se preferir retorno por telefone ou WhatsApp"
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.phone && <span style={{ color: 'red' }}>{errors.phone}</span>}
+          {errors.phone && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.phone}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-supplier">Fornecedor ou marca de interesse</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.supplier ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-supplier" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Fornecedor ou marca de interesse
+          </label>
           <select
             id="contact-supplier"
             name="supplier"
             style={{ display: 'block', width: '100%', borderColor: errors.supplier ? 'red' : '#ccc' }}
             value={values.supplier}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           >
             <option value="">Selecione se souber</option>
             {fornecedores.map((fornecedor) => (
@@ -270,17 +398,28 @@ const ContactForm = () => {
               </option>
             ))}
           </select>
-          {errors.supplier && <span style={{ color: 'red' }}>{errors.supplier}</span>}
+          {errors.supplier && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.supplier}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-process">Processo ou aplicação</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.process ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-process" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Processo ou aplicação
+          </label>
           <select
             id="contact-process"
             name="process"
             style={{ display: 'block', width: '100%', borderColor: errors.process ? 'red' : '#ccc' }}
             value={values.process}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           >
             <option value="">Selecione se souber</option>
             {processos.map((processo) => (
@@ -289,11 +428,21 @@ const ContactForm = () => {
               </option>
             ))}
           </select>
-          {errors.process && <span style={{ color: 'red' }}>{errors.process}</span>}
+          {errors.process && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.process}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-codes">Código ou item desejado</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.codes ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-codes" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Código ou item desejado
+          </label>
           <input
             id="contact-codes"
             name="codes"
@@ -302,12 +451,23 @@ const ContactForm = () => {
             value={values.codes}
             onChange={updateValue}
             placeholder="Código, família, medida, desenho ou referência"
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.codes && <span style={{ color: 'red' }}>{errors.codes}</span>}
+          {errors.codes && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.codes}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="contact-message">Mensagem *</label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.message ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label htmlFor="contact-message" data-recom-element={recomStyleHooks.elements.formLabel}>
+            Mensagem *
+          </label>
           <textarea
             id="contact-message"
             name="message"
@@ -315,29 +475,51 @@ const ContactForm = () => {
             style={{ display: 'block', width: '100%', borderColor: errors.message ? 'red' : '#ccc' }}
             value={values.message}
             onChange={updateValue}
+            data-recom-element={recomStyleHooks.elements.formInput}
           />
-          {errors.message && <span style={{ color: 'red' }}>{errors.message}</span>}
+          {errors.message && (
+            <span data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.message}
+            </span>
+          )}
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label>
+        <div
+          style={{ marginBottom: '1rem' }}
+          data-recom-component={recomStyleHooks.components.formField}
+          data-recom-state={errors.consent ? recomStyleHooks.states.error : recomStyleHooks.states.idle}
+        >
+          <label data-recom-element={recomStyleHooks.elements.formLabel}>
             <input
               name="consent"
               type="checkbox"
               checked={values.consent}
               onChange={updateValue}
+              data-recom-element={recomStyleHooks.elements.formCheckbox}
             />
             Autorizo a RECOM a retornar meu contato e tratar os dados enviados para esta solicitação.
           </label>
-          <p>
+          <p data-recom-element={recomStyleHooks.elements.formHelp}>
             <small>
               Consulte a <Link to="/politica-de-privacidade">política de privacidade</Link>.
             </small>
           </p>
-          {errors.consent && <div style={{ color: 'red' }}>{errors.consent}</div>}
+          {errors.consent && (
+            <div data-recom-element={recomStyleHooks.elements.formError} style={{ color: 'red' }}>
+              {errors.consent}
+            </div>
+          )}
         </div>
 
-        <button type="submit" disabled={submission.status === 'submitting'}>
+        <button
+          type="submit"
+          disabled={submission.status === 'submitting'}
+          data-recom-component={recomStyleHooks.components.button}
+          data-recom-variant={recomStyleHooks.variants.primary}
+          data-recom-role={recomStyleHooks.roles.formSubmit}
+          data-recom-track={recomStyleHooks.track.leadFormSubmit}
+          data-recom-state={submission.status === 'submitting' ? recomStyleHooks.states.loading : recomStyleHooks.states.idle}
+        >
           {submission.status === 'submitting' ? 'Enviando...' : 'Enviar Solicitação'}
         </button>
       </form>
@@ -346,4 +528,3 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
-

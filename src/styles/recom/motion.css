@@ -1,0 +1,6 @@
+/* Future motion hook targets.
+   No animations or transitions are introduced in this pass. */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Reserved for future motion safety overrides. */
+}
