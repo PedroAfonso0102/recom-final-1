@@ -35,7 +35,20 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
     const formData = new FormData(event.currentTarget);
     const activeDefinition = componentRegistry[componentType];
     const props = Object.fromEntries(
-      activeDefinition.fields.map((field) => [field.name, String(formData.get(field.name) ?? "")])
+      activeDefinition.fields.map((field) => {
+        const value = formData.get(field.name);
+        if (field.type === "list") {
+          try {
+            return [field.name, JSON.parse(String(value ?? "[]"))];
+          } catch {
+            return [field.name, []];
+          }
+        }
+        if (field.type === "checkbox") {
+          return [field.name, value === "on"];
+        }
+        return [field.name, String(value ?? "")];
+      })
     );
 
     const payload = {

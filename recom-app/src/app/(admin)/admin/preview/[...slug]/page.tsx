@@ -7,12 +7,13 @@ import { getAdminCmsPageBySlug } from "@/server/queries/cms-pages";
 import { HOME_CMS_SLUG } from "@/cms/utils";
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 };
 
 export default async function AdminPreviewPage({ params }: PageProps) {
-  const { slug } = await params;
-  const pageData = await getAdminCmsPageBySlug(slug === "/" ? HOME_CMS_SLUG : slug);
+  const { slug: slugArray } = await params;
+  const fullSlug = slugArray.join("/");
+  const pageData = await getAdminCmsPageBySlug(fullSlug === "home" ? HOME_CMS_SLUG : fullSlug);
 
   if (!pageData) {
     notFound();

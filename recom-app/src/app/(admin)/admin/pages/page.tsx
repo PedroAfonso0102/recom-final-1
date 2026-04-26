@@ -72,11 +72,17 @@ export default async function AdminPagesPage() {
                 <Layout className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="icon" title="Preview">
-              <Link href={`/admin/preview/${page.slug}`}>
-                <Eye className="h-4 w-4" />
-              </Link>
-            </Button>
+            {isTemplate ? (
+              <Button variant="ghost" size="icon" disabled title="Templates não podem ser visualizados diretamente">
+                <Eye className="h-4 w-4 opacity-20" />
+              </Button>
+            ) : (
+              <Button asChild variant="ghost" size="icon" title="Preview">
+                <Link href={`/admin/preview/${page.slug}`}>
+                  <Eye className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
             {!isSystem && (
               <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10">
                 <Trash2 className="h-4 w-4" />

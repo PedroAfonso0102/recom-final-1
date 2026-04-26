@@ -24,12 +24,13 @@ export type ActionResult<T = unknown> =
 export type CmsFieldDefinition = {
   name: string;
   label: string;
-  type: "text" | "textarea" | "url" | "select" | "switch";
+  type: "text" | "textarea" | "url" | "select" | "switch" | "checkbox" | "list";
   placeholder?: string;
   description?: string;
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
   rows?: number;
+  itemFields?: CmsFieldDefinition[];
 };
 
 export type EditableComponentDefinition = {

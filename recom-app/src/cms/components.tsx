@@ -6,6 +6,11 @@ import { RecomCard, RecomCardContent, RecomCardDescription, RecomCardFooter, Rec
 import type { CtaSectionProps } from "./schemas/cta-section.schema";
 import type { HeroSectionProps } from "./schemas/hero-section.schema";
 import type { TextSectionProps } from "./schemas/text-section.schema";
+import type { GridSectionProps } from "./schemas/grid-section.schema";
+import type { TrustLogosProps } from "./schemas/trust-logos.schema";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { Factory, ShieldCheck, CheckCircle2, Wrench, MapPin, Package } from "lucide-react";
+import { HeroCarousel } from "@/components/public/HeroCarousel";
 
 export function HeroSectionBlock({
   eyebrow,
@@ -16,6 +21,7 @@ export function HeroSectionBlock({
   secondaryCtaLabel,
   secondaryCtaHref,
   imageUrl,
+  showCarousel = true,
   variant,
 }: HeroSectionProps) {
   return (
@@ -27,7 +33,7 @@ export function HeroSectionBlock({
     >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,61,98,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.18),transparent_34%)]" />
       <div className="container-recom relative z-10">
-        <div className={cn("grid gap-10 lg:items-center", imageUrl && variant !== "compact" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1")}>
+        <div className={cn("grid gap-10 lg:items-center", (imageUrl || showCarousel) && variant !== "compact" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1")}>
           <div className="max-w-3xl">
             {eyebrow && (
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-white/55">
@@ -53,9 +59,15 @@ export function HeroSectionBlock({
             </div>
           </div>
 
-          {imageUrl && variant !== "compact" && (
-            <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-1 shadow-2xl backdrop-blur-sm">
-              <img src={imageUrl} alt={title} className="aspect-[4/3] w-full rounded-lg object-cover" />
+          {(imageUrl || showCarousel) && variant !== "compact" && (
+            <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-1 shadow-2xl backdrop-blur-sm h-full max-h-[500px]">
+              {showCarousel ? (
+                <div className="w-full h-full rounded-lg overflow-hidden relative">
+                  <HeroCarousel />
+                </div>
+              ) : (
+                <img src={imageUrl!} alt={title} className="aspect-[4/3] w-full rounded-lg object-cover h-full" />
+              )}
             </div>
           )}
         </div>
@@ -127,6 +139,74 @@ export function CtaSectionBlock({
               </RecomButton>
             )}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const iconMap: Record<string, any> = {
+  shield: ShieldCheck,
+  check: CheckCircle2,
+  factory: Factory,
+  wrench: Wrench,
+  pin: MapPin,
+  package: Package,
+};
+
+export function GridSectionBlock({ eyebrow, title, description, items, columns, variant }: GridSectionProps) {
+  const colClass = columns === "2" ? "md:grid-cols-2" : columns === "4" ? "md:grid-cols-4" : "md:grid-cols-3";
+  
+  return (
+    <RecomSection
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      className={cn(variant === "gray" ? "bg-recom-gray-50" : variant === "white" ? "bg-white" : "")}
+    >
+      <div className={cn("mt-10 grid grid-cols-1 gap-6", colClass)}>
+        {items.map((item, i) => {
+          const Icon = iconMap[item.icon || ""] || CheckCircle2;
+          return (
+            <div key={i} className="group flex flex-col rounded-xl border border-recom-border bg-white p-8 transition-all hover:border-recom-blue/20 hover:shadow-recom-card">
+              {item.icon && (
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-md border border-recom-border/50 bg-recom-gray-50 text-recom-blue transition-all duration-500 group-hover:bg-recom-blue group-hover:text-white">
+                  <Icon className="h-6 w-6" />
+                </div>
+              )}
+              <h3 className="mb-3">{item.title}</h3>
+              <p className="mb-8 flex-grow text-[15px] leading-relaxed text-muted-foreground">
+                {item.description}
+              </p>
+              {item.linkHref && item.linkLabel && (
+                <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
+                  <Link href={item.linkHref}>
+                    {item.linkLabel}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </RecomButton>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </RecomSection>
+  );
+}
+
+export function TrustLogosBlock({ title, grayscale }: TrustLogosProps) {
+  // In a real scenario, this would fetch from a service or context
+  // For now we'll show a placeholder or handle it via a client component if dynamic
+  return (
+    <section className="border-b border-recom-gray-100 bg-white py-12">
+      <div className="container-recom">
+        {title && (
+          <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.4em] text-recom-graphite/30">
+            {title}
+          </p>
+        )}
+        <div className={cn("flex flex-wrap items-center justify-center gap-12 transition-all duration-700 md:gap-20", grayscale && "opacity-45 grayscale hover:opacity-100 hover:grayscale-0")}>
+           <p className="text-sm text-muted-foreground italic">Seção de logotipos (dinâmica via CMS)</p>
         </div>
       </div>
     </section>

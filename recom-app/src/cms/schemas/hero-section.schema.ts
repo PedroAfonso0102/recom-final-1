@@ -9,6 +9,7 @@ export const heroSectionSchema = z.object({
   secondaryCtaLabel: z.string().trim().optional().nullable(),
   secondaryCtaHref: z.string().trim().optional().nullable(),
   imageUrl: z.string().trim().optional().nullable(),
+  showCarousel: z.boolean().optional().default(true),
   variant: z.enum(["default", "split", "compact"]).default("default"),
 });
 
