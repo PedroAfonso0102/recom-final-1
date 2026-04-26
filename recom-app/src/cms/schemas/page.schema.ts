@@ -2,10 +2,16 @@ import { z } from "zod";
 import { normalizeCmsSlug } from "../utils";
 
 export const cmsPageStatusSchema = z.enum(["draft", "published", "archived"]);
+export const cmsPageTypeSchema = z.enum(["static", "dynamic_template", "landing"]);
 
 export const cmsPageFormSchema = z.object({
   title: z.string().trim().min(2, "Informe um título."),
   slug: z.string().trim().min(1, "Informe um slug.").transform(normalizeCmsSlug),
+  routePattern: z.string().trim().optional().nullable(),
+  pageType: cmsPageTypeSchema.default("static"),
+  templateKey: z.string().trim().optional().nullable(),
+  isSystem: z.boolean().default(false),
+  isDynamicTemplate: z.boolean().default(false),
   description: z.string().trim().optional().nullable(),
   seoTitle: z.string().trim().optional().nullable(),
   seoDescription: z.string().trim().optional().nullable(),

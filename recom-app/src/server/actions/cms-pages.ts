@@ -81,6 +81,11 @@ export async function createPage(input: unknown): Promise<ActionResult<CmsPageRo
   const payload = {
     title: parsed.data.title,
     slug: parsed.data.slug,
+    route_pattern: optionalText(parsed.data.routePattern) || parsed.data.slug,
+    page_type: parsed.data.pageType,
+    template_key: optionalText(parsed.data.templateKey),
+    is_system: parsed.data.isSystem,
+    is_dynamic_template: parsed.data.isDynamicTemplate,
     description: optionalText(parsed.data.description),
     status: parsed.data.status,
     seo_title: optionalText(parsed.data.seoTitle),
@@ -112,6 +117,11 @@ export async function updatePage(input: unknown): Promise<ActionResult<CmsPageRo
   const payload = {
     title: parsed.data.title,
     slug: parsed.data.slug,
+    route_pattern: optionalText(parsed.data.routePattern) || parsed.data.slug,
+    page_type: parsed.data.pageType,
+    template_key: optionalText(parsed.data.templateKey),
+    is_system: parsed.data.isSystem,
+    is_dynamic_template: parsed.data.isDynamicTemplate,
     description: optionalText(parsed.data.description),
     status: parsed.data.status,
     seo_title: optionalText(parsed.data.seoTitle),

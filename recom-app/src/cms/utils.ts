@@ -11,7 +11,7 @@ export function normalizeCmsSlug(value: string) {
     .replace(/^\/+/, "")
     .replace(/\/+$/, "")
     .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9/_-]/g, "");
+    .replace(/[^a-z0-9/\[\]_-]/g, "");
 }
 
 export function isBlank(value: string | null | undefined) {
