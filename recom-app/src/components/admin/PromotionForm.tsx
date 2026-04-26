@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
 import { createPromotion, updatePromotion } from '@/server/actions/promotions';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
+import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
 
 import {
   Form,
@@ -37,7 +37,7 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
   const isEditing = !!initialData?.id;
 
   const form = useForm<Promotion>({
-    resolver: zodResolver(PromotionSchema),
+    resolver: safeZodResolver(PromotionSchema),
     defaultValues: {
       title: initialData?.title || '',
       slug: initialData?.slug || '',
@@ -259,4 +259,3 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
     </Form>
   );
 }
-

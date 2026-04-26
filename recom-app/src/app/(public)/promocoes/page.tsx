@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Tag } from "lucide-react";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
-import { CTASection } from "@/design-system/components/cta-section";
 import { EmptyState } from "@/design-system/components/empty-state";
 import { PromotionCard } from "@/design-system/components/promotion-card";
 import { RecomButton } from "@/design-system/components/recom-button";

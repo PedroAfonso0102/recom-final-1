@@ -8,7 +8,13 @@ import { cn } from "@/lib/utils";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { siteConfig } from "@/lib/config";
 
-const NAV_ITEMS = [
+type NavItem = {
+  label: string;
+  href: string;
+  matchPath?: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
   { label: "Início", href: "/" },
   { label: "A RECOM", href: "/sobre", matchPath: "/sobre" },
   { label: "Fornecedores & Catálogos", href: "/fornecedores", matchPath: "/fornecedores" },

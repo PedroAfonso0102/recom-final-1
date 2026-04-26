@@ -4,10 +4,10 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Loader2, Mail, MessageCircle, Phone } from "lucide-react";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { submitContactForm } from "@/lib/actions/lead-actions";
+import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
 import { siteConfig } from "@/lib/config";
 
 const contactFormSchema = z.object({
@@ -68,8 +68,12 @@ export function ContactForm() {
     reset,
     formState: { errors },
   } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    mode: "onBlur",
+    resolver: safeZodResolver(contactFormSchema),
+    mode: "onSubmit",
+    reValidateMode: "onBlur",
+    criteriaMode: "firstError",
+    shouldFocusError: true,
+    shouldUnregister: false,
     defaultValues: {
       name: "",
       company: "",

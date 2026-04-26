@@ -1,9 +1,10 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
+import { revalidatePromotionCatalog } from '@/lib/revalidation/catalog';
+import { mapPromotionToInsert, mapPromotionToUpdate } from '@/lib/database/mappings';
 
 export type ActionState = {
   success: boolean;
@@ -11,77 +12,59 @@ export type ActionState = {
 };
 
 export async function createPromotion(data: Promotion): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { title, slug, description, status, imageUrl, startsAt, endsAt,
-    ctaLabel, ctaUrl, supplierId } = parsed.data;
+  const payload = mapPromotionToInsert(parsed.data);
 
-  const { error } = await supabase.from('promotions').insert({
-    title,
-    slug,
-    description,
-    status,
-    image_url: imageUrl || null,
-    starts_at: startsAt,
-    ends_at: endsAt,
-    cta_label: ctaLabel || null,
-    cta_url: ctaUrl || null,
-    supplier_id: supplierId || null,
-  });
+  const { error } = await supabase.from('promotions').insert(payload);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/promocoes');
+  revalidatePromotionCatalog(payload.slug);
   redirect('/admin/promocoes');
 }
 
 export async function updatePromotion(id: string, data: Promotion): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { title, slug, description, status, imageUrl, startsAt, endsAt,
-    ctaLabel, ctaUrl, supplierId } = parsed.data;
+  const payload = mapPromotionToUpdate(parsed.data);
 
-  const { error } = await supabase.from('promotions').update({
-    title,
-    slug,
-    description,
-    status,
-    image_url: imageUrl || null,
-    starts_at: startsAt,
-    ends_at: endsAt,
-    cta_label: ctaLabel || null,
-    cta_url: ctaUrl || null,
-    supplier_id: supplierId || null,
-  }).eq('id', id);
+  const { error } = await supabase.from('promotions').update(payload).eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/promocoes');
+  revalidatePromotionCatalog(payload.slug ?? '');
   redirect('/admin/promocoes');
 }
 
 export async function deletePromotion(id: string): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
+  const { data: current, error: fetchError } = await supabase.from('promotions').select('slug').eq('id', id).maybeSingle();
+
+  if (fetchError) {
+    return { success: false, error: fetchError.message };
+  }
+
   const { error } = await supabase.from('promotions').delete().eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/promocoes');
+  revalidatePromotionCatalog(current?.slug ?? undefined);
   return { success: true };
 }

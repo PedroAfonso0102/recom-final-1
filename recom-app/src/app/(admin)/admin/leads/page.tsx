@@ -7,12 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { createClient } from '@/lib/supabase/server';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { unstable_noStore as noStore } from 'next/cache';
 
 async function getLeads() {
-  const supabase = await createClient();
+  noStore();
+
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from('leads')
     .select('*')
@@ -20,10 +23,10 @@ async function getLeads() {
 
   if (error) {
     console.error('Error fetching leads:', error);
-    return [];
+    return { leads: [], error: error.message };
   }
 
-  return data;
+  return { leads: data ?? [], error: '' };
 }
 
 const statusMap: Record<string, { label: string; className: string }> = {
@@ -34,7 +37,7 @@ const statusMap: Record<string, { label: string; className: string }> = {
 };
 
 export default async function AdminLeadsPage() {
-  const leads = await getLeads();
+  const { leads, error } = await getLeads();
 
   return (
     <div className="flex flex-col gap-10">
@@ -61,6 +64,12 @@ export default async function AdminLeadsPage() {
           </div>
         )}
       </div>
+
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          Não foi possível carregar os leads agora. {error}
+        </div>
+      )}
 
       <RecomCard className="overflow-hidden border-border">
         <Table>
@@ -144,4 +153,3 @@ export default async function AdminLeadsPage() {
     </div>
   );
 }
-

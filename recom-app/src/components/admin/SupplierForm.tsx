@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
 import { createSupplier, updateSupplier } from '@/server/actions/suppliers';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
+import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
 
 import {
   Form,
@@ -32,7 +32,7 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
   const isEditing = !!initialData?.id;
 
   const form = useForm<Supplier>({
-    resolver: zodResolver(SupplierSchema),
+    resolver: safeZodResolver(SupplierSchema),
     defaultValues: {
       name: initialData?.name || '',
       slug: initialData?.slug || '',
@@ -264,4 +264,3 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
     </Form>
   );
 }
-

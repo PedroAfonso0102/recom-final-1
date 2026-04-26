@@ -14,7 +14,7 @@ import {
 import { getSuppliers } from '@/lib/services/supabase-data';
 
 export default async function AdminSuppliersPage() {
-  const suppliers = await getSuppliers();
+  const suppliers = await getSuppliers({ allowFallback: false });
 
   return (
     <div className="flex flex-col gap-10">
@@ -96,4 +96,3 @@ export default async function AdminSuppliersPage() {
     </div>
   );
 }
-

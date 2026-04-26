@@ -1,30 +1,27 @@
-import { createClient } from '../supabase/server';
+import { createAdminClient } from "../supabase/admin";
 import { Lead, LeadSchema } from '../../design-system/schemas/lead.schema';
+import { mapLeadToInsert } from "../database/mappings";
 
 export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'>): Promise<{ success: boolean; error?: string }> {
   try {
-    // Validate data
-    const validatedData = LeadSchema.parse({
+    const parsed = LeadSchema.safeParse({
       ...leadData,
       status: 'new'
     });
 
-    const supabase = await createClient();
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: parsed.error.issues[0]?.message || 'Dados inválidos.',
+      };
+    }
+
+    const supabase = createAdminClient();
+    const payload = mapLeadToInsert(parsed.data);
     
     const { error } = await supabase
       .from('leads')
-      .insert({
-        name: validatedData.name,
-        company: validatedData.company,
-        email: validatedData.email,
-        phone: validatedData.phone,
-        supplier_interest: validatedData.supplierInterest,
-        process_interest: validatedData.processInterest,
-        item_code: validatedData.itemCode,
-        message: validatedData.message,
-        source_page: validatedData.sourcePage,
-        status: validatedData.status
-      });
+      .insert(payload);
 
     if (error) {
       console.error('Error inserting lead:', error);

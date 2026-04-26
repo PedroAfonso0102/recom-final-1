@@ -1,9 +1,10 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
+import { revalidateProcessCatalog } from '@/lib/revalidation/catalog';
+import { mapProcessToInsert, mapProcessToUpdate } from '@/lib/database/mappings';
 
 export type ActionState = {
   success: boolean;
@@ -11,75 +12,59 @@ export type ActionState = {
 };
 
 export async function createProcess(data: Process): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { name, slug, shortDescription, longDescription, status, sortOrder,
-    imageUrl, seoTitle, seoDescription } = parsed.data;
+  const payload = mapProcessToInsert(parsed.data);
 
-  const { error } = await supabase.from('processes').insert({
-    name,
-    slug,
-    short_description: shortDescription,
-    long_description: longDescription,
-    status,
-    sort_order: sortOrder,
-    image_url: imageUrl || null,
-    seo_title: seoTitle || null,
-    seo_description: seoDescription || null,
-  });
+  const { error } = await supabase.from('processes').insert(payload);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/processos');
+  revalidateProcessCatalog(payload.slug);
   redirect('/admin/processos');
 }
 
 export async function updateProcess(id: string, data: Process): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { name, slug, shortDescription, longDescription, status, sortOrder,
-    imageUrl, seoTitle, seoDescription } = parsed.data;
+  const payload = mapProcessToUpdate(parsed.data);
 
-  const { error } = await supabase.from('processes').update({
-    name,
-    slug,
-    short_description: shortDescription,
-    long_description: longDescription,
-    status,
-    sort_order: sortOrder,
-    image_url: imageUrl || null,
-    seo_title: seoTitle || null,
-    seo_description: seoDescription || null,
-  }).eq('id', id);
+  const { error } = await supabase.from('processes').update(payload).eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/processos');
+  revalidateProcessCatalog(payload.slug ?? '');
   redirect('/admin/processos');
 }
 
 export async function deleteProcess(id: string): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
+  const { data: current, error: fetchError } = await supabase.from('processes').select('slug').eq('id', id).maybeSingle();
+
+  if (fetchError) {
+    return { success: false, error: fetchError.message };
+  }
+
   const { error } = await supabase.from('processes').delete().eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/processos');
+  revalidateProcessCatalog(current?.slug ?? undefined);
   return { success: true };
 }

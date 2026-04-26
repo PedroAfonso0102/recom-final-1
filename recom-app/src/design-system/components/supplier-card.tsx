@@ -19,7 +19,6 @@ interface SupplierCardProps {
   processes?: string[];
   internalLink: string;
   externalCatalogLink?: string;
-  eCatalogLink?: string;
   catalogAvailable?: boolean;
   className?: string;
 }
@@ -31,7 +30,6 @@ export function SupplierCard({
   processes = [],
   internalLink,
   externalCatalogLink,
-  eCatalogLink,
   catalogAvailable = true,
   className,
 }: SupplierCardProps) {
@@ -115,15 +113,6 @@ export function SupplierCard({
             className="h-11 w-full justify-center"
           >
             Catálogo sob consulta
-          </RecomButton>
-        )}
-
-        {eCatalogLink && (
-          <RecomButton asChild intent="link" className="h-auto w-full justify-center px-0 py-1 text-[10px]">
-            <a href={eCatalogLink} target="_blank" rel="noopener noreferrer">
-              Catálogo eletrônico
-              <ExternalLink className="ml-2 h-3.5 w-3.5" />
-            </a>
           </RecomButton>
         )}
       </RecomCardFooter>

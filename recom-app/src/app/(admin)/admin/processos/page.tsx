@@ -13,7 +13,7 @@ import {
 import { getProcesses } from '@/lib/services/supabase-data';
 
 export default async function AdminProcessesPage() {
-  const processes = await getProcesses();
+  const processes = await getProcesses({ allowFallback: false });
 
   return (
     <div className="flex flex-col gap-6">

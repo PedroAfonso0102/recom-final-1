@@ -1,9 +1,10 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
+import { revalidateSupplierCatalog } from '@/lib/revalidation/catalog';
+import { mapSupplierToInsert, mapSupplierToUpdate } from '@/lib/database/mappings';
 
 export type ActionState = {
   success: boolean;
@@ -11,81 +12,59 @@ export type ActionState = {
 };
 
 export async function createSupplier(data: Supplier): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { name, slug, shortDescription, longDescription, status, sortOrder,
-    logoUrl, catalogUrl, eCatalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
+  const payload = mapSupplierToInsert(parsed.data);
 
-  const { error } = await supabase.from('suppliers').insert({
-    name,
-    slug,
-    short_description: shortDescription,
-    long_description: longDescription,
-    status,
-    sort_order: sortOrder,
-    logo_url: logoUrl || null,
-    catalog_url: catalogUrl || null,
-    e_catalog_url: eCatalogUrl || null,
-    seo_title: seoTitle || null,
-    seo_description: seoDescription || null,
-    related_processes: relatedProcesses || [],
-  });
+  const { error } = await supabase.from('suppliers').insert(payload);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/fornecedores');
+  revalidateSupplierCatalog(payload.slug);
   redirect('/admin/fornecedores');
 }
 
 export async function updateSupplier(id: string, data: Supplier): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0]?.message };
   }
 
-  const { name, slug, shortDescription, longDescription, status, sortOrder,
-    logoUrl, catalogUrl, eCatalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
+  const payload = mapSupplierToUpdate(parsed.data);
 
-  const { error } = await supabase.from('suppliers').update({
-    name,
-    slug,
-    short_description: shortDescription,
-    long_description: longDescription,
-    status,
-    sort_order: sortOrder,
-    logo_url: logoUrl || null,
-    catalog_url: catalogUrl || null,
-    e_catalog_url: eCatalogUrl || null,
-    seo_title: seoTitle || null,
-    seo_description: seoDescription || null,
-    related_processes: relatedProcesses || [],
-  }).eq('id', id);
+  const { error } = await supabase.from('suppliers').update(payload).eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/fornecedores');
+  revalidateSupplierCatalog(payload.slug ?? '');
   redirect('/admin/fornecedores');
 }
 
 export async function deleteSupplier(id: string): Promise<ActionState> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
+  const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug').eq('id', id).maybeSingle();
+
+  if (fetchError) {
+    return { success: false, error: fetchError.message };
+  }
+
   const { error } = await supabase.from('suppliers').delete().eq('id', id);
 
   if (error) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin/fornecedores');
+  revalidateSupplierCatalog(current?.slug ?? undefined);
   return { success: true };
 }

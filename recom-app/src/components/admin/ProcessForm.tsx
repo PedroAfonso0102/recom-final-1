@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
 import { createProcess, updateProcess } from '@/server/actions/processes';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
+import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
 
 import {
   Form,
@@ -32,7 +32,7 @@ export function ProcessForm({ initialData }: ProcessFormProps) {
   const isEditing = !!initialData?.id;
 
   const form = useForm<Process>({
-    resolver: zodResolver(ProcessSchema),
+    resolver: safeZodResolver(ProcessSchema),
     defaultValues: {
       name: initialData?.name || '',
       slug: initialData?.slug || '',
@@ -239,4 +239,3 @@ export function ProcessForm({ initialData }: ProcessFormProps) {
     </Form>
   );
 }
-

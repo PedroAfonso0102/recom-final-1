@@ -13,7 +13,7 @@ import {
 import { getPromotions } from '@/lib/services/supabase-data';
 
 export default async function AdminPromotionsPage() {
-  const promotions = await getPromotions();
+  const promotions = await getPromotions({ allowFallback: false });
 
   return (
     <div className="flex flex-col gap-6">

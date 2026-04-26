@@ -1,8 +1,18 @@
 import { createClient } from "../supabase/server";
 import { createStaticClient } from "../supabase/static";
+import { createAdminClient } from "../supabase/admin";
+import { unstable_noStore as noStore } from "next/cache";
 import { Supplier, SupplierSchema } from "../../design-system/schemas/supplier.schema";
 import { Process, ProcessSchema } from "../../design-system/schemas/process.schema";
 import { Promotion, PromotionSchema } from "../../design-system/schemas/promotion.schema";
+
+type DataOptions = {
+  allowFallback?: boolean;
+};
+
+function getDataClient(allowFallback: boolean): any {
+  return allowFallback ? createClient() : createAdminClient();
+}
 
 const FALLBACK_SUPPLIERS: Supplier[] = [
   {
@@ -11,7 +21,6 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
     slug: "mitsubishi",
     logoUrl: "/assets/images/mitsubishi-logo.png",
     catalogUrl: "https://www.mmc-carbide.com/br/download/catalog-1",
-    eCatalogUrl: "https://www.mitsubishicarbide.net/mht/pt/",
     shortDescription: "Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.",
     longDescription:
       "A Mitsubishi Materials é reconhecida mundialmente pela inovação em materiais e revestimentos. Sua linha completa abrange torneamento, fresamento e furação com tecnologia de ponta para máxima produtividade industrial.",
@@ -27,7 +36,6 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
     slug: "7leaders",
     logoUrl: "/assets/images/logo-7leaders.svg",
     catalogUrl: "https://www.7leaders.com/e-catalog",
-    eCatalogUrl: "https://www.7leaders.com/e-catalog",
     shortDescription: "Especialista em fresas de metal duro de alto desempenho e ferramentas rotativas.",
     longDescription:
       "A 7Leaders foca em ferramentas rotativas premium, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento superior.",
@@ -156,153 +164,192 @@ const FALLBACK_PROMOTIONS: Promotion[] = [
   },
 ];
 
-export async function getSuppliers(): Promise<Supplier[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("suppliers").select("*").eq("status", "active").order("sort_order", { ascending: true });
-
-  if (error || !data || data.length === 0) {
-    return FALLBACK_SUPPLIERS;
+export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[]> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
   }
 
-  return data.map((item) => {
-    const baseSupplier = SupplierSchema.parse({
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("suppliers").select("*").order("sort_order", { ascending: true });
+  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+
+  if (error || !data || data.length === 0) {
+    return allowFallback ? FALLBACK_SUPPLIERS : [];
+  }
+
+  return data.map((item: any) => {
+    return SupplierSchema.parse({
       ...item,
-      logoUrl: item.logo_url,
-      catalogUrl: item.catalog_url,
-      eCatalogUrl: item.e_catalog_url,
+      logoUrl: item.logo_url ?? undefined,
+      catalogUrl: item.catalog_url ?? undefined,
+      eCatalogUrl: item.e_catalog_url ?? undefined,
+      catalogs: item.catalogs ?? [],
+      settings: item.settings ? {
+        showMenu: item.settings.show_menu,
+        showPromotions: item.settings.show_promotions,
+        showProcesses: item.settings.show_processes,
+        featured: item.settings.featured,
+      } : undefined,
       shortDescription: item.short_description,
       longDescription: item.long_description,
-      relatedProcesses: item.related_processes,
-      sortOrder: item.sort_order,
-      seoTitle: item.seo_title,
-      seoDescription: item.seo_description,
-      createdAt: item.created_at,
-      updatedAt: item.updated_at,
+      relatedProcesses: item.related_processes ?? [],
+      sortOrder: item.sort_order ?? 0,
+      seoTitle: item.seo_title ?? undefined,
+      seoDescription: item.seo_description ?? undefined,
+      createdAt: item.created_at ?? undefined,
+      updatedAt: item.updated_at ?? undefined,
     });
-
-    const official = FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === baseSupplier.slug);
-    if (official) {
-      return {
-        ...baseSupplier,
-        logoUrl: official.logoUrl,
-        catalogUrl: official.catalogUrl,
-        eCatalogUrl: official.eCatalogUrl,
-        shortDescription: baseSupplier.shortDescription || official.shortDescription,
-        longDescription: baseSupplier.longDescription || official.longDescription,
-      };
-    }
-
-    return baseSupplier;
   });
 }
 
-export async function getSupplierBySlug(slug: string): Promise<Supplier | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("suppliers").select("*").eq("slug", slug).single();
+export async function getSupplierBySlug(slug: string, options: DataOptions = {}): Promise<Supplier | null> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
+  }
+
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("suppliers").select("*").eq("slug", slug);
+  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
 
   if (error || !data) {
-    return FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null;
+    return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
   }
 
-  const baseSupplier = SupplierSchema.parse({
+  return SupplierSchema.parse({
     ...data,
-    logoUrl: data.logo_url,
-    catalogUrl: data.catalog_url,
-    eCatalogUrl: data.e_catalog_url,
+    logoUrl: data.logo_url ?? undefined,
+    catalogUrl: data.catalog_url ?? undefined,
+    eCatalogUrl: data.e_catalog_url ?? undefined,
+    catalogs: data.catalogs ?? [],
+    settings: data.settings ? {
+      showMenu: data.settings.show_menu,
+      showPromotions: data.settings.show_promotions,
+      showProcesses: data.settings.show_processes,
+      featured: data.settings.featured,
+    } : undefined,
     shortDescription: data.short_description,
     longDescription: data.long_description,
-    relatedProcesses: data.related_processes,
-    sortOrder: data.sort_order,
-    seoTitle: data.seo_title,
-    seoDescription: data.seo_description,
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
+    relatedProcesses: data.related_processes ?? [],
+    sortOrder: data.sort_order ?? 0,
+    seoTitle: data.seo_title ?? undefined,
+    seoDescription: data.seo_description ?? undefined,
+    createdAt: data.created_at ?? undefined,
+    updatedAt: data.updated_at ?? undefined,
   });
-
-  const official = FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === baseSupplier.slug);
-  if (official) {
-    return {
-      ...baseSupplier,
-      logoUrl: official.logoUrl,
-      catalogUrl: official.catalogUrl,
-      eCatalogUrl: official.eCatalogUrl,
-      shortDescription: baseSupplier.shortDescription || official.shortDescription,
-      longDescription: baseSupplier.longDescription || official.longDescription,
-    };
-  }
-
-  return baseSupplier;
 }
 
-export async function getProcesses(): Promise<Process[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("processes").select("*").eq("status", "active").order("sort_order", { ascending: true });
-
-  if (error || !data || data.length === 0) {
-    return FALLBACK_PROCESSES;
+export async function getProcesses(options: DataOptions = {}): Promise<Process[]> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
   }
 
-  return data.map((item) =>
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("processes").select("*").order("sort_order", { ascending: true });
+  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+
+  if (error || !data || data.length === 0) {
+    return allowFallback ? FALLBACK_PROCESSES : [];
+  }
+
+  return data.map((item: any) =>
     ProcessSchema.parse({
       ...item,
-      imageUrl: item.image_url,
+      imageUrl: item.image_url ?? undefined,
       shortDescription: item.short_description,
       longDescription: item.long_description,
-      sortOrder: item.sort_order,
-      seoTitle: item.seo_title,
-      seoDescription: item.seo_description,
-      createdAt: item.created_at,
-      updatedAt: item.updated_at,
+      sortOrder: item.sort_order ?? 0,
+      seoTitle: item.seo_title ?? undefined,
+      seoDescription: item.seo_description ?? undefined,
+      createdAt: item.created_at ?? undefined,
+      updatedAt: item.updated_at ?? undefined,
     })
   );
 }
 
-export async function getProcessBySlug(slug: string): Promise<Process | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("processes").select("*").eq("slug", slug).single();
+export async function getProcessBySlug(slug: string, options: DataOptions = {}): Promise<Process | null> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
+  }
+
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("processes").select("*").eq("slug", slug);
+  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
 
   if (error || !data) {
-    return FALLBACK_PROCESSES.find((process) => process.slug === slug) || null;
+    return allowFallback ? FALLBACK_PROCESSES.find((process) => process.slug === slug) || null : null;
   }
 
   return ProcessSchema.parse({
     ...data,
-    imageUrl: data.image_url,
+    imageUrl: data.image_url ?? undefined,
     shortDescription: data.short_description,
     longDescription: data.long_description,
-    sortOrder: data.sort_order,
-    seoTitle: data.seo_title,
-    seoDescription: data.seo_description,
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
+    sortOrder: data.sort_order ?? 0,
+    seoTitle: data.seo_title ?? undefined,
+    seoDescription: data.seo_description ?? undefined,
+    createdAt: data.created_at ?? undefined,
+    updatedAt: data.updated_at ?? undefined,
   });
 }
 
-export async function getPromotions(): Promise<Promotion[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("promotions").select("*").eq("status", "active").order("starts_at", { ascending: false });
-
-  if (error || !data || data.length === 0) {
-    return FALLBACK_PROMOTIONS;
+export async function getPromotions(options: DataOptions = {}): Promise<Promotion[]> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
   }
 
-  return data.map((item) =>
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("promotions").select("*").order("starts_at", { ascending: false });
+  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+
+  if (error || !data || data.length === 0) {
+    return allowFallback ? FALLBACK_PROMOTIONS : [];
+  }
+
+  return data.map((item: any) =>
     PromotionSchema.parse({
       ...item,
-      supplierId: item.supplier_id,
-      imageUrl: item.image_url,
+      supplierId: item.supplier_id ?? undefined,
+      imageUrl: item.image_url ?? undefined,
       startsAt: item.starts_at,
       endsAt: item.ends_at,
-      ctaLabel: item.cta_label,
-      ctaUrl: item.cta_url,
-      createdAt: item.created_at,
-      updatedAt: item.updated_at,
+      ctaLabel: item.cta_label ?? undefined,
+      ctaUrl: item.cta_url ?? undefined,
+      createdAt: item.created_at ?? undefined,
+      updatedAt: item.updated_at ?? undefined,
     })
   );
 }
 
-export async function getPromotionBySlug(slug: string): Promise<Promotion | undefined> {
-  return FALLBACK_PROMOTIONS.find((promotion) => promotion.slug === slug);
+export async function getPromotionBySlug(slug: string, options: DataOptions = {}): Promise<Promotion | null> {
+  const allowFallback = options.allowFallback !== false;
+  if (!allowFallback) {
+    noStore();
+  }
+
+  const supabase = await getDataClient(allowFallback);
+  const query = supabase.from("promotions").select("*").eq("slug", slug);
+  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+
+  if (error || !data) {
+    return allowFallback ? FALLBACK_PROMOTIONS.find((promotion) => promotion.slug === slug) || null : null;
+  }
+
+  return PromotionSchema.parse({
+    ...data,
+    supplierId: data.supplier_id ?? undefined,
+    imageUrl: data.image_url ?? undefined,
+    startsAt: data.starts_at,
+    endsAt: data.ends_at,
+    ctaLabel: data.cta_label ?? undefined,
+    ctaUrl: data.cta_url ?? undefined,
+    createdAt: data.created_at ?? undefined,
+    updatedAt: data.updated_at ?? undefined,
+  });
 }
 
 export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
@@ -313,7 +360,7 @@ export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
     return FALLBACK_SUPPLIERS.map((supplier) => ({ slug: supplier.slug }));
   }
 
-  return data.map((item) => ({ slug: item.slug }));
+  return data.map((item: any) => ({ slug: item.slug }));
 }
 
 export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
@@ -324,5 +371,5 @@ export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
     return FALLBACK_PROCESSES.map((process) => ({ slug: process.slug }));
   }
 
-  return data.map((item) => ({ slug: item.slug }));
+  return data.map((item: any) => ({ slug: item.slug }));
 }

@@ -61,7 +61,6 @@ export default async function FornecedoresPage() {
                 logoUrl={supplier.logoUrl || ""}
                 internalLink={`/fornecedores/${supplier.slug}`}
                 externalCatalogLink={supplier.catalogUrl || undefined}
-                eCatalogLink={supplier.eCatalogUrl || undefined}
                 catalogAvailable={!!supplier.catalogUrl}
                 processes={getProcessNames(supplier.relatedProcesses)}
               />
@@ -97,15 +96,6 @@ export default async function FornecedoresPage() {
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     PDF sob consulta
                   </span>
-                )}
-
-                {supplier.eCatalogUrl && (
-                  <RecomButton asChild intent="link" className="h-auto justify-start px-0 text-[10px] font-bold uppercase tracking-[0.1em] text-recom-blue/70">
-                    <a href={supplier.eCatalogUrl} target="_blank" rel="noopener noreferrer">
-                      Catálogo online
-                      <ExternalLink className="ml-2 h-3 w-3" />
-                    </a>
-                  </RecomButton>
                 )}
               </div>
             </div>

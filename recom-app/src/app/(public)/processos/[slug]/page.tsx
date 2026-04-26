@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
-import { RecomSection } from "@/design-system/components/recom-section";
 import { getProcessBySlug, getStaticProcessSlugs, getSuppliers } from "@/lib/services/supabase-data";
 
 interface ProcessPageProps {
