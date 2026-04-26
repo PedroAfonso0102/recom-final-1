@@ -1,3 +1,6 @@
+import { SiteHooks } from '../hooks/site-hooks.js';
+import { UIStrings } from '../content/ui-strings.js';
+
 /**
  * Form Handling logic
  * Centralizado no Design System.
@@ -15,8 +18,10 @@ export const initContactForm = () => {
 
         // Ativa estado de carregamento
         form.classList.add('is-loading');
-        btn.disabled = true;
-        btn.textContent = UIStrings.messages.loading;
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = UIStrings.messages.loading;
+        }
 
         try {
             // Simulação de envio
@@ -34,11 +39,18 @@ export const initContactForm = () => {
             alert(UIStrings.messages.formError);
         } finally {
             form.classList.remove('is-loading');
-            btn.disabled = false;
-            btn.textContent = originalText;
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
         }
     });
 };
+
+// Auto-inicialização caso seja importado no navegador
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', initContactForm);
+}
 
 if (typeof window !== 'undefined') {
     window.RECOM_FORMS = { initContactForm };
