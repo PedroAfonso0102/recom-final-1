@@ -1,4 +1,5 @@
 'use server';
+import { requireAuth } from "@/lib/auth/utils";
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
@@ -12,6 +13,7 @@ export type ActionState = {
 };
 
 export async function updateLeadStatus(id: string, status: string): Promise<ActionState> {
+  await requireAuth();
   const supabase = await createClient();
   const parsed = LeadStatusSchema.safeParse(status);
 
@@ -33,6 +35,7 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
 }
 
 export async function deleteLead(id: string): Promise<ActionState> {
+  await requireAuth();
   const supabase = await createClient();
   const { error } = await supabase.from('leads').delete().eq('id', id);
 

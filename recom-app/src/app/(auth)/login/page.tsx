@@ -24,7 +24,7 @@ export default function LoginPage() {
       
       router.push('/admin')
       router.refresh()
-    } catch (err) {
+    } catch (_err) {
       setError('Ocorreu um erro inesperado.')
     } finally {
       setLoading(false)

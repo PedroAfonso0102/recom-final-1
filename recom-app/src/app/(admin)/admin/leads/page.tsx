@@ -107,7 +107,7 @@ export default async function AdminLeadsPage() {
                     </TableCell>
                     <TableCell className="py-5 max-w-[250px]">
                       <div className="text-xs text-slate-600 line-clamp-2 italic leading-relaxed">
-                        "{lead.message || 'Sem mensagem adicional'}"
+                        &quot;{lead.message || 'Sem mensagem adicional'}&quot;
                       </div>
                     </TableCell>
                     <TableCell className="py-5 text-center">

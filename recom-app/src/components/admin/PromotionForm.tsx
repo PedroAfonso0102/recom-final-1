@@ -45,7 +45,7 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
       status: initialData?.status || 'draft',
       imageUrl: initialData?.imageUrl || '',
       startsAt: toDatetimeLocal(initialData?.startsAt) || toDatetimeLocal(new Date().toISOString()),
-      endsAt: toDatetimeLocal(initialData?.endsAt) || toDatetimeLocal(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()),
+      endsAt: toDatetimeLocal(initialData?.endsAt) || toDatetimeLocal(new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString()),
       ctaLabel: initialData?.ctaLabel || '',
       ctaUrl: initialData?.ctaUrl || '',
       supplierId: initialData?.supplierId || undefined,

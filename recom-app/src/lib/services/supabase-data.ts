@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from "../supabase/server";
 import { createStaticClient } from "../supabase/static";
 import { createAdminClient } from "../supabase/admin";
@@ -10,7 +11,7 @@ type DataOptions = {
   allowFallback?: boolean;
 };
 
-async function getDataClient(allowFallback: boolean): Promise<any> {
+async function getDataClient(allowFallback: boolean) {
   return allowFallback ? await createClient() : createAdminClient();
 }
 
@@ -18,7 +19,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
     name: "Mitsubishi Materials",
-    slug: "mitsubishi",
+    slug: "mitsubishi", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/mitsubishi-logo.png",
     catalogUrl: "https://www.mmc-carbide.com/br/download/catalog-1",
     shortDescription: "Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.",
@@ -33,7 +34,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000002",
     name: "7Leaders",
-    slug: "7leaders",
+    slug: "7leaders", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/logo-7leaders.svg",
     catalogUrl: "https://www.7leaders.com/e-catalog",
     shortDescription: "Especialista em fresas de metal duro de alto desempenho e ferramentas rotativas.",
@@ -48,7 +49,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000003",
     name: "BT Fixo",
-    slug: "bt-fixo",
+    slug: "bt-fixo", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/logo_btfixo.png",
     catalogUrl: "https://www.btfixo.com.br/catalogos",
     shortDescription: "Soluções em acessórios de máquinas-ferramenta, mandris e sistemas de fixação de precisão.",
@@ -63,7 +64,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000004",
     name: "Kifix",
-    slug: "kifix",
+    slug: "kifix", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/logo-kifix.png",
     catalogUrl: "https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05&utm_source=chatgpt.com",
     shortDescription: "Especialista em grampos rápidos e dispositivos de fixação industrial para processos produtivos ágeis.",
@@ -179,14 +180,14 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
     return allowFallback ? FALLBACK_SUPPLIERS : [];
   }
 
-  return data.map((item: any) => {
+  return data.map((item: Record<string, any>) => {
     // Garantir que settings tenha todos os campos mesmo se vier null do banco
-    const dbSettings = item.settings || {};
+    const dbSettings: Record<string, unknown> = (item.settings as Record<string, unknown>) || {};
     const settings = {
-      showMenu: dbSettings.show_menu ?? true,
-      showPromotions: dbSettings.show_promotions ?? true,
-      showProcesses: dbSettings.show_processes ?? true,
-      featured: dbSettings.featured ?? false,
+      showMenu: dbSettings.show_menu !== undefined ? Boolean(dbSettings.show_menu) : true,
+      showPromotions: dbSettings.show_promotions !== undefined ? Boolean(dbSettings.show_promotions) : true,
+      showProcesses: dbSettings.show_processes !== undefined ? Boolean(dbSettings.show_processes) : true,
+      featured: dbSettings.featured !== undefined ? Boolean(dbSettings.featured) : false,
     };
 
     return SupplierSchema.parse({
@@ -197,10 +198,10 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
       catalogs: item.catalogs ?? [],
       settings,
       // Garantir que as descrições tenham o tamanho mínimo exigido pelo Zod
-      shortDescription: (item.short_description && item.short_description.length >= 10) 
+      shortDescription: (typeof item.short_description === "string" && item.short_description.length >= 10)
         ? item.short_description 
         : (item.short_description || "Descrição curta pendente de preenchimento."),
-      longDescription: (item.long_description && item.long_description.length >= 50) 
+      longDescription: (typeof item.long_description === "string" && item.long_description.length >= 50)
         ? item.long_description 
         : (item.long_description || "Descrição longa pendente de preenchimento no sistema administrativo RECOM 2026."),
       relatedProcesses: item.related_processes ?? [],
@@ -227,12 +228,12 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
     return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
   }
 
-  const dbSettings = data.settings || {};
+  const dbSettings: Record<string, unknown> = (data.settings as Record<string, unknown>) || {};
   const settings = {
-    showMenu: dbSettings.show_menu ?? true,
-    showPromotions: dbSettings.show_promotions ?? true,
-    showProcesses: dbSettings.show_processes ?? true,
-    featured: dbSettings.featured ?? false,
+    showMenu: dbSettings.show_menu !== undefined ? Boolean(dbSettings.show_menu) : true,
+    showPromotions: dbSettings.show_promotions !== undefined ? Boolean(dbSettings.show_promotions) : true,
+    showProcesses: dbSettings.show_processes !== undefined ? Boolean(dbSettings.show_processes) : true,
+    featured: dbSettings.featured !== undefined ? Boolean(dbSettings.featured) : false,
   };
 
   return SupplierSchema.parse({
@@ -272,7 +273,7 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
     return allowFallback ? FALLBACK_PROCESSES : [];
   }
 
-  return data.map((item: any) =>
+  return data.map((item: Record<string, any>) =>
     ProcessSchema.parse({
       ...item,
       imageUrl: item.image_url ?? undefined,
@@ -328,7 +329,7 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
     return allowFallback ? FALLBACK_PROMOTIONS : [];
   }
 
-  return data.map((item: any) =>
+  return data.map((item: Record<string, any>) =>
     PromotionSchema.parse({
       ...item,
       supplierId: item.supplier_id ?? undefined,
@@ -380,7 +381,7 @@ export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
     return FALLBACK_SUPPLIERS.map((supplier) => ({ slug: supplier.slug }));
   }
 
-  return data.map((item: any) => ({ slug: item.slug }));
+  return data.map((item: Record<string, any>) => ({ slug: String(item.slug) }));
 }
 
 export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
@@ -391,5 +392,5 @@ export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
     return FALLBACK_PROCESSES.map((process) => ({ slug: process.slug }));
   }
 
-  return data.map((item: any) => ({ slug: item.slug }));
+  return data.map((item: Record<string, any>) => ({ slug: String(item.slug) }));
 }

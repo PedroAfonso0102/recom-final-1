@@ -1,4 +1,5 @@
 'use server';
+import { requireAuth } from "@/lib/auth/utils";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -12,6 +13,7 @@ export type ActionState = {
 };
 
 export async function createProcess(data: Process): Promise<ActionState> {
+  await requireAuth();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -32,6 +34,7 @@ export async function createProcess(data: Process): Promise<ActionState> {
 }
 
 export async function updateProcess(id: string, data: Process): Promise<ActionState> {
+  await requireAuth();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -52,6 +55,7 @@ export async function updateProcess(id: string, data: Process): Promise<ActionSt
 }
 
 export async function deleteProcess(id: string): Promise<ActionState> {
+  await requireAuth();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('processes').select('slug').eq('id', id).maybeSingle();
 

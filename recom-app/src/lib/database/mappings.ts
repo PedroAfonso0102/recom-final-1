@@ -4,17 +4,20 @@ import { Promotion } from "@/design-system/schemas/promotion.schema";
 import { Process } from "@/design-system/schemas/process.schema";
 import { Lead } from "@/design-system/schemas/lead.schema";
 
-type SupplierInsert = Database["public"]["Tables"]["suppliers"]["Insert"];
-type SupplierUpdate = Database["public"]["Tables"]["suppliers"]["Update"];
+export type SupplierRow = Database["public"]["Tables"]["suppliers"]["Row"];
+export type SupplierInsert = Database["public"]["Tables"]["suppliers"]["Insert"];
+export type SupplierUpdate = Database["public"]["Tables"]["suppliers"]["Update"];
 
-type PromotionInsert = Database["public"]["Tables"]["promotions"]["Insert"];
-type PromotionUpdate = Database["public"]["Tables"]["promotions"]["Update"];
+export type PromotionRow = Database["public"]["Tables"]["promotions"]["Row"];
+export type PromotionInsert = Database["public"]["Tables"]["promotions"]["Insert"];
+export type PromotionUpdate = Database["public"]["Tables"]["promotions"]["Update"];
 
-type ProcessInsert = Database["public"]["Tables"]["processes"]["Insert"];
-type ProcessUpdate = Database["public"]["Tables"]["processes"]["Update"];
+export type ProcessRow = Database["public"]["Tables"]["processes"]["Row"];
+export type ProcessInsert = Database["public"]["Tables"]["processes"]["Insert"];
+export type ProcessUpdate = Database["public"]["Tables"]["processes"]["Update"];
 
-type LeadInsert = Database["public"]["Tables"]["leads"]["Insert"];
-type LeadUpdate = Database["public"]["Tables"]["leads"]["Update"];
+export type LeadRow = Database["public"]["Tables"]["leads"]["Row"];
+export type LeadInsert = Database["public"]["Tables"]["leads"]["Insert"];
 
 /**
  * Normaliza valores de formulário para o banco.
@@ -157,3 +160,4 @@ export function mapLeadToInsert(data: Lead): LeadInsert {
   } satisfies LeadInsert;
 }
 
+export type LeadUpdate = Database["public"]["Tables"]["leads"]["Update"];

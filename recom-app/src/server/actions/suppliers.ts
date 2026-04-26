@@ -1,4 +1,5 @@
 'use server';
+import { requireAuth } from "@/lib/auth/utils";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -12,6 +13,7 @@ export type ActionState = {
 };
 
 export async function createSupplier(data: Supplier): Promise<ActionState> {
+  await requireAuth();
   const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
@@ -32,6 +34,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
 }
 
 export async function updateSupplier(id: string, data: Supplier): Promise<ActionState> {
+  await requireAuth();
   console.log(`[Action: updateSupplier] ID: ${id}, Slug: ${data.slug}`);
   const supabase = createAdminClient();
   
@@ -91,6 +94,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
 }
 
 export async function deleteSupplier(id: string): Promise<ActionState> {
+  await requireAuth();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug').eq('id', id).maybeSingle();
 
