@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
 import { revalidateSupplierCatalog } from '@/lib/revalidation/catalog';
 import { mapSupplierToInsert, mapSupplierToUpdate } from '@/lib/database/mappings';
+import { formatDatabaseError } from '@/lib/database/errors';
 
 export type ActionState = {
   success: boolean;
@@ -26,7 +27,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
   const { error } = await supabase.from('suppliers').insert(payload);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidateSupplierCatalog(payload.slug);
@@ -65,7 +66,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
 
   if (error) {
     console.error(`[Action: updateSupplier] DB Error during update:`, error);
-    return { success: false, error: `Erro no banco de dados: ${error.message}` };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   if (!updatedData || updatedData.length === 0) {
@@ -105,7 +106,7 @@ export async function deleteSupplier(id: string): Promise<ActionState> {
   const { error } = await supabase.from('suppliers').delete().eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidateSupplierCatalog(current?.slug ?? undefined);

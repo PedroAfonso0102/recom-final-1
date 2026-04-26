@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Json =
   | string
   | number
@@ -8,6 +7,31 @@ export type Json =
   | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       leads: {
@@ -177,7 +201,7 @@ export type Database = {
       suppliers: {
         Row: {
           catalog_url: string | null
-          catalogs: any[] | null
+          catalogs: Json | null
           created_at: string
           e_catalog_url: string | null
           id: string
@@ -187,7 +211,7 @@ export type Database = {
           related_processes: string[] | null
           seo_description: string | null
           seo_title: string | null
-          settings: any | null
+          settings: Json | null
           short_description: string
           slug: string
           sort_order: number
@@ -196,7 +220,7 @@ export type Database = {
         }
         Insert: {
           catalog_url?: string | null
-          catalogs?: any[] | null
+          catalogs?: Json | null
           created_at?: string
           e_catalog_url?: string | null
           id?: string
@@ -206,7 +230,7 @@ export type Database = {
           related_processes?: string[] | null
           seo_description?: string | null
           seo_title?: string | null
-          settings?: any | null
+          settings?: Json | null
           short_description: string
           slug: string
           sort_order?: number
@@ -215,7 +239,7 @@ export type Database = {
         }
         Update: {
           catalog_url?: string | null
-          catalogs?: any[] | null
+          catalogs?: Json | null
           created_at?: string
           e_catalog_url?: string | null
           id?: string
@@ -225,7 +249,7 @@ export type Database = {
           related_processes?: string[] | null
           seo_description?: string | null
           seo_title?: string | null
-          settings?: any | null
+          settings?: Json | null
           short_description?: string
           slug?: string
           sort_order?: number
@@ -369,6 +393,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       lead_status_type: ["new", "contacted", "qualified", "lost"],

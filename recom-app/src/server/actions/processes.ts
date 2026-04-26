@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
 import { revalidateProcessCatalog } from '@/lib/revalidation/catalog';
 import { mapProcessToInsert, mapProcessToUpdate } from '@/lib/database/mappings';
+import { formatDatabaseError } from '@/lib/database/errors';
 
 export type ActionState = {
   success: boolean;
@@ -26,7 +27,7 @@ export async function createProcess(data: Process): Promise<ActionState> {
   const { error } = await supabase.from('processes').insert(payload);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidateProcessCatalog(payload.slug);
@@ -47,7 +48,7 @@ export async function updateProcess(id: string, data: Process): Promise<ActionSt
   const { error } = await supabase.from('processes').update(payload).eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidateProcessCatalog(payload.slug ?? '');
@@ -66,7 +67,7 @@ export async function deleteProcess(id: string): Promise<ActionState> {
   const { error } = await supabase.from('processes').delete().eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidateProcessCatalog(current?.slug ?? undefined);

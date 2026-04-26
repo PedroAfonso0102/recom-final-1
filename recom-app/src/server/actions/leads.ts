@@ -4,6 +4,7 @@ import { requireAuth } from "@/lib/auth/utils";
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
+import { formatDatabaseError } from '@/lib/database/errors';
 
 const LeadStatusSchema = z.enum(['new', 'contacted', 'qualified', 'lost']);
 
@@ -27,7 +28,7 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
     .eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidatePath('/admin/leads');
@@ -40,7 +41,7 @@ export async function deleteLead(id: string): Promise<ActionState> {
   const { error } = await supabase.from('leads').delete().eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidatePath('/admin/leads');

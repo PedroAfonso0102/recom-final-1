@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
 import { revalidatePromotionCatalog } from '@/lib/revalidation/catalog';
 import { mapPromotionToInsert, mapPromotionToUpdate } from '@/lib/database/mappings';
+import { formatDatabaseError } from '@/lib/database/errors';
 
 export type ActionState = {
   success: boolean;
@@ -26,7 +27,7 @@ export async function createPromotion(data: Promotion): Promise<ActionState> {
   const { error } = await supabase.from('promotions').insert(payload);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidatePromotionCatalog(payload.slug);
@@ -47,7 +48,7 @@ export async function updatePromotion(id: string, data: Promotion): Promise<Acti
   const { error } = await supabase.from('promotions').update(payload).eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidatePromotionCatalog(payload.slug ?? '');
@@ -66,7 +67,7 @@ export async function deletePromotion(id: string): Promise<ActionState> {
   const { error } = await supabase.from('promotions').delete().eq('id', id);
 
   if (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: formatDatabaseError(error) };
   }
 
   revalidatePromotionCatalog(current?.slug ?? undefined);
