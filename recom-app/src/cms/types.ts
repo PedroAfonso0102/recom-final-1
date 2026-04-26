@@ -37,7 +37,7 @@ export type EditableComponentDefinition = {
   label: string;
   description: string;
   category: "layout" | "content" | "commerce" | "trust" | "navigation" | "media" | "cta";
-  component: ComponentType<any>;
+  component: ComponentType<never>;
   schema: z.ZodTypeAny;
   defaultProps: Record<string, unknown>;
   fields: CmsFieldDefinition[];
@@ -48,4 +48,3 @@ export type CmsPageWithSections = {
   page: CmsPageRow;
   sections: CmsSectionRow[];
 };
-

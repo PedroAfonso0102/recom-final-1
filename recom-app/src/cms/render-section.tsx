@@ -35,7 +35,8 @@ export function RenderSection({ section, preview = false }: RenderSectionProps) 
     return preview ? <InvalidSection message={`Bloco inválido: ${definition.label}`} /> : null;
   }
 
-  const Component = definition.component as ComponentType<any>;
+  const Component = definition.component as ComponentType<Record<string, unknown>>;
+  const props = parsed.data as Record<string, unknown>;
 
   if (preview && section.visibility === "hidden") {
     return (
@@ -43,10 +44,10 @@ export function RenderSection({ section, preview = false }: RenderSectionProps) 
         <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
           Seção oculta
         </div>
-        <Component {...parsed.data} />
+        <Component {...props} />
       </div>
     );
   }
 
-  return <Component {...parsed.data} />;
+  return <Component {...props} />;
 }

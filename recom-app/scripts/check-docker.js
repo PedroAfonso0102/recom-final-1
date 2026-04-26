@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { execSync } = require('child_process');
 
 try {
@@ -15,7 +16,7 @@ try {
   }
 
   console.log('✅ Supabase está rodando!\n');
-} catch (error) {
+} catch (_error) {
   console.error('\n❌ ERRO: Não foi possível verificar o Docker. O Docker Desktop está ligado?');
   console.error('💡 Se o Docker estiver desligado, o banco de dados local não funcionará.\n');
   process.exit(1);
