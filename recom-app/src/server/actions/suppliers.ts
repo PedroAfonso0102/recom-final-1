@@ -19,7 +19,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
   }
 
   const { name, slug, shortDescription, longDescription, status, sortOrder,
-    logoUrl, catalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
+    logoUrl, catalogUrl, eCatalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
 
   const { error } = await supabase.from('suppliers').insert({
     name,
@@ -30,6 +30,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
     sort_order: sortOrder,
     logo_url: logoUrl || null,
     catalog_url: catalogUrl || null,
+    e_catalog_url: eCatalogUrl || null,
     seo_title: seoTitle || null,
     seo_description: seoDescription || null,
     related_processes: relatedProcesses || [],
@@ -52,7 +53,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
   }
 
   const { name, slug, shortDescription, longDescription, status, sortOrder,
-    logoUrl, catalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
+    logoUrl, catalogUrl, eCatalogUrl, seoTitle, seoDescription, relatedProcesses } = parsed.data;
 
   const { error } = await supabase.from('suppliers').update({
     name,
@@ -63,6 +64,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
     sort_order: sortOrder,
     logo_url: logoUrl || null,
     catalog_url: catalogUrl || null,
+    e_catalog_url: eCatalogUrl || null,
     seo_title: seoTitle || null,
     seo_description: seoDescription || null,
     related_processes: relatedProcesses || [],

@@ -4,163 +4,168 @@ import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomCard, RecomCardHeader, RecomCardTitle, RecomCardDescription, RecomCardContent, RecomCardFooter } from "@/design-system/components/recom-card";
+import { getSuppliers } from "@/lib/services/supabase-data";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 
-export default function Home() {
+export default async function Home() {
+  const suppliers = await getSuppliers();
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <RecomHero
-        eyebrow="Distribuidor Oficial Mitsubishi Materials"
+        eyebrow="Distribuidor de ferramentas de corte em Campinas"
         title={
           <>
-            Ferramentas de Corte para <span className="text-primary">Usinagem Industrial</span>
+            Ferramentas para usinagem <br className="hidden md:block" />
+            <span className="text-recom-red">industrial de precisão</span>
           </>
         }
-        description="Desde 1990 entregando soluções de precisão em metal duro para a indústria metal-mecânica em Campinas e região."
-        primaryCta={{ label: "Acessar Catálogos", href: "/fornecedores" }}
-        secondaryCta={{ label: "Solicitar Orçamento", href: "/sobre#contato" }}
-        image={<HeroCarousel />}
+        description="A RECOM atende clientes industriais com fornecedores reconhecidos, catálogos oficiais e contato comercial direto para orçamento e orientação técnica."
+        primaryCta={{ label: "Solicitar Orçamento", href: "/sobre#contato" }}
+        secondaryCta={{ label: "Ver Fornecedores", href: "/fornecedores" }}
+        image={
+          <div className="relative w-full h-full">
+            <HeroCarousel />
+          </div>
+        }
       />
 
-      {/* Partner Logos Strip */}
-      <section className="border-y border-border bg-muted/20 py-8">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-[10px] uppercase tracking-wider font-bold text-muted-foreground/40 mb-6">
-            Marcas e Fornecedores Parceiros
+      {/* Partner Logos Strip - Refined 2026 */}
+      <section className="border-b border-recom-gray-100 bg-white py-12">
+        <div className="container-recom">
+          <p className="text-center text-[10px] uppercase tracking-[0.4em] font-bold text-recom-graphite/30 mb-10">
+            Fabricantes e Parceiros
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-40">
-            <img src="/assets/images/Mitsubishi.png" alt="Mitsubishi" className="h-6 md:h-7 w-auto object-contain grayscale" />
-            <img src="/assets/images/logo-7leaders.svg" alt="7Leaders" className="h-6 md:h-7 w-auto object-contain grayscale" />
-            <img src="/assets/images/logo_btfixo.png" alt="BT Fixo" className="h-6 md:h-7 w-auto object-contain grayscale" />
-            <img src="/assets/images/logo-kifix.png" alt="Kifix" className="h-6 md:h-7 w-auto object-contain grayscale" />
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-40 transition-all hover:grayscale-0 hover:opacity-100 duration-700">
+            {suppliers.map(supplier => (
+              <img 
+                key={supplier.id || supplier.slug}
+                src={supplier.logoUrl || ""} 
+                alt={supplier.name} 
+                className="h-6 md:h-7 w-auto object-contain recom-tooltip" 
+                data-tooltip={supplier.name} 
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Trust Proof Section */}
+      {/* Trust & Authority Block */}
       <RecomSection
-        title="Distribuidor Autorizado e Certificado"
-        description="Parceria direta com fabricantes para garantir o suporte técnico comercial necessário no chão de fábrica."
-        className="bg-background py-12 md:py-14"
+        title="Distribuidor de ferramentas de corte desde 1990"
+        description="Atendimento comercial especializado para a indústria metal-mecânica em Campinas e região."
+        className="bg-recom-gray-50 py-16 md:py-20"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-          <div className="group flex gap-5 p-6 rounded-md border border-border/60 bg-muted/5 transition-all duration-300 hover:bg-white hover:shadow-premium hover:border-primary/20">
-            <div className="bg-primary/5 p-3 rounded-md shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-              <ShieldCheck className="h-6 w-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+          <div className="group flex gap-6 p-8 rounded-lg border border-recom-border bg-white transition-all duration-300 hover:border-recom-blue/20 hover:shadow-recom-card">
+            <div className="bg-recom-gray-50 p-4 rounded-md shrink-0 group-hover:bg-recom-blue group-hover:text-white transition-all duration-500 border border-recom-border/50 recom-tooltip" data-tooltip="Origem Certificada">
+              <ShieldCheck className="h-7 w-7" />
             </div>
             <div>
-              <h4 className="font-bold text-base tracking-tight text-slate-900">Garantia de Procedência</h4>
-              <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
-                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade e segurança.
+              <h3 className="text-recom-graphite mb-2">Garantia de Procedência</h3>
+              <p className="text-muted-foreground text-[15px] leading-relaxed">
+                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade, suporte técnico oficial e segurança para sua produção.
               </p>
             </div>
           </div>
-          <div className="group flex gap-5 p-6 rounded-md border border-border/60 bg-muted/5 transition-all duration-300 hover:bg-white hover:shadow-premium hover:border-primary/20">
-            <div className="bg-primary/5 p-3 rounded-md shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-              <CheckCircle2 className="h-6 w-6" />
+          <div className="group flex gap-6 p-8 rounded-lg border border-recom-border bg-white transition-all duration-300 hover:border-recom-blue/20 hover:shadow-recom-card">
+            <div className="bg-recom-gray-50 p-4 rounded-md shrink-0 group-hover:bg-recom-blue group-hover:text-white transition-all duration-500 border border-recom-border/50 recom-tooltip" data-tooltip="Experiência Técnica">
+              <CheckCircle2 className="h-7 w-7" />
             </div>
             <div>
-              <h4 className="font-bold text-base tracking-tight text-slate-900">Suporte de Engenharia</h4>
-              <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
-                Equipe técnica capacitada para auxiliar na escolha da melhor geometria e classe para sua aplicação.
+              <h3 className="text-recom-graphite mb-2">Suporte de Engenharia</h3>
+              <p className="text-muted-foreground text-[15px] leading-relaxed">
+                Nossa equipe técnica atua diretamente na otimização de processos, auxiliando na escolha da melhor geometria e classe para maximizar sua produtividade.
               </p>
             </div>
           </div>
         </div>
       </RecomSection>
 
-      {/* Solutions / Features */}
+      {/* Main Solutions - Using Cards */}
       <RecomSection
-        eyebrow="Soluções & Atendimento"
-        title="Atendimento técnico especializado em Campinas"
-        description="Distribuição técnica de ferramentas de corte com foco em produtividade."
-        className="bg-muted/30 border-y border-border py-12 md:py-14"
+        eyebrow="Processos de Usinagem"
+        title="Ferramentas para torneamento, fresamento e furação"
+        description="Encontre fornecedores e catálogos oficiais para cada aplicação industrial."
+        className="bg-white py-16 md:py-20"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
-          <RecomCard className="flex flex-col group border-border/40 shadow-sm hover:shadow-recom-card p-2 rounded-md transition-all duration-500">
-            <RecomCardHeader>
-              <div className="bg-primary/5 w-10 h-10 rounded-md flex items-center justify-center text-primary mb-3 transition-colors group-hover:bg-primary group-hover:text-white duration-500">
-                <Factory className="w-5 h-5" />
-              </div>
-              <RecomCardTitle className="text-base font-bold text-slate-900">Fornecedores & Catálogos</RecomCardTitle>
-              <RecomCardDescription className="mt-1.5 text-xs leading-relaxed">
-                Mitsubishi Materials, 7Leaders e BT Fixo. Acesso total aos manuais e especificações técnicas de cada parceiro.
-              </RecomCardDescription>
-            </RecomCardHeader>
-            <RecomCardFooter className="mt-auto">
-              <RecomButton asChild intent="outline" className="w-full rounded-full h-9 text-[10px] group-hover:bg-primary group-hover:text-white">
-                <Link href="/fornecedores">
-                  Ver Fornecedores <ArrowRight className="w-3 h-3 ml-2" />
-                </Link>
-              </RecomButton>
-            </RecomCardFooter>
-          </RecomCard>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          <div className="group flex flex-col p-8 rounded-lg border border-recom-border bg-white hover:border-recom-blue/20 hover:shadow-recom-card transition-all">
+            <div className="bg-recom-gray-50 w-12 h-12 rounded-md flex items-center justify-center text-recom-blue mb-6 border border-recom-border/50 group-hover:bg-recom-blue group-hover:text-white transition-all duration-500 recom-tooltip" data-tooltip="Links Oficiais">
+              <Factory className="w-6 h-6" />
+            </div>
+            <h3 className="mb-3">Fornecedores & Catálogos</h3>
+            <p className="text-[15px] text-muted-foreground leading-relaxed mb-8 flex-grow">
+              Acesso direto aos principais fabricantes globais como Mitsubishi Materials e 7Leaders. Consulte especificações técnicas e manuais oficiais.
+            </p>
+            <RecomButton asChild intent="outline" className="w-full h-11 text-[11px] group-hover:bg-recom-graphite group-hover:text-white border-recom-border">
+              <Link href="/fornecedores">
+                Explorar Catálogos <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </RecomButton>
+          </div>
 
-          <RecomCard className="flex flex-col group border-border/40 shadow-sm hover:shadow-recom-card p-2 rounded-md transition-all duration-500">
-            <RecomCardHeader>
-              <div className="bg-primary/5 w-10 h-10 rounded-md flex items-center justify-center text-primary mb-3 transition-colors group-hover:bg-primary group-hover:text-white duration-500">
-                <Wrench className="w-5 h-5" />
-              </div>
-              <RecomCardTitle className="text-base font-bold text-slate-900">Processos de Usinagem</RecomCardTitle>
-              <RecomCardDescription className="mt-1.5 text-xs leading-relaxed">
-                Torneamento, fresamento e furação. Orientação técnica para otimizar tempo de máquina e vida útil.
-              </RecomCardDescription>
-            </RecomCardHeader>
-            <RecomCardFooter className="mt-auto">
-              <RecomButton asChild intent="outline" className="w-full rounded-full h-9 text-[10px] group-hover:bg-primary group-hover:text-white">
-                <Link href="/processos">
-                  Ver Processos <ArrowRight className="w-3 h-3 ml-2" />
-                </Link>
-              </RecomButton>
-            </RecomCardFooter>
-          </RecomCard>
+          <div className="group flex flex-col p-8 rounded-lg border border-recom-border bg-white hover:border-recom-blue/20 hover:shadow-recom-card transition-all">
+            <div className="bg-recom-gray-50 w-12 h-12 rounded-md flex items-center justify-center text-recom-blue mb-6 border border-recom-border/50 group-hover:bg-recom-blue group-hover:text-white transition-all duration-500 recom-tooltip" data-tooltip="Soluções Completas">
+              <Wrench className="w-6 h-6" />
+            </div>
+            <h3 className="mb-3">Processos de Usinagem</h3>
+            <p className="text-[15px] text-muted-foreground leading-relaxed mb-8 flex-grow">
+              Soluções completas para torneamento, fresamento, furação e fixação. Orientação técnica personalizada para cada desafio de usinagem.
+            </p>
+            <RecomButton asChild intent="outline" className="w-full h-11 text-[11px] group-hover:bg-recom-graphite group-hover:text-white border-recom-border">
+              <Link href="/processos">
+                Ver Soluções por Processo <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </RecomButton>
+          </div>
 
-          <RecomCard className="flex flex-col group border-border/40 shadow-sm hover:shadow-recom-card p-2 rounded-md transition-all duration-500">
-            <RecomCardHeader>
-              <div className="bg-primary/5 w-10 h-10 rounded-md flex items-center justify-center text-primary mb-3 transition-colors group-hover:bg-primary group-hover:text-white duration-500">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <RecomCardTitle className="text-base font-bold text-slate-900">Suporte Comercial</RecomCardTitle>
-              <RecomCardDescription className="mt-1.5 text-xs leading-relaxed">
-                Atendimento ágil focado nos principais polos industriais paulistas, com visitas técnicas presenciais.
-              </RecomCardDescription>
-            </RecomCardHeader>
-            <RecomCardFooter className="mt-auto">
-              <RecomButton asChild intent="outline" className="w-full rounded-full h-9 text-[10px] group-hover:bg-primary group-hover:text-white">
-                <Link href="/sobre#contato">
-                  Falar com a RECOM <ArrowRight className="w-3 h-3 ml-2" />
-                </Link>
-              </RecomButton>
-            </RecomCardFooter>
-          </RecomCard>
+          <div className="group flex flex-col p-8 rounded-lg border border-recom-border bg-white hover:border-recom-blue/20 hover:shadow-recom-card transition-all">
+            <div className="bg-recom-gray-50 w-12 h-12 rounded-md flex items-center justify-center text-recom-blue mb-6 border border-recom-border/50 group-hover:bg-recom-blue group-hover:text-white transition-all duration-500 recom-tooltip" data-tooltip="Campinas & Região">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <h3 className="mb-3">Logística & Atendimento</h3>
+            <p className="text-[15px] text-muted-foreground leading-relaxed mb-8 flex-grow">
+              Presença constante nos principais polos industriais paulistas. Entrega ágil e visitas técnicas para setup de máquinas e testes in-loco.
+            </p>
+            <RecomButton asChild intent="outline" className="w-full h-11 text-[11px] group-hover:bg-recom-graphite group-hover:text-white border-recom-border">
+              <Link href="/sobre#contato">
+                Agendar Visita Técnica <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </RecomButton>
+          </div>
         </div>
       </RecomSection>
 
-      {/* CTA / Quick Contact */}
-      <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 -skew-x-12 translate-x-1/4 pointer-events-none" />
-        <div className="container relative z-10 mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-8 items-center">
+      {/* Industrial Footer CTA */}
+      <section className="py-20 bg-recom-graphite text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-recom-red/5 -skew-x-12 translate-x-1/4 pointer-events-none" />
+        <div className="container-recom relative z-10">
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1 text-center lg:text-left">
-              <span className="text-accent font-bold uppercase tracking-wider text-[10px] mb-3 block">Contato Comercial</span>
-              <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">Atendimento comercial em Campinas</h2>
-              <p className="text-base text-background/60 mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Nossa equipe está pronta para analisar sua necessidade técnica e indicar o melhor ferramental com o melhor custo-benefício.
+              <span className="text-recom-red font-bold uppercase tracking-[0.3em] text-[11px] mb-4 block">Atendimento Comercial</span>
+              <h2 className="text-white mb-6 uppercase tracking-tight">Solicite orçamento com a equipe RECOM®</h2>
+              <p className="text-[17px] text-white/60 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Envie sua solicitação informando a marca, o processo de usinagem ou o código do item para agilizar o retorno comercial.
               </p>
-              <RecomButton asChild size="md" intent="accent" className="rounded-full px-8 h-11 text-xs">
-                <Link href="/sobre#contato">Enviar Mensagem</Link>
-              </RecomButton>
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <RecomButton asChild size="lg" intent="accent" className="h-12 px-10">
+                  <Link href="/sobre#contato">Enviar Solicitação</Link>
+                </RecomButton>
+                <RecomButton asChild size="lg" intent="outline" className="h-12 px-10 border-white/20 text-white hover:bg-white/5">
+                  <Link href="tel:+551932564235">Ligar Agora</Link>
+                </RecomButton>
+              </div>
             </div>
             
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              <div className="p-5 bg-white/5 border border-white/10 rounded-md backdrop-blur-sm transition-all hover:bg-white/10">
-                <h4 className="font-bold text-base mb-1">Orçamentos Técnicos</h4>
-                <p className="text-xs text-background/50">Cotações detalhadas em até 24h para itens em estoque.</p>
+              <div className="p-6 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm group hover:bg-white/10 transition-all">
+                <h4 className="font-bold text-[16px] text-white mb-2">Orçamentos Rápidos</h4>
+                <p className="text-[13px] text-white/40 leading-relaxed">Cotações técnicas detalhadas para itens em estoque em tempo recorde.</p>
               </div>
-              <div className="p-5 bg-white/5 border border-white/10 rounded-md backdrop-blur-sm transition-all hover:bg-white/10">
-                <h4 className="font-bold text-base mb-1">Visitas Técnicas</h4>
-                <p className="text-xs text-background/50">Setup de máquinas e otimização in-loco.</p>
+              <div className="p-6 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm group hover:bg-white/10 transition-all">
+                <h4 className="font-bold text-[16px] text-white mb-2">Engenharia de Aplicação</h4>
+                <p className="text-[13px] text-white/40 leading-relaxed">Acompanhamento técnico para testes de performance e redução de custos.</p>
               </div>
             </div>
           </div>

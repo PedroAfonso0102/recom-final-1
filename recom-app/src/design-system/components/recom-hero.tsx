@@ -22,45 +22,56 @@ export function RecomHero({
   className
 }: RecomHeroProps) {
   return (
-    <section className={cn("relative w-full py-10 md:py-12 lg:py-14 overflow-hidden bg-background", className)}>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+    <section className={cn("relative w-full py-16 md:py-20 overflow-hidden bg-recom-graphite text-white", className)}>
+      {/* Industrial Background with Overlay */}
+      <div className="absolute inset-0 z-0 opacity-40">
+        <img 
+          src="/assets/images/hero-industrial.png" 
+          alt="Usinagem Industrial" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-industrial-overlay" />
+      </div>
       
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12">
+      {/* Pattern for extra texture */}
+      <div className="absolute inset-0 z-1 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+      
+      <div className="container-recom relative z-10">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
           <div className="flex-1 text-left">
             {eyebrow && (
-              <div className="mb-4 flex items-center gap-3">
-                <span className="h-px w-8 bg-primary/30" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary/80">
+              <div className="mb-6 flex items-center gap-4">
+                <span className="h-px w-10 bg-recom-red" />
+                <span className="text-[12px] font-bold uppercase tracking-[0.3em] text-white/90">
                   {eyebrow}
                 </span>
               </div>
             )}
-            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:leading-[1.1] text-slate-900 max-w-2xl">
+            <h1 className="text-white mb-6">
               {title}
             </h1>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg max-w-xl">
+            <p className="mt-6 text-[17px] md:text-[19px] leading-relaxed text-white/70 max-w-xl">
               {description}
             </p>
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-5">
               {primaryCta && (
-                <RecomButton asChild size="lg" intent="primary" className="min-w-[180px] shadow-sm">
+                <RecomButton asChild size="lg" intent="accent" className="w-full sm:w-auto sm:min-w-[220px]">
                   <a href={primaryCta.href}>{primaryCta.label}</a>
                 </RecomButton>
               )}
               {secondaryCta && (
-                <RecomButton asChild size="lg" intent="outline" className="min-w-[180px]">
+                <RecomButton asChild size="lg" intent="outline" className="w-full sm:w-auto sm:min-w-[220px] bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white">
                   <a href={secondaryCta.href}>{secondaryCta.label}</a>
                 </RecomButton>
               )}
             </div>
           </div>
           {image && (
-            <div className="mt-10 flex-1 lg:mt-0">
-              <div className="relative aspect-[4/3] max-h-[440px] w-full overflow-hidden rounded-md bg-white border border-border/60 shadow-premium group">
-                {image}
+            <div className="mt-12 flex-1 lg:mt-0 hidden md:block">
+              <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/10 shadow-2xl backdrop-blur-sm bg-white/5 p-1">
+                <div className="rounded-md overflow-hidden h-full w-full">
+                  {image}
+                </div>
               </div>
             </div>
           )}

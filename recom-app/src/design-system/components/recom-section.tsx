@@ -26,20 +26,20 @@ const RecomSection = React.forwardRef<HTMLElement, RecomSectionProps>(
             {(title || description) && (
               <div className="max-w-2xl mb-6">
                 {eyebrow && (
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-recom-blue mb-4">
                     {eyebrow}
                   </p>
                 )}
                 {title && (
                   <h2 className={cn(
-                    "mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-foreground",
+                    "text-recom-graphite uppercase tracking-tight",
                     !eyebrow && "mt-0"
                   )}>
                     {title}
                   </h2>
                 )}
                 {description && (
-                  <p className="mt-4 text-base md:text-lg leading-7 text-muted-foreground">
+                  <p className="mt-4 text-muted-foreground">
                     {description}
                   </p>
                 )}

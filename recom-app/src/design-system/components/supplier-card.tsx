@@ -19,6 +19,7 @@ interface SupplierCardProps {
   processes?: string[];
   internalLink: string;
   externalCatalogLink?: string;
+  eCatalogLink?: string;
   catalogAvailable?: boolean;
   className?: string;
 }
@@ -30,38 +31,39 @@ export function SupplierCard({
   processes = [],
   internalLink,
   externalCatalogLink,
+  eCatalogLink,
   catalogAvailable = true,
   className
 }: SupplierCardProps) {
   return (
-    <RecomCard className={cn("flex flex-col h-full bg-white", className)}>
-      <RecomCardHeader className="flex flex-col gap-4 pb-4">
-        <div className="h-14 w-14 rounded-md border border-border bg-white p-2 shrink-0 flex items-center justify-center shadow-sm">
+    <RecomCard className={cn("group flex flex-col h-full bg-white border-recom-border hover:border-recom-blue/30 transition-all duration-500 animate-in fade-in zoom-in-95 duration-700", className)}>
+      <RecomCardHeader className="flex flex-col gap-5 pb-5">
+        <div className="h-16 w-full rounded-md border border-recom-gray-100 bg-recom-gray-50 p-4 shrink-0 flex items-center justify-center transition-all group-hover:bg-white group-hover:border-recom-blue/10">
           {logoUrl ? (
-            <img src={logoUrl} alt={name} className="h-full w-full object-contain" />
+            <img src={logoUrl} alt={name} className="h-full w-full object-contain saturate-[0.7] group-hover:saturate-100 transition-all duration-500" />
           ) : (
-            <Factory className="h-6 w-6 text-muted-foreground/20" />
+            <Factory className="h-8 w-8 text-muted-foreground/20" />
           )}
         </div>
         <div className="flex flex-col">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-primary mb-1">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-recom-red mb-2">
             Distribuidor Autorizado
           </span>
-          <RecomCardTitle className="text-xl leading-tight">{name}</RecomCardTitle>
+          <RecomCardTitle className="text-[22px] text-recom-graphite font-bold tracking-tight leading-tight">{name}</RecomCardTitle>
         </div>
       </RecomCardHeader>
 
       <RecomCardContent className="flex-grow pt-2">
-        <RecomCardDescription className="line-clamp-3 text-sm leading-relaxed mb-6">
+        <RecomCardDescription className="line-clamp-3 text-[16px] leading-relaxed text-recom-graphite/70 mb-6">
           {description}
         </RecomCardDescription>
 
         {processes.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-auto">
+          <div className="flex flex-wrap gap-2 mt-auto">
             {processes.map((process) => (
               <span
                 key={process}
-                className="inline-flex items-center rounded-full bg-muted/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground"
+                className="inline-flex items-center rounded-sm bg-recom-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 border border-recom-border/50"
               >
                 {process}
               </span>
@@ -70,11 +72,11 @@ export function SupplierCard({
         )}
       </RecomCardContent>
 
-      <RecomCardFooter className="flex flex-col gap-2 pt-5 border-t border-border/40">
-        <RecomButton asChild className="w-full h-10 text-[10px] justify-between px-4 rounded-full" intent="primary">
+      <RecomCardFooter className="flex flex-col gap-3 pt-6 mt-4 border-t border-recom-gray-100">
+        <RecomButton asChild className="w-full h-11 text-[11px] justify-center recom-tooltip" intent="primary" data-tooltip="Abrir Detalhes Técnicos">
           <a href={internalLink}>
             Ficha Técnica RECOM
-            <ArrowRight className="h-3 w-3 ml-2" />
+            <ArrowRight className="h-4 w-4 ml-2" />
           </a>
         </RecomButton>
 
@@ -82,16 +84,35 @@ export function SupplierCard({
           <RecomButton
             asChild
             intent="outline"
-            className={cn("w-full h-10 text-[10px] justify-between px-4 rounded-full", !catalogAvailable && "opacity-50 cursor-not-allowed")}
+            className={cn("w-full h-11 text-[11px] justify-center recom-tooltip", !catalogAvailable && "opacity-50 cursor-not-allowed")}
             disabled={!catalogAvailable}
+            data-tooltip={catalogAvailable ? "Baixar Catálogo PDF Oficial" : "Indisponível no momento"}
           >
             <a
               href={catalogAvailable ? externalCatalogLink : "#"}
               target={catalogAvailable ? "_blank" : undefined}
               rel="noopener noreferrer"
             >
-              {catalogAvailable ? "Catálogo do Fabricante" : "Catálogo Indisponível"}
-              <ExternalLink className="h-3 w-3 ml-2" />
+              {catalogAvailable ? "Catálogo PDF" : "Catálogo Indisponível"}
+              <ExternalLink className="h-4 w-4 ml-2 opacity-50" />
+            </a>
+          </RecomButton>
+        )}
+
+        {eCatalogLink && (
+          <RecomButton
+            asChild
+            intent="link"
+            className="w-full h-9 text-[10px] justify-center text-recom-blue/60 hover:text-recom-red underline decoration-recom-blue/20 underline-offset-4 recom-tooltip"
+            data-tooltip="Acessar Versão Online Interativa"
+          >
+            <a
+              href={eCatalogLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Consultar Catálogo Eletrônico
+              <ExternalLink className="h-3.5 w-3.5 ml-2 opacity-40" />
             </a>
           </RecomButton>
         )}

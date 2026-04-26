@@ -52,28 +52,31 @@ export function ProcessCard({
   const icon = ICON_MAP[slug] || ICON_MAP[Object.keys(ICON_MAP).find(k => slug.includes(k)) || "default"];
 
   return (
-    <RecomCard className={cn("group flex flex-col h-full hover:shadow-premium transition-all duration-500 border-border/60", className)}>
-      <RecomCardHeader className="pb-2">
-        <div className="bg-primary/5 text-primary w-10 h-10 rounded-md flex items-center justify-center mb-4 transition-colors group-hover:bg-primary group-hover:text-white duration-300">
+    <RecomCard className={cn("group flex flex-col h-full bg-white border-recom-border hover:border-recom-blue/30 transition-all duration-500 animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-both", className)}>
+      <RecomCardHeader className="pb-4">
+        <div 
+          className="bg-recom-gray-50 text-recom-blue w-12 h-12 rounded-md flex items-center justify-center mb-6 transition-all group-hover:bg-recom-blue group-hover:text-white border border-recom-border/50"
+          data-tooltip={`Soluções para ${name}`}
+        >
           {icon}
         </div>
-        <RecomCardTitle>{name}</RecomCardTitle>
-        <RecomCardDescription className="mt-2 line-clamp-2 min-h-[2.5rem]">
+        <RecomCardTitle className="text-[22px] text-recom-graphite">{name}</RecomCardTitle>
+        <RecomCardDescription className="mt-3 text-[15px] leading-relaxed text-muted-foreground/80 line-clamp-2 min-h-[3rem]">
           {description}
         </RecomCardDescription>
       </RecomCardHeader>
       
-      <RecomCardContent className="flex-grow">
+      <RecomCardContent className="flex-grow pt-2">
         {suppliers.length > 0 && (
-          <div className="space-y-3">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
-              Marcas Parceiras
+          <div className="space-y-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
+              Fabricantes Principais
             </p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {suppliers.map((supplier) => (
                 <span 
                   key={supplier}
-                  className="inline-flex items-center rounded-sm border border-border/50 bg-muted/30 px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+                  className="inline-flex items-center rounded-sm bg-recom-gray-50 border border-recom-border/30 px-2 py-1 text-[10px] font-bold text-muted-foreground/70 uppercase tracking-wider"
                 >
                   {supplier}
                 </span>
@@ -83,11 +86,11 @@ export function ProcessCard({
         )}
       </RecomCardContent>
 
-      <RecomCardFooter>
-        <RecomButton asChild className="w-full h-10 text-[10px] rounded-full group-hover:bg-primary group-hover:text-white transition-all" intent="outline">
+      <RecomCardFooter className="pt-6 border-t border-recom-gray-100">
+        <RecomButton asChild className="w-full h-11 text-[11px]" intent="outline">
           <a href={link}>
             Ver Soluções Técnicas
-            <ArrowRight className="h-3 w-3 ml-2 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
           </a>
         </RecomButton>
       </RecomCardFooter>

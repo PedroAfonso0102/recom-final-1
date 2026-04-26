@@ -8,9 +8,10 @@ export const MOCK_SUPPLIERS: Supplier[] = [
     id: "mitsubishi",
     name: "Mitsubishi Materials",
     slug: "mitsubishi-materials",
-    logo: "/assets/images/Mitsubishi.png",
-    description: "Excelência japonesa em metal duro para torneamento, fresamento e furação de alta performance.",
-    catalogLink: "https://www.mmc-hardmetal.com/",
+    logo: "/assets/images/mitsubishi-logo.png",
+    description: "Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.",
+    catalogLink: "https://www.mmc-carbide.com/br/download/catalog-1",
+    eCatalogLink: "https://www.mitsubishicarbide.net/mht/pt/",
     content: {
       hero: "A RECOM atende clientes que buscam produtos da Mitsubishi Materials para aplicações em torneamento, fresamento e furação. Nesta página, você encontra o caminho para o catálogo oficial e pode falar com a equipe comercial para orientar sua solicitação.",
       resolves: {
@@ -48,7 +49,8 @@ export const MOCK_SUPPLIERS: Supplier[] = [
     slug: "7leaders",
     logo: "/assets/images/logo-7leaders.svg",
     description: "Especialista em fresas de metal duro de alto rendimento e ferramentas rotativas precisas.",
-    catalogLink: "https://7leaders.com.br/",
+    catalogLink: "https://www.7leaders.com/e-catalog",
+    eCatalogLink: "https://www.7leaders.com/e-catalog",
     content: {
       hero: "A RECOM atende clientes que buscam produtos da 7Leaders para aplicações em fresamento, furação e ferramentas rotativas. Nesta página, você encontra o caminho para o catálogo oficial e pode falar com a equipe comercial para orientar sua solicitação.",
       resolves: {
@@ -80,8 +82,8 @@ export const MOCK_SUPPLIERS: Supplier[] = [
     name: "Kifix",
     slug: "kifix",
     logo: "/assets/images/logo-kifix.png",
-    description: "Líder em grampos rápidos e sistemas de fixação industrial para processos produtivos ágeis.",
-    catalogLink: "https://www.kifix.com.br/",
+    description: "Especialista em grampos rápidos e dispositivos de fixação industrial para processos produtivos ágeis.",
+    catalogLink: "https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05&utm_source=chatgpt.com",
     content: {
       hero: "A RECOM atende clientes que buscam soluções de fixação rápida da Kifix para dispositivos de montagem, solda e usinagem.",
       resolves: {
@@ -100,7 +102,7 @@ export const MOCK_SUPPLIERS: Supplier[] = [
     slug: "bt-fixo",
     logo: "/assets/images/logo_btfixo.png",
     description: "Soluções em acessórios de máquinas-ferramenta, mandris e sistemas de fixação de precisão.",
-    catalogLink: "https://www.btfixo.com.br/",
+    catalogLink: "https://www.btfixo.com.br/catalogos",
     content: {
       hero: "A RECOM atende clientes que buscam soluções de fixação da BT Fixo para garantir a estabilidade e precisão em seus processos de usinagem.",
       resolves: {
