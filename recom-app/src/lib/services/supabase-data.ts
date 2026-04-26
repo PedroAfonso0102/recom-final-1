@@ -1,4 +1,5 @@
 import { createClient } from '../supabase/server';
+import { createStaticClient } from '../supabase/static';
 import { Supplier, SupplierSchema } from '../../design-system/schemas/supplier.schema';
 import { Process, ProcessSchema } from '../../design-system/schemas/process.schema';
 import { Promotion, PromotionSchema } from '../../design-system/schemas/promotion.schema';
@@ -124,4 +125,28 @@ export async function getPromotions(): Promise<Promotion[]> {
     createdAt: item.created_at,
     updatedAt: item.updated_at
   }));
+}
+
+// ─── Funções para generateStaticParams (sem cookies) ─────────────
+
+export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('suppliers')
+    .select('slug')
+    .eq('status', 'active');
+
+  if (error || !data) return [];
+  return data.map(item => ({ slug: item.slug }));
+}
+
+export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('processes')
+    .select('slug')
+    .eq('status', 'active');
+
+  if (error || !data) return [];
+  return data.map(item => ({ slug: item.slug }));
 }

@@ -1,140 +1,174 @@
-import { getProcessBySlug, getProcesses } from "@/lib/mock-data";
+import { getProcessBySlug, getStaticProcessSlugs } from "@/lib/services/supabase-data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ChevronRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
 interface ProcessPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: ProcessPageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const process = await getProcessBySlug(resolvedParams.slug);
-  
+  const { slug } = await params;
+  const process = await getProcessBySlug(slug);
+
   if (!process) {
-    return {
-      title: "Processo não encontrado | RECOM",
-    };
+    return { title: "Processo não encontrado | RECOM" };
   }
 
   return {
-    title: `${process.name} | RECOM Metal Duro`,
-    description: process.description,
+    title: process.seoTitle || `${process.name} | RECOM Metal Duro`,
+    description: process.seoDescription || process.shortDescription,
   };
 }
 
 export async function generateStaticParams() {
-  const processes = await getProcesses();
-  return processes.map((process) => ({
-    slug: process.slug,
-  }));
+  return await getStaticProcessSlugs();
 }
 
 export default async function ProcessDetailPage({ params }: ProcessPageProps) {
-  const resolvedParams = await params;
-  const process = await getProcessBySlug(resolvedParams.slug);
+  const { slug } = await params;
+  const process = await getProcessBySlug(slug);
 
   if (!process) {
     notFound();
   }
 
-  return (
-    <main className="pb-24">
+  // Split longDescription into paragraphs for display
+  const paragraphs = process.longDescription
+    .split('\n')
+    .filter((p) => p.trim().length > 0);
+
+  return (    <main className="pb-24">
       {/* Hero Section */}
-      <section className="bg-muted py-12 md:py-20 border-b">
-        <div className="container">
-          <Link 
-            href="/processos" 
-            className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-8 transition-colors"
+      <section className="bg-muted/20 py-16 md:py-24 border-b-2 border-foreground">
+        <div className="container mx-auto px-4">
+          <Link
+            href="/processos"
+            className="inline-flex items-center text-[10px] font-black text-muted-foreground hover:text-primary mb-12 transition-all uppercase tracking-[0.2em]"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="w-4 h-4 mr-3" />
             Voltar para Processos
           </Link>
-          
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">{process.name}</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              {process.content.hero}
+
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest w-fit mb-8">
+              Engenharia de Aplicação
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-8 uppercase text-foreground">{process.name}</h1>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium max-w-2xl">
+              {process.shortDescription}
             </p>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="container mt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          
+      <section className="container mx-auto px-4 mt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+
           {/* Left Column (Content) */}
-          <div className="lg:col-span-2 space-y-16">
-            
-            {/* Applications */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold">{process.content.applications.title}</h2>
-              <p className="text-lg text-muted-foreground">
-                {process.content.applications.text}
-              </p>
-              
-              <ul className="space-y-4 mt-8">
-                {process.content.applications.items.map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mr-3 mt-0.5" />
-                    <span className="text-base">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="lg:col-span-8 space-y-16">
 
-            <hr className="border-border" />
-
-            {/* Brands */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold">Principais Parceiros para {process.name}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {process.content.brands.map((brand, index) => (
-                  <div key={index} className="bg-card border rounded-lg p-6">
-                    <h4 className="text-lg font-semibold mb-2">{brand.name}</h4>
-                    <p className="text-sm text-muted-foreground">{brand.desc}</p>
-                  </div>
+            {/* Description */}
+            <div className="space-y-8">
+              <h2 className="text-xs font-black uppercase tracking-[0.3em] text-foreground border-l-4 border-primary pl-4">Análise do Processo</h2>
+              <div className="prose prose-slate max-w-none">
+                {paragraphs.map((p, i) => (
+                  <p key={i} className="text-lg text-muted-foreground leading-relaxed font-medium">
+                    {p}
+                  </p>
                 ))}
               </div>
             </div>
 
-            {/* FAQ */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold">Perguntas Frequentes</h3>
-              <div className="space-y-4">
-                {process.content.faq.map((faq, index) => (
-                  <div key={index} className="bg-card border rounded-lg p-6">
-                    <h4 className="text-lg font-medium mb-3 flex items-start">
-                      <ChevronRight className="w-5 h-5 text-primary shrink-0 mr-2 mt-0.5" />
-                      {faq.q}
-                    </h4>
-                    <p className="text-muted-foreground pl-7">{faq.a}</p>
-                  </div>
-                ))}
-              </div>
+            {/* Process image if available */}
+            <div className="border-2 border-foreground rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
+              {process.imageUrl ? (
+                <img
+                  src={process.imageUrl}
+                  alt={process.name}
+                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                />
+              ) : process.slug === 'torneamento' ? (
+                <img
+                  src="/assets/images/koudoe.jpg"
+                  alt={process.name}
+                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                />
+              ) : process.slug === 'fresamento' ? (
+                <img
+                  src="/assets/images/recom-editorial-2.jpg"
+                  alt={process.name}
+                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                />
+              ) : process.slug === 'furacao' ? (
+                <img
+                  src="/assets/images/recom-editorial-3.jpg"
+                  alt={process.name}
+                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                />
+              ) : null}
             </div>
 
+            {/* CTA Card */}
+            <div className="bg-foreground text-background border-2 border-foreground rounded-2xl p-10 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Atendimento Técnico Comercial</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight uppercase">
+                  Ferramentas para {process.name}
+                </h3>
+                <p className="text-lg text-background/70 font-medium leading-relaxed max-w-xl">
+                  A RECOM® oferece consultoria técnica especializada e fornece as melhores geometrias e coberturas para o seu processo de {process.name.toLowerCase()}.
+                </p>
+                <div className="pt-4">
+                  <Link
+                    href="/sobre#contato"
+                    className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground h-12 px-10 text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all"
+                  >
+                    Solicitar Orçamento
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Column (Sidebar) */}
-          <div className="space-y-8">
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-8 sticky top-24">
-              <h3 className="text-xl font-bold mb-4">Precisa de suporte técnico?</h3>
-              <p className="text-muted-foreground mb-6 text-sm">
-                Nossos engenheiros estão prontos para indicar a melhor solução de {process.name.toLowerCase()} para o seu equipamento.
+          <aside className="lg:col-span-4 space-y-10">
+            <div className="border-2 border-foreground rounded-2xl p-8 bg-card shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sticky top-24">
+              <h3 className="text-xl font-black tracking-tight mb-4 uppercase">Contato Direto</h3>
+              <p className="text-sm text-muted-foreground mb-8 font-medium leading-relaxed">
+                Nossos engenheiros estão prontos para indicar a melhor solução de {process.name.toLowerCase()} para o seu equipamento e material.
               </p>
-              <Link 
-                href="/sobre#contato" 
-                className="flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 w-full"
+              <Link
+                href="/contato"
+                className="flex items-center justify-center rounded-md h-12 px-8 w-full bg-foreground text-background text-xs font-black uppercase tracking-widest hover:bg-foreground/90 transition-all"
               >
-                Falar com Especialista
+                Falar com a RECOM
               </Link>
             </div>
-          </div>
+
+            <div className="border-2 border-foreground rounded-2xl p-8 bg-muted/30">
+              <h4 className="text-[10px] font-black mb-6 text-foreground uppercase tracking-[0.2em] border-b border-foreground/10 pb-4">Exploração Adicional</h4>
+              <nav className="flex flex-col gap-4">
+                <Link href="/fornecedores" className="group flex items-center justify-between text-sm font-black uppercase tracking-tight text-muted-foreground hover:text-primary transition-all">
+                  Nossos Fornecedores
+                  <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 group-hover:opacity-100 transition-all" />
+                </Link>
+                <Link href="/processos" className="group flex items-center justify-between text-sm font-black uppercase tracking-tight text-muted-foreground hover:text-primary transition-all">
+                  Todos os Processos
+                  <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 group-hover:opacity-100 transition-all" />
+                </Link>
+                <Link href="/sobre#contato" className="group flex items-center justify-between text-sm font-black uppercase tracking-tight text-muted-foreground hover:text-primary transition-all">
+                  Solicitar Cotação
+                  <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 group-hover:opacity-100 transition-all" />
+                </Link>
+              </nav>
+            </div>
+          </aside>
 
         </div>
       </section>

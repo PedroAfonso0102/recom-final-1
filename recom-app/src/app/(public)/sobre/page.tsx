@@ -1,6 +1,10 @@
 import { siteConfig } from "@/lib/config";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { RecomButton } from "@/design-system/components/recom-button";
+import { RecomCard, RecomCardHeader, RecomCardTitle, RecomCardContent } from "@/design-system/components/recom-card";
 
 export const metadata: Metadata = {
   title: "Sobre a RECOM Metal Duro | Contato e Suporte Técnico",
@@ -9,128 +13,128 @@ export const metadata: Metadata = {
 
 export default function SobrePage() {
   return (
-    <main className="pb-24">
-      {/* Hero Section */}
-      <section className="container py-16 md:py-24">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Nossa História e Compromisso</h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            Desde {siteConfig.company.since}, a {siteConfig.company.fullName} atua como parceira estratégica da indústria, fornecendo não apenas ferramentas, mas soluções técnicas que otimizam a produtividade no chão de fábrica.
-          </p>
+    <div className="flex flex-col">
+      {/* Header da Página */}
+      <section className="bg-background border-b border-border py-16 md:py-24">
+        <div className="mx-auto max-w-[1180px] px-4 md:px-8">
+          <div className="max-w-4xl">
+            <p className="text-sm font-medium uppercase tracking-wide text-primary mb-4">
+              Nossa Trajetória
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-foreground mb-8 uppercase">
+              Distribuidor de ferramentas <span className="text-primary">desde 1990</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+              A {siteConfig.company.fullName} facilita o acesso a fornecedores, catálogos e atendimento comercial para ferramentas de corte e soluções de usinagem em Campinas e região.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Sobre nós */}
-      <section className="container pb-24">
+      <RecomSection eyebrow="Atendimento Técnico" className="bg-background">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold">Tradição Regional em Campinas</h2>
-            <p className="text-lg text-muted-foreground">
-              Nossa trajetória é marcada pela proximidade com o cliente. Entendemos que cada processo de usinagem possui particularidades que exigem um olhar técnico apurado. Como distribuidores autorizados de marcas líderes como Mitsubishi Materials, garantimos a procedência e o suporte oficial para cada item fornecido.
+          <div className="space-y-10">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground uppercase">
+              Atendimento em Campinas e região
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Nossa atuação como distribuidor B2B foca na proximidade com o cliente industrial. Entendemos que cada processo de usinagem exige a ferramenta correta e suporte técnico comercial direto. Como distribuidores autorizados Mitsubishi Materials, garantimos procedência e catálogos oficiais.
             </p>
             
-            <div className="space-y-4 pt-4">
-              <h3 className="text-xl font-semibold">O que nos diferencia?</h3>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start">
-                  <span className="font-semibold text-foreground mr-2">Atendimento Consultivo:</span>
-                  Não apenas vendemos, ajudamos a escolher a ferramenta certa.
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold text-foreground mr-2">Estoque Estratégico:</span>
-                  Agilidade para demandas recorrentes da indústria local.
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold text-foreground mr-2">Parcerias Globais:</span>
-                  Acesso direto às tecnologias de ponta da Mitsubishi e 7Leaders.
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold text-foreground mr-2">Ética e Transparência:</span>
-                  Mais de 30 anos de atuação sólida no mercado B2B.
-                </li>
-              </ul>
+            <div className="space-y-6 pt-4">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-primary border-l-2 border-primary pl-4">
+                Diferenciais Industriais
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {[
+                  { title: "Comercial Direto", desc: "Equipe preparada para orientar sua cotação." },
+                  { title: "Estoque Local", desc: "Agilidade para demandas da região de Campinas." },
+                  { title: "Catálogos Oficiais", desc: "Acesso total às especificações Mitsubishi e parceiros." },
+                  { title: "Tradição B2B", desc: "Mais de 30 anos no mercado de metal duro." }
+                ].map((item, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <h4 className="font-bold text-foreground uppercase tracking-tight text-sm">{item.title}</h4>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           
-          <div className="bg-muted rounded-xl aspect-[4/3] flex items-center justify-center border border-dashed">
-            <span className="text-muted-foreground">[Imagem Institucional / Equipe]</span>
+          <div className="border border-border rounded-xl aspect-[4/3] overflow-hidden bg-muted group shadow-recom-card">
+            <img 
+              src="/assets/images/escritorio.jpg" 
+              alt="Escritório RECOM Metal Duro" 
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+            />
           </div>
         </div>
-      </section>
-
-      <hr className="border-border container" />
+      </RecomSection>
 
       {/* Contato Section */}
-      <section id="contato" className="container py-24 scroll-mt-20">
-        <div className="max-w-3xl mb-12">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">Fale com a RECOM®</h2>
-          <p className="text-xl text-muted-foreground">
-            Solicite cotações, agende visitas técnicas ou peça suporte para a sua aplicação CNC. Atendimento consultivo focado em resultados.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <RecomSection 
+        id="contato" 
+        eyebrow="Canais de Atendimento"
+        title="Fale com a RECOM"
+        description="Solicite cotações, agende visitas técnicas ou envie sua dúvida sobre ferramentas de corte."
+        className="bg-muted/20 border-t border-border scroll-mt-20"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Form */}
-          <div className="lg:col-span-2 bg-card rounded-xl p-8 border shadow-sm">
-            <h3 className="text-2xl font-bold mb-6">Solicitação Técnica / Comercial</h3>
+          <div className="lg:col-span-8 bg-background border border-border rounded-xl p-8 md:p-12 shadow-recom">
+            <h3 className="text-xl font-bold tracking-tight mb-8 uppercase text-foreground border-b border-border pb-6">
+              Solicitar Orçamento ou Atendimento
+            </h3>
             
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Seu Nome *</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    required 
-                    placeholder="Ex: João Silva" 
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="company" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Empresa *</label>
-                  <input 
-                    type="text" 
-                    id="company" 
-                    name="company" 
-                    required 
-                    placeholder="Razão Social ou Nome Fantasia" 
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                  />
-                </div>
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Seu Nome *</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  required 
+                  placeholder="Ex: João Silva" 
+                  className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50" 
+                />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">E-mail Corporativo *</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    required 
-                    placeholder="contato@empresa.com.br" 
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="phone" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">WhatsApp / Telefone *</label>
-                  <input 
-                    type="tel" 
-                    id="phone" 
-                    name="phone" 
-                    required 
-                    placeholder="(19) 00000-0000" 
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                  />
-                </div>
+              <div className="space-y-2">
+                <label htmlFor="company" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Empresa *</label>
+                <input 
+                  type="text" 
+                  id="company" 
+                  required 
+                  placeholder="Nome da sua indústria" 
+                  className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary" 
+                />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="interest" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Assunto Principal</label>
+                <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail Corporativo *</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  required 
+                  placeholder="contato@empresa.com.br" 
+                  className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary" 
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">WhatsApp / Telefone *</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  required 
+                  placeholder="(19) 00000-0000" 
+                  className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary" 
+                />
+              </div>
+
+              <div className="col-span-full space-y-2">
+                <label htmlFor="interest" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Assunto Principal</label>
                 <select 
                   id="interest" 
-                  name="interest"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
                 >
                   <option value="orcamento">Solicitar Orçamento</option>
                   <option value="visita">Agendar Visita Técnica</option>
@@ -139,76 +143,78 @@ export default function SobrePage() {
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Detalhes da sua necessidade</label>
+              <div className="col-span-full space-y-2">
+                <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Detalhes da sua necessidade</label>
                 <textarea 
                   id="message" 
-                  name="message" 
                   rows={4} 
                   placeholder="Informe códigos das ferramentas ou detalhes do material a ser usinado..."
-                  className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
                 ></textarea>
               </div>
 
-              <button 
-                type="submit" 
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 w-full"
-              >
-                Enviar Solicitação
-              </button>
-              
-              <p className="text-xs text-muted-foreground text-center">
-                Ao enviar, você concorda com nossa <a href="#" className="underline underline-offset-4 hover:text-primary">Política de Privacidade</a>.
-              </p>
+              <div className="col-span-full pt-4">
+                <RecomButton type="submit" className="w-full h-12 text-sm uppercase tracking-widest font-bold">
+                  Enviar Solicitação Técnica
+                </RecomButton>
+                <p className="text-[10px] text-muted-foreground text-center mt-6 uppercase tracking-widest font-medium">
+                  Atendimento B2B prioritário para indústrias e empresas.
+                </p>
+              </div>
             </form>
           </div>
 
           {/* Info Column */}
-          <div className="space-y-8">
-            <div className="bg-card rounded-xl p-8 border shadow-sm">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-primary mb-6">Contatos Diretos</h3>
-              <div className="space-y-6">
-                <div className="flex items-center">
-                  <div className="bg-primary/10 p-3 rounded-full mr-4">
-                    <Phone className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Telefone / WhatsApp</p>
-                    <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`} className="text-lg font-semibold hover:text-primary transition-colors">
-                      {siteConfig.contact.phone}
-                    </a>
-                  </div>
+          <div className="lg:col-span-4 space-y-6">
+            <RecomCard className="shadow-recom">
+              <RecomCardHeader className="pb-4">
+                <RecomCardTitle className="text-xs font-bold uppercase tracking-widest text-primary border-b border-border pb-2">
+                  Contatos Diretos
+                </RecomCardTitle>
+              </RecomCardHeader>
+              <RecomCardContent className="space-y-8">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <Phone className="w-3 h-3" /> WhatsApp Comercial
+                  </p>
+                  <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`} className="text-xl font-bold hover:text-primary transition-all tracking-tight text-foreground">
+                    {siteConfig.contact.phone}
+                  </a>
                 </div>
-                <div className="flex items-center">
-                  <div className="bg-primary/10 p-3 rounded-full mr-4">
-                    <Mail className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">E-mail</p>
-                    <a href={`mailto:${siteConfig.contact.email}`} className="text-base hover:text-primary transition-colors">
-                      {siteConfig.contact.email}
-                    </a>
-                  </div>
+                <div className="space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <Mail className="w-3 h-3" /> Canal Oficial
+                  </p>
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-base font-bold hover:text-primary transition-all tracking-tight text-foreground break-all">
+                    {siteConfig.contact.email}
+                  </a>
                 </div>
-              </div>
-            </div>
+              </RecomCardContent>
+            </RecomCard>
 
-            <div className="bg-card rounded-xl p-8 border shadow-sm">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-primary mb-4">Localização</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Atendimento focado em Campinas, RMC e polos industriais de São Paulo.
-              </p>
-              <div className="flex items-start mb-6">
-                <MapPin className="w-5 h-5 text-muted-foreground mr-3 shrink-0 mt-0.5" />
-                <span className="text-sm">{siteConfig.contact.address}<br />CEP: {siteConfig.contact.cep}</span>
-              </div>
-              <div className="bg-muted rounded-lg h-48 flex items-center justify-center border border-dashed">
-                <span className="text-sm text-muted-foreground">[Mapa de Atendimento]</span>
-              </div>
-            </div>
+            <RecomCard className="bg-muted/30 border-dashed">
+              <RecomCardHeader className="pb-4">
+                <RecomCardTitle className="text-xs font-bold uppercase tracking-widest text-foreground border-b border-border pb-2">
+                  Localização
+                </RecomCardTitle>
+              </RecomCardHeader>
+              <RecomCardContent className="space-y-6">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Atendimento presencial focado em Campinas, RMC e polos industriais de São Paulo.
+                </p>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm font-bold uppercase tracking-tight text-foreground leading-tight">
+                    {siteConfig.contact.address}<br />
+                    CEP: {siteConfig.contact.cep}
+                  </span>
+                </div>
+              </RecomCardContent>
+            </RecomCard>
           </div>
         </div>
-      </section>
-    </main>
+      </RecomSection>
+    </div>
   );
 }
+

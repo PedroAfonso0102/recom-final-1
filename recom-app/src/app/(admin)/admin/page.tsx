@@ -1,80 +1,86 @@
 import React from 'react';
-import { Package, Factory, Tag, Users } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Package, Factory, Tag, Users, ArrowUpRight } from 'lucide-react';
+import { RecomCard } from '@/design-system/components/recom-card';
+import { RecomButton } from '@/design-system/components/recom-button';
 
 export default function AdminDashboard() {
+  const stats = [
+    { title: "Fornecedores Ativos", value: "12", icon: Package, description: "+2 no último mês" },
+    { title: "Processos Cadastrados", value: "08", icon: Factory, description: "4 categorias técnicas" },
+    { title: "Promoções Ativas", value: "03", icon: Tag, description: "Sazonalidade atual" },
+    { title: "Novos Leads", value: "24", icon: Users, description: "+18% vs mês anterior" },
+  ];
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-        <p className="text-slate-500">Visão geral do sistema RECOM.</p>
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-8">
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Overview Geral</span>
+          <h1 className="text-4xl font-bold tracking-tighter uppercase">Painel de Controle</h1>
+          <p className="text-muted-foreground max-w-2xl text-sm font-medium">
+            Gestão de fornecedores, catálogos técnicos e leads comerciais da RECOM.
+          </p>
+        </div>
+        <RecomButton size="sm" className="hidden md:flex">
+          Gerar Relatório Técnico
+        </RecomButton>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Fornecedores Ativos</CardTitle>
-            <Package className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-slate-500">+2 no último mês</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Processos Cadastrados</CardTitle>
-            <Factory className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-slate-500">Representando 4 categorias</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Promoções Ativas</CardTitle>
-            <Tag className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-slate-500">1 terminando nesta semana</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Novos Leads</CardTitle>
-            <Users className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24</div>
-            <p className="text-xs text-slate-500">+18% em relação ao mês anterior</p>
-          </CardContent>
-        </Card>
+        {stats.map((stat) => (
+          <RecomCard key={stat.title} className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{stat.title}</span>
+              <stat.icon className="h-4 w-4 text-primary/40" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-3xl font-bold tracking-tight">{stat.value}</span>
+              <span className="text-[10px] font-bold text-primary/60 uppercase tracking-tighter">{stat.description}</span>
+            </div>
+          </RecomCard>
+        ))}
       </div>
       
-      {/* Aqui virão tabelas de atividades recentes */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Leads Recentes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-slate-500">Listagem das últimas conversões virá aqui.</p>
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Status do Sistema</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-slate-500">Banco de Dados: Desconectado (Mock Mode)</p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <RecomCard className="lg:col-span-4 p-8 flex flex-col gap-6">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <h3 className="text-sm font-bold uppercase tracking-widest">Leads Recentes</h3>
+            <RecomButton variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-primary">
+              Ver todos <ArrowUpRight className="ml-1 h-3 w-3" />
+            </RecomButton>
+          </div>
+          <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-muted rounded-lg">
+            <Users className="h-8 w-8 text-muted/30 mb-2" />
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Aguardando novas conversões</p>
+          </div>
+        </RecomCard>
+
+        <RecomCard className="lg:col-span-3 p-8 flex flex-col gap-6 bg-primary text-primary-foreground">
+          <div className="flex items-center justify-between border-b border-primary-foreground/20 pb-4">
+            <h3 className="text-sm font-bold uppercase tracking-widest">Status do Sistema</h3>
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-tight opacity-70">Ambiente</span>
+              <span className="text-xs font-bold uppercase tracking-tight">Desenvolvimento</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-tight opacity-70">Conexão BD</span>
+              <span className="text-xs font-bold uppercase tracking-tight px-2 py-0.5 bg-white/10 rounded">Mock Data</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-tight opacity-70">Uptime</span>
+              <span className="text-xs font-bold uppercase tracking-tight">99.9%</span>
+            </div>
+          </div>
+          <div className="mt-auto pt-4 border-t border-primary-foreground/20">
+            <p className="text-[10px] leading-relaxed opacity-60 uppercase font-bold tracking-widest text-center">
+              Sistema Operacional Industrial <br/> RECOM-MVP v2.0
+            </p>
+          </div>
+        </RecomCard>
       </div>
     </div>
   );
 }
+

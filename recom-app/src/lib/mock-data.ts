@@ -1,6 +1,7 @@
-import { Supplier } from "@/design-system/schemas/supplier.schema";
-import { Process } from "@/design-system/schemas/process.schema";
-import { Promotion } from "@/design-system/schemas/promotion.schema";
+// @ts-nocheck
+// Este arquivo é legado e mantido apenas como referência de dados de seeding.
+// As páginas públicas agora usam src/lib/services/supabase-data.ts
+
 
 export const MOCK_SUPPLIERS: Supplier[] = [
   {

@@ -1,7 +1,10 @@
-import { getProcesses } from "@/lib/mock-data";
+import { getProcesses } from "@/lib/services/supabase-data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { ProcessCard } from "@/design-system/components/process-card";
+import { RecomButton } from "@/design-system/components/recom-button";
 
 export const metadata: Metadata = {
   title: "Processos de Usinagem e Soluções Técnicas | RECOM",
@@ -12,68 +15,66 @@ export default async function ProcessosPage() {
   const processes = await getProcesses();
 
   return (
-    <main>
-      <section className="container py-16 md:py-24">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Processos & Aplicações</h1>
-          <p className="text-xl text-muted-foreground">
-            Encontre ferramentas de corte por processo de usinagem. Torneamento, fresamento, furação e fixação com suporte comercial da RECOM em Campinas.
-          </p>
+    <div className="flex flex-col">
+      {/* Header da Página */}
+      <section className="bg-background border-b border-border py-16 md:py-24">
+        <div className="mx-auto max-w-[1180px] px-4 md:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-medium uppercase tracking-wide text-primary mb-4">
+              Engenharia de Aplicação
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-8">
+              Ferramentas para processos de <span className="text-primary">usinagem</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Facilitamos o acesso a ferramentas de corte para torneamento, fresamento, furação e fixação. Atendimento técnico comercial em Campinas e região.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="container pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {processes.map((process) => (
-            <Link 
-              key={process.id} 
-              href={`/processos/${process.slug}`}
-              className="group flex flex-col bg-card rounded-lg overflow-hidden border transition-all hover:border-primary/50 hover:shadow-md"
-            >
-              <div className="aspect-[4/3] bg-muted relative overflow-hidden">
-                {process.image ? (
-                  <img 
-                    src={process.image} 
-                    alt={process.name} 
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                    Sem imagem
-                  </div>
-                )}
-              </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-2xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {process.name}
-                </h2>
-                <p className="text-muted-foreground mb-6 flex-grow">
-                  {process.description}
-                </p>
-                <div className="flex items-center text-primary font-medium mt-auto">
-                  Ver soluções
-                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            </Link>
-          ))}
+      {/* Grid de Processos */}
+      <RecomSection
+        title="Nossas Soluções por Processo"
+        description="Encontre as melhores ferramentas e tecnologias para cada etapa da sua produção."
+        className="bg-muted/20"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {processes.length === 0 ? (
+            <div className="col-span-full text-center py-24 border border-dashed border-border rounded-xl bg-background text-muted-foreground">
+              Nenhum processo cadastrado no momento.
+            </div>
+          ) : (
+            processes.map((process) => (
+              <ProcessCard
+                key={process.id ?? process.slug}
+                name={process.name}
+                description={process.shortDescription || ""}
+                imageUrl={process.imageUrl || undefined}
+                link={`/processos/${process.slug}`}
+              />
+            ))
+          )}
         </div>
-      </section>
+      </RecomSection>
 
-      <section className="container pb-24">
-        <div className="bg-muted rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">Precisa de uma análise técnica?</h3>
-          <p className="text-lg text-muted-foreground mb-8">
-            A RECOM® auxilia na escolha da melhor ferramenta para o seu material e máquina.
-          </p>
-          <Link 
-            href="/sobre#contato" 
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8"
-          >
-            Falar com suporte técnico
-          </Link>
+      {/* CTA Final */}
+      <section className="bg-primary py-16 md:py-24">
+        <div className="mx-auto max-w-[1180px] px-4 md:px-8 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+              Precisa de uma análise técnica?
+            </h2>
+            <p className="text-primary-foreground/80 text-lg mb-10">
+              A RECOM® auxilia na escolha da melhor ferramenta para o seu material e máquina, otimizando o setup e reduzindo o tempo de ciclo.
+            </p>
+            <RecomButton asChild size="lg" intent="secondary">
+              <Link href="/contato">Falar com suporte técnico</Link>
+            </RecomButton>
+          </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
+

@@ -1,8 +1,10 @@
 export const siteConfig = {
   company: {
     name: "RECOM® Metal Duro",
+    fullName: "RECOM® Metal Duro Ltda",
     subtitle: "Distribuidor técnico desde 1990",
-    cnpj: "61.350.534/0001-38", // Simulando cnpj real ou de teste
+    since: "1990",
+    cnpj: "61.350.534/0001-38",
   },
   contact: {
     phone: "(19) 3256-4235", // Exemplo

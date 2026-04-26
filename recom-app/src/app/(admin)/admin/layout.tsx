@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Package, Factory, Tag, Users, LayoutDashboard, Settings, LogOut } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export const metadata = {
   title: 'Painel CMS - RECOM',
@@ -9,72 +10,61 @@ export const metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen w-full bg-slate-50">
+    <div className="flex min-h-screen w-full bg-muted/30">
       {/* Sidebar */}
-      <aside className="w-64 flex-col hidden md:flex bg-slate-900 text-slate-100 border-r border-slate-800">
-        <div className="flex h-14 items-center border-b border-slate-800 px-4">
-          <Link href="/admin" className="flex items-center gap-2 font-semibold">
-            <span className="text-xl tracking-tight">RECOM <span className="text-amber-500">Admin</span></span>
+      <aside className="w-64 flex-col hidden md:flex bg-primary text-primary-foreground border-r border-primary/20">
+        <div className="flex h-16 items-center border-b border-primary/20 px-6">
+          <Link href="/admin" className="flex items-center gap-2 font-bold uppercase tracking-tight">
+            <span className="text-xl">RECOM <span className="text-primary-foreground/60 font-medium">CMS</span></span>
           </Link>
         </div>
-        <div className="flex-1 overflow-auto py-2">
-          <nav className="grid items-start px-2 text-sm font-medium gap-1">
-            <Link
-              href="/admin"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Link>
-            <Link
-              href="/admin/fornecedores"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <Package className="h-4 w-4" />
-              Fornecedores
-            </Link>
-            <Link
-              href="/admin/processos"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <Factory className="h-4 w-4" />
-              Processos
-            </Link>
-            <Link
-              href="/admin/promocoes"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <Tag className="h-4 w-4" />
-              Promoções
-            </Link>
-            <Link
-              href="/admin/leads"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <Users className="h-4 w-4" />
-              Leads
-            </Link>
-            <Link
-              href="/admin/configuracoes"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 transition-all hover:text-white hover:bg-slate-800"
-            >
-              <Settings className="h-4 w-4" />
-              Configurações
-            </Link>
+        <div className="flex-1 overflow-auto py-6">
+          <nav className="grid items-start px-4 text-xs font-bold uppercase tracking-widest gap-2">
+            {[
+              { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+              { href: "/admin/fornecedores", icon: Package, label: "Fornecedores" },
+              { href: "/admin/processos", icon: Factory, label: "Processos" },
+              { href: "/admin/promocoes", icon: Tag, label: "Promoções" },
+              { href: "/admin/leads", icon: Users, label: "Leads" },
+              { href: "/admin/configuracoes", icon: Settings, label: "Ajustes" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-md px-3 py-2.5 transition-all hover:bg-white/10 hover:text-white",
+                  "text-primary-foreground/70"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            ))}
           </nav>
         </div>
-        <div className="mt-auto p-4 border-t border-slate-800">
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-all hover:text-white hover:bg-slate-800">
+        <div className="mt-auto p-4 border-t border-primary/20">
+          <button className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground/70 transition-all hover:bg-white/10 hover:text-white">
             <LogOut className="h-4 w-4" />
-            Sair
+            Sair do Painel
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col p-4 md:p-6 lg:p-8">
-        {children}
-      </main>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <header className="h-16 border-b border-border bg-background px-8 flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Ambiente Administrativo</h2>
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-muted rounded text-muted-foreground">v2.0 PRO</span>
+          </div>
+        </header>
+        <main className="flex-1 overflow-auto p-8">
+          <div className="mx-auto max-w-[1200px]">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
+
