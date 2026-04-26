@@ -54,7 +54,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
   const payload = mapSupplierToUpdate(parsed.data);
   console.log(`[Action: updateSupplier] Payload mapped. Updating database record...`);
 
-  const { data, error } = await supabase
+  const { data: updatedData, error } = await supabase
     .from('suppliers')
     .update(payload)
     .eq('id', id)
@@ -65,12 +65,12 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
     return { success: false, error: `Erro no banco de dados: ${error.message}` };
   }
 
-  if (!data || data.length === 0) {
+  if (!updatedData || updatedData.length === 0) {
     console.warn(`[Action: updateSupplier] No rows were updated. ID ${id} might not exist.`);
     return { success: false, error: "Nenhum registro foi encontrado para atualização. O ID pode estar incorreto." };
   }
 
-  console.log(`[Action: updateSupplier] Update successful! Record updated:`, data[0].name);
+  console.log(`[Action: updateSupplier] Update successful! Record updated:`, updatedData[0].name);
 
   // Revalidar o slug antigo e o novo (caso tenha mudado)
   if (oldData?.slug) {

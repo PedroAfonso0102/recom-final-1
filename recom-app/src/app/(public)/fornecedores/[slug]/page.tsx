@@ -59,10 +59,10 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
       <section data-hook="public.suppliers.detail.hero" className="container-recom py-12 md:py-16">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
           <div className="flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-white p-8 shadow-recom-card lg:w-[280px]">
-            {supplier.logoUrl ? (
+            {supplier.logoUrl && supplier.logoUrl.trim() !== "" ? (
               <img src={supplier.logoUrl} alt={supplier.name} className="h-full w-full object-contain" />
-            ) : supplier.slug === "mitsubishi-materials" ? (
-              <img src="/assets/images/Mitsubishi.png" alt={supplier.name} className="h-full w-full object-contain" />
+            ) : supplier.slug === "mitsubishi" || supplier.slug === "mitsubishi-materials" ? (
+              <img src="/assets/images/mitsubishi-logo.png" alt={supplier.name} className="h-full w-full object-contain" />
             ) : (
               <div className="flex flex-col items-center gap-4 text-muted-foreground/35">
                 <Factory className="h-12 w-12" />

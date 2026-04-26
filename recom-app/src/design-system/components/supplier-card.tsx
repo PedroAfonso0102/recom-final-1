@@ -40,7 +40,7 @@ export function SupplierCard({
     >
       <RecomCardHeader className="gap-4 pb-4">
         <div className="flex h-18 w-full items-center justify-center rounded-lg border border-recom-border/60 bg-recom-gray-50 p-4 transition-colors group-hover:bg-white">
-          {logoUrl ? (
+          {logoUrl && logoUrl.trim() !== "" ? (
             <img
               src={logoUrl}
               alt={name}

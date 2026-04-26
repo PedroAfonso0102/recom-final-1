@@ -95,7 +95,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-border bg-white shadow-recom-card">
-              {process.imageUrl ? (
+              {process.imageUrl && process.imageUrl.trim() !== "" ? (
                 <img src={process.imageUrl} alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
               ) : process.slug === "torneamento" ? (
                 <img src="/assets/images/koudoe.jpg" alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
