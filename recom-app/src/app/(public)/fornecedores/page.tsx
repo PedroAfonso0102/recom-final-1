@@ -18,16 +18,16 @@ export default async function FornecedoresPage() {
   return (
     <div className="flex flex-col">
       {/* Header da Página */}
-      <section className="bg-background border-b border-border py-16 md:py-24">
+      <section className="bg-background border-b border-border py-10 md:py-14">
         <div className="mx-auto max-w-[1180px] px-4 md:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-wide text-primary mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-2">
               Parceiros de Tecnologia
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-6">
               Fornecedores e <span className="text-primary">Catálogos</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
               A RECOM facilita o acesso a fornecedores e catálogos oficiais para ferramentas de corte. Atuamos como distribuidor autorizado em Campinas e região.
             </p>
           </div>
@@ -38,7 +38,7 @@ export default async function FornecedoresPage() {
       <RecomSection
         title="Acesso direto aos principais fornecedores"
         description="Encontre marcas, catálogos oficiais e caminhos de atendimento com a RECOM."
-        className="bg-muted/20"
+        className="bg-muted/10 py-10 md:py-12"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {suppliers.length === 0 ? (
@@ -51,6 +51,7 @@ export default async function FornecedoresPage() {
                 key={supplier.id ?? supplier.slug}
                 name={supplier.name}
                 description={supplier.shortDescription || ""}
+                logoUrl={supplier.logoUrl || ""}
                 internalLink={`/fornecedores/${supplier.slug}`}
                 externalCatalogLink={supplier.catalogUrl || undefined}
                 catalogAvailable={!!supplier.catalogUrl}
@@ -65,26 +66,26 @@ export default async function FornecedoresPage() {
       <RecomSection
         eyebrow="Central de Documentação"
         title="Catálogos oficiais de usinagem"
-        description="Consulte especificações técnicas, parâmetros de corte e geometrias diretamente nas fontes oficiais."
-        className="bg-background border-t border-border"
+        description="Consulte especificações técnicas e parâmetros de corte nas fontes oficiais."
+        className="bg-background border-t border-border py-10 md:py-12"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {suppliers.map(supplier => (
-            <RecomCard key={`doc-${supplier.id ?? supplier.slug}`} className="group">
-              <RecomCardHeader className="pb-4">
-                <RecomCardTitle className="text-base font-bold uppercase tracking-wider">
+            <RecomCard key={`doc-${supplier.id ?? supplier.slug}`} className="group p-1">
+              <RecomCardHeader className="pb-2">
+                <RecomCardTitle className="text-xs font-bold uppercase tracking-tight text-slate-800">
                   {supplier.name}
                 </RecomCardTitle>
               </RecomCardHeader>
               <RecomCardContent>
                 {supplier.catalogUrl ? (
-                  <RecomButton asChild intent="link" className="px-0 h-auto font-semibold">
+                  <RecomButton asChild intent="link" className="px-0 h-auto font-bold text-[10px] uppercase tracking-wider">
                     <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                      Ver PDF Oficial <ArrowRight className="w-4 h-4 ml-2" />
+                      Ver PDF <ArrowRight className="w-3 h-3 ml-2" />
                     </a>
                   </RecomButton>
                 ) : (
-                  <span className="text-sm italic text-muted-foreground">Sob consulta</span>
+                  <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/50">Sob consulta</span>
                 )}
               </RecomCardContent>
             </RecomCard>
@@ -93,15 +94,15 @@ export default async function FornecedoresPage() {
       </RecomSection>
 
       {/* Contact CTA */}
-      <section className="bg-primary py-16 md:py-24">
+      <section className="bg-primary py-10 md:py-12">
         <div className="mx-auto max-w-[1180px] px-4 md:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-3">
             Não encontrou o catálogo que precisava?
           </h2>
-          <p className="text-primary-foreground/80 text-lg mb-10 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/80 text-sm md:text-base mb-6 max-w-xl mx-auto">
             Nossa equipe técnica pode enviar a documentação específica para o seu processo de usinagem.
           </p>
-          <RecomButton asChild size="lg" intent="secondary">
+          <RecomButton asChild size="md" intent="secondary" className="rounded-md">
             <Link href="/sobre#contato">Falar com a RECOM</Link>
           </RecomButton>
         </div>

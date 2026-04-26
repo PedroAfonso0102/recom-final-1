@@ -80,7 +80,7 @@ export default async function AdminSuppliersPage() {
                   <TableCell className="py-4 text-right px-6">
                     <div className="flex justify-end gap-2">
                       <Link href={`/admin/fornecedores/${supplier.slug}/editar`}>
-                        <RecomButton variant="secondary" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-border">
+                        <RecomButton intent="secondary" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-border">
                           <Edit2 className="h-3 w-3 mr-1.5" />
                           Editar
                         </RecomButton>

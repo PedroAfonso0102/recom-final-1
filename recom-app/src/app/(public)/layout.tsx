@@ -1,5 +1,6 @@
 import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
+import { WhatsAppFAB } from "@/components/public/WhatsAppFAB";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,6 +23,8 @@ export default function PublicLayout({
         {children}
       </main>
       <Footer />
+      <WhatsAppFAB />
     </div>
   );
 }
+

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Factory } from "lucide-react";
 import type { Metadata } from "next";
+import { RecomButton } from "@/design-system/components/recom-button";
 
 interface SupplierDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -37,10 +38,10 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
   return (
     <div className="flex flex-col pb-24">
       {/* Breadcrumb Header */}
-      <div className="bg-muted/10 border-b-2 border-foreground py-6">
-        <div className="container mx-auto px-4 flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+      <div className="bg-muted/10 border-b border-border py-4 md:py-5">
+        <div className="mx-auto max-w-[1180px] px-4 md:px-8 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
           <Link href="/fornecedores" className="hover:text-primary transition-colors flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Fornecedores
+            <ArrowLeft className="w-3 h-3" /> Fornecedores
           </Link>
           <span className="opacity-30">/</span>
           <span className="text-foreground">{supplier.name}</span>
@@ -48,54 +49,48 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
       </div>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16 md:py-24" data-hook="suppliers.detail-hero">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
-          <div className="w-full lg:w-[400px] aspect-square bg-white border-2 border-foreground rounded-2xl flex items-center justify-center shrink-0 p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group">
+      <section className="mx-auto max-w-[1180px] px-4 md:px-8 py-12 md:py-16">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+          <div className="w-full lg:w-[280px] aspect-square bg-white border border-border rounded-md flex items-center justify-center shrink-0 p-8 shadow-sm group">
             {supplier.logoUrl ? (
-              <img src={supplier.logoUrl} alt={supplier.name} className="w-full h-full object-contain grayscale transition-all duration-700 group-hover:grayscale-0" />
+              <img src={supplier.logoUrl} alt={supplier.name} className="w-full h-full object-contain" />
             ) : supplier.slug === 'mitsubishi-materials' ? (
-              <img src="/assets/images/Mitsubishi.png" alt={supplier.name} className="w-full h-full object-contain grayscale transition-all duration-700 group-hover:grayscale-0" />
+              <img src="/assets/images/Mitsubishi.png" alt={supplier.name} className="w-full h-full object-contain" />
             ) : (
               <div className="flex flex-col items-center gap-4 text-muted-foreground/30">
-                <Factory className="w-16 h-16 opacity-50" />
-                <span className="font-black tracking-[0.3em] uppercase text-xs">{supplier.name}</span>
+                <Factory className="w-12 h-12 opacity-50" />
+                <span className="font-bold tracking-widest uppercase text-[10px]">{supplier.name}</span>
               </div>
             )}
           </div>
-          <div className="flex-1 flex flex-col gap-8">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest w-fit">
+          <div className="flex-1 flex flex-col gap-6">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-primary/20 bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-widest w-fit">
                 Distribuidor Autorizado
               </div>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-foreground uppercase">{supplier.name}</h1>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground uppercase leading-tight">{supplier.name}</h1>
             </div>
             
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
               {supplier.shortDescription}
             </p>
             
-            <div className="prose prose-slate max-w-none border-l-4 border-foreground/10 pl-8">
-              <p className="text-lg text-muted-foreground leading-relaxed font-medium whitespace-pre-line">
+            <div className="prose prose-slate max-w-none border-l-2 border-primary/20 pl-6">
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
                 {supplier.longDescription}
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-6 pt-8">
-              <Link
-                href="/sobre#contato"
-                className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground h-14 px-10 text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)]"
-              >
-                Solicitar Cotação
-              </Link>
+            <div className="flex flex-wrap gap-4 pt-6">
+              <RecomButton asChild size="lg" intent="primary" className="rounded-md">
+                <Link href="/sobre#contato">Solicitar Cotação</Link>
+              </RecomButton>
               {supplier.catalogUrl && (
-                <a
-                  href={supplier.catalogUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 justify-center rounded-md border-2 border-foreground h-14 px-10 text-xs font-black uppercase tracking-widest hover:bg-muted/30 transition-all"
-                >
-                  Acessar Catálogo Oficial <ExternalLink className="w-4 h-4" />
-                </a>
+                <RecomButton asChild size="lg" intent="outline" className="rounded-md">
+                  <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
+                    Acessar Catálogo Oficial <ExternalLink className="w-4 h-4 ml-2" />
+                  </a>
+                </RecomButton>
               )}
             </div>
           </div>
@@ -103,22 +98,16 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="p-10 md:p-20 border-2 border-foreground bg-foreground text-background rounded-3xl shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] text-center relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5 pointer-events-none grayscale">
-            <img src="/assets/images/carbide.png" alt="BG" className="object-cover w-full h-full" />
-          </div>
+      <section className="mx-auto max-w-[1180px] px-4 md:px-8 py-10 md:py-12">
+        <div className="p-8 md:p-12 border border-border bg-slate-900 text-white rounded-md shadow-recom text-center relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-8 uppercase">Atendimento Técnico Comercial</h2>
-            <p className="text-lg text-background/70 mb-12 font-medium leading-relaxed">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4 uppercase">Atendimento Técnico Comercial</h2>
+            <p className="text-base text-white/70 mb-8 leading-relaxed">
               Atendimento direto de nossa sede em Campinas para indicar ferramentas de metal duro e catálogos técnicos para sua usinagem.
             </p>
-            <Link
-              href="/contato"
-              className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground h-12 px-10 text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all"
-            >
-              Falar com a RECOM
-            </Link>
+            <RecomButton asChild size="lg" intent="accent" className="rounded-md px-10">
+              <Link href="/sobre#contato">Falar com a RECOM</Link>
+            </RecomButton>
           </div>
         </div>
       </section>

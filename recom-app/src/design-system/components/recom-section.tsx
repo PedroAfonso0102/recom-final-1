@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface RecomSectionProps extends React.HTMLAttributes<HTMLElement> {
   eyebrow?: string;
-  title: string;
+  title?: string;
   description?: string;
   containerSize?: "main" | "editorial" | "wide";
 }
@@ -19,28 +19,39 @@ const RecomSection = React.forwardRef<HTMLElement, RecomSectionProps>(
     return (
       <section 
         ref={ref} 
-        className={cn("py-20 md:py-24", className)} 
+        className={cn("py-10 md:py-12", className)} 
         {...props}
       >
         <div className={cn("mx-auto px-4 md:px-8", maxWidthClass)}>
-          <div className="max-w-2xl mb-12">
-            {eyebrow && (
-              <p className="text-sm font-medium uppercase tracking-wide text-primary">
-                {eyebrow}
-              </p>
+            {(title || description) && (
+              <div className="max-w-2xl mb-6">
+                {eyebrow && (
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                    {eyebrow}
+                  </p>
+                )}
+                {title && (
+                  <h2 className={cn(
+                    "mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-foreground",
+                    !eyebrow && "mt-0"
+                  )}>
+                    {title}
+                  </h2>
+                )}
+                {description && (
+                  <p className="mt-4 text-base md:text-lg leading-7 text-muted-foreground">
+                    {description}
+                  </p>
+                )}
+              </div>
             )}
-            <h2 className={cn(
-              "mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-foreground",
-              !eyebrow && "mt-0"
-            )}>
-              {title}
-            </h2>
-            {description && (
-              <p className="mt-4 text-base md:text-lg leading-7 text-muted-foreground">
-                {description}
-              </p>
+            {!title && !description && eyebrow && (
+              <div className="mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                  {eyebrow}
+                </p>
+              </div>
             )}
-          </div>
           {children}
         </div>
       </section>

@@ -68,8 +68,8 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
     }
   }
 
-  const labelStyles = "text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block";
-  const inputStyles = "bg-muted/30 border-border rounded-none focus:border-primary transition-colors h-11 text-sm font-medium";
+  const labelStyles = "text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2 block";
+  const inputStyles = "bg-white border-border rounded-lg focus:ring-2 focus:ring-primary/20 transition-all h-12 text-sm font-medium shadow-sm";
 
   return (
     <Form {...form}>
@@ -245,7 +245,7 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
         <div className="flex justify-end gap-4 border-t border-border pt-10">
           <RecomButton 
             type="button" 
-            variant="outline" 
+            intent="outline" 
             onClick={() => router.back()} 
             disabled={loading}
             className="uppercase font-bold text-xs tracking-widest h-12 px-8"

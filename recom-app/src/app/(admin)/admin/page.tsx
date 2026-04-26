@@ -45,7 +45,7 @@ export default function AdminDashboard() {
         <RecomCard className="lg:col-span-4 p-8 flex flex-col gap-6">
           <div className="flex items-center justify-between border-b border-border pb-4">
             <h3 className="text-sm font-bold uppercase tracking-widest">Leads Recentes</h3>
-            <RecomButton variant="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-primary">
+            <RecomButton intent="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-primary">
               Ver todos <ArrowUpRight className="ml-1 h-3 w-3" />
             </RecomButton>
           </div>

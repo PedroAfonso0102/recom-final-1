@@ -15,16 +15,16 @@ export default function SobrePage() {
   return (
     <div className="flex flex-col">
       {/* Header da Página */}
-      <section className="bg-background border-b border-border py-16 md:py-24">
+      <section className="bg-background border-b border-border py-10 md:py-14">
         <div className="mx-auto max-w-[1180px] px-4 md:px-8">
           <div className="max-w-4xl">
-            <p className="text-sm font-medium uppercase tracking-wide text-primary mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-2">
               Nossa Trajetória
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-foreground mb-8 uppercase">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-6">
               Distribuidor de ferramentas <span className="text-primary">desde 1990</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
               A {siteConfig.company.fullName} facilita o acesso a fornecedores, catálogos e atendimento comercial para ferramentas de corte e soluções de usinagem em Campinas e região.
             </p>
           </div>
@@ -32,18 +32,18 @@ export default function SobrePage() {
       </section>
 
       {/* Sobre nós */}
-      <RecomSection eyebrow="Atendimento Técnico" className="bg-background">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          <div className="space-y-10">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground uppercase">
+      <RecomSection eyebrow="Atendimento Técnico" className="bg-background py-10 md:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+          <div className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
               Atendimento em Campinas e região
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Nossa atuação como distribuidor B2B foca na proximidade com o cliente industrial. Entendemos que cada processo de usinagem exige a ferramenta correta e suporte técnico comercial direto. Como distribuidores autorizados Mitsubishi Materials, garantimos procedência e catálogos oficiais.
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              Nossa atuação como distribuidor B2B foca na proximidade com o cliente industrial. Entendemos que cada processo de usinagem exige a ferramenta correta e suporte técnico comercial direto.
             </p>
             
-            <div className="space-y-6 pt-4">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-primary border-l-2 border-primary pl-4">
+            <div className="space-y-5 pt-4">
+              <h3 className="text-[10px] font-bold uppercase tracking-wider text-primary border-l-2 border-primary pl-4">
                 Diferenciais Industriais
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -53,8 +53,8 @@ export default function SobrePage() {
                   { title: "Catálogos Oficiais", desc: "Acesso total às especificações Mitsubishi e parceiros." },
                   { title: "Tradição B2B", desc: "Mais de 30 anos no mercado de metal duro." }
                 ].map((item, idx) => (
-                  <div key={idx} className="space-y-1">
-                    <h4 className="font-bold text-foreground uppercase tracking-tight text-sm">{item.title}</h4>
+                  <div key={idx} className="space-y-0.5">
+                    <h4 className="font-bold text-foreground uppercase tracking-tight text-xs">{item.title}</h4>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
                   </div>
                 ))}
@@ -62,11 +62,11 @@ export default function SobrePage() {
             </div>
           </div>
           
-          <div className="border border-border rounded-xl aspect-[4/3] overflow-hidden bg-muted group shadow-recom-card">
+          <div className="border border-border rounded-md aspect-[4/3] overflow-hidden bg-muted group shadow-sm">
             <img 
               src="/assets/images/escritorio.jpg" 
               alt="Escritório RECOM Metal Duro" 
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover grayscale transition-all duration-700"
             />
           </div>
         </div>
@@ -78,12 +78,12 @@ export default function SobrePage() {
         eyebrow="Canais de Atendimento"
         title="Fale com a RECOM"
         description="Solicite cotações, agende visitas técnicas ou envie sua dúvida sobre ferramentas de corte."
-        className="bg-muted/20 border-t border-border scroll-mt-20"
+        className="bg-muted/10 border-t border-border py-10 md:py-12 scroll-mt-20"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Form */}
-          <div className="lg:col-span-8 bg-background border border-border rounded-xl p-8 md:p-12 shadow-recom">
-            <h3 className="text-xl font-bold tracking-tight mb-8 uppercase text-foreground border-b border-border pb-6">
+          <div className="lg:col-span-8 bg-background border border-border rounded-md p-6 md:p-8 shadow-sm">
+            <h3 className="text-lg font-bold tracking-tight mb-8 uppercase text-foreground border-b border-border pb-5">
               Solicitar Orçamento ou Atendimento
             </h3>
             
@@ -154,10 +154,10 @@ export default function SobrePage() {
               </div>
 
               <div className="col-span-full pt-4">
-                <RecomButton type="submit" className="w-full h-12 text-sm uppercase tracking-widest font-bold">
+                <RecomButton type="submit" className="w-full h-11 text-[11px] uppercase tracking-wider font-bold">
                   Enviar Solicitação Técnica
                 </RecomButton>
-                <p className="text-[10px] text-muted-foreground text-center mt-6 uppercase tracking-widest font-medium">
+                <p className="text-[9px] text-muted-foreground text-center mt-5 uppercase tracking-wider font-medium">
                   Atendimento B2B prioritário para indústrias e empresas.
                 </p>
               </div>
