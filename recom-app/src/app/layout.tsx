@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/config";
+import "@/lib/env"; // Trigger env validation
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
