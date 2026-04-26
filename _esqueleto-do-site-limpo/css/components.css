@@ -1,0 +1,239 @@
+/* =========================
+   RECOM COMPONENTS
+   Cards, botões e elementos de interface.
+   ========================= */
+
+/* Cards Base */
+/* .card movido para baixo para incluir estados de hover e brand-badge */
+
+@media (max-width: 768px) {
+    .card {
+        padding: var(--wire-space-sm);
+    }
+}
+
+.card-media {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--wire-radius-sm);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--wire-transition);
+}
+
+.card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--wire-transition);
+}
+
+.card-media img.object-contain {
+    object-fit: contain;
+}
+
+/* Brand Badge specific (logos) */
+.brand-badge {
+    filter: grayscale(100%) opacity(0.8);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .brand-badge {
+    filter: grayscale(0%) opacity(1);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wire-space-sm);
+    padding: var(--wire-space-md);
+    border: 1px solid var(--wire-border);
+    border-radius: var(--wire-radius-md);
+    background: var(--wire-surface);
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--wire-text);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var(--wire-space-xs);
+}
+
+/* Buttons */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem; /* 48px */
+    width: fit-content;
+    padding: 0.75rem 1.5rem;
+    color: #ffffff;
+    background: #000000;
+    border: 1px solid #000000;
+    border-radius: var(--wire-radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--wire-transition);
+    user-select: none;
+}
+
+.button:hover {
+    background: #333333;
+    border-color: #333333;
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+.button:focus-visible {
+    outline: var(--wire-focus-outline);
+    outline-offset: 2px;
+}
+
+.button:disabled,
+.button.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.button.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.button.is-loading::after {
+    content: "";
+    position: absolute;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #ffffff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.button.secondary {
+    background: transparent;
+    color: var(--wire-text);
+    border: 1px solid var(--wire-border-strong);
+}
+
+.button.secondary:hover {
+    background: #f5f5f5;
+}
+
+/* Navigation */
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+    transition: var(--wire-transition);
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}
+
+.nav-link.is-active {
+    border-bottom: 2px solid var(--wire-text);
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    padding-block: var(--wire-space-sm);
+    font-size: 0.875rem;
+    color: var(--wire-muted);
+}
+
+.breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumbs li + li::before {
+    content: ">";
+    padding-inline: var(--wire-space-sm);
+    color: var(--wire-border-strong);
+}
+
+/* Forms */
+.form-group, .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wire-space-2xs); /* 8px - Distância label -> campo */
+}
+
+label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--wire-text);
+}
+
+input, 
+select, 
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--wire-border);
+    border-radius: var(--wire-radius-sm);
+    font-family: inherit;
+    font-size: 1rem;
+    background: var(--wire-surface);
+    transition: var(--wire-transition);
+}
+
+input:focus, 
+select:focus, 
+textarea:focus {
+    outline: var(--wire-focus-outline);
+    outline-offset: -1px;
+    border-color: var(--wire-text);
+}
+
+/* Feedback States */
+.has-error input,
+.has-error select,
+.has-error textarea,
+input.is-error {
+    border-color: #cc0000;
+    border-width: 2px;
+}
+
+.error-message {
+    font-size: 0.75rem;
+    color: #cc0000;
+    font-weight: 600;
+}
+
+.has-success input,
+input.is-success {
+    border-color: #008800;
+}
+
+/* External Link Indicator */
+[target="_blank"]::after {
+    content: " ↗";
+    font-size: 0.8em;
+    opacity: 0.7;
+    text-decoration: none;
+    display: inline-block;
+}

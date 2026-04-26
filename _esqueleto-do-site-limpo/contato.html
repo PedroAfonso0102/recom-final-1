@@ -3,102 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato e Orçamentos - RECOM® Metal Duro - Atendimento Campinas</title>
-    <meta name="description" content="Entre em contato com a RECOM® Metal Duro. Solicite cotações enviando códigos, desenhos ou marcas desejadas para ferramentas de usinagem.">
+    <title>Contato e Suporte Técnico | RECOM Metal Duro</title>
+    <meta name="description" content="Solicite orçamentos, visitas técnicas ou catálogos. Atendimento especializado em usinagem industrial.">
     <link rel="stylesheet" href="css/wireframe.css">
+    <script src="js/config.js" defer></script>
     <script src="js/components.js" defer></script>
+    <script type="module" src="src/design-system/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pequeno delay para garantir que o módulo carregou e registrou no window
+            setTimeout(() => {
+                if (window.RECOM_FORMS) window.RECOM_FORMS.initContactForm();
+            }, 100);
+        });
+    </script>
 </head>
 <body>
 
     <div data-component="header"></div>
+    <div data-component="breadcrumbs"></div>
 
     <main data-hook="layout-main">
-        <section class="container" style="padding-top: 3rem;">
-            <h1 data-hook="content-title">Cotação e Atendimento Comercial</h1>
-            <p data-hook="content-text" style="font-size: 1.1rem; max-width: 800px;">
-                Envie sua demanda técnica para nossa equipe comercial em Campinas. Atendemos por código, desenho ou marca.
-            </p>
+        <section class="container py-2xl">
+            <div class="section-header">
+                <h1 data-hook="content-title" class="section-title">Fale com a RECOM®</h1>
+                <p data-hook="content-text" class="section-lead">
+                    Solicite cotações, agende visitas técnicas ou peça suporte para a sua aplicação CNC. Atendimento consultivo focado em resultados.
+                </p>
+            </div>
         </section>
 
-        <section class="container" style="display: flex; gap: 4rem; margin-top: 3rem; flex-wrap: wrap;">
-            <!-- Formulário -->
-            <div style="flex: 2; min-width: 300px;">
-                <div style="background: #fff; padding: 2rem; border: 1px solid var(--wire-border);">
-                    <h2 data-hook="content-subtitle">Enviar solicitação</h2>
-                    <form id="form-contato" action="#" method="POST" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="form-group">
-                                <label for="nome">Seu nome *</label>
-                                <input type="text" id="nome" name="nome" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+        <section class="container py-2xl">
+            <div class="cluster items-start gap-xl stack-mobile">
+                <!-- Form Column -->
+                <div class="flex-2 card p-xl bg-white">
+                    <h2 class="mb-lg">Solicitação Técnica / Comercial</h2>
+                    
+                    <form id="contact-form" class="stack gap-md" data-hook="public.contact.form">
+                        <div class="grid">
+                            <div class="field stack gap-xs">
+                                <label for="name">Seu Nome *</label>
+                                <input type="text" id="name" name="name" required placeholder="Ex: João Silva" data-hook="public.contact.form.field.name">
                             </div>
-                            <div class="form-group">
-                                <label for="empresa">Empresa *</label>
-                                <input type="text" id="empresa" name="empresa" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
-                            </div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="form-group">
-                                <label for="email">E-mail *</label>
-                                <input type="email" id="email" name="email" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
-                            </div>
-                            <div class="form-group">
-                                <label for="telefone">Telefone / WhatsApp</label>
-                                <input type="tel" id="telefone" name="telefone" style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                            <div class="field stack gap-xs">
+                                <label for="company">Empresa *</label>
+                                <input type="text" id="company" name="company" required placeholder="Razão Social ou Nome Fantasia">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="fornecedor">Marca ou Fornecedor (se souber)</label>
-                            <select id="fornecedor" name="fornecedor" style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
-                                <option value="">Selecione...</option>
-                                <option value="mitsubishi">Mitsubishi Materials</option>
-                                <option value="7leaders">7Leaders</option>
-                                <option value="btfixo">BT Fixo</option>
-                                <option value="kifix">Kifix</option>
-                                <option value="outros">Outros / Não sei</option>
+
+                        <div class="grid">
+                            <div class="field stack gap-xs">
+                                <label for="email">E-mail Corporativo *</label>
+                                <input type="email" id="email" name="email" required placeholder="contato@empresa.com.br" data-hook="public.contact.form.field.email">
+                            </div>
+                            <div class="field stack gap-xs">
+                                <label for="phone">WhatsApp / Telefone *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="(19) 00000-0000">
+                            </div>
+                        </div>
+
+                        <div class="field stack gap-xs">
+                            <label for="interest">Assunto Principal</label>
+                            <select id="interest" name="interest">
+                                <option value="orcamento">Solicitar Orçamento</option>
+                                <option value="visita">Agendar Visita Técnica</option>
+                                <option value="catalogo">Dúvida sobre Catálogo</option>
+                                <option value="outros">Outros Assuntos</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="mensagem">Detalhes da solicitação (Códigos, Desenhos, Processo) *</label>
-                            <textarea id="mensagem" name="mensagem" rows="6" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border); font-family: inherit;"></textarea>
-                            <span style="font-size: 0.8rem; color: #888;">Informe códigos de insertos, suportes ou descrição do problema técnico.</span>
+
+                        <div class="field stack gap-xs">
+                            <label for="message">Detalhes da sua necessidade</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Informe códigos das ferramentas ou detalhes do material a ser usinado..."></textarea>
                         </div>
-                        <button type="submit" data-hook="action-button" class="button" style="width: fit-content; padding: 0.75rem 2rem;">Enviar para cotação</button>
+
+                        <button type="submit" class="button w-full py-md" data-hook="public.contact.form.submit" data-slot="primary-action">Enviar Solicitação</button>
+                        
+                        <p class="text-small text-muted text-center">Ao enviar, você concorda com nossa <a href="privacidade.html" class="text-brand">Política de Privacidade</a>.</p>
                     </form>
-                </div>
-            </div>
 
-            <!-- Dados institucionais e Ajuda -->
-            <div style="flex: 1; min-width: 250px;">
-                <div style="padding: 2rem; background: #f8f9fa; border-left: 4px solid #0057A8;">
-                    <h3 data-hook="content-subtitle">Dados Diretos</h3>
-                    <p data-hook="content-text" style="font-size: 0.95rem;">
-                        <strong>Telefone:</strong> (19) 3233-2224<br>
-                        <strong>E-mail:</strong> vendas@recommetalduro.com.br<br>
-                        <strong>WhatsApp:</strong> (19) 99XXX-XXXX
-                    </p>
-                    <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #ddd;">
-                    <h3 data-hook="content-subtitle" style="font-size: 1.1rem;">O que informar para agilizar?</h3>
-                    <p style="font-size: 0.85rem; color: #555; margin-bottom: 0.5rem;">
-                      Para cotações rápidas, informe o código da ferramenta ou anexe seu desenho/processo. A RECOM® responderá com a melhor viabilidade técnica e comercial.
-                    </p>
-                    <ul style="font-size: 0.85rem; padding-left: 1rem; color: #555;">
-                        <li>Tipo de material da peça (Aço, Inox, etc.)</li>
-                        <li>Dimensões principais</li>
-                        <li>Quantidade para o lote</li>
-                    </ul>
+                    <!-- Success State (Hidden by default in states.css or via JS) -->
+                    <div id="form-success" class="stack gap-md text-center py-2xl hide" data-hook="public.contact.form.success">
+                        <div class="mx-auto text-xxl">✅</div>
+                        <h3 class="text-xl">Solicitação Enviada!</h3>
+                        <p class="text-muted">Agradecemos o contato. Nossa equipe técnica retornará em breve.</p>
+                        <button type="button" class="button secondary mx-auto" onclick="location.reload()">Enviar nova mensagem</button>
+                    </div>
                 </div>
 
-                <div style="margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--wire-border); text-align: center;">
-                    <strong style="display: block; margin-bottom: 0.5rem;">Precisa de Catálogo?</strong>
-                    <p style="font-size: 0.85rem;">Confira os materiais técnicos antes de solicitar o código.</p>
-                    <a href="fornecedores.html" style="font-size: 0.9rem; font-weight: bold; color: #0057A8;">Ver catálogos oficiais</a>
+                <!-- Info Column -->
+                <div class="flex-1 stack gap-lg">
+                    <div class="card p-md stack gap-md">
+                        <h3 class="text-small text-bold uppercase text-brand">Contatos Diretos</h3>
+                        <div class="stack gap-sm text-small">
+                            <div class="cluster gap-sm items-center">
+                                <span class="text-muted">📞</span>
+                                <a href="tel:{{PHONE}}" class="text-bold">{{PHONE}}</a>
+                            </div>
+                            <div class="cluster gap-sm items-center">
+                                <span class="text-muted">📧</span>
+                                <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-md stack gap-md">
+                        <h3 class="text-small text-bold uppercase text-brand">Localização</h3>
+                        <p class="text-small text-muted">Atendimento focado em Campinas, RMC e polos industriais de São Paulo.</p>
+                        <div class="bg-muted h-250 flex-center border-wire">
+                            <span class="text-muted text-small">[Mapa de Atendimento]</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <div data-component="footer"></div>
+    <div data-component="whatsapp-fab"></div>
 
-    <script src="js/contato.js"></script>
 </body>
 </html>

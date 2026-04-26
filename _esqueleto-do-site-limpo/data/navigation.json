@@ -1,0 +1,18 @@
+{
+    "mainMenu": [
+        { "label": "Início", "url": "index.html" },
+        { "label": "Fornecedores", "url": "fornecedores.html" },
+        { "label": "Processos", "url": "processos.html" },
+        { "label": "Sobre", "url": "sobre.html" },
+        { "label": "Promoções", "url": "promocoes.html" }
+    ],
+    "footerMenu": [
+        { "label": "Nossos Fornecedores", "url": "fornecedores.html" },
+        { "label": "Processos & Soluções", "url": "processos.html" },
+        { "label": "Sobre a RECOM®", "url": "sobre.html" },
+        { "label": "Promoções", "url": "promocoes.html" }
+    ],
+    "social": [
+        { "label": "WhatsApp", "url": "contato.html#whatsapp", "icon": "💬" }
+    ]
+}

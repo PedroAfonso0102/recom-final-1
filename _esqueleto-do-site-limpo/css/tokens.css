@@ -1,0 +1,47 @@
+/* =========================
+   RECOM TOKENS
+   Escalas de medidas, cores e contratos.
+   ========================= */
+
+:root {
+    /* Colors (Neutral Wireframe) */
+    --wire-bg: #ffffff;
+    --wire-surface: #ffffff;
+    --wire-text: #222222;
+    --wire-muted: #666666;
+    --wire-border: #cccccc;
+    --wire-border-strong: #999999;
+    --wire-brand: #0057A8; /* Mitsubishi/Official Blue */
+    
+    --wire-danger: #b00020;
+    --wire-success: #146c2e;
+
+    /* Typography */
+    --wire-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --wire-font-size-base: 1rem;
+    --wire-line-height: 1.6;
+
+    /* Spacing Scale (Base 8px) */
+    --wire-space-3xs: 0.25rem; /* 4px */
+    --wire-space-2xs: 0.5rem;  /* 8px */
+    --wire-space-xs: 0.75rem;  /* 12px */
+    --wire-space-sm: 1rem;      /* 16px */
+    --wire-space-md: 1.5rem;    /* 24px */
+    --wire-space-lg: 2rem;      /* 32px */
+    --wire-space-xl: 3rem;      /* 48px */
+    --wire-space-2xl: 4rem;     /* 64px */
+    --wire-space-3xl: 6rem;     /* 96px */
+
+    /* Layout */
+    --wire-container: 1200px;
+    --wire-radius-sm: 4px;
+    --wire-radius-md: 8px;
+    --wire-radius-lg: 12px;
+
+    /* Interactive */
+    --wire-focus-outline: 2px solid #111111;
+    --wire-focus-offset: 3px;
+    
+    /* Transitions */
+    --wire-transition: 0.2s ease-in-out;
+}

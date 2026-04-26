@@ -3,64 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oportunidades e Promoções - RECOM® Metal Duro</title>
-    <meta name="description" content="Oportunidades e condições comerciais especiais para ferramentas de usinagem e acessórios industriais na RECOM®.">
-    <meta name="keywords" content="ferramentas de corte, usinagem, metal duro, Mitsubishi Materials, promoções industriais, condições comerciais, RECOM Metal Duro">
+    <title>Promoções e Lotes Especiais | RECOM Metal Duro</title>
+    <meta name="description" content="Confira as ofertas vigentes e lotes promocionais de ferramentas de corte. Oportunidades por tempo limitado.">
     <link rel="stylesheet" href="css/wireframe.css">
+    <script src="js/config.js" defer></script>
     <script src="js/components.js" defer></script>
+    <script type="module" src="src/design-system/index.js"></script>
 </head>
 <body>
 
     <div data-component="header"></div>
+    <div data-component="breadcrumbs"></div>
 
     <main data-hook="layout-main">
-        <section class="container" style="padding-top: 3rem;">
-            <h1 data-hook="content-title">Oportunidades e Condições Comerciais</h1>
-            <p data-hook="content-text" style="font-size: 1.1rem; max-width: 800px;">
-                Trabalhamos com condições diferenciadas para lotes, kits de ferramentas e novos processos. Confira abaixo as categorias com condições comerciais sob consulta.
-            </p>
-        </section>
-
-        <section class="container" style="margin-top: 3rem;">
-            <div class="grid">
-                <!-- Condição 1 -->
-                <div class="card" data-hook="content-card">
-                    <span style="font-size: 0.8rem; color: #0057A8; font-weight: bold; text-transform: uppercase;">Kits de Início</span>
-                    <h3 data-hook="content-subtitle">Conjuntos de Suporte + Insertos</h3>
-                    <p data-hook="content-text">Condições especiais para a aquisição de suportes na compra do lote inicial de insertos Mitsubishi Materials.</p>
-                    <a href="contato.html" data-hook="action-button" class="button">Consultar condições</a>
-                </div>
-
-                <!-- Condição 2 -->
-                <div class="card" data-hook="content-card">
-                    <span style="font-size: 0.8rem; color: #0057A8; font-weight: bold; text-transform: uppercase;">Lotes Industriais</span>
-                    <h3 data-hook="content-subtitle">Faturamento para Grandes Volumes</h3>
-                    <p data-hook="content-text">Negociações diretas para itens de alto consumo mensal em linhas de produção contínua.</p>
-                    <a href="contato.html" data-hook="action-button" class="button">Falar com comercial</a>
-                </div>
-
-                <!-- Condição 3 -->
-                <div class="card" data-hook="content-card">
-                    <span style="font-size: 0.8rem; color: #0057A8; font-weight: bold; text-transform: uppercase;">Lançamentos</span>
-                    <h3 data-hook="content-subtitle">Teste de Novas Linhas</h3>
-                    <p data-hook="content-text">Oportunidade para testar novas tecnologias de fresamento ou torneamento com suporte técnico RECOM®.</p>
-                    <a href="contato.html" data-hook="action-button" class="button">Solicitar teste</a>
-                </div>
+        <section class="container py-2xl">
+            <div class="section-header">
+                <h1 data-hook="content-title" class="section-title">Promoções Ativas</h1>
+                <p data-hook="content-text" class="section-lead">
+                    Confira as ofertas vigentes e lotes promocionais de ferramentas de corte. Oportunidades por tempo limitado para otimizar seus custos sem perder performance.
+                </p>
             </div>
         </section>
 
-        <section class="container" style="margin-top: 4rem; background: #fff; padding: 3rem; border: 1px solid var(--wire-border);">
-            <h2 data-hook="content-subtitle">Importante sobre preços e ofertas</h2>
-            <p data-hook="content-text">
-                Devido à natureza técnica das ferramentas e às variações de mercado, não exibimos preços diretos no site. Todas as "Promoções" e "Oportunidades" são convertidas em propostas comerciais personalizadas após a análise da sua necessidade.
-            </p>
-            <p data-hook="content-text">
-                <strong>Nosso foco é o custo-benefício por peça produzida, não apenas o preço unitário da ferramenta.</strong>
-            </p>
+        <section class="container my-2xl">
+            <div id="promotions-grid" class="grid" data-render="promotions" data-hook="public.promotions.hub">
+                <!-- Injetado via js/components.js -->
+                <div class="text-center py-2xl w-full">Carregando promoções...</div>
+            </div>
+        </section>
+
+        <section class="container my-2xl py-2xl">
+            <div class="card p-xl text-center bg-muted border-none">
+                <h2 data-hook="content-subtitle" class="text-xl">Receba ofertas por E-mail ou WhatsApp</h2>
+                <p class="text-muted mt-sm max-w-800 mx-auto">Quer ser o primeiro a saber de lotes promocionais e liquidação de estoque? Entre para nossa lista de transmissão industrial.</p>
+                <div class="cluster justify-center mt-lg">
+                    <a href="contato.html" class="button">Quero entrar na lista</a>
+                </div>
+            </div>
         </section>
     </main>
 
     <div data-component="footer"></div>
+    <div data-component="whatsapp-fab"></div>
 
 </body>
 </html>

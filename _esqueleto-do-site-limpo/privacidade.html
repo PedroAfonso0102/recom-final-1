@@ -3,49 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidade - RECOM® Metal Duro</title>
-    <meta name="description" content="Política de Privacidade da RECOM® Metal Duro (A A Montelione Comercio Ltda.). Transparência e segurança no tratamento de seus dados.">
+    <title>Política de Privacidade e Proteção de Dados - RECOM Metal Duro</title>
+    <meta name="description" content="Saiba como a RECOM® Metal Duro trata seus dados profissionais conforme a LGPD.">
     <link rel="stylesheet" href="css/wireframe.css">
+    <script src="js/config.js" defer></script>
     <script src="js/components.js" defer></script>
+    <script type="module" src="src/design-system/index.js"></script>
 </head>
 <body>
 
     <div data-component="header"></div>
+    <div data-component="breadcrumbs"></div>
 
     <main data-hook="layout-main">
-        <section class="container" style="padding-top: 3rem; max-width: 800px;">
-            <h1 data-hook="content-title">Política de Privacidade</h1>
-            <p data-hook="content-text">
-                A RECOM® Metal Duro (A A Montelione Comercio Ltda.) valoriza a privacidade dos seus clientes e parceiros. Esta política descreve como tratamos as informações coletadas através do nosso site.
-            </p>
+        <section class="container py-2xl max-w-800 stack gap-md">
+            <div class="section-header">
+                <h1 data-hook="content-title" class="section-title">Privacidade e Proteção de Dados</h1>
+                <p data-hook="content-text" class="section-lead">
+                    A RECOM® (A A Montelione Comercio Ltda.) valoriza a privacidade de seus clientes e parceiros. Esta política descreve como tratamos as informações coletadas através do nosso site.
+                </p>
+            </div>
 
-            <h2 data-hook="content-subtitle">1. Coleta de Informações</h2>
-            <p data-hook="content-text">
-                Coletamos informações que você nos fornece voluntariamente através do formulário de contato, como nome, empresa, e-mail e telefone, com a finalidade exclusiva de atendimento comercial e cotações.
-            </p>
+            <div class="stack gap-lg mt-lg">
+                <div class="stack gap-xs">
+                    <h2 class="text-bold">1. Coleta de Informações</h2>
+                    <p class="text-small text-muted">Coletamos apenas os dados necessários para o atendimento comercial B2B: nome, empresa, e-mail corporativo e telefone. Esses dados são fornecidos voluntariamente através do nosso formulário de contato.</p>
+                </div>
 
-            <h2 data-hook="content-subtitle">2. Uso das Informações</h2>
-            <p data-hook="content-text">
-                As informações coletadas são utilizadas para responder às suas solicitações, enviar propostas comerciais e manter o relacionamento de atendimento. Não compartilhamos seus dados com terceiros sem sua autorização, exceto quando necessário para o cumprimento de obrigações legais.
-            </p>
+                <div class="stack gap-xs">
+                    <h2 class="text-bold">2. Uso dos Dados</h2>
+                    <p class="text-small text-muted">Os dados coletados são utilizados exclusivamente para responder solicitações de orçamento, suporte técnico e envio de informações comerciais solicitadas.</p>
+                </div>
 
-            <h2 data-hook="content-subtitle">3. Segurança</h2>
-            <p data-hook="content-text">
-                Empregamos medidas de segurança para proteger suas informações contra acesso não autorizado ou uso indevido.
-            </p>
+                <div class="stack gap-xs">
+                    <h2 class="text-bold">3. Compartilhamento</h2>
+                    <p class="text-small text-muted">Não vendemos ou compartilhamos seus dados com terceiros para fins publicitários. Informações técnicas podem ser compartilhadas com nossos fornecedores (ex: Mitsubishi) apenas quando necessário para suporte técnico específico de sua aplicação.</p>
+                </div>
 
-            <h2 data-hook="content-subtitle">4. Seus Direitos</h2>
-            <p data-hook="content-text">
-                Você pode solicitar a qualquer momento o acesso, correção ou exclusão dos seus dados pessoais através do e-mail <strong>vendas@recommetalduro.com.br</strong>.
-            </p>
+                <div class="stack gap-xs">
+                    <h2 class="text-bold">4. Segurança</h2>
+                    <p class="text-small text-muted">Implementamos medidas técnicas para proteger seus dados contra acessos não autorizados.</p>
+                </div>
+            </div>
 
-            <p data-hook="content-text" style="margin-top: 3rem; font-size: 0.9rem; color: #666;">
-                Atualizado em: 26 de Abril de 2026.
-            </p>
+            <div class="mt-2xl border-t pt-md cluster justify-between items-center stack-mobile gap-md">
+                <p data-hook="content-text" class="text-small text-muted">
+                    Última atualização: Abril de 2024. Para dúvidas, entre em contato através do e-mail: recom@recom-metalduro.com.br
+                </p>
+                <a href="contato.html" class="button small">Voltar para o Contato</a>
+            </div>
         </section>
     </main>
 
     <div data-component="footer"></div>
+    <div data-component="whatsapp-fab"></div>
 
 </body>
 </html>

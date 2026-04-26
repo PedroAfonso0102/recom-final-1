@@ -1,0 +1,54 @@
+[
+    {
+        "id": "mitsubishi",
+        "name": "Mitsubishi Materials",
+        "slug": "mitsubishi-materials",
+        "logo": "assets/images/Mitsubishi.png",
+        "tags": ["Torneamento", "Fresamento", "Furação"],
+        "description": "Referência mundial em ferramentas de corte. Distribuição autorizada RECOM com suporte técnico especializado.",
+        "detailsUrl": "fornecedores/mitsubishi-materials.html",
+        "catalogUrl": "#",
+        "catalogLabel": "Ver Catálogo Oficial (PDF)",
+        "featured": true,
+        "category": "Ferramentas de Corte"
+    },
+    {
+        "id": "7leaders",
+        "name": "7Leaders",
+        "slug": "7leaders",
+        "logo": "assets/images/logo-7leaders.svg",
+        "tags": ["Metal Duro Integral", "Alta Performance"],
+        "description": "Especialista em ferramentas rotativas de alto rendimento, com fabricação nacional e tecnologia de ponta.",
+        "detailsUrl": "fornecedores/7leaders.html",
+        "catalogUrl": "#",
+        "catalogLabel": "Ver Catálogo Oficial (PDF)",
+        "featured": true,
+        "category": "Ferramentas de Corte"
+    },
+    {
+        "id": "btfixo",
+        "name": "BT Fixo",
+        "slug": "bt-fixo",
+        "logo": "assets/images/logo_btfixo.png",
+        "tags": ["Fixação", "Acessórios CNC"],
+        "description": "Soluções completas para fixação de ferramentas, garantindo estabilidade e precisão em máquinas CNC.",
+        "detailsUrl": "fornecedores/bt-fixo.html",
+        "catalogUrl": "#",
+        "catalogLabel": "Ver Catálogo Oficial (PDF)",
+        "featured": true,
+        "category": "Fixação"
+    },
+    {
+        "id": "kifix",
+        "name": "Kifix",
+        "slug": "kifix",
+        "logo": "assets/images/logo-kifix.png",
+        "tags": ["Grampos Rápidos", "Dispositivos"],
+        "description": "Referência em sistemas de travamento manual e pneumático para dispositivos industriais e montagem.",
+        "detailsUrl": "fornecedores/kifix.html",
+        "catalogUrl": "#",
+        "catalogLabel": "Ver Catálogo Oficial (PDF)",
+        "featured": true,
+        "category": "Fixação"
+    }
+]

@@ -1,32 +1,55 @@
-<footer data-hook="layout-footer" style="background: #f4f4f4; padding-top: 4rem; margin-top: 4rem;">
+<footer class="main-footer border-top mt-2xl py-2xl">
     <div class="container">
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--wire-border);">
-            <div>
-                <strong>RECOM® Metal Duro</strong>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">
-                    Atendimento comercial próximo e relacionamento de confiança desde 1990.
+        <div class="grid gap-lg">
+            <!-- Coluna 1: Institucional -->
+            <div class="stack gap-sm">
+                <strong data-hook="footer-title" class="text-lead">RECOM® Metal Duro</strong>
+                <p class="text-small muted">
+                    Distribuidor B2B de ferramentas de corte e soluções de usinagem com presença regional e histórico técnico comprovado desde 1990.
+                </p>
+                <div class="mt-auto">
+                    <a href="{{ROOT}}contato.html" class="button secondary small" data-slot="primary-action">Solicitar cotação</a>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Navegação -->
+            <div class="stack">
+                <strong class="text-small uppercase mb-xs">Navegação</strong>
+                <ul class="stack no-list gap-xs small">
+                    <li><a href="{{ROOT}}fornecedores.html" class="text-muted no-underline">Nossos Fornecedores</a></li>
+                    <li><a href="{{ROOT}}processos.html" class="text-muted no-underline">Processos & Soluções</a></li>
+                    <li><a href="{{ROOT}}sobre.html" class="text-muted no-underline">Sobre a RECOM®</a></li>
+                    <li><a href="{{ROOT}}promocoes.html" class="text-muted no-underline">Promoções</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3: Endereço -->
+            <div class="stack">
+                <strong class="text-small uppercase mb-xs">Base Regional</strong>
+                <p class="text-small muted">
+                    {{ADDRESS}}<br>
+                    CEP {{CEP}}
                 </p>
             </div>
-            <div>
-                <strong>Localização Física</strong>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">
-                    Rua Alferes João José, 350<br>
-                    CEP 13070-188 — Campinas/SP
-                </p>
-            </div>
-            <div>
-                <strong>Canais de Contato</strong>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">
-                    (19) 3233-2224<br>
-                    vendas@recommetalduro.com.br
+
+            <!-- Coluna 4: Contato -->
+            <div class="stack">
+                <strong class="text-small uppercase mb-xs">Canais</strong>
+                <p class="text-small muted">
+                    📞 {{PHONE}}<br>
+                    ✉️ {{EMAIL}}
                 </p>
             </div>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 2rem; font-size: 0.8rem; color: var(--wire-muted);">
-            <p>© 2026 RECOM® Metal Duro (A A Montelione Comercio Ltda.). CNPJ: 62.137.369/0001-06.</p>
-            <nav>
-                <a href="{{ROOT}}privacidade.html" style="color: inherit; margin-left: 1.5rem;">Privacidade</a>
-                <a href="{{ROOT}}contato.html" style="color: inherit; margin-left: 1.5rem;">Cotação rápida</a>
+
+        <div class="cluster justify-between mt-2xl pt-md border-top small muted stack-mobile">
+            <div class="stack gap-xs">
+                <span>© 2026 RECOM® Metal Duro.</span>
+                <span class="text-small muted opacity-70">Razão Social: A A Montelione Comercio Ltda. CNPJ: {{CNPJ}}.</span>
+            </div>
+            <nav class="cluster gap-md">
+                <a href="{{ROOT}}privacidade.html" class="text-muted no-underline">Privacidade</a>
+                <span>Design System B2B v1.0</span>
             </nav>
         </div>
     </div>

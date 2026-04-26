@@ -3,90 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BT Fixo - Porta-ferramentas e Mandris em Campinas - RECOM Metal Duro</title>
+    <title>BT Fixo - Catálogos e atendimento comercial - RECOM Metal Duro</title>
     <link rel="stylesheet" href="../css/wireframe.css">
+    <script src="../js/config.js" defer></script>
     <script src="../js/components.js" defer></script>
 </head>
 <body>
 
     <div data-component="header"></div>
-
-    <main data-hook="layout-main">
-        <section class="container" style="padding-top: 3rem;">
-            <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;">
-                <img src="../assets/images/logo_btfixo.png" alt="BT Fixo" style="height: 50px;" data-hook="brand-image">
-                <h1 data-hook="content-title">BT Fixo</h1>
-            </div>
-            <p data-hook="content-text" style="font-size: 1.1rem; max-width: 800px;">
-                Referência em acessórios de fixação e mandris. A RECOM® é o canal comercial para toda a linha BT Fixo em Campinas e interior paulista.
-            </p>
-        </section>
-
-        <!-- O que essa marca resolve -->
-        <section class="container" style="margin-top: 4rem;">
-            <div style="background: #f8f9fa; padding: 2.5rem; border-left: 6px solid #0057A8;">
-                <h2 data-hook="content-subtitle">O que a BT Fixo resolve na sua produção</h2>
-                <div class="grid" style="margin-top: 1.5rem;">
-                    <div>
-                        <strong>Redução de Vibração</strong>
-                        <p style="font-size: 0.9rem;">Porta-ferramentas balanceados que aumentam a vida útil do inserto e o acabamento da peça.</p>
-                    </div>
-                    <div>
-                        <strong>Versatilidade de Cones</strong>
-                        <p style="font-size: 0.9rem;">Ampla gama de padrões: BT, SK, HSK e Morse para atender diversos modelos de máquinas.</p>
-                    </div>
-                    <div>
-                        <strong>Precisão de Fixação</strong>
-                        <p style="font-size: 0.9rem;">Sistemas de mandris e pinças com baixo batimento (run-out) para usinagens rigorosas.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Linhas Principais -->
-        <section class="container" style="margin-top: 4rem;">
-            <h2 data-hook="content-subtitle">Linhas em Destaque</h2>
-            <div class="grid">
-                <div class="card" data-hook="content-card">
-                    <h3>Porta-Pinças</h3>
-                    <p>Mandris porta-pinças ER de diversos tamanhos, garantindo fixação segura para fresas e brocas.</p>
-                </div>
-                <div class="card" data-hook="content-card">
-                    <h3>Mandris Hidráulicos</h3>
-                    <p>Soluções de alta força de fixação e amortecimento para operações de desbaste e acabamento fino.</p>
-                </div>
-                <div class="card" data-hook="content-card">
-                    <h3>Acessórios CNC</h3>
-                    <p>Puxadores, buchas de redução e sistemas de refrigeração para otimização do setup.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Dados para Cotação -->
-        <section class="container" style="margin-top: 4rem; text-align: center; padding: 2rem; border-top: 1px dashed var(--wire-border);">
-            <h3>Catálogo BT Fixo</h3>
-            <p>Acesse o material completo de acessórios e fixação:</p>
-            <div style="margin-top: 1rem;">
-                <a href="#" class="button" data-hook="catalog-link-btfixo-main">Baixar Catálogo de Fixação (PDF)</a>
-            </div>
-        </section>
-
-        <section class="container" style="margin-top: 4rem; padding: 3rem; border: 1px solid var(--wire-border); background: #fff;">
-            <h2 data-hook="content-subtitle">Como cotar itens BT Fixo</h2>
-            <p data-hook="content-text">Para agilizar seu orçamento via RECOM®, informe:</p>
-            <ul style="line-height: 1.8;">
-                <li><strong>Tipo de Cone:</strong> Ex: BT40, SK50, HSK63.</li>
-                <li><strong>Modelo do Acessório:</strong> Ex: Porta-pinça ER32, Mandril porta-fresa.</li>
-                <li><strong>Comprimento Útil (L):</strong> Projeção necessária da ferramenta.</li>
-                <li><strong>Quantidade:</strong> Para definição de condições de lote.</li>
-            </ul>
-            <div style="margin-top: 2rem;">
-                <a href="../contato.html" data-hook="action-button" class="button">Solicitar cotação BT Fixo</a>
-            </div>
-        </section>
+    <div data-component="breadcrumbs" data-breadcrumb-parent="Fornecedores" data-breadcrumb-parent-href="fornecedores.html"></div>
+    <main data-hook="layout-main" data-render="supplier-detail">
+        <!-- Renderizado dinamicamente pelo js/components.js -->
     </main>
 
     <div data-component="footer"></div>
+    <div data-component="whatsapp-fab"></div>
 
 </body>
 </html>

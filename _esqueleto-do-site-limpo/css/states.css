@@ -1,0 +1,67 @@
+/* =========================
+   RECOM STATES
+   Hover, focus, loading, erro e outros estados reativos.
+   ========================= */
+
+/* Interatividade */
+.button:hover { background: #333333; }
+.button-secondary:hover { background: #f5f5f5; }
+
+.button:active { transform: translateY(1px); }
+
+.card[href]:hover,
+.card[data-hook*="card"]:hover {
+    border-color: var(--wire-text);
+    /* Removido box-shadow e transform para evitar 'pulo' */
+    transition: all var(--wire-transition-fast);
+}
+
+/* Focus States */
+:focus-visible {
+    outline: var(--wire-focus-outline);
+    outline-offset: var(--wire-focus-offset);
+}
+
+/* States */
+.is-active { font-weight: bold; border-bottom: 2px solid currentColor; }
+
+.is-loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.is-disabled, 
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Error/Success */
+.has-error { border-color: var(--wire-danger) !important; }
+.error-message { color: var(--wire-danger); font-size: 0.875rem; }
+
+.has-success { border-color: var(--wire-success) !important; }
+.success-message {
+    padding: var(--wire-space-sm);
+    color: var(--wire-success);
+    background: #e6f4ea;
+    border: 1px solid currentColor;
+    border-radius: var(--wire-radius-sm);
+}
+
+/* Empty/Expired */
+.is-empty { color: var(--wire-muted); font-style: italic; }
+.is-expired { opacity: 0.6; grayscale: 100%; }
+
+.not-available {
+    pointer-events: none;
+    opacity: 0.6;
+    background: #fdfdfd;
+}
+
+.not-available::after {
+    content: " (Indisponível)";
+    font-size: 0.7rem;
+    font-weight: normal;
+}

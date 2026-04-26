@@ -1,0 +1,17 @@
+{
+    "company": "RECOM® Metal Duro",
+    "legalName": "A A Montelione Comercio Ltda.",
+    "cnpj": "62.137.369/0001-06",
+    "address": {
+        "street": "Rua Alferes João José, 350",
+        "neighborhood": "Guanabara",
+        "city": "Campinas",
+        "state": "SP",
+        "zip": "13070-188"
+    },
+    "channels": {
+        "phone": "(19) 3242-4522",
+        "whatsapp": "(19) 99XXX-XXXX",
+        "email": "recom@recom-metalduro.com.br"
+    }
+}

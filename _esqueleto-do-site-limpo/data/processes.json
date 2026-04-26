@@ -1,0 +1,54 @@
+[
+    {
+        "id": "torneamento",
+        "name": "Torneamento",
+        "slug": "torneamento",
+        "image": "assets/images/optimized/koudoe.jpg",
+        "description": "Geração de geometrias de revolução com precisão. Atendemos demandas de insertos, suportes e barras de mandrilar para diversas classes de materiais.",
+        "features": [
+            "Torneamento externo e interno",
+            "Corte e abertura de canais",
+            "Rosqueamento de alta precisão"
+        ],
+        "detailsUrl": "processos/torneamento.html"
+    },
+    {
+        "id": "fresamento",
+        "name": "Fresamento",
+        "slug": "fresamento",
+        "image": "assets/images/optimized/fresa-Bf0r_sxm.jpg",
+        "description": "Flexibilidade para planos, cavidades e contornos complexos. Linhas completas de fresas de metal duro e cabeçotes intercambiáveis.",
+        "features": [
+            "Fresamento de face e ombro reto",
+            "Usinagem de alta velocidade (HSM)",
+            "Fresas de topo e esféricas"
+        ],
+        "detailsUrl": "processos/fresamento.html"
+    },
+    {
+        "id": "furacao",
+        "name": "Furação",
+        "slug": "furacao",
+        "image": "assets/images/optimized/koug.jpg",
+        "description": "Soluções para abertura de furos com foco em produtividade e acabamento. Brocas inteiriças, modulares e com pontas intercambiáveis.",
+        "features": [
+            "Furação profunda e estável",
+            "Brocas de metal duro com refrigeração interna",
+            "Sistemas de alargamento e acabamento"
+        ],
+        "detailsUrl": "processos/furacao.html"
+    },
+    {
+        "id": "fixacao",
+        "name": "Fixação e Porta-ferramentas",
+        "slug": "fixacao",
+        "image": null,
+        "description": "Sistemas de fixação robustos para garantir a máxima performance das ferramentas de corte.",
+        "features": [
+            "Cones BT, SK e HSK",
+            "Grampos rápidos manuais e pneumáticos",
+            "Sistemas de fixação para montagem e solda"
+        ],
+        "detailsUrl": "contato.html"
+    }
+]

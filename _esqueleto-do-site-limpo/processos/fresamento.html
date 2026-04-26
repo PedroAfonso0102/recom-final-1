@@ -3,75 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresamento de Alta Performance - Suporte e Ferramentas - RECOM Metal Duro</title>
+    <title>Fresamento - Ferramentas e fornecedores - RECOM Metal Duro</title>
     <link rel="stylesheet" href="../css/wireframe.css">
+    <script src="../js/config.js" defer></script>
     <script src="../js/components.js" defer></script>
 </head>
 <body>
 
     <div data-component="header"></div>
+    <div data-component="breadcrumbs" data-breadcrumb-parent="Processos" data-breadcrumb-parent-href="processos.html"></div>
 
-    <main data-hook="layout-main">
-        <section class="container" style="padding-top: 3rem;">
-            <h1 data-hook="content-title">Fresamento</h1>
-            <p data-hook="content-text" style="font-size: 1.1rem; max-width: 800px;">
-                Tecnologia para remoção de material com múltiplas arestas de corte. Soluções que equilibram velocidade de avanço e qualidade de acabamento superficial.
-            </p>
-        </section>
-
-        <!-- Detalhes do Processo -->
-        <section class="container" style="margin-top: 4rem;">
-            <div style="display: flex; gap: 3rem; flex-wrap: wrap; align-items: flex-start;">
-                <div style="flex: 2; min-width: 300px;">
-                    <h2 data-hook="content-subtitle">Operações Atendidas</h2>
-                    <p data-hook="content-text">
-                        O fresamento exige ferramentas que suportem cortes interrompidos e altas temperaturas. Na RECOM®, direcionamos sua necessidade para a melhor combinação de cabeçote e inserto:
-                    </p>
-                    <ul style="line-height: 1.8;">
-                        <li><strong>Faceamento:</strong> Cabeçotes para grandes áreas com insertos de alta performance.</li>
-                        <li><strong>Usinagem de Ombro:</strong> Fresas de 90° para paredes retas e precisas.</li>
-                        <li><strong>Cópia e Moldes:</strong> Fresas esféricas e toroidais para geometrias complexas.</li>
-                        <li><strong>Alta Produtividade:</strong> Ferramentas para High Feed Milling (Avanço Rápido).</li>
-                    </ul>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <img src="../assets/images/optimized/fresa-Bf0r_sxm.jpg" alt="Ferramenta de Fresamento" style="width: 100%; border: 1px solid var(--wire-border);" data-hook="content-image">
-                </div>
-            </div>
-        </section>
-
-        <!-- Marcas Relacionadas -->
-        <section class="container" style="margin-top: 4rem; background: #f8f9fa; padding: 2.5rem;">
-            <h2 data-hook="content-subtitle">Principais Marcas para este Processo</h2>
-            <div class="grid" style="margin-top: 1.5rem;">
-                <div>
-                    <strong>Mitsubishi Materials</strong>
-                    <p style="font-size: 0.9rem;">Líder em insertos intercambiáveis e cabeçotes de fresamento.</p>
-                </div>
-                <div>
-                    <strong>7Leaders</strong>
-                    <p style="font-size: 0.9rem;">Especialista em fresas de metal duro integral para alta performance.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Dados para Cotação -->
-        <section class="container" style="margin-top: 4rem; padding: 3rem; border: 1px solid var(--wire-border); background: #fff;">
-            <h2 data-hook="content-subtitle">Informações para Cotação de Fresamento</h2>
-            <p data-hook="content-text">Para agilizar seu retorno, tente informar:</p>
-            <ul style="line-height: 1.8; font-size: 0.95rem;">
-                <li>Diâmetro da fresa ou do cabeçote.</li>
-                <li>Número de cortes (Z) necessários.</li>
-                <li>Material da peça e dureza (HRC).</li>
-                <li>Tipo de suporte/mandril utilizado.</li>
-            </ul>
-            <div style="margin-top: 2rem;">
-                <a href="../contato.html" data-hook="action-button" class="button">Enviar consulta de fresamento</a>
-            </div>
-        </section>
+    <main data-hook="layout-main" data-render="process-detail">
+        <!-- Renderizado dinamicamente pelo js/components.js -->
     </main>
 
     <div data-component="footer"></div>
+    <div data-component="whatsapp-fab"></div>
 
 </body>
 </html>

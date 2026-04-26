@@ -1,21 +1,39 @@
-<header data-hook="layout-header">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-        <div data-hook="header-brand" style="display: flex; align-items: center; gap: 1rem;">
-            <img src="{{ROOT}}assets/images/logo-triangulo.png" alt="Logo RECOM®" style="height: 50px;" data-hook="header-logo-triangle">
-            <div>
-                <strong data-hook="content-title" style="display: block; font-size: 1.2rem;">RECOM® Metal Duro</strong>
-                <span data-hook="content-subtitle" style="font-size: 0.8rem; color: var(--wire-muted);">Atendimento Campinas e Região desde 1990</span>
+<header class="main-header">
+    <div class="container">
+        <!-- Barra Superior Integrada -->
+        <div class="cluster justify-between py-xs border-bottom small muted hide-mobile">
+            <div class="cluster gap-md">
+                <span data-hook="topbar-location">📍 Campinas, SP</span>
+                <span data-hook="topbar-phone">📞 {{PHONE}}</span>
+            </div>
+            <div class="cluster gap-md">
+                <span data-hook="topbar-email">✉️ {{EMAIL}}</span>
+                <a href="{{ROOT}}contato.html#whatsapp" class="text-muted no-underline" data-hook="topbar-whatsapp">💬 WhatsApp</a>
             </div>
         </div>
-        <nav data-hook="nav-menu">
-            <ul>
-                <li><a href="{{ROOT}}index.html" data-hook="nav-link">Home</a></li>
-                <li><a href="{{ROOT}}sobre.html" data-hook="nav-link">A RECOM®</a></li>
-                <li><a href="{{ROOT}}fornecedores.html" data-hook="nav-link">Fornecedores & Catálogos</a></li>
-                <li><a href="{{ROOT}}processos.html" data-hook="nav-link">Processos de Usinagem</a></li>
-                <li><a href="{{ROOT}}promocoes.html" data-hook="nav-link">Promoções</a></li>
-                <li><a href="{{ROOT}}contato.html" data-hook="nav-link">Contato</a></li>
-            </ul>
-        </nav>
+
+        <!-- Área Principal -->
+        <div class="cluster justify-between py-md stack-mobile">
+            <a href="{{ROOT}}index.html" class="cluster items-center gap-md no-underline color-inherit" data-hook="header-brand">
+                <img src="{{ROOT}}assets/images/logo-triangulo.png" alt="Logo RECOM®" class="h-32" data-hook="header-logo-triangle">
+                <div class="stack gap-0">
+                    <strong data-hook="content-title" class="text-lead line-height-1">RECOM® Metal Duro</strong>
+                    <span data-hook="content-subtitle" class="text-small muted">Distribuidor técnico desde 1990</span>
+                </div>
+            </a>
+
+            <div class="cluster gap-lg items-center stack-mobile w-full-mobile">
+                <nav data-hook="nav-menu" class="hide-mobile">
+                    <ul class="cluster gap-md no-list py-0 px-0">
+                        <li><a href="{{ROOT}}index.html" data-hook="nav-link" class="nav-link no-underline color-inherit weight-700">Início</a></li>
+                        <li><a href="{{ROOT}}fornecedores.html" data-hook="nav-link" class="nav-link no-underline color-inherit weight-700">Fornecedores</a></li>
+                        <li><a href="{{ROOT}}processos.html" data-hook="nav-link" class="nav-link no-underline color-inherit weight-700">Processos</a></li>
+                        <li><a href="{{ROOT}}sobre.html" data-hook="nav-link" class="nav-link no-underline color-inherit weight-700">Sobre</a></li>
+                        <li><a href="{{ROOT}}promocoes.html" data-hook="nav-link" class="nav-link no-underline color-inherit weight-700">Promoções</a></li>
+                    </ul>
+                </nav>
+                <a href="{{ROOT}}contato.html" class="button small w-full-mobile" data-slot="primary-action">Orçamento</a>
+            </div>
+        </div>
     </div>
 </header>
