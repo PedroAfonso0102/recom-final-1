@@ -17,41 +17,24 @@ const RecomSection = React.forwardRef<HTMLElement, RecomSectionProps>(
     }[containerSize];
 
     return (
-      <section 
-        ref={ref} 
-        className={cn("py-10 md:py-12", className)} 
-        {...props}
-      >
+      <section ref={ref} className={cn("py-12 md:py-16", className)} {...props}>
         <div className={cn("mx-auto px-4 md:px-8", maxWidthClass)}>
-            {(title || description) && (
-              <div className="max-w-2xl mb-6">
-                {eyebrow && (
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-recom-blue mb-4">
-                    {eyebrow}
-                  </p>
-                )}
-                {title && (
-                  <h2 className={cn(
-                    "text-recom-graphite uppercase tracking-tight",
-                    !eyebrow && "mt-0"
-                  )}>
-                    {title}
-                  </h2>
-                )}
-                {description && (
-                  <p className="mt-4 text-muted-foreground">
-                    {description}
-                  </p>
-                )}
-              </div>
-            )}
-            {!title && !description && eyebrow && (
-              <div className="mb-6">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+          {(title || description) && (
+            <div className="max-w-2xl">
+              {eyebrow && (
+                <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-recom-blue">
                   {eyebrow}
                 </p>
-              </div>
-            )}
+              )}
+              {title && <h2 className={cn("text-recom-graphite tracking-tight", !eyebrow && "mt-0")}>{title}</h2>}
+              {description && <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">{description}</p>}
+            </div>
+          )}
+          {!title && !description && eyebrow && (
+            <div className="mb-6">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-primary/70">{eyebrow}</p>
+            </div>
+          )}
           {children}
         </div>
       </section>

@@ -1,70 +1,78 @@
 import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
-import { Phone, Mail, MapPin } from "lucide-react";
 import { RecomButton } from "@/design-system/components/recom-button";
 
 export function Footer() {
   return (
-    <footer className="bg-recom-graphite text-slate-300 border-t border-white/5">
+    <footer data-hook="public.global.footer" className="border-t border-white/5 bg-recom-graphite text-slate-300">
       <div className="container-recom py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-          {/* Logo & About */}
-          <div className="lg:col-span-4 space-y-8">
-            <Link href="/" className="inline-block group">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12">
+          <div className="space-y-8 lg:col-span-4">
+            <Link href="/" className="inline-block">
               <div className="flex items-center gap-4">
-                <div className="h-10 w-10 bg-white rounded-md flex items-center justify-center p-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-white p-2">
                   <img src="/assets/images/logo-triangulo.png" alt="RECOM" className="object-contain" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl font-bold tracking-tight text-white uppercase leading-none">RECOM<span className="text-recom-red text-[12px] align-top">®</span></span>
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase leading-none mt-1">Metal Duro</span>
+                  <span className="text-xl font-bold leading-none tracking-tight text-white uppercase">
+                    RECOM<span className="text-[12px] align-top text-recom-red">®</span>
+                  </span>
+                  <span className="mt-1 text-[10px] font-bold uppercase leading-none tracking-[0.2em] text-white/40">
+                    Metal Duro
+                  </span>
                 </div>
               </div>
             </Link>
-            <p className="text-[14px] text-slate-400 leading-relaxed max-w-sm">
-              Especialistas em ferramentas de corte e soluções técnicas para a indústria metal-mecânica. Distribuidor autorizado com suporte de engenharia desde {siteConfig.company.since}.
+
+            <p className="max-w-sm text-[14px] leading-relaxed text-slate-400">
+              Especialistas em ferramentas de corte e soluções técnicas para a indústria metal-mecânica. Distribuidor autorizado com atendimento humano desde {siteConfig.company.since}.
             </p>
-            <div className="flex gap-4">
-              <RecomButton asChild size="sm" intent="accent" className="h-9 px-6">
-                <Link href="/sobre#contato">Falar com Consultor</Link>
-              </RecomButton>
-            </div>
+
+            <RecomButton asChild size="sm" intent="accent" className="h-9 px-6">
+              <Link href="/sobre#contato">Solicitar orçamento</Link>
+            </RecomButton>
           </div>
 
-          {/* Navigation */}
-          <div className="lg:col-span-2 space-y-6">
-            <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-4">Navegação</h4>
+          <div className="space-y-6 lg:col-span-2">
+            <h4 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white">Navegação</h4>
             <nav className="flex flex-col gap-3">
-              <Link href="/" className="text-[14px] text-slate-400 hover:text-white transition-colors">Home</Link>
-              <Link href="/sobre" className="text-[14px] text-slate-400 hover:text-white transition-colors">A Empresa</Link>
-              <Link href="/fornecedores" className="text-[14px] text-slate-400 hover:text-white transition-colors">Fornecedores</Link>
-              <Link href="/processos" className="text-[14px] text-slate-400 hover:text-white transition-colors">Processos</Link>
-              <Link href="/promocoes" className="text-[14px] text-slate-400 hover:text-white transition-colors">Promoções</Link>
+              <Link href="/" className="text-[14px] text-slate-400 transition-colors hover:text-white">Início</Link>
+              <Link href="/sobre" className="text-[14px] text-slate-400 transition-colors hover:text-white">A RECOM</Link>
+              <Link href="/fornecedores" className="text-[14px] text-slate-400 transition-colors hover:text-white">Fornecedores</Link>
+              <Link href="/processos" className="text-[14px] text-slate-400 transition-colors hover:text-white">Processos</Link>
+              <Link href="/promocoes" className="text-[14px] text-slate-400 transition-colors hover:text-white">Promoções</Link>
             </nav>
           </div>
 
-          {/* Contact Details */}
-          <div className="lg:col-span-3 space-y-6">
-            <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-4">Atendimento</h4>
+          <div className="space-y-6 lg:col-span-3">
+            <h4 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white">Atendimento</h4>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="mt-1 bg-white/5 p-2 rounded-md border border-white/10">
+                <div className="mt-1 rounded-md border border-white/10 bg-white/5 p-2">
                   <Phone className="w-4 h-4 text-recom-red" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Telefone</span>
-                  <a href={`tel:${siteConfig.contact.phone}`} className="text-[15px] font-bold text-white hover:text-recom-red transition-colors">
+                  <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Telefone</span>
+                  <a
+                    href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+                    className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
+                  >
                     {siteConfig.contact.phone}
                   </a>
                 </div>
               </div>
+
               <div className="flex items-start gap-4">
-                <div className="mt-1 bg-white/5 p-2 rounded-md border border-white/10">
+                <div className="mt-1 rounded-md border border-white/10 bg-white/5 p-2">
                   <Mail className="w-4 h-4 text-recom-red" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">E-mail Comercial</span>
-                  <a href={`mailto:${siteConfig.contact.email}`} className="text-[15px] font-bold text-white hover:text-recom-red transition-colors">
+                  <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">E-mail comercial</span>
+                  <a
+                    href={`mailto:${siteConfig.contact.email}`}
+                    className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
+                  >
                     {siteConfig.contact.email}
                   </a>
                 </div>
@@ -72,17 +80,17 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Location */}
-          <div className="lg:col-span-3 space-y-6">
-            <h4 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-4">Localização</h4>
+          <div className="space-y-6 lg:col-span-3">
+            <h4 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white">Localização</h4>
             <div className="flex items-start gap-4">
-              <div className="mt-1 bg-white/5 p-2 rounded-md border border-white/10">
+              <div className="mt-1 rounded-md border border-white/10 bg-white/5 p-2">
                 <MapPin className="w-4 h-4 text-recom-red" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Sede Campinas</span>
-                <p className="text-[14px] text-slate-400 leading-relaxed font-medium">
-                  {siteConfig.contact.address}<br />
+                <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Sede Campinas</span>
+                <p className="text-[14px] font-medium leading-relaxed text-slate-400">
+                  {siteConfig.contact.address}
+                  <br />
                   CEP {siteConfig.contact.cep}
                 </p>
               </div>
@@ -90,17 +98,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center md:text-left">
+        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-8 md:flex-row">
+          <p className="text-center text-[11px] font-bold uppercase tracking-widest text-slate-500 md:text-left">
             © {new Date().getFullYear()} {siteConfig.company.name}. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Industrial B2B Specialist</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">Hub institucional e comercial</span>
             <div className="h-4 w-px bg-white/10" />
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Standard 2026</span>
-            </div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              CNPJ {siteConfig.company.cnpj}
+            </span>
           </div>
         </div>
       </div>

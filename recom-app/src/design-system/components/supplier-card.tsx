@@ -1,16 +1,16 @@
 import * as React from "react";
+import { ArrowRight, ExternalLink, Factory } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   RecomCard,
+  RecomCardContent,
+  RecomCardDescription,
+  RecomCardFooter,
   RecomCardHeader,
   RecomCardTitle,
-  RecomCardDescription,
-  RecomCardContent,
-  RecomCardFooter
 } from "./recom-card";
 import { RecomButton } from "./recom-button";
-import { ExternalLink, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Factory } from "lucide-react";
+import Link from "next/link";
 
 interface SupplierCardProps {
   name: string;
@@ -33,86 +33,96 @@ export function SupplierCard({
   externalCatalogLink,
   eCatalogLink,
   catalogAvailable = true,
-  className
+  className,
 }: SupplierCardProps) {
   return (
-    <RecomCard className={cn("group flex flex-col h-full bg-white border-recom-border hover:border-recom-blue/30 transition-all duration-500 animate-in fade-in zoom-in-95 duration-700", className)}>
-      <RecomCardHeader className="flex flex-col gap-5 pb-5">
-        <div className="h-16 w-full rounded-md border border-recom-gray-100 bg-recom-gray-50 p-4 shrink-0 flex items-center justify-center transition-all group-hover:bg-white group-hover:border-recom-blue/10">
+    <RecomCard
+      data-hook="public.suppliers.card"
+      className={cn("group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom", className)}
+    >
+      <RecomCardHeader className="gap-4 pb-4">
+        <div className="flex h-18 w-full items-center justify-center rounded-lg border border-recom-border/60 bg-recom-gray-50 p-4 transition-colors group-hover:bg-white">
           {logoUrl ? (
-            <img src={logoUrl} alt={name} className="h-full w-full object-contain saturate-[0.7] group-hover:saturate-100 transition-all duration-500" />
+            <img
+              src={logoUrl}
+              alt={name}
+              className="h-full w-full object-contain"
+            />
           ) : (
-            <Factory className="h-8 w-8 text-muted-foreground/20" />
+            <div className="flex items-center gap-3 text-muted-foreground/35">
+              <Factory className="h-8 w-8" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em]">{name}</span>
+            </div>
           )}
         </div>
-        <div className="flex flex-col">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-recom-red mb-2">
-            Distribuidor Autorizado
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-recom-blue">
+            Fornecedor parceiro
           </span>
-          <RecomCardTitle className="text-[22px] text-recom-graphite font-bold tracking-tight leading-tight">{name}</RecomCardTitle>
+          <RecomCardTitle>{name}</RecomCardTitle>
         </div>
       </RecomCardHeader>
 
-      <RecomCardContent className="flex-grow pt-2">
-        <RecomCardDescription className="line-clamp-3 text-[16px] leading-relaxed text-recom-graphite/70 mb-6">
+      <RecomCardContent className="flex-grow">
+        <RecomCardDescription className="line-clamp-3 text-[15px] text-recom-graphite/72">
           {description}
         </RecomCardDescription>
 
         {processes.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-auto">
-            {processes.map((process) => (
-              <span
-                key={process}
-                className="inline-flex items-center rounded-sm bg-recom-gray-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 border border-recom-border/50"
-              >
-                {process}
-              </span>
-            ))}
+          <div className="mt-6 space-y-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+              Processos relacionados
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {processes.map((process) => (
+                <span
+                  key={process}
+                  className="inline-flex items-center rounded-md border border-recom-border/40 bg-recom-gray-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75"
+                >
+                  {process}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </RecomCardContent>
 
-      <RecomCardFooter className="flex flex-col gap-3 pt-6 mt-4 border-t border-recom-gray-100">
-        <RecomButton asChild className="w-full h-11 text-[11px] justify-center recom-tooltip" intent="primary" data-tooltip="Abrir Detalhes Técnicos">
-          <a href={internalLink}>
-            Ficha Técnica RECOM
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </a>
+      <RecomCardFooter className="mt-2 flex flex-col gap-3 border-t border-recom-gray-100 pt-5">
+        <RecomButton asChild intent="primary" className="h-11 w-full justify-center">
+          <Link href={internalLink} data-hook="public.suppliers.internal-link">
+            Ver fornecedor
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </RecomButton>
 
-        {externalCatalogLink && (
+        {externalCatalogLink && catalogAvailable ? (
           <RecomButton
             asChild
             intent="outline"
-            className={cn("w-full h-11 text-[11px] justify-center recom-tooltip", !catalogAvailable && "opacity-50 cursor-not-allowed")}
-            disabled={!catalogAvailable}
-            data-tooltip={catalogAvailable ? "Baixar Catálogo PDF Oficial" : "Indisponível no momento"}
+            className="h-11 w-full justify-center"
+            data-hook="public.suppliers.catalog-link"
           >
-            <a
-              href={catalogAvailable ? externalCatalogLink : "#"}
-              target={catalogAvailable ? "_blank" : undefined}
-              rel="noopener noreferrer"
-            >
-              {catalogAvailable ? "Catálogo PDF" : "Catálogo Indisponível"}
-              <ExternalLink className="h-4 w-4 ml-2 opacity-50" />
+            <a href={externalCatalogLink} target="_blank" rel="noopener noreferrer">
+              Acessar catálogo oficial
+              <ExternalLink className="ml-2 h-4 w-4" />
             </a>
+          </RecomButton>
+        ) : (
+          <RecomButton
+            type="button"
+            intent="outline"
+            disabled
+            className="h-11 w-full justify-center"
+          >
+            Catálogo sob consulta
           </RecomButton>
         )}
 
         {eCatalogLink && (
-          <RecomButton
-            asChild
-            intent="link"
-            className="w-full h-9 text-[10px] justify-center text-recom-blue/60 hover:text-recom-red underline decoration-recom-blue/20 underline-offset-4 recom-tooltip"
-            data-tooltip="Acessar Versão Online Interativa"
-          >
-            <a
-              href={eCatalogLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Consultar Catálogo Eletrônico
-              <ExternalLink className="h-3.5 w-3.5 ml-2 opacity-40" />
+          <RecomButton asChild intent="link" className="h-auto w-full justify-center px-0 py-1 text-[10px]">
+            <a href={eCatalogLink} target="_blank" rel="noopener noreferrer">
+              Catálogo eletrônico
+              <ExternalLink className="ml-2 h-3.5 w-3.5" />
             </a>
           </RecomButton>
         )}
@@ -120,4 +130,3 @@ export function SupplierCard({
     </RecomCard>
   );
 }
-

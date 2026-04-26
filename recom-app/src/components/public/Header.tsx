@@ -3,10 +3,9 @@ import { MainNavigation } from "./MainNavigation";
 
 export function Header() {
   return (
-    <header className="w-full flex flex-col">
+    <header data-hook="public.global.header" className="w-full flex flex-col">
       <HeaderInstitucional />
       <MainNavigation />
     </header>
   );
 }
-

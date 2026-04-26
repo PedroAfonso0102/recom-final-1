@@ -1,15 +1,26 @@
 import * as React from "react";
-import { 
-  RecomCard, 
-  RecomCardHeader, 
-  RecomCardTitle, 
-  RecomCardDescription, 
-  RecomCardContent, 
-  RecomCardFooter 
+import {
+  ArrowRight,
+  Factory,
+  Layers,
+  Maximize,
+  RotateCw,
+  Settings,
+  Shield,
+  Target,
+  Wrench,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  RecomCard,
+  RecomCardContent,
+  RecomCardDescription,
+  RecomCardFooter,
+  RecomCardHeader,
+  RecomCardTitle,
 } from "./recom-card";
 import { RecomButton } from "./recom-button";
-import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ProcessCardProps {
   name: string;
@@ -17,66 +28,77 @@ interface ProcessCardProps {
   imageUrl?: string;
   suppliers?: string[];
   link: string;
+  contactLink?: string;
+  contactLabel?: string;
   className?: string;
 }
 
-import { 
-  Wrench, 
-  Settings, 
-  RotateCw, 
-  Maximize, 
-  Target, 
-  Layers, 
-  Shield, 
-  Cpu
-} from "lucide-react";
-
 const ICON_MAP: Record<string, React.ReactNode> = {
-  "torneamento": <RotateCw className="h-5 w-5" />,
-  "fresamento": <Settings className="h-5 w-5" />,
+  torneamento: <RotateCw className="h-5 w-5" />,
+  fresamento: <Settings className="h-5 w-5" />,
   "furação": <Target className="h-5 w-5" />,
-  "fixação": <Shield className="h-5 w-5" />,
-  "mandrilamento": <Maximize className="h-5 w-5" />,
-  "rosqueamento": <Layers className="h-5 w-5" />,
-  "default": <Wrench className="h-5 w-5" />
+  furaçao: <Target className="h-5 w-5" />,
+  fixação: <Shield className="h-5 w-5" />,
+  mandrilamento: <Maximize className="h-5 w-5" />,
+  rosqueamento: <Layers className="h-5 w-5" />,
+  default: <Wrench className="h-5 w-5" />,
 };
 
 export function ProcessCard({
   name,
   description,
+  imageUrl,
   suppliers = [],
   link,
-  className
+  contactLink = "/sobre#contato",
+  contactLabel = "Falar com especialista",
+  className,
 }: ProcessCardProps) {
   const slug = name.toLowerCase();
-  const icon = ICON_MAP[slug] || ICON_MAP[Object.keys(ICON_MAP).find(k => slug.includes(k)) || "default"];
+  const icon = ICON_MAP[slug] || ICON_MAP[Object.keys(ICON_MAP).find((key) => slug.includes(key)) || "default"];
 
   return (
-    <RecomCard className={cn("group flex flex-col h-full bg-white border-recom-border hover:border-recom-blue/30 transition-all duration-500 animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-both", className)}>
-      <RecomCardHeader className="pb-4">
-        <div 
-          className="bg-recom-gray-50 text-recom-blue w-12 h-12 rounded-md flex items-center justify-center mb-6 transition-all group-hover:bg-recom-blue group-hover:text-white border border-recom-border/50"
-          data-tooltip={`Soluções para ${name}`}
-        >
-          {icon}
+    <RecomCard
+      data-hook="public.processes.card"
+      className={cn("group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom", className)}
+    >
+      <div className="relative aspect-[16/9] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={name}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-recom-border/60 bg-white text-recom-blue shadow-sm">
+              {icon}
+            </div>
+          </div>
+        )}
+        <div className="absolute left-4 top-4 rounded-md bg-recom-graphite/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-sm">
+          Processo
         </div>
-        <RecomCardTitle className="text-[22px] text-recom-graphite">{name}</RecomCardTitle>
-        <RecomCardDescription className="mt-3 text-[15px] leading-relaxed text-muted-foreground/80 line-clamp-2 min-h-[3rem]">
+      </div>
+
+      <RecomCardHeader className="pb-4">
+        <RecomCardTitle>{name}</RecomCardTitle>
+        <RecomCardDescription className="line-clamp-2 min-h-[3rem]">
           {description}
         </RecomCardDescription>
       </RecomCardHeader>
-      
-      <RecomCardContent className="flex-grow pt-2">
+
+      <RecomCardContent className="flex-grow">
         {suppliers.length > 0 && (
-          <div className="space-y-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
-              Fabricantes Principais
+          <div className="space-y-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+              Fornecedores relacionados
             </p>
             <div className="flex flex-wrap gap-2">
               {suppliers.map((supplier) => (
-                <span 
+                <span
                   key={supplier}
-                  className="inline-flex items-center rounded-sm bg-recom-gray-50 border border-recom-border/30 px-2 py-1 text-[10px] font-bold text-muted-foreground/70 uppercase tracking-wider"
+                  className="inline-flex items-center rounded-md border border-recom-border/40 bg-recom-gray-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75"
                 >
                   {supplier}
                 </span>
@@ -86,12 +108,16 @@ export function ProcessCard({
         )}
       </RecomCardContent>
 
-      <RecomCardFooter className="pt-6 border-t border-recom-gray-100">
-        <RecomButton asChild className="w-full h-11 text-[11px]" intent="outline">
-          <a href={link}>
-            Ver Soluções Técnicas
-            <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
-          </a>
+      <RecomCardFooter className="mt-2 flex flex-col gap-3 border-t border-recom-gray-100 pt-5">
+        <RecomButton asChild intent="outline" className="h-11 w-full justify-center">
+          <Link href={link}>
+            Ver processo
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </RecomButton>
+
+        <RecomButton asChild intent="ghost" className="h-11 w-full justify-center">
+          <Link href={contactLink}>{contactLabel}</Link>
         </RecomButton>
       </RecomCardFooter>
     </RecomCard>

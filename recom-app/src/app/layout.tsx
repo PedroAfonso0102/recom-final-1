@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "RECOM® Metal Duro | Eficiência em Usinagem",
-    template: "%s | RECOM® Metal Duro",
+    default: "RECOM Metal Duro | Distribuidor B2B desde 1990",
+    template: "%s | RECOM Metal Duro",
   },
   description: siteConfig.company.subtitle,
 };
@@ -37,4 +37,3 @@ export default function RootLayout({
     </html>
   );
 }
-

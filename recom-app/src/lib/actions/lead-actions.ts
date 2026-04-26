@@ -1,33 +1,43 @@
-'use export';
-'use server';
+"use server";
 
-import { createLead } from '../services/lead-service';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
+import { createLead } from "../services/lead-service";
+
+function composeLeadMessage(formData: FormData) {
+  const message = (formData.get("message") as string) || "";
+  const supplierInterest = (formData.get("supplierInterest") as string) || "";
+  const processInterest = (formData.get("processInterest") as string) || "";
+  const itemCode = (formData.get("itemCode") as string) || "";
+
+  const contextLines = [
+    supplierInterest ? `Fornecedor de interesse: ${supplierInterest}` : "",
+    processInterest ? `Processo / aplicação: ${processInterest}` : "",
+    itemCode ? `Código / item desejado: ${itemCode}` : "",
+  ].filter(Boolean);
+
+  return [message, ...contextLines].filter(Boolean).join("\n\n");
+}
 
 export async function submitContactForm(formData: FormData) {
-  const name = formData.get('name') as string;
-  const company = formData.get('company') as string;
-  const email = formData.get('email') as string;
-  const phone = formData.get('phone') as string;
-  const interest = formData.get('interest') as string;
-  const message = formData.get('message') as string;
-  const sourcePage = formData.get('sourcePage') as string || '/sobre';
+  const name = String(formData.get("name") || "");
+  const company = String(formData.get("company") || "");
+  const email = String(formData.get("email") || "");
+  const phone = String(formData.get("phone") || "");
+  const sourcePage = String(formData.get("sourcePage") || "/sobre");
 
   const result = await createLead({
     name,
     company,
     email,
     phone,
-    message,
+    message: composeLeadMessage(formData),
     sourcePage,
-    // Map interest to message if not matching UUIDs, or handle accordingly
-    // For now, we'll just put it in the message or handle as a general inquiry
   });
 
   if (result.success) {
-    revalidatePath('/admin/leads');
+    revalidatePath("/admin/leads");
     return { success: true };
-  } else {
-    return { success: false, error: result.error };
   }
+
+  return { success: false, error: result.error };
 }

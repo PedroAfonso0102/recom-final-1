@@ -1,8 +1,15 @@
 import React from "react";
-import { RecomCard, RecomCardHeader, RecomCardTitle, RecomCardContent, RecomCardFooter } from "./recom-card";
-import { RecomButton } from "./recom-button";
-import { Tag, Calendar, ArrowRight, AlertCircle, Package } from "lucide-react";
+import { ArrowRight, Calendar, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  RecomCard,
+  RecomCardContent,
+  RecomCardFooter,
+  RecomCardHeader,
+  RecomCardTitle,
+} from "./recom-card";
+import { RecomButton } from "./recom-button";
+import Link from "next/link";
 
 interface PromotionCardProps {
   title: string;
@@ -21,76 +28,77 @@ export function PromotionCard({
   description,
   endsAt,
   status,
-  ctaLabel = "Solicitar Lote",
+  ctaLabel = "Consultar disponibilidade",
   ctaLink = "/sobre#contato",
   supplierName,
   imageUrl,
   className,
 }: PromotionCardProps) {
   const isActive = status === "active";
+  const validityLabel = isActive ? "Válido até" : "Encerrado em";
 
   return (
     <RecomCard
+      data-hook="public.promotions.card"
       className={cn(
-        "flex flex-col h-full transition-all duration-300 rounded-md shadow-sm hover:shadow-md animate-in fade-in slide-in-from-right-4 duration-700 fill-mode-both",
-        !isActive && "opacity-60 grayscale bg-muted/50",
+        "group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom",
+        !isActive && "opacity-90",
         className
       )}
     >
-      <div className="aspect-[4/3] bg-muted relative overflow-hidden flex items-center justify-center p-6 border-b border-border group/img">
+      <div className="relative aspect-[4/3] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
         {imageUrl ? (
-          <img 
-            src={imageUrl} 
-            alt={title} 
-            className="w-full h-full object-contain transition-all duration-700 saturate-[0.7] group-hover/img:saturate-100 group-hover/img:scale-105"
+          <img
+            src={imageUrl}
+            alt={title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
-          <div className="flex flex-col items-center gap-2 text-muted-foreground/30 uppercase tracking-widest font-bold">
-            <Package className="w-8 h-8 opacity-40" />
-            <span className="text-[9px]">Lote Industrial</span>
+          <div className="flex h-full items-center justify-center p-6">
+            <div className="flex flex-col items-center gap-2 text-muted-foreground/35">
+              <Package className="h-10 w-10" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em]">Oportunidade B2B</span>
+            </div>
           </div>
         )}
-        
-        <div className={cn(
-          "absolute top-3 left-3 px-2 py-1 text-white text-[9px] font-bold uppercase tracking-widest rounded shadow-sm z-10",
-          isActive ? "bg-recom-red" : "bg-muted-foreground"
-        )}>
-          {isActive ? "Oferta Ativa" : "Encerrada"}
+
+        <div
+          className={cn(
+            "absolute left-4 top-4 rounded-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white shadow-sm",
+            isActive ? "bg-recom-red" : "bg-recom-graphite"
+          )}
+        >
+          {isActive ? "Oferta ativa" : "Sob consulta"}
         </div>
       </div>
 
-      <RecomCardContent className="p-4 md:p-6 flex-grow">
+      <RecomCardHeader className="pb-4">
         {supplierName && (
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-recom-blue mb-2 block">
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-recom-blue">
             {supplierName}
           </span>
         )}
-        <RecomCardTitle className="text-[20px] text-recom-graphite font-bold tracking-tight leading-tight mb-3">
-          {title}
-        </RecomCardTitle>
-        <p className="text-[15px] text-recom-graphite/70 leading-relaxed mb-4">
+        <RecomCardTitle>{title}</RecomCardTitle>
+      </RecomCardHeader>
+
+      <RecomCardContent className="flex-grow">
+        <p className="mb-5 text-[15px] leading-relaxed text-recom-graphite/72">
           {description}
         </p>
-        <div className="flex items-center text-[10px] font-medium text-muted-foreground pt-4 border-t border-border/50">
-          <Calendar className="w-3 h-3 mr-2 text-primary" />
-          <span>Válido até: {new Date(endsAt).toLocaleDateString("pt-BR")}</span>
+        <div className="flex items-center gap-2 border-t border-border/60 pt-4 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          <Calendar className="h-3.5 w-3.5 text-recom-blue" />
+          <span>
+            {validityLabel}: {new Date(endsAt).toLocaleDateString("pt-BR")}
+          </span>
         </div>
       </RecomCardContent>
 
       <RecomCardFooter className="pt-2">
-        <RecomButton 
-          asChild 
-          intent={isActive ? "primary" : "outline"} 
-          className="w-full"
-          disabled={!isActive}
-        >
-          {isActive ? (
-            <a href={ctaLink}>
-              {ctaLabel} <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          ) : (
-            <span>Promoção Encerrada</span>
-          )}
+        <RecomButton asChild intent={isActive ? "primary" : "outline"} className="h-11 w-full justify-center">
+          <Link href={ctaLink}>
+            {ctaLabel}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </RecomButton>
       </RecomCardFooter>
     </RecomCard>

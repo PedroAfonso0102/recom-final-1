@@ -1,9 +1,12 @@
-import { getSupplierBySlug, getStaticSupplierSlugs } from "@/lib/services/supabase-data";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Factory } from "lucide-react";
 import type { Metadata } from "next";
+import { ArrowRight, ExternalLink, Factory } from "lucide-react";
+import { notFound } from "next/navigation";
+import { Breadcrumb } from "@/design-system/components/breadcrumb";
+import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { getProcesses, getStaticSupplierSlugs, getSupplierBySlug } from "@/lib/services/supabase-data";
 
 interface SupplierDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -29,66 +32,95 @@ export async function generateStaticParams() {
 
 export default async function SupplierDetailPage({ params }: SupplierDetailPageProps) {
   const { slug } = await params;
-  const supplier = await getSupplierBySlug(slug);
+  const [supplier, processes] = await Promise.all([getSupplierBySlug(slug), getProcesses()]);
 
   if (!supplier) {
     notFound();
   }
 
+  const relatedProcesses = supplier.relatedProcesses
+    .map((processId) => processes.find((process) => process.id === processId)?.name)
+    .filter(Boolean) as string[];
+
   return (
     <div className="flex flex-col pb-24">
-      {/* Breadcrumb Header */}
-      <div className="bg-muted/10 border-b border-border py-4 md:py-5">
-        <div className="mx-auto max-w-[1180px] px-4 md:px-8 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          <Link href="/fornecedores" className="hover:text-primary transition-colors flex items-center gap-2">
-            <ArrowLeft className="w-3 h-3" /> Fornecedores
-          </Link>
-          <span className="opacity-30">/</span>
-          <span className="text-foreground">{supplier.name}</span>
+      <div className="border-b border-recom-border bg-recom-gray-50 py-4 md:py-5">
+        <div className="container-recom">
+          <Breadcrumb
+            items={[
+              { label: "Início", href: "/" },
+              { label: "Fornecedores & Catálogos", href: "/fornecedores" },
+              { label: supplier.name },
+            ]}
+          />
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="mx-auto max-w-[1180px] px-4 md:px-8 py-12 md:py-16">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
-          <div className="w-full lg:w-[280px] aspect-square bg-white border border-border rounded-md flex items-center justify-center shrink-0 p-8 shadow-sm group">
+      <section data-hook="public.suppliers.detail.hero" className="container-recom py-12 md:py-16">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
+          <div className="flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-white p-8 shadow-recom-card lg:w-[280px]">
             {supplier.logoUrl ? (
-              <img src={supplier.logoUrl} alt={supplier.name} className="w-full h-full object-contain" />
-            ) : supplier.slug === 'mitsubishi-materials' ? (
-              <img src="/assets/images/Mitsubishi.png" alt={supplier.name} className="w-full h-full object-contain" />
+              <img src={supplier.logoUrl} alt={supplier.name} className="h-full w-full object-contain" />
+            ) : supplier.slug === "mitsubishi-materials" ? (
+              <img src="/assets/images/Mitsubishi.png" alt={supplier.name} className="h-full w-full object-contain" />
             ) : (
-              <div className="flex flex-col items-center gap-4 text-muted-foreground/30">
-                <Factory className="w-12 h-12 opacity-50" />
-                <span className="font-bold tracking-widest uppercase text-[10px]">{supplier.name}</span>
+              <div className="flex flex-col items-center gap-4 text-muted-foreground/35">
+                <Factory className="h-12 w-12" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">{supplier.name}</span>
               </div>
             )}
           </div>
-          <div className="flex-1 flex flex-col gap-6">
+
+          <div className="flex-1 space-y-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-primary/20 bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-widest w-fit">
-                Distribuidor Autorizado
+              <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+                Distribuidor autorizado
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground uppercase leading-tight">{supplier.name}</h1>
+              <h1 className="text-3xl font-bold tracking-tight text-foreground uppercase leading-tight md:text-4xl lg:text-5xl">
+                {supplier.name}
+              </h1>
             </div>
-            
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+
+            <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
               {supplier.shortDescription}
             </p>
-            
-            <div className="prose prose-slate max-w-none border-l-2 border-primary/20 pl-6">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+
+            <div className="border-l-2 border-primary/20 pl-6">
+              <p className="text-base leading-relaxed text-muted-foreground whitespace-pre-line md:text-lg">
                 {supplier.longDescription}
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-6">
-              <RecomButton asChild size="lg" intent="primary" className="rounded-md">
-                <Link href="/sobre#contato">Solicitar Cotação</Link>
+            {relatedProcesses.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/55">
+                  Processos relacionados
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {relatedProcesses.map((process) => (
+                    <span
+                      key={process}
+                      className="inline-flex items-center rounded-md border border-recom-border/40 bg-recom-gray-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75"
+                    >
+                      {process}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-4 pt-4">
+              <RecomButton asChild size="lg" intent="primary" className="h-12 px-8">
+                <Link href="/sobre#contato">
+                  Solicitar cotação
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </RecomButton>
               {supplier.catalogUrl && (
-                <RecomButton asChild size="lg" intent="outline" className="rounded-md">
+                <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
                   <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                    Acessar Catálogo Oficial <ExternalLink className="w-4 h-4 ml-2" />
+                    Acessar catálogo oficial
+                    <ExternalLink className="ml-2 h-4 w-4" />
                   </a>
                 </RecomButton>
               )}
@@ -97,20 +129,41 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="mx-auto max-w-[1180px] px-4 md:px-8 py-10 md:py-12">
-        <div className="p-8 md:p-12 border border-border bg-slate-900 text-white rounded-md shadow-recom text-center relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4 uppercase">Atendimento Técnico Comercial</h2>
-            <p className="text-base text-white/70 mb-8 leading-relaxed">
-              Atendimento direto de nossa sede em Campinas para indicar ferramentas de metal duro e catálogos técnicos para sua usinagem.
-            </p>
-            <RecomButton asChild size="lg" intent="accent" className="rounded-md px-10">
-              <Link href="/sobre#contato">Falar com a RECOM</Link>
+      <RecomSection
+        data-hook="public.suppliers.detail.resolves"
+        eyebrow="Apoio comercial"
+        title={`O que a ${supplier.name} resolve na sua produção`}
+        description="Resumo da aplicação e da presença técnica da marca atendida pela RECOM."
+        className="bg-recom-gray-50 py-16 md:py-20"
+        containerSize="editorial"
+      >
+        <div className="space-y-6">
+          <p className="text-[16px] leading-relaxed text-muted-foreground whitespace-pre-line">
+            {supplier.longDescription}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <RecomButton asChild intent="outline" className="h-11 px-6">
+              <Link href="/fornecedores">
+                Ver todos os fornecedores
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </RecomButton>
+            <RecomButton asChild intent="ghost" className="h-11 px-6">
+              <Link href="/processos">Explorar processos</Link>
             </RecomButton>
           </div>
         </div>
-      </section>
+      </RecomSection>
+
+      <CTASection
+        dataHook="public.suppliers.detail.final-cta"
+        eyebrow="Atendimento técnico comercial"
+        title="Precisa de uma cotação ou de uma orientação técnica?"
+        description="Atendimento direto de nossa sede em Campinas para indicar ferramentas de metal duro e catálogos técnicos para sua usinagem."
+        primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
+        secondaryCta={{ label: "Voltar para fornecedores", href: "/fornecedores" }}
+        note="Compra assistida, catalogação oficial e contato humano na mesma jornada."
+      />
     </div>
   );
 }
