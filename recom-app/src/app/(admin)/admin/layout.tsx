@@ -1,15 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
-import { Package, Factory, Tag, Users, LayoutDashboard, Settings } from 'lucide-react';
+import { FileText, Factory, LayoutDashboard, Package, Settings, Tag, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LogoutButton } from '@/components/admin/LogoutButton';
+import { requireAuth } from '@/lib/auth/utils';
 
 export const metadata = {
   title: 'Painel CMS - RECOM',
   description: 'Sistema Administrativo RECOM',
 };
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  await requireAuth();
+
   return (
     <div className="flex min-h-screen w-full bg-muted/30">
       {/* Sidebar */}
@@ -23,6 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <nav className="grid items-start px-4 text-xs font-bold uppercase tracking-widest gap-2">
             {[
               { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+              { href: "/admin/pages", icon: FileText, label: "Páginas" },
               { href: "/admin/fornecedores", icon: Package, label: "Fornecedores" },
               { href: "/admin/processos", icon: Factory, label: "Processos" },
               { href: "/admin/promocoes", icon: Tag, label: "Promoções" },
@@ -65,4 +72,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
-

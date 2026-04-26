@@ -1,5 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Factory, MapPin, ShieldCheck, Wrench } from "lucide-react";
+import { HOME_CMS_SLUG } from "@/cms/utils";
+import { RenderPage } from "@/cms/render-page";
+import { getPublicCmsPageBySlug } from "@/server/queries/cms-pages";
 import { getSuppliers } from "@/lib/services/supabase-data";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 import { CTASection } from "@/design-system/components/cta-section";
@@ -7,7 +11,29 @@ import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
 
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+
+  if (!cmsPage) {
+    return {
+      title: "RECOM",
+      description: "Distribuidor de ferramentas de corte em Campinas.",
+    };
+  }
+
+  return {
+    title: cmsPage.page.seo_title || cmsPage.page.title,
+    description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
+  };
+}
+
 export default async function Home() {
+  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+
+  if (cmsPage) {
+    return <RenderPage pageData={cmsPage} />;
+  }
+
   const suppliers = await getSuppliers();
 
   return (

@@ -198,6 +198,142 @@ export type Database = {
           },
         ]
       }
+      pages: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          og_image_url: string | null
+          published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          og_image_url?: string | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          og_image_url?: string | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      page_sections: {
+        Row: {
+          anchor_id: string | null
+          component_type: string
+          created_at: string
+          created_by: string | null
+          id: string
+          page_id: string
+          props: Json
+          sort_order: number
+          status: string
+          updated_at: string
+          updated_by: string | null
+          visibility: string
+        }
+        Insert: {
+          anchor_id?: string | null
+          component_type: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          page_id: string
+          props?: Json
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          visibility?: string
+        }
+        Update: {
+          anchor_id?: string | null
+          component_type?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          page_id?: string
+          props?: Json
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_sections_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      page_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          page_id: string
+          snapshot: Json
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          page_id: string
+          snapshot: Json
+          version_number: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          page_id?: string
+          snapshot?: Json
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_versions_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suppliers: {
         Row: {
           catalog_url: string | null
@@ -403,4 +539,3 @@ export const Constants = {
     },
   },
 } as const
-
