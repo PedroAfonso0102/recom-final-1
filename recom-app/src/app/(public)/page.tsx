@@ -37,15 +37,17 @@ export default async function Home() {
             Fabricantes e parceiros
           </p>
           <div className="flex flex-wrap items-center justify-center gap-12 opacity-45 grayscale transition-all duration-700 hover:opacity-100 hover:grayscale-0 md:gap-20">
-            {suppliers.map((supplier) => (
-              <img
-                key={supplier.id || supplier.slug}
-                src={supplier.logoUrl || ""}
-                alt={supplier.name}
-                className="h-6 w-auto object-contain md:h-7"
-                data-tooltip={supplier.name}
-              />
-            ))}
+            {suppliers.map((supplier) => 
+              supplier.logoUrl ? (
+                <img
+                  key={supplier.id || supplier.slug}
+                  src={supplier.logoUrl}
+                  alt={supplier.name}
+                  className="h-6 w-auto object-contain md:h-7"
+                  data-tooltip={supplier.name}
+                />
+              ) : null
+            )}
           </div>
         </div>
       </section>

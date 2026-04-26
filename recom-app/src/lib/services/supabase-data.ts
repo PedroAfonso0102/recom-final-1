@@ -10,13 +10,13 @@ type DataOptions = {
   allowFallback?: boolean;
 };
 
-function getDataClient(allowFallback: boolean): any {
-  return allowFallback ? createClient() : createAdminClient();
+async function getDataClient(allowFallback: boolean): Promise<any> {
+  return allowFallback ? await createClient() : createAdminClient();
 }
 
 const FALLBACK_SUPPLIERS: Supplier[] = [
   {
-    id: "1",
+    id: "00000000-0000-0000-0000-000000000001",
     name: "Mitsubishi Materials",
     slug: "mitsubishi",
     logoUrl: "/assets/images/mitsubishi-logo.png",
@@ -26,12 +26,12 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
       "A Mitsubishi Materials é reconhecida mundialmente pela inovação em materiais e revestimentos. Sua linha completa abrange torneamento, fresamento e furação com tecnologia de ponta para máxima produtividade industrial.",
     status: "active",
     sortOrder: 1,
-    relatedProcesses: ["1", "2", "3"],
+    relatedProcesses: ["00000000-0000-0000-0000-000000000010", "00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "2",
+    id: "00000000-0000-0000-0000-000000000002",
     name: "7Leaders",
     slug: "7leaders",
     logoUrl: "/assets/images/logo-7leaders.svg",
@@ -41,12 +41,12 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
       "A 7Leaders foca em ferramentas rotativas premium, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento superior.",
     status: "active",
     sortOrder: 2,
-    relatedProcesses: ["2", "3"],
+    relatedProcesses: ["00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "3",
+    id: "00000000-0000-0000-0000-000000000003",
     name: "BT Fixo",
     slug: "bt-fixo",
     logoUrl: "/assets/images/logo_btfixo.png",
@@ -56,12 +56,12 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
       "A BT Fixo oferece uma linha completa de acessórios para máquinas CNC, incluindo cones, pinças, morsas e sistemas de fixação que garantem a estabilidade necessária para processos de usinagem exigentes.",
     status: "active",
     sortOrder: 3,
-    relatedProcesses: ["1"],
+    relatedProcesses: ["00000000-0000-0000-0000-000000000010"],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "4",
+    id: "00000000-0000-0000-0000-000000000004",
     name: "Kifix",
     slug: "kifix",
     logoUrl: "/assets/images/logo-kifix.png",
@@ -71,7 +71,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
       "A Kifix é líder em dispositivos de fixação rápida (toggle clamps). Seus produtos são essenciais para montagens, soldagens e processos de usinagem leve onde a agilidade e segurança na fixação são cruciais.",
     status: "active",
     sortOrder: 4,
-    relatedProcesses: ["1"],
+    relatedProcesses: ["00000000-0000-0000-0000-000000000010"],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -79,7 +79,7 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
 
 const FALLBACK_PROCESSES: Process[] = [
   {
-    id: "1",
+    id: "00000000-0000-0000-0000-000000000010",
     name: "Torneamento",
     slug: "torneamento",
     imageUrl: "/assets/images/optimized/koudoe.jpg",
@@ -92,7 +92,7 @@ const FALLBACK_PROCESSES: Process[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "2",
+    id: "00000000-0000-0000-0000-000000000011",
     name: "Fresamento",
     slug: "fresamento",
     imageUrl: "/assets/images/optimized/fresamento-bg.jpg",
@@ -105,7 +105,7 @@ const FALLBACK_PROCESSES: Process[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "3",
+    id: "00000000-0000-0000-0000-000000000012",
     name: "Furação",
     slug: "furacao",
     imageUrl: "/assets/images/optimized/furacao-bg.jpg",
@@ -121,42 +121,42 @@ const FALLBACK_PROCESSES: Process[] = [
 
 const FALLBACK_PROMOTIONS: Promotion[] = [
   {
-    id: "1",
+    id: "00000000-0000-0000-0000-000000000020",
     title: "Kit Fresamento Mitsubishi",
     slug: "kit-fresamento-mitsubishi",
     description: "Na compra de 10 insertos da linha MP, ganhe o corpo da fresa compatível.",
     startsAt: "2024-01-01T00:00:00Z",
     endsAt: "2026-12-31T23:59:59Z",
     status: "active",
-    supplierId: "1",
+    supplierId: "00000000-0000-0000-0000-000000000001",
     ctaLabel: "Solicitar kit",
     ctaUrl: "/sobre#contato",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "2",
+    id: "00000000-0000-0000-0000-000000000021",
     title: "Lote Especial Metal Duro",
     slug: "lote-especial-metal-duro",
     description: "Preços diferenciados para pedidos acima de 50 unidades de insertos para aço inox.",
     startsAt: "2024-05-01T00:00:00Z",
     endsAt: "2026-12-31T23:59:59Z",
     status: "active",
-    supplierId: "1",
+    supplierId: "00000000-0000-0000-0000-000000000001",
     ctaLabel: "Ver tabela",
     ctaUrl: "/sobre#contato",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "3",
+    id: "00000000-0000-0000-0000-000000000022",
     title: "Testes técnicos 7Leaders",
     slug: "testes-tecnicos-7leaders",
     description: "Solicite uma amostra para teste em sua produção e comprove o rendimento das novas fresas rotativas.",
     startsAt: "2024-05-01T00:00:00Z",
     endsAt: "2026-12-31T23:59:59Z",
     status: "active",
-    supplierId: "2",
+    supplierId: "00000000-0000-0000-0000-000000000002",
     ctaLabel: "Agendar teste",
     ctaUrl: "/sobre#contato",
     createdAt: new Date().toISOString(),
@@ -170,8 +170,9 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("suppliers").select("*").order("sort_order", { ascending: true });
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("suppliers").select("*").order("sort_order", { ascending: true });
+
   const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
 
   if (error || !data || data.length === 0) {
@@ -179,20 +180,29 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
   }
 
   return data.map((item: any) => {
+    // Garantir que settings tenha todos os campos mesmo se vier null do banco
+    const dbSettings = item.settings || {};
+    const settings = {
+      showMenu: dbSettings.show_menu ?? true,
+      showPromotions: dbSettings.show_promotions ?? true,
+      showProcesses: dbSettings.show_processes ?? true,
+      featured: dbSettings.featured ?? false,
+    };
+
     return SupplierSchema.parse({
       ...item,
       logoUrl: item.logo_url ?? undefined,
       catalogUrl: item.catalog_url ?? undefined,
       eCatalogUrl: item.e_catalog_url ?? undefined,
       catalogs: item.catalogs ?? [],
-      settings: item.settings ? {
-        showMenu: item.settings.show_menu,
-        showPromotions: item.settings.show_promotions,
-        showProcesses: item.settings.show_processes,
-        featured: item.settings.featured,
-      } : undefined,
-      shortDescription: item.short_description,
-      longDescription: item.long_description,
+      settings,
+      // Garantir que as descrições tenham o tamanho mínimo exigido pelo Zod
+      shortDescription: (item.short_description && item.short_description.length >= 10) 
+        ? item.short_description 
+        : (item.short_description || "Descrição curta pendente de preenchimento."),
+      longDescription: (item.long_description && item.long_description.length >= 50) 
+        ? item.long_description 
+        : (item.long_description || "Descrição longa pendente de preenchimento no sistema administrativo RECOM 2026."),
       relatedProcesses: item.related_processes ?? [],
       sortOrder: item.sort_order ?? 0,
       seoTitle: item.seo_title ?? undefined,
@@ -209,13 +219,21 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("suppliers").select("*").eq("slug", slug);
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("suppliers").select("*").eq("slug", slug);
   const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
   }
+
+  const dbSettings = data.settings || {};
+  const settings = {
+    showMenu: dbSettings.show_menu ?? true,
+    showPromotions: dbSettings.show_promotions ?? true,
+    showProcesses: dbSettings.show_processes ?? true,
+    featured: dbSettings.featured ?? false,
+  };
 
   return SupplierSchema.parse({
     ...data,
@@ -223,14 +241,14 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
     catalogUrl: data.catalog_url ?? undefined,
     eCatalogUrl: data.e_catalog_url ?? undefined,
     catalogs: data.catalogs ?? [],
-    settings: data.settings ? {
-      showMenu: data.settings.show_menu,
-      showPromotions: data.settings.show_promotions,
-      showProcesses: data.settings.show_processes,
-      featured: data.settings.featured,
-    } : undefined,
-    shortDescription: data.short_description,
-    longDescription: data.long_description,
+    settings,
+    // Garantir que as descrições tenham o tamanho mínimo exigido pelo Zod
+    shortDescription: (data.short_description && data.short_description.length >= 10) 
+      ? data.short_description 
+      : (data.short_description || "Descrição curta pendente de preenchimento."),
+    longDescription: (data.long_description && data.long_description.length >= 50) 
+      ? data.long_description 
+      : (data.long_description || "Descrição longa pendente de preenchimento no sistema administrativo RECOM 2026."),
     relatedProcesses: data.related_processes ?? [],
     sortOrder: data.sort_order ?? 0,
     seoTitle: data.seo_title ?? undefined,
@@ -246,8 +264,8 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("processes").select("*").order("sort_order", { ascending: true });
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("processes").select("*").order("sort_order", { ascending: true });
   const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
 
   if (error || !data || data.length === 0) {
@@ -258,8 +276,8 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
     ProcessSchema.parse({
       ...item,
       imageUrl: item.image_url ?? undefined,
-      shortDescription: item.short_description,
-      longDescription: item.long_description,
+      shortDescription: item.short_description ?? "",
+      longDescription: item.long_description ?? "",
       sortOrder: item.sort_order ?? 0,
       seoTitle: item.seo_title ?? undefined,
       seoDescription: item.seo_description ?? undefined,
@@ -275,8 +293,8 @@ export async function getProcessBySlug(slug: string, options: DataOptions = {}):
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("processes").select("*").eq("slug", slug);
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("processes").select("*").eq("slug", slug);
   const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
 
   if (error || !data) {
@@ -286,8 +304,8 @@ export async function getProcessBySlug(slug: string, options: DataOptions = {}):
   return ProcessSchema.parse({
     ...data,
     imageUrl: data.image_url ?? undefined,
-    shortDescription: data.short_description,
-    longDescription: data.long_description,
+    shortDescription: data.short_description ?? "",
+    longDescription: data.long_description ?? "",
     sortOrder: data.sort_order ?? 0,
     seoTitle: data.seo_title ?? undefined,
     seoDescription: data.seo_description ?? undefined,
@@ -302,8 +320,8 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("promotions").select("*").order("starts_at", { ascending: false });
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("promotions").select("*").order("starts_at", { ascending: false });
   const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
 
   if (error || !data || data.length === 0) {
@@ -315,6 +333,7 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
       ...item,
       supplierId: item.supplier_id ?? undefined,
       imageUrl: item.image_url ?? undefined,
+      description: item.description ?? "",
       startsAt: item.starts_at,
       endsAt: item.ends_at,
       ctaLabel: item.cta_label ?? undefined,
@@ -331,8 +350,8 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
     noStore();
   }
 
-  const supabase = await getDataClient(allowFallback);
-  const query = supabase.from("promotions").select("*").eq("slug", slug);
+  const supabaseClient = await getDataClient(allowFallback);
+  const query = supabaseClient.from("promotions").select("*").eq("slug", slug);
   const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
 
   if (error || !data) {
@@ -343,6 +362,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
     ...data,
     supplierId: data.supplier_id ?? undefined,
     imageUrl: data.image_url ?? undefined,
+    description: data.description ?? "",
     startsAt: data.starts_at,
     endsAt: data.ends_at,
     ctaLabel: data.cta_label ?? undefined,

@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Package, Factory, Tag, Users, LayoutDashboard, Settings, LogOut } from 'lucide-react';
+import { Package, Factory, Tag, Users, LayoutDashboard, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { LogoutButton } from '@/components/admin/LogoutButton';
 
 export const metadata = {
   title: 'Painel CMS - RECOM',
@@ -43,10 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </nav>
         </div>
         <div className="mt-auto p-4 border-t border-primary/20">
-          <button className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground/70 transition-all hover:bg-white/10 hover:text-white">
-            <LogOut className="h-4 w-4" />
-            Sair do Painel
-          </button>
+          <LogoutButton />
         </div>
       </aside>
 

@@ -47,7 +47,7 @@ export function mapSupplierToInsert(data: Supplier): SupplierInsert {
     },
     seo_title: normalize(data.seoTitle),
     seo_description: normalize(data.seoDescription),
-    related_processes: data.relatedProcesses.length > 0 ? data.relatedProcesses : null,
+    related_processes: (data.relatedProcesses && data.relatedProcesses.length > 0) ? data.relatedProcesses : null,
   } satisfies SupplierInsert;
 }
 
@@ -71,7 +71,7 @@ export function mapSupplierToUpdate(data: Supplier): SupplierUpdate {
     },
     seo_title: normalize(data.seoTitle),
     seo_description: normalize(data.seoDescription),
-    related_processes: data.relatedProcesses.length > 0 ? data.relatedProcesses : null,
+    related_processes: (data.relatedProcesses && data.relatedProcesses.length > 0) ? data.relatedProcesses : null,
     updated_at: new Date().toISOString(),
   } satisfies SupplierUpdate;
 }
