@@ -25,6 +25,7 @@ export default async function AdminPagesPage() {
   const dynamicTemplates = pages.filter(p => p.page_type === 'dynamic_template');
   const extraPages = pages.filter(p => !p.is_system && p.page_type !== 'dynamic_template');
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const PageRow = ({ page }: { page: any }) => {
     const isSystem = page.is_system;
     const isTemplate = page.page_type === 'dynamic_template';

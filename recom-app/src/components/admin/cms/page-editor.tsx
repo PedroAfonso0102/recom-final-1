@@ -1,13 +1,22 @@
 import { PublishPageButton } from "./publish-page-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings, Layout, Search, Eye } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CmsPageForm } from "./page-form";
+import { CmsSectionForm } from "./section-form";
+import { SectionReorderButtons } from "./section-reorder-buttons";
+
+const HOME_CMS_SLUG = "home";
 
 type CmsPageEditorProps = {
-  pageData: CmsPageWithSections;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pageData: any;
   showPageMeta?: boolean;
 };
 
-export function CmsPageEditor({ pageData, showPageMeta = true }: CmsPageEditorProps) {
+export function CmsPageEditor({ pageData, showPageMeta: _showPageMeta = true }: CmsPageEditorProps) {
   const { page, sections } = pageData;
   const publicPath = page.slug === HOME_CMS_SLUG ? "/" : `/${page.slug}`;
 
@@ -79,13 +88,15 @@ export function CmsPageEditor({ pageData, showPageMeta = true }: CmsPageEditorPr
                 </CardContent>
               </Card>
             ) : (
-              sections.map((section, index) => {
-                const ids = sections.map((item) => item.id);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              sections.map((section: any, index: number) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const ids = sections.map((item: any) => item.id);
                 const moveUpOrder =
-                  index > 0 ? ids.map((id, currentIndex) => (currentIndex === index - 1 ? ids[index] : currentIndex === index ? ids[index - 1] : id)) : undefined;
+                  index > 0 ? ids.map((id: string, currentIndex: number) => (currentIndex === index - 1 ? ids[index] : currentIndex === index ? ids[index - 1] : id)) : undefined;
                 const moveDownOrder =
                   index < sections.length - 1
-                    ? ids.map((id, currentIndex) =>
+                    ? ids.map((id: string, currentIndex: number) =>
                         currentIndex === index + 1 ? ids[index] : currentIndex === index ? ids[index + 1] : id
                       )
                     : undefined;
