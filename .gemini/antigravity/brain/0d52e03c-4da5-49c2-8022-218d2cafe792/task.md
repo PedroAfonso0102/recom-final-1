@@ -1,0 +1,30 @@
+# Tarefas - Esqueleto RECOM
+
+- [x] Estrutura de diretórios (`css`, `js`, `assets/images`)
+- [x] Criar `_esqueleto-do-site-limpo/css/wireframe.css` (Estilos base)
+- [x] Criar `_esqueleto-do-site-limpo/js/form-handler.js` (Lógica do formulário de contato)
+- [x] Criar `_esqueleto-do-site-limpo/DESIGN_HOOKS.md` (Documentação dos pontos de ancoragem)
+- [x] Migração de Conteúdo Hi-Fi:
+    - [x] Extrair textos da Home (Home.jsx)
+    - [x] Extrair dados de fornecedores (fornecedores.js)
+    - [x] Extrair dados de processos (processos.js)
+    - [x] Extrair textos institucionais (ARecom.jsx)
+    - [x] Extrair textos de soluções e promoções (Solucoes.jsx, Promocoes.jsx)
+    - [x] Copiar imagens de `src/assets/images/optimized/` para o esqueleto
+- [x] Implementar páginas HTML com conteúdo real:
+    - [x] `index.html` (Home)
+    - [x] `sobre.html` (A Recom)
+    - [x] `fornecedores.html` (Fornecedores e Catálogos Hub)
+    - [x] `solucoes.html` (Soluções Técnicas Hub)
+    - [x] `processos.html` (Processos de Usinagem Hub)
+    - [x] `promocoes.html` (Promoções)
+    - [x] `contato.html` (Contato)
+    - [x] `privacidade.html` (Política de Privacidade)
+- [x] Expansão de Páginas Específicas:
+    - [x] Criar subdiretórios `processos/` e `fornecedores/`
+    - [x] Criar páginas individuais de fornecedores (`mitsubishi-materials.html`, `7leaders.html`, `bt-fixo.html`, `kifix.html`)
+    - [x] Criar páginas individuais de processos (`torneamento.html`, `fresamento.html`, `furacao.html`)
+    - [x] Adicionar imagens específicas e logos reais nestas páginas
+    - [x] Atualizar links nos Hubs para apontar para as novas páginas individuais
+- [x] Validar links e funcionalidade do formulário
+- [x] Gerar `sitemap.xml` e `robots.txt` para SEO técnico

@@ -1,0 +1,381 @@
+/*
+   RECOM WIREFRAME SYSTEM
+   Minimal structural CSS focused on hierarchy, layout and usability.
+   Neutral by default. No branding/artistic styling.
+*/
+
+/* =========================
+   Design tokens
+========================= */
+
+:root {
+    --wire-bg: #ffffff;
+    --wire-surface: #ffffff;
+    --wire-text: #222222;
+    --wire-muted: #666666;
+    --wire-border: #cccccc;
+    --wire-border-strong: #999999;
+
+    --wire-danger: #b00020;
+    --wire-success: #146c2e;
+
+    --wire-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    --wire-space-1: 0.5rem;
+    --wire-space-2: 1rem;
+    --wire-space-3: 1.5rem;
+    --wire-space-4: 2rem;
+    --wire-space-5: 3rem;
+
+    --wire-container: 1200px;
+    --wire-radius: 0.25rem;
+
+    --wire-focus: 2px solid #111111;
+    --wire-focus-offset: 3px;
+}
+
+/* =========================
+   Base reset
+========================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--wire-font);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--wire-text);
+    background: var(--wire-bg);
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+/* =========================
+   Layout
+========================= */
+
+header,
+footer,
+main,
+section,
+nav {
+    padding-block: var(--wire-space-4);
+    padding-inline: var(--wire-space-4);
+    border-bottom: 1px solid var(--wire-border);
+}
+
+.container {
+    width: min(100% - 2rem, var(--wire-container));
+    margin-inline: auto;
+}
+
+.section {
+    padding-block: var(--wire-space-5);
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wire-space-2);
+}
+
+.cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wire-space-2);
+    align-items: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--wire-space-4);
+}
+
+/* =========================
+   Typography
+========================= */
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+p {
+    max-width: 70ch;
+}
+
+small,
+.muted {
+    color: var(--wire-muted);
+}
+
+/* =========================
+   Navigation
+========================= */
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wire-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav a {
+    color: var(--wire-text);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Cards
+========================= */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wire-space-2);
+    padding: var(--wire-space-3);
+    border: 1px solid var(--wire-border);
+    border-radius: var(--wire-radius);
+    background: var(--wire-surface);
+}
+
+.card> :last-child {
+    margin-bottom: 0;
+}
+
+/* =========================
+   Forms
+========================= */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wire-space-2);
+    width: min(100%, 600px);
+}
+
+label {
+    font-weight: 700;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.625rem 0.75rem;
+    color: var(--wire-text);
+    background: var(--wire-bg);
+    border: 1px solid var(--wire-border);
+    border-radius: var(--wire-radius);
+}
+
+textarea {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--wire-muted);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+    border-color: var(--wire-danger);
+}
+
+/* =========================
+   Buttons and links
+========================= */
+
+button,
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    width: fit-content;
+    padding: 0.75rem 1.25rem;
+    color: #ffffff;
+    background: #000000;
+    border: 1px solid #000000;
+    border-radius: var(--wire-radius);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover,
+.button:hover {
+    background: #222222;
+}
+
+/* =========================
+   Accessibility
+========================= */
+
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: var(--wire-focus);
+    outline-offset: var(--wire-focus-offset);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =========================
+   Feedback states
+========================= */
+
+.error-message {
+    color: var(--wire-danger);
+    font-size: 0.875rem;
+}
+
+.success-message {
+    padding: var(--wire-space-2);
+    color: var(--wire-success);
+    border: 1px solid currentColor;
+    border-radius: var(--wire-radius);
+}
+
+/* =========================
+   Tables
+========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: var(--wire-space-1);
+    text-align: left;
+    border: 1px solid var(--wire-border);
+}
+
+th {
+    font-weight: 700;
+}
+
+/* =========================
+   Responsive refinements
+========================= */
+
+@media (max-width: 640px) {
+
+    header,
+    footer,
+    main,
+    section,
+    nav {
+        padding-inline: var(--wire-space-2);
+        padding-block: var(--wire-space-3);
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    button,
+    .button {
+        width: 100%;
+    }
+}
+
+/* =========================
+   Reduced motion support
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

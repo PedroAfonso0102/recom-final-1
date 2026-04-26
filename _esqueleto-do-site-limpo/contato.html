@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato e Orçamentos - RECOM® Metal Duro - Atendimento Campinas</title>
+    <meta name="description" content="Entre em contato com a RECOM® Metal Duro. Solicite cotações enviando códigos, desenhos ou marcas desejadas para ferramentas de usinagem.">
+    <link rel="stylesheet" href="css/wireframe.css">
+    <script src="js/components.js" defer></script>
+</head>
+<body>
+
+    <div data-component="header"></div>
+
+    <main data-hook="layout-main">
+        <section class="container" style="padding-top: 3rem;">
+            <h1 data-hook="content-title">Cotação e Atendimento Comercial</h1>
+            <p data-hook="content-text" style="font-size: 1.1rem; max-width: 800px;">
+                Envie sua demanda técnica para nossa equipe comercial em Campinas. Atendemos por código, desenho ou marca.
+            </p>
+        </section>
+
+        <section class="container" style="display: flex; gap: 4rem; margin-top: 3rem; flex-wrap: wrap;">
+            <!-- Formulário -->
+            <div style="flex: 2; min-width: 300px;">
+                <div style="background: #fff; padding: 2rem; border: 1px solid var(--wire-border);">
+                    <h2 data-hook="content-subtitle">Enviar solicitação</h2>
+                    <form id="form-contato" action="#" method="POST" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="nome">Seu nome *</label>
+                                <input type="text" id="nome" name="nome" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa">Empresa *</label>
+                                <input type="text" id="empresa" name="empresa" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="email">E-mail *</label>
+                                <input type="email" id="email" name="email" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone / WhatsApp</label>
+                                <input type="tel" id="telefone" name="telefone" style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fornecedor">Marca ou Fornecedor (se souber)</label>
+                            <select id="fornecedor" name="fornecedor" style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border);">
+                                <option value="">Selecione...</option>
+                                <option value="mitsubishi">Mitsubishi Materials</option>
+                                <option value="7leaders">7Leaders</option>
+                                <option value="btfixo">BT Fixo</option>
+                                <option value="kifix">Kifix</option>
+                                <option value="outros">Outros / Não sei</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mensagem">Detalhes da solicitação (Códigos, Desenhos, Processo) *</label>
+                            <textarea id="mensagem" name="mensagem" rows="6" required style="width: 100%; padding: 0.5rem; border: 1px solid var(--wire-border); font-family: inherit;"></textarea>
+                            <span style="font-size: 0.8rem; color: #888;">Informe códigos de insertos, suportes ou descrição do problema técnico.</span>
+                        </div>
+                        <button type="submit" data-hook="action-button" class="button" style="width: fit-content; padding: 0.75rem 2rem;">Enviar para cotação</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dados institucionais e Ajuda -->
+            <div style="flex: 1; min-width: 250px;">
+                <div style="padding: 2rem; background: #f8f9fa; border-left: 4px solid #0057A8;">
+                    <h3 data-hook="content-subtitle">Dados Diretos</h3>
+                    <p data-hook="content-text" style="font-size: 0.95rem;">
+                        <strong>Telefone:</strong> (19) 3233-2224<br>
+                        <strong>E-mail:</strong> vendas@recommetalduro.com.br<br>
+                        <strong>WhatsApp:</strong> (19) 99XXX-XXXX
+                    </p>
+                    <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #ddd;">
+                    <h3 data-hook="content-subtitle" style="font-size: 1.1rem;">O que informar para agilizar?</h3>
+                    <p style="font-size: 0.85rem; color: #555; margin-bottom: 0.5rem;">
+                      Para cotações rápidas, informe o código da ferramenta ou anexe seu desenho/processo. A RECOM® responderá com a melhor viabilidade técnica e comercial.
+                    </p>
+                    <ul style="font-size: 0.85rem; padding-left: 1rem; color: #555;">
+                        <li>Tipo de material da peça (Aço, Inox, etc.)</li>
+                        <li>Dimensões principais</li>
+                        <li>Quantidade para o lote</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--wire-border); text-align: center;">
+                    <strong style="display: block; margin-bottom: 0.5rem;">Precisa de Catálogo?</strong>
+                    <p style="font-size: 0.85rem;">Confira os materiais técnicos antes de solicitar o código.</p>
+                    <a href="fornecedores.html" style="font-size: 0.9rem; font-weight: bold; color: #0057A8;">Ver catálogos oficiais</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <script src="js/contato.js"></script>
+</body>
+</html>
