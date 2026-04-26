@@ -1,5 +1,5 @@
 ---
-trigger: always_on
+trigger: model_decision
 ---
 
 Usei como base práticas oficiais de React para pureza de componentes, regras de Hooks, custom hooks e linting de dependências, além de práticas OWASP para validação, encoding, proteção de dados e segurança. Também considerei que o Antigravity trabalha com agentes que acessam editor, terminal e browser e geram artifacts de verificação, então o guia precisa exigir plano, diff, testes e controle de comandos antes de cada alteração. ([React][1])
