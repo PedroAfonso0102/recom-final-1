@@ -2,9 +2,9 @@ import React from 'react';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { unstable_noStore as noStore } from 'next/cache';
 import { LeadsManager } from '@/components/admin/LeadsManager';
-import { getAdminConfig, getAllProcesses } from '@/lib/services/dashboard';
-import { getSalesReps, getSalesReps as getReps } from '@/server/actions/leads';
-import { getAllSuppliers } from '@/lib/services/dashboard';
+import { getAdminConfig, getAllProcesses, getAllSuppliers } from '@/lib/services/dashboard';
+import { getSalesReps } from '@/server/actions/sales-reps';
+
 
 async function getLeads() {
   noStore();

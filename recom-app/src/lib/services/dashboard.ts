@@ -74,3 +74,21 @@ export async function getAllProcesses() {
 
   return data;
 }
+
+export async function getAllSuppliers() {
+  noStore();
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("suppliers")
+    .select("id, name, catalog_url, catalogs, related_processes")
+    .order("name");
+
+  if (error) {
+    console.error("Error fetching suppliers:", error);
+    return [];
+  }
+
+  return data;
+}
+
+

@@ -409,6 +409,135 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_logs: {
+        Row: {
+          id: string
+          action: string
+          entity_type: string
+          entity_id: string
+          details: Json | null
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          action: string
+          entity_type: string
+          entity_id: string
+          details?: Json | null
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          action?: string
+          entity_type?: string
+          entity_id?: string
+          details?: Json | null
+          user_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      admin_configs: {
+        Row: {
+          id: string
+          key: string
+          value: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          value?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          value?: Json | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      sales_reps: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string | null
+          status: string
+          last_assigned_at: string | null
+          assignment_count: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone?: string | null
+          status?: string
+          last_assigned_at?: string | null
+          assignment_count?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string | null
+          status?: string
+          last_assigned_at?: string | null
+          assignment_count?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          id: string
+          file_name: string
+          file_path: string
+          public_url: string
+          alt_text: string | null
+          mime_type: string
+          size_bytes: number
+          width: number | null
+          height: number | null
+          bucket: string
+          uploaded_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          file_name: string
+          file_path: string
+          public_url: string
+          alt_text?: string | null
+          mime_type: string
+          size_bytes?: number
+          width?: number | null
+          height?: number | null
+          bucket?: string
+          uploaded_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          file_name?: string
+          file_path?: string
+          public_url?: string
+          alt_text?: string | null
+          mime_type?: string
+          size_bytes?: number
+          width?: number | null
+          height?: number | null
+          bucket?: string
+          uploaded_by?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

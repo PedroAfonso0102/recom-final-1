@@ -1,5 +1,6 @@
 'use server';
 import { requireAuth } from "@/lib/auth/utils";
+import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -94,13 +95,50 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
   redirect('/admin/fornecedores');
 }
 
-export async function deleteSupplier(id: string): Promise<ActionState> {
-  await requireAuth();
+export async function archiveSupplier(id: string): Promise<ActionState> {
+  const auth = await requireAuth();
   const supabase = createAdminClient();
-  const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug').eq('id', id).maybeSingle();
+  const { data: current, error: fetchError } = await supabase.from('suppliers').select('name, slug').eq('id', id).maybeSingle();
 
   if (fetchError) {
     return { success: false, error: fetchError.message };
+  }
+
+  const { error } = await supabase
+    .from('suppliers')
+    .update({ status: 'archived' })
+    .eq('id', id);
+
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+
+  revalidateSupplierCatalog(current?.slug ?? undefined);
+
+  // Log action
+  await createAuditLog({
+    action: "archive_supplier",
+    entity_type: "supplier",
+    entity_id: id,
+    details: { name: current?.name },
+    user_id: auth.id
+  });
+
+  return { success: true };
+}
+
+export async function deleteSupplier(id: string): Promise<ActionState> {
+  const auth = await requireAuth();
+  const supabase = createAdminClient();
+  const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug, status').eq('id', id).maybeSingle();
+
+  if (fetchError) {
+    return { success: false, error: fetchError.message };
+  }
+
+  // Only allow deleting drafts
+  if (current?.status !== 'draft') {
+    return { success: false, error: "Apenas rascunhos podem ser excluídos permanentemente. Arquive fornecedores ativos." };
   }
 
   const { error } = await supabase.from('suppliers').delete().eq('id', id);
@@ -110,5 +148,15 @@ export async function deleteSupplier(id: string): Promise<ActionState> {
   }
 
   revalidateSupplierCatalog(current?.slug ?? undefined);
+
+  // Log action
+  await createAuditLog({
+    action: "delete_supplier_draft",
+    entity_type: "supplier",
+    entity_id: id,
+    user_id: auth.id
+  });
+
   return { success: true };
 }
+

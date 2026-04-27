@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAuth } from "@/lib/auth/utils";
+import { createAuditLog } from "@/lib/audit";
 import { revalidateCmsPaths } from "@/lib/revalidation/cms";
 import { getComponentDefinition } from "@/cms/component-registry";
 import { cmsCreatePageSchema, cmsUpdatePageSchema } from "@/cms/schemas/page.schema";
@@ -358,3 +359,75 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
   revalidateCmsPaths(page.slug, page.id);
   return { ok: true, data: true, message: "Página publicada." };
 }
+export async function archivePage(id: string): Promise<ActionResult<true>> {
+  const auth = await requireAuth();
+  const supabase = createAdminClient();
+
+  // Protect system pages from being archived/deleted easily
+  const { data: page } = await supabase.from("pages").select("is_system, slug").eq("id", id).single();
+  
+  if (page?.is_system) {
+    return { ok: false, formError: "Páginas de sistema não podem ser arquivadas." };
+  }
+
+  const { error } = await supabase
+    .from("pages")
+    .update({ 
+      status: "archived",
+      updated_by: auth.id 
+    })
+    .eq("id", id);
+
+  if (error) {
+    return { ok: false, formError: error.message };
+  }
+
+  if (page?.slug) {
+    revalidateCmsPaths(page.slug, id);
+  }
+
+  // Log action
+  await createAuditLog({
+    action: "archive_page",
+    entity_type: "page",
+    entity_id: id,
+    details: { slug: page?.slug },
+    user_id: auth.id
+  });
+
+  return { ok: true, data: true, message: "Página arquivada." };
+}
+
+export async function deletePage(id: string): Promise<ActionResult<true>> {
+  const auth = await requireAuth();
+  const supabase = createAdminClient();
+
+  // System pages protection
+  const { data: page } = await supabase.from("pages").select("is_system, status").eq("id", id).single();
+  
+  if (page?.is_system) {
+    return { ok: false, formError: "Páginas de sistema não podem ser excluídas." };
+  }
+
+  // Only allow deleting drafts
+  if (page?.status !== 'draft') {
+    return { ok: false, formError: "Apenas rascunhos podem ser excluídos permanentemente. Arquive páginas publicadas." };
+  }
+
+  const { error } = await supabase.from("pages").delete().eq("id", id);
+
+  if (error) {
+    return { ok: false, formError: error.message };
+  }
+
+  // Log action
+  await createAuditLog({
+    action: "delete_page_draft",
+    entity_type: "page",
+    entity_id: id,
+    user_id: auth.id
+  });
+
+  return { ok: true, data: true, message: "Rascunho excluído." };
+}
+

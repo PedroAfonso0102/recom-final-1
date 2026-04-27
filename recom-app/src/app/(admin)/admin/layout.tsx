@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { FileText, Factory, LayoutDashboard, Package, Settings, Tag, Users } from 'lucide-react';
+import { FileText, Factory, ImageIcon, LayoutDashboard, Package, Settings, Tag, Users, History } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { LogoutButton } from '@/components/admin/LogoutButton';
 import { requireAuth } from '@/lib/auth/utils';
@@ -30,11 +31,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             {[
               { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
               { href: "/admin/pages", icon: FileText, label: "Páginas" },
+              { href: "/admin/media", icon: ImageIcon, label: "Mídia" },
               { href: "/admin/fornecedores", icon: Package, label: "Fornecedores" },
               { href: "/admin/processos", icon: Factory, label: "Processos" },
               { href: "/admin/promocoes", icon: Tag, label: "Promoções" },
               { href: "/admin/leads", icon: Users, label: "Leads" },
+              { href: "/admin/audit", icon: History, label: "Auditoria" },
               { href: "/admin/configuracoes", icon: Settings, label: "Ajustes" },
+
             ].map((item) => (
               <Link
                 key={item.href}

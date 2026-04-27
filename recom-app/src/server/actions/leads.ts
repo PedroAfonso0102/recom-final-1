@@ -98,86 +98,6 @@ export async function assignProcessToLead(leadId: string, processId: string | nu
   return { success: true };
 }
 
-export async function getSalesReps(): Promise<any[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('sales_reps')
-    .select('*')
-    .order('name');
-  
-  if (error) {
-    console.error('Error fetching sales reps:', error);
-    return [];
-  }
-  return data || [];
-}
-
-export async function addSalesRep(rep: { name: string, email: string, phone?: string }): Promise<ActionState> {
-  await requireAuth();
-  const supabase = await createClient();
-  
-  const { error } = await supabase
-    .from('sales_reps')
-    .insert([rep]);
-    
-  if (error) {
-    return { success: false, error: formatDatabaseError(error) };
-  }
-  
-  revalidatePath('/admin/leads');
-  return { success: true };
-}
-
-export async function updateSalesRep(id: string, updates: any): Promise<ActionState> {
-  await requireAuth();
-  const supabase = await createClient();
-  
-  const { error } = await supabase
-    .from('sales_reps')
-    .update(updates)
-    .eq('id', id);
-    
-  if (error) {
-    return { success: false, error: formatDatabaseError(error) };
-  }
-  
-  revalidatePath('/admin/leads');
-  return { success: true };
-}
-
-export async function deleteSalesRep(id: string): Promise<ActionState> {
-  await requireAuth();
-  const supabase = await createClient();
-  
-  const { error } = await supabase
-    .from('sales_reps')
-    .delete()
-    .eq('id', id);
-    
-  if (error) {
-    return { success: false, error: formatDatabaseError(error) };
-  }
-  
-  revalidatePath('/admin/leads');
-  return { success: true };
-}
-
-export async function updateRepAssignment(id: string): Promise<ActionState> {
-  await requireAuth();
-  const supabase = await createClient();
-  
-  const { error } = await supabase
-    .from('sales_reps')
-    .update({ last_assigned_at: new Date().toISOString() })
-    .eq('id', id);
-    
-  if (error) {
-    return { success: false, error: formatDatabaseError(error) };
-  }
-  
-  revalidatePath('/admin/leads');
-  return { success: true };
-}
 
 export async function updateLeadFeedback(id: string, feedback: { 
   revenue_value?: number, 
@@ -185,6 +105,7 @@ export async function updateLeadFeedback(id: string, feedback: {
   status?: string,
   closed_at?: string 
 }): Promise<ActionState> {
+
   await requireAuth();
   const supabase = await createClient();
   
@@ -200,3 +121,35 @@ export async function updateLeadFeedback(id: string, feedback: {
   revalidatePath('/admin/leads');
   return { success: true };
 }
+
+export async function getLeadTechnicalDossier(leadId: string) {
+  await requireAuth();
+  const supabase = await createClient();
+  
+  // 1. Fetch Lead data
+  const { data: lead, error: leadError } = await supabase
+    .from('leads')
+    .select('*, processes(id, name, slug)')
+    .eq('id', leadId)
+    .single();
+    
+  if (leadError || !lead) return null;
+  
+  // 2. Fetch Suppliers related to this process
+  // Note: We'll look for suppliers that have this process ID in their related_processes array
+  const { data: suppliers, error: suppliersError } = await supabase
+    .from('suppliers')
+    .select('name, catalog_url, catalogs')
+    .contains('related_processes', [lead.process_id]);
+    
+  return {
+    lead,
+    suppliers: suppliers || [],
+    suggested_catalogs: suppliers?.map((s: any) => ({
+      supplier: s.name,
+      main_catalog: s.catalog_url,
+      extra_catalogs: s.catalogs
+    })) || []
+  };
+}
+

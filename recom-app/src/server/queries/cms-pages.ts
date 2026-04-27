@@ -2,6 +2,8 @@ import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { normalizeCmsSlug } from "@/cms/utils";
+import { requireAuth } from "@/lib/auth/utils";
+
 import type { CmsPageRow, CmsPageWithSections, CmsSectionRow } from "@/cms/types";
 
 async function fetchPageSections(pageId: string, preview = false): Promise<CmsSectionRow[]> {
@@ -45,6 +47,32 @@ export async function getPublicCmsPageBySlug(slug: string): Promise<CmsPageWithS
     sections,
   };
 }
+
+export async function getPreviewCmsPageBySlug(slug: string): Promise<CmsPageWithSections | null> {
+  noStore();
+  // Validar se é admin/autor
+  await requireAuth();
+  
+  const normalizedSlug = normalizeCmsSlug(slug);
+  const supabase = createAdminClient();
+
+  const { data: page, error } = await supabase
+    .from("pages")
+    .select("*")
+    .eq("slug", normalizedSlug)
+    .maybeSingle();
+
+  if (error || !page) {
+    return null;
+  }
+
+  const sections = await fetchPageSections(page.id, true);
+  return {
+    page: page as CmsPageRow,
+    sections,
+  };
+}
+
 
 export async function getAdminCmsPageById(id: string): Promise<CmsPageWithSections | null> {
   noStore();

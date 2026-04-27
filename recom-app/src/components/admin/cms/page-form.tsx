@@ -11,6 +11,11 @@ import type { CmsPageRow } from "@/cms/types";
 import type { CmsFieldDefinition } from "@/cms/types";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, Lock } from "lucide-react";
+import { useBeforeUnload } from "@/hooks/use-before-unload";
+import { useAutosave } from "@/hooks/use-autosave";
+import { cn } from "@/lib/utils";
+import { useRef } from "react";
+
 
 const pageFields: CmsFieldDefinition[] = [
   { name: "title", label: "Título", type: "text", required: true },
@@ -53,11 +58,52 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useBeforeUnload(isDirty);
+
+  // Autosave logic
+  useAutosave(async () => {
+    if (!isDirty || saving || mode === "create") return;
+    
+    // We only autosave existing pages to avoid accidental creations
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+      const payload = {
+        id: page?.id ?? "",
+        title: String(formData.get("title") ?? ""),
+        slug: String(formData.get("slug") ?? ""),
+        routePattern: String(formData.get("routePattern") ?? ""),
+        pageType: String(formData.get("pageType") ?? "static"),
+        templateKey: String(formData.get("templateKey") ?? ""),
+        isSystem: isSystem,
+        isDynamicTemplate: String(formData.get("pageType")) === "dynamic_template",
+        description: String(formData.get("description") ?? ""),
+        seoTitle: String(formData.get("seoTitle") ?? ""),
+        seoDescription: String(formData.get("seoDescription") ?? ""),
+        ogImageUrl: String(formData.get("ogImageUrl") ?? ""),
+        status: String(formData.get("status") ?? "draft"),
+      };
+      
+      const result = await updatePage(payload);
+      if (result.ok) {
+        setIsDirty(false);
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 2000);
+      }
+    }
+  }, 5000, isDirty);
+
+
   const isSystem = page?.is_system ?? false;
+
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setSaveSuccess(false);
     setSaving(true);
 
     const formData = new FormData(event.currentTarget);
@@ -80,11 +126,16 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
     const result = mode === "edit" ? await updatePage(payload) : await createPage(payload);
 
     if (!result.ok) {
-      setError(result.formError ?? Object.values(result.fieldErrors ?? {})[0]?.[0] ?? "Não foi possível salvar.");
+      setError(result.formError ?? Object.values(result.fieldErrors ?? {})[0]?.[0] ?? "Erro técnico: Verifique os campos e tente novamente.");
       setSaving(false);
       return;
     }
 
+    setSaveSuccess(true);
+    setIsDirty(false);
+    setTimeout(() => setSaveSuccess(false), 3000);
+
+    
     router.refresh();
     if (mode === "create" && result.data?.id) {
       router.push(`/admin/pages/${result.data.id}`);
@@ -108,38 +159,56 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
   return (
     <Card className="border-border">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle className="text-base uppercase tracking-[0.2em]">Dados da página</CardTitle>
+        <div className="space-y-1">
+          <CardTitle className="text-base uppercase tracking-[0.2em]">Dados da página</CardTitle>
+          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Informações estruturais e de SEO.</p>
+        </div>
         {isSystem && (
-          <Badge variant="secondary" className="gap-1 px-2 py-1">
+          <Badge variant="secondary" className="gap-1 px-2 py-1 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-700 border-blue-200">
             <Lock className="h-3 w-3" />
             Página de Sistema
           </Badge>
         )}
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {error && <div className="rounded-md border border-destructive/20 bg-destructive/5 p-3 text-sm text-destructive">{error}</div>}
+        <form 
+          ref={formRef}
+          onSubmit={handleSubmit} 
+          onChange={() => setIsDirty(true)}
+          className="space-y-6"
+        >
 
-          {isSystem && (
-            <div className="flex items-center gap-2 rounded-md border border-blue-500/20 bg-blue-500/5 p-3 text-[11px] text-blue-500">
-              <AlertCircle className="h-4 w-4" />
-              Esta é uma página essencial do sistema. Alguns campos como slug e tipo são protegidos.
+
+          {error && (
+            <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 flex gap-3 animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-destructive">Falha ao salvar</p>
+                <p className="text-xs font-bold text-destructive/80">{error}</p>
+              </div>
             </div>
           )}
 
-          <div className="grid gap-4 md:grid-cols-2">
+          {isSystem && (
+            <div className="flex items-center gap-3 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 text-[10px] text-blue-700 font-bold uppercase tracking-widest">
+              <AlertCircle className="h-5 w-5 shrink-0" />
+              Proteção Ativa: Esta página é essencial para o funcionamento do motor. Alguns campos estão bloqueados para evitar quebras.
+            </div>
+          )}
+
+          <div className="grid gap-6 md:grid-cols-2">
             {pageFields.map((field) => {
               const isReadOnly = isSystem && (field.name === "slug" || field.name === "pageType" || field.name === "templateKey" || field.name === "routePattern");
               
               return (
-                <label key={field.name} className={field.type === "textarea" ? "md:col-span-2" : ""}>
-                  <div className="mb-1 flex items-center justify-between">
-                    <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                <div key={field.name} className={cn("space-y-2", field.type === "textarea" ? "md:col-span-2" : "")}>
+                  <div className="flex items-center justify-between">
+                    <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
                       {field.label}
                     </span>
-                    {isReadOnly && <Lock className="h-3 w-3 text-muted-foreground/50" />}
+                    {isReadOnly && <Lock className="h-3 w-3 text-muted-foreground/30" />}
                   </div>
-                  <div className={isReadOnly ? "pointer-events-none opacity-60" : ""}>
+                  <div className={cn("transition-opacity", isReadOnly && "pointer-events-none opacity-40 grayscale")}>
                     <CmsFieldRenderer 
                       field={field} 
                       defaultValue={defaults[field.name as keyof typeof defaults]} 
@@ -148,19 +217,31 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
                       <input type="hidden" name={field.name} value={defaults[field.name as keyof typeof defaults]} />
                     )}
                   </div>
-                </label>
+                </div>
               );
             })}
           </div>
 
-          <div className="flex items-center gap-3">
-            <Button type="submit" disabled={saving}>
-              {saving ? "Salvando..." : mode === "create" ? "Criar página" : "Salvar alterações"}
+          <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+            <Button type="submit" disabled={saving} className={cn("h-12 px-10 text-[10px] font-black uppercase tracking-widest gap-2 transition-all", saveSuccess ? "bg-emerald-500 hover:bg-emerald-600" : "")}>
+              {saving ? (
+                <>Salvando...</>
+              ) : saveSuccess ? (
+                <>Alterações Salvas!</>
+              ) : (
+                mode === "create" ? "Criar Página" : "Salvar Alterações"
+              )}
             </Button>
+            {saveSuccess && (
+              <span className="text-[10px] font-black uppercase text-emerald-600 tracking-widest animate-in fade-in slide-in-from-left-2">
+                Sucesso! O conteúdo foi persistido.
+              </span>
+            )}
           </div>
         </form>
       </CardContent>
     </Card>
+
   );
 }
 
