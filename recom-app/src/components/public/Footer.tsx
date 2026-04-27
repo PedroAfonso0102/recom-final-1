@@ -3,8 +3,12 @@ import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { RecomButton } from "@/design-system/components/recom-button";
+import { getSiteSettings } from "@/cms/actions";
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSiteSettings();
+  const config = settings || siteConfig;
+
   return (
     <footer data-hook="public.global.footer" className="border-t border-white/5 bg-recom-graphite text-slate-300">
       <div className="container-recom py-12 md:py-16">
@@ -33,7 +37,7 @@ export function Footer() {
             </Link>
 
             <p className="max-w-sm text-[14px] leading-relaxed text-slate-400">
-              Especialistas em ferramentas de corte e soluções técnicas para a indústria metal-mecânica. Distribuidor autorizado com atendimento humano desde {siteConfig.company.since}.
+              Especialistas em ferramentas de corte e soluções técnicas para a indústria metal-mecânica. Distribuidor autorizado com atendimento humano desde {config.company.since}.
             </p>
 
             <RecomButton asChild size="sm" intent="accent" className="h-9 px-6">
@@ -62,10 +66,10 @@ export function Footer() {
                 <div className="flex flex-col">
                   <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Telefone</span>
                   <a
-                    href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+                    href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
                     className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
                   >
-                    {siteConfig.contact.phone}
+                    {config.contact.phone}
                   </a>
                 </div>
               </div>
@@ -77,10 +81,10 @@ export function Footer() {
                 <div className="flex flex-col">
                   <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">E-mail comercial</span>
                   <a
-                    href={`mailto:${siteConfig.contact.email}`}
+                    href={`mailto:${config.contact.email}`}
                     className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
                   >
-                    {siteConfig.contact.email}
+                    {config.contact.email}
                   </a>
                 </div>
               </div>
@@ -96,9 +100,9 @@ export function Footer() {
               <div className="flex flex-col">
                 <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Sede Campinas</span>
                 <p className="text-[14px] font-medium leading-relaxed text-slate-400">
-                  {siteConfig.contact.address}
+                  {config.contact.address}
                   <br />
-                  CEP {siteConfig.contact.cep}
+                  CEP {config.contact.cep}
                 </p>
               </div>
             </div>
@@ -107,13 +111,13 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-8 md:flex-row">
           <p className="text-center text-[11px] font-bold uppercase tracking-widest text-slate-500 md:text-left">
-            © {new Date().getFullYear()} {siteConfig.company.name}. Todos os direitos reservados.
+            © {new Date().getFullYear()} {config.company.name}. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">Hub institucional e comercial</span>
             <div className="h-4 w-px bg-white/10" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              CNPJ {siteConfig.company.cnpj}
+              CNPJ {config.company.cnpj}
             </span>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { createAdminClient } from "../supabase/admin";
-import { Lead, LeadSchema } from '../../design-system/schemas/lead.schema';
+import { Lead, LeadSchema } from '../../cms/schemas/lead.schema';
 import { mapLeadToInsert } from "../database/mappings";
 
 export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'>): Promise<{ success: boolean; error?: string }> {

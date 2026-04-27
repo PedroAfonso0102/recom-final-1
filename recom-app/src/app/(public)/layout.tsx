@@ -3,6 +3,8 @@ import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
 import { ScrollProgress } from "@/components/public/ScrollProgress";
 import { WhatsAppFAB } from "@/components/public/WhatsAppFAB";
+import { getSiteSettings } from "@/cms/actions";
+import { siteConfig } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: {
@@ -13,11 +15,14 @@ export const metadata: Metadata = {
     "Distribuidor B2B de ferramentas de corte e soluções de usinagem com presença regional, curadoria de fornecedores e atendimento humano.",
 };
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings();
+  const config = settings || siteConfig;
+
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans antialiased text-foreground selection:bg-primary selection:text-primary-foreground">
       <ScrollProgress />
@@ -26,7 +31,7 @@ export default function PublicLayout({
         {children}
       </main>
       <Footer />
-      <WhatsAppFAB />
+      <WhatsAppFAB whatsapp={config.contact.whatsapp} />
     </div>
   );
 }

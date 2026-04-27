@@ -1,8 +1,8 @@
 import { Database } from "../database.types";
-import { Supplier } from "@/design-system/schemas/supplier.schema";
-import { Promotion } from "@/design-system/schemas/promotion.schema";
-import { Process } from "@/design-system/schemas/process.schema";
-import { Lead } from "@/design-system/schemas/lead.schema";
+import { Supplier, SupplierSchema } from "@/cms/schemas/supplier.schema";
+import { Promotion, PromotionSchema } from "@/cms/schemas/promotion.schema";
+import { Process, ProcessSchema } from "@/cms/schemas/process.schema";
+import { Lead, LeadSchema } from "@/cms/schemas/lead.schema";
 
 export type SupplierRow = Database["public"]["Tables"]["suppliers"]["Row"];
 export type SupplierInsert = Database["public"]["Tables"]["suppliers"]["Insert"];

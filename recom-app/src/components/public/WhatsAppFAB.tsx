@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
 
-export function WhatsAppFAB() {
+export function WhatsAppFAB({ whatsapp }: { whatsapp?: string }) {
   const [isVisible, setIsVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -15,7 +15,7 @@ export function WhatsAppFAB() {
 
   return (
     <a
-      href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+      href={`https://wa.me/${whatsapp || siteConfig.contact.whatsapp}`}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(

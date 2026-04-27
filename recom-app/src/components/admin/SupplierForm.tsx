@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
+import { SupplierSchema, Supplier } from '@/cms/schemas/supplier.schema';
 import { createSupplier, updateSupplier } from '@/server/actions/suppliers';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';

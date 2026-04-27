@@ -49,5 +49,14 @@ export function RenderSection({ section, preview = false }: RenderSectionProps) 
     );
   }
 
-  return <Component {...props} />;
+  return (
+    <div 
+      data-hook="cms.section" 
+      data-component-type={section.component_type}
+      data-section-id={section.id}
+      id={section.anchor_id || undefined}
+    >
+      <Component {...props} />
+    </div>
+  );
 }

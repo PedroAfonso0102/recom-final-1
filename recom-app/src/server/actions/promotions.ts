@@ -3,7 +3,7 @@ import { requireAuth } from "@/lib/auth/utils";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
+import { PromotionSchema, Promotion } from '@/cms/schemas/promotion.schema';
 import { revalidatePromotionCatalog } from '@/lib/revalidation/catalog';
 import { mapPromotionToInsert, mapPromotionToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';

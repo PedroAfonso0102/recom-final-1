@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
+import { ProcessSchema, Process } from '@/cms/schemas/process.schema';
 import { createProcess, updateProcess } from '@/server/actions/processes';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';

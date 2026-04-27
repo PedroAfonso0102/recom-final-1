@@ -2,8 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
+import { getSiteSettings } from "@/cms/actions";
 
-export function HeaderInstitucional() {
+export async function HeaderInstitucional() {
+  const settings = await getSiteSettings();
+  const config = settings || siteConfig;
+
   return (
     <div className="border-b border-recom-gray-100 bg-white py-4">
       <div className="container-recom flex items-center justify-between gap-6">
@@ -20,21 +24,21 @@ export function HeaderInstitucional() {
           </div>
           <div className="flex flex-col">
             <span className="text-[20px] leading-none font-bold tracking-tight text-recom-graphite transition-colors group-hover:text-recom-blue">
-              {siteConfig.company.name}
+              {config.company.name}
             </span>
             <span className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              {siteConfig.company.subtitle}
+              {config.company.subtitle}
             </span>
           </div>
         </Link>
 
         <div className="hidden items-center gap-8 lg:flex">
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.contact.address)}`}
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.contact.address)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 transition-colors hover:text-recom-blue"
-            aria-label={`Abrir localização da sede em ${siteConfig.contact.address}`}
+            aria-label={`Abrir localização da sede em ${config.contact.address}`}
           >
             <div className="rounded-full border border-recom-border/60 bg-recom-gray-50 p-2">
               <MapPin className="h-4 w-4 text-recom-blue" />
@@ -50,9 +54,9 @@ export function HeaderInstitucional() {
           <div className="h-8 w-px bg-recom-border/50" />
 
           <a
-            href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+            href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
             className="flex items-center gap-3 transition-colors hover:text-recom-blue"
-            aria-label={`Ligar para ${siteConfig.contact.phone}`}
+            aria-label={`Ligar para ${config.contact.phone}`}
           >
             <div className="rounded-full border border-recom-border/60 bg-recom-gray-50 p-2">
               <Phone className="h-4 w-4 text-recom-blue" />
@@ -62,7 +66,7 @@ export function HeaderInstitucional() {
                 Telefone
               </span>
               <span className="text-[13px] font-semibold text-recom-graphite">
-                {siteConfig.contact.phone}
+                {config.contact.phone}
               </span>
             </div>
           </a>
@@ -70,9 +74,9 @@ export function HeaderInstitucional() {
           <div className="h-8 w-px bg-recom-border/50" />
 
           <a
-            href={`mailto:${siteConfig.contact.email}`}
+            href={`mailto:${config.contact.email}`}
             className="flex items-center gap-3 transition-colors hover:text-recom-blue"
-            aria-label={`Enviar e-mail para ${siteConfig.contact.email}`}
+            aria-label={`Enviar e-mail para ${config.contact.email}`}
           >
             <div className="rounded-full border border-recom-border/60 bg-recom-gray-50 p-2">
               <Mail className="h-4 w-4 text-recom-blue" />
@@ -82,7 +86,7 @@ export function HeaderInstitucional() {
                 E-mail
               </span>
               <span className="text-[13px] font-semibold text-recom-graphite">
-                {siteConfig.contact.email}
+                {config.contact.email}
               </span>
             </div>
           </a>

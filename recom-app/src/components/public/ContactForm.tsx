@@ -8,17 +8,11 @@ import { AlertCircle, CheckCircle2, Loader2, Mail, MessageCircle, Phone } from "
 import { RecomButton } from "@/design-system/components/recom-button";
 import { submitContactForm } from "@/lib/actions/lead-actions";
 import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
-import { siteConfig } from "@/lib/config";
+import { LeadSchema } from "@/cms/schemas/lead.schema";
+import { useAnalytics } from "@/hooks/use-analytics";
+import { siteConfig } from "@/config/site";
 
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Informe seu nome."),
-  company: z.string().min(2, "Informe a empresa."),
-  email: z.string().email("Informe um e-mail válido."),
-  phone: z.string().min(10, "Informe um telefone ou WhatsApp."),
-  supplierInterest: z.string().optional(),
-  processInterest: z.string().optional(),
-  itemCode: z.string().optional(),
-  message: z.string().min(10, "Conte um pouco mais sobre a sua necessidade."),
+const contactFormSchema = LeadSchema.extend({
   consent: z
     .boolean()
     .refine((value) => value, { message: "Confirme a política de privacidade para continuar." }),
@@ -59,6 +53,7 @@ function ContactField({
 }
 
 export function ContactForm() {
+  const { trackEvent, trackCtaClick } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
 
@@ -106,12 +101,17 @@ export function ContactForm() {
 
     if (result.success) {
       setStatus("success");
+      trackEvent("lead_capture_success", { 
+        source_page: values.sourcePage,
+        company: values.company 
+      });
       reset();
       return;
     }
 
     setStatus("error");
     setSubmitError(result.error || "Ocorreu um erro ao enviar sua mensagem.");
+    trackEvent("lead_capture_error", { error: result.error });
   }
 
   if (status === "success") {

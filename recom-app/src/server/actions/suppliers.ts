@@ -4,7 +4,7 @@ import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
+import { SupplierSchema, Supplier } from '@/cms/schemas/supplier.schema';
 import { revalidateSupplierCatalog } from '@/lib/revalidation/catalog';
 import { mapSupplierToInsert, mapSupplierToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';

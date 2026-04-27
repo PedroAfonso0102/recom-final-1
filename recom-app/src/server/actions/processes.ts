@@ -3,7 +3,7 @@ import { requireAuth } from "@/lib/auth/utils";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
+import { ProcessSchema, Process } from '@/cms/schemas/process.schema';
 import { revalidateProcessCatalog } from '@/lib/revalidation/catalog';
 import { mapProcessToInsert, mapProcessToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';

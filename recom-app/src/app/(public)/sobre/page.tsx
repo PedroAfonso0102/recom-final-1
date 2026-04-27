@@ -5,13 +5,17 @@ import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { ContactForm } from "@/components/public/ContactForm";
 import { siteConfig } from "@/lib/config";
+import { getSiteSettings } from "@/cms/actions";
 
 export const metadata: Metadata = {
   title: "Sobre a RECOM Metal Duro | Contato e Suporte Técnico",
   description: "Conheça a história da RECOM, parceira técnica das maiores indústrias de Campinas. Solicite cotações, agende visitas técnicas ou peça suporte.",
 };
 
-export default function SobrePage() {
+export default async function SobrePage() {
+  const settings = await getSiteSettings();
+  const config = settings || siteConfig;
+
   return (
     <div className="flex flex-col">
       <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
@@ -101,10 +105,10 @@ export default function SobrePage() {
                     Central de vendas
                   </p>
                   <a
-                    href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+                    href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
                     className="block text-2xl font-bold tracking-tight text-white transition-colors hover:text-recom-red"
                   >
-                    {siteConfig.contact.phone}
+                    {config.contact.phone}
                   </a>
                 </div>
 
@@ -114,10 +118,10 @@ export default function SobrePage() {
                     E-mail corporativo
                   </p>
                   <a
-                    href={`mailto:${siteConfig.contact.email}`}
+                    href={`mailto:${config.contact.email}`}
                     className="block break-all text-base font-bold tracking-tight text-white transition-colors hover:text-recom-red"
                   >
-                    {siteConfig.contact.email}
+                    {config.contact.email}
                   </a>
                 </div>
               </div>
@@ -136,9 +140,9 @@ export default function SobrePage() {
                     <MapPin className="h-5 w-5 text-recom-blue" />
                   </div>
                   <span className="text-[15px] font-bold leading-snug tracking-tight text-recom-graphite">
-                    {siteConfig.contact.address}
+                    {config.contact.address}
                     <br />
-                    CEP: {siteConfig.contact.cep}
+                    CEP: {config.contact.cep}
                   </span>
                 </div>
               </div>

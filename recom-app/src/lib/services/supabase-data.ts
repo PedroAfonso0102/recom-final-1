@@ -3,9 +3,9 @@ import { createClient } from "../supabase/server";
 import { createStaticClient } from "../supabase/static";
 import { createAdminClient } from "../supabase/admin";
 import { unstable_noStore as noStore } from "next/cache";
-import { Supplier, SupplierSchema } from "../../design-system/schemas/supplier.schema";
-import { Process, ProcessSchema } from "../../design-system/schemas/process.schema";
-import { Promotion, PromotionSchema } from "../../design-system/schemas/promotion.schema";
+import { Supplier, SupplierSchema } from "@/cms/schemas/supplier.schema";
+import { Process, ProcessSchema } from "@/cms/schemas/process.schema";
+import { Promotion, PromotionSchema } from "@/cms/schemas/promotion.schema";
 
 type DataOptions = {
   allowFallback?: boolean;
