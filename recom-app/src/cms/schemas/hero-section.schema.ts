@@ -10,8 +10,8 @@ export const heroSectionSchema = z.object({
   secondaryCtaHref: z.string().trim().optional().nullable(),
   imageUrl: z.string().trim().optional().nullable(),
   showCarousel: z.boolean().optional().default(true),
-  variant: z.enum(["default", "split", "compact"]).default("default"),
+  variant: z.enum(["default", "split", "compact", "full", "simple"]).default("default"),
+  carouselSpeed: z.number().optional().default(5000),
 });
 
 export type HeroSectionProps = z.infer<typeof heroSectionSchema>;
-

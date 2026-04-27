@@ -229,8 +229,9 @@ export function GridSectionBlock({ eyebrow, title, description, items, columns, 
   );
 }
 
-export async function TrustLogosBlock({ title, supplierIds, showAll, grayscale }: TrustLogosProps) {
-  const allSuppliers = await getSuppliers();
+export async function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppliers: propSuppliers }: TrustLogosProps) {
+  // Use pre-fetched suppliers if provided, otherwise fetch them
+  const allSuppliers = propSuppliers || await getSuppliers();
   
   // Filter suppliers if supplierIds is provided and showAll is false
   const suppliers = (!showAll && supplierIds && supplierIds.length > 0)

@@ -6,7 +6,7 @@ export const cmsPageTypeSchema = z.enum(["static", "dynamic_template", "landing"
 
 export const cmsPageFormSchema = z.object({
   title: z.string().trim().min(2, "Informe um título."),
-  slug: z.string().trim().min(1, "Informe um slug.").transform(normalizeCmsSlug),
+  slug: z.string().trim().min(1, "Informe um slug.").regex(/^[a-z0-9/_-]+$/, "O slug deve conter apenas letras minúsculas, números, hifens, sublinhados e barras.").transform(normalizeCmsSlug),
   routePattern: z.string().trim().optional().nullable(),
   pageType: cmsPageTypeSchema.default("static"),
   templateKey: z.string().trim().optional().nullable(),

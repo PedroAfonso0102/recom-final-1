@@ -3,7 +3,7 @@ import { z } from "zod";
 export const SupplierSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(2, "O nome do fornecedor deve ter pelo menos 2 caracteres."),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens."),
+  slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens (ex: fornecedor-exemplo)."),
   logoUrl: z.string().nullable().optional(),
   catalogUrl: z.string().nullable().optional(),
   eCatalogUrl: z.string().nullable().optional(),

@@ -8,8 +8,7 @@ export const ctaSectionSchema = z.object({
   primaryCtaHref: z.string().trim().min(1, "Informe o link do botão."),
   secondaryCtaLabel: z.string().trim().optional().nullable(),
   secondaryCtaHref: z.string().trim().optional().nullable(),
-  variant: z.enum(["default", "light"]).default("default"),
+  variant: z.enum(["default", "light", "primary", "dark"]).default("default"),
 });
 
 export type CtaSectionProps = z.infer<typeof ctaSectionSchema>;
-

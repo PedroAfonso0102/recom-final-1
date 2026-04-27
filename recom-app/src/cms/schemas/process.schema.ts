@@ -3,7 +3,7 @@ import { z } from "zod";
 export const ProcessSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(2, "O nome do processo deve ter pelo menos 2 caracteres."),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens."),
+  slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens (ex: processo-industrial)."),
   imageUrl: z.string().min(1, "URL de imagem inválida.").nullable().optional(),
   shortDescription: z.string().min(10, "A descrição curta deve ter pelo menos 10 caracteres."),
   longDescription: z.string().min(50, "A descrição longa deve ter pelo menos 50 caracteres."),
