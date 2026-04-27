@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
-import { getSiteSettings } from "@/cms/actions";
+import { getSiteSettings } from "@/cms/queries";
 
 export async function HeaderInstitucional() {
   const settings = await getSiteSettings();

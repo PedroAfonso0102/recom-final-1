@@ -4,37 +4,51 @@ import { CTASection } from "@/design-system/components/cta-section";
 import { EmptyState } from "@/design-system/components/empty-state";
 import { ProcessCard } from "@/design-system/components/process-card";
 import { RecomSection } from "@/design-system/components/recom-section";
+import { RenderPage } from "@/cms/render-page";
 import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
+import { getPageBySlug } from "@/cms/queries";
 
-export const metadata: Metadata = {
-  title: "Processos de Usinagem e Soluções Técnicas | RECOM",
-  description: "Especialistas em torneamento, fresamento e furação. Consultoria técnica para otimização de processos industriais.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = await getPageBySlug("processos");
+  
+  return {
+    title: cmsPage?.page.seo_title || "Processos de Usinagem e Soluções Técnicas | RECOM",
+    description: cmsPage?.page.seo_description || "Especialistas em torneamento, fresamento e furação. Consultoria técnica para otimização de processos industriais.",
+  };
+}
 
 export default async function ProcessosPage() {
-  const [processes, suppliers] = await Promise.all([getProcesses(), getSuppliers()]);
+  const [processes, suppliers, cmsPage] = await Promise.all([
+    getProcesses(),
+    getSuppliers(),
+    getPageBySlug("processos")
+  ]);
 
   const getSupplierNames = (processId?: string | null) =>
     suppliers.filter((supplier) => supplier.relatedProcesses.includes(processId || "")).map((supplier) => supplier.name);
 
   return (
     <div className="flex flex-col">
-      <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
-        <div className="container-recom space-y-4">
-          <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Soluções / Processos" }]} />
-          <div className="max-w-3xl">
-            <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
-              Engenharia de aplicação
-            </span>
-            <h1 className="text-recom-graphite">
-              Caminhos por <span className="text-recom-blue">processo de usinagem</span>
-            </h1>
-            <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
-              Encontre fornecedores e catálogos para torneamento, fresamento, furação e fixação. Identifique as marcas e as ferramentas adequadas para cada operação industrial.
-            </p>
+      {cmsPage && <RenderPage pageData={cmsPage} />}
+
+      {!cmsPage && (
+        <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
+          <div className="container-recom space-y-4">
+            <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Soluções / Processos" }]} />
+            <div className="max-w-3xl">
+              <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
+                Engenharia de aplicação
+              </span>
+              <h1 className="text-recom-graphite">
+                Caminhos por <span className="text-recom-blue">processo de usinagem</span>
+              </h1>
+              <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
+                Encontre fornecedores e catálogos para torneamento, fresamento, furação e fixação. Identifique as marcas e as ferramentas adequadas para cada operação industrial.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <RecomSection
         data-hook="public.processes.hub"

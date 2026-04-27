@@ -3,7 +3,7 @@ import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
 import { ScrollProgress } from "@/components/public/ScrollProgress";
 import { WhatsAppFAB } from "@/components/public/WhatsAppFAB";
-import { getSiteSettings } from "@/cms/actions";
+import { getSiteSettings } from "@/cms/queries";
 import { siteConfig } from "@/lib/config";
 
 export const metadata: Metadata = {

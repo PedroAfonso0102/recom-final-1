@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RenderPage } from "@/cms/render-page";
-import { getPublicCmsPageBySlug, getPreviewCmsPageBySlug } from "@/server/queries/cms-pages";
+import { getPageBySlug } from "@/cms/queries";
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
@@ -14,9 +14,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const path = slug.join("/");
   
   const isPreview = preview === "true";
-  const pageData = isPreview 
-    ? await getPreviewCmsPageBySlug(path)
-    : await getPublicCmsPageBySlug(path);
+  const pageData = await getPageBySlug(path, { preview: isPreview });
 
   if (!pageData) {
     return {};
@@ -34,9 +32,7 @@ export default async function CmsPublicPage({ params, searchParams }: PageProps)
   const path = slug.join("/");
   
   const isPreview = preview === "true";
-  const pageData = isPreview 
-    ? await getPreviewCmsPageBySlug(path)
-    : await getPublicCmsPageBySlug(path);
+  const pageData = await getPageBySlug(path, { preview: isPreview });
 
   if (!pageData) {
     notFound();

@@ -6,15 +6,25 @@ import { EmptyState } from "@/design-system/components/empty-state";
 import { PromotionCard } from "@/design-system/components/promotion-card";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
+import { RenderPage } from "@/cms/render-page";
 import { getPromotions, getSuppliers } from "@/lib/services/supabase-data";
+import { getPageBySlug } from "@/cms/queries";
 
-export const metadata: Metadata = {
-  title: "Promoções e Itens em Destaque | RECOM",
-  description: "Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = await getPageBySlug("promocoes");
+  
+  return {
+    title: cmsPage?.page.seo_title || "Promoções e Itens em Destaque | RECOM",
+    description: cmsPage?.page.seo_description || "Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem.",
+  };
+}
 
 export default async function PromocoesPage() {
-  const [promotions, suppliers] = await Promise.all([getPromotions(), getSuppliers()]);
+  const [promotions, suppliers, cmsPage] = await Promise.all([
+    getPromotions(),
+    getSuppliers(),
+    getPageBySlug("promocoes")
+  ]);
 
   const getSupplierName = (id?: string | null) => {
     if (!id) {
@@ -32,22 +42,26 @@ export default async function PromocoesPage() {
 
   return (
     <div className="flex flex-col">
-      <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
-        <div className="container-recom space-y-4">
-          <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Promoções" }]} />
-          <div className="max-w-4xl">
-            <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
-              Oportunidades industriais
-            </span>
-            <h1 className="text-recom-graphite">
-              Promoções e <span className="text-recom-blue">itens em destaque</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
-              Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem. Fale com a equipe comercial para confirmar validade e estoque disponível.
-            </p>
+      {cmsPage && <RenderPage pageData={cmsPage} />}
+
+      {!cmsPage && (
+        <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
+          <div className="container-recom space-y-4">
+            <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Promoções" }]} />
+            <div className="max-w-4xl">
+              <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
+                Oportunidades industriais
+              </span>
+              <h1 className="text-recom-graphite">
+                Promoções e <span className="text-recom-blue">itens em destaque</span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
+                Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem. Fale com a equipe comercial para confirmar validade e estoque disponível.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <RecomSection
         data-hook="public.promotions.hub"

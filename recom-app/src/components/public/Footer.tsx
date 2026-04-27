@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { RecomButton } from "@/design-system/components/recom-button";
-import { getSiteSettings } from "@/cms/actions";
+import { getSiteSettings } from "@/cms/queries";
 
 export async function Footer() {
   const settings = await getSiteSettings();

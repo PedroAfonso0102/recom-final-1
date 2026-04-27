@@ -8,35 +8,49 @@ import { RecomSection } from "@/design-system/components/recom-section";
 import { SupplierCard } from "@/design-system/components/supplier-card";
 import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 
-export const metadata: Metadata = {
-  title: "Fornecedores e Marcas Parceiras | RECOM Metal Duro",
-  description: "Distribuidor oficial Mitsubishi Materials, 7Leaders, BT Fixo e Kifix em Campinas. Catálogos técnicos e suporte oficial.",
-};
+import { getPageBySlug } from "@/cms/queries";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = await getPageBySlug("fornecedores");
+  
+  return {
+    title: cmsPage?.page.seo_title || "Fornecedores e Marcas Parceiras | RECOM Metal Duro",
+    description: cmsPage?.page.seo_description || "Distribuidor oficial Mitsubishi Materials, 7Leaders, BT Fixo e Kifix em Campinas. Catálogos técnicos e suporte oficial.",
+  };
+}
 
 export default async function FornecedoresPage() {
-  const [suppliers, processes] = await Promise.all([getSuppliers(), getProcesses()]);
+  const [suppliers, processes, cmsPage] = await Promise.all([
+    getSuppliers(),
+    getProcesses(),
+    getPageBySlug("fornecedores")
+  ]);
 
   const getProcessNames = (ids: string[] = []) =>
     ids.map((id) => processes.find((process) => process.id === id)?.name).filter(Boolean) as string[];
 
   return (
     <div className="flex flex-col">
-      <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
-        <div className="container-recom space-y-4">
-          <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Fornecedores & Catálogos" }]} />
-          <div className="max-w-3xl">
-            <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
-              Parceiros globais
-            </span>
-            <h1 className="text-recom-graphite">
-              Fornecedores e <span className="text-recom-blue">catálogos para usinagem</span>
-            </h1>
-            <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
-              Consulte os fornecedores atendidos pela RECOM e acesse os catálogos oficiais de cada marca. Fale com a equipe comercial para confirmar disponibilidade e orientar sua cotação.
-            </p>
+      {cmsPage && <RenderPage pageData={cmsPage} />}
+      
+      {!cmsPage && (
+        <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
+          <div className="container-recom space-y-4">
+            <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Fornecedores & Catálogos" }]} />
+            <div className="max-w-3xl">
+              <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
+                Parceiros globais
+              </span>
+              <h1 className="text-recom-graphite">
+                Fornecedores e <span className="text-recom-blue">catálogos para usinagem</span>
+              </h1>
+              <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
+                Consulte os fornecedores atendidos pela RECOM e acesse os catálogos oficiais de cada marca. Fale com a equipe comercial para confirmar disponibilidade e orientar sua cotação.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <RecomSection
         data-hook="public.suppliers.hub"
