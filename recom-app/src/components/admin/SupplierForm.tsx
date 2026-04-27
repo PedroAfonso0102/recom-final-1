@@ -10,7 +10,7 @@ import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
 import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
 import { useFieldArray } from 'react-hook-form';
-import { Plus, Trash2, Image as ImageIcon, X } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, X, Activity } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MediaPickerDialog } from '@/components/admin/MediaPickerDialog';
 import type { MediaAsset } from '@/server/actions/media';
@@ -28,9 +28,10 @@ import { Input } from '@/components/ui/input';
 
 interface SupplierFormProps {
   initialData?: Partial<Supplier> & { id?: string };
+  processes?: Array<{ id: string; name: string }>;
 }
 
-export function SupplierForm({ initialData }: SupplierFormProps) {
+export function SupplierForm({ initialData, processes = [] }: SupplierFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,7 +76,6 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
     setLoading(true);
     
     try {
-      console.log('Iniciando submissão do formulário...', isEditing ? 'Edição' : 'Criação');
       const result = isEditing
         ? await updateSupplier(initialData!.id!, data)
         : await createSupplier(data);
@@ -84,24 +84,18 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
         setError(result.error || 'Erro desconhecido ao salvar.');
         setSuccess(false);
       } else {
-        console.log('Operação realizada com sucesso!');
         setSuccess(true);
-        // O servidor pode ter disparado um redirect, mas por garantia, 
-        // se ainda estivermos na página após 1.5s, forçamos o redirecionamento.
         setTimeout(() => {
           router.push('/admin/fornecedores');
           router.refresh();
         }, 1500);
       }
     } catch (e: unknown) {
-      // Tratar o erro de redirecionamento do Next.js
       const errorStr = String(e);
       if (errorStr.includes('NEXT_REDIRECT') || errorStr.includes('redirect')) {
-        console.log('Redirecionamento detectado. Saindo...');
         return; 
       }
       
-      console.error('Erro na submissão:', e);
       if (e instanceof Error) {
         setError(e.message);
       } else {
@@ -208,6 +202,55 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
                     </FormItem>
                   )}
                 />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
+                Processos Relacionados
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {processes.length === 0 && (
+                  <p className="text-[10px] text-muted-foreground uppercase font-medium italic col-span-full">
+                    Nenhum processo cadastrado para vincular.
+                  </p>
+                )}
+                {processes.map((process) => (
+                  <FormField
+                    key={process.id}
+                    control={form.control}
+                    name="relatedProcesses"
+                    render={({ field }) => {
+                      const checked = (field.value || []).includes(process.id);
+                      return (
+                        <FormItem
+                          className={cn(
+                            "flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 transition-all",
+                            checked ? "bg-primary/5 border-primary/20 ring-1 ring-primary/10" : "bg-slate-50/50"
+                          )}
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={checked}
+                              onCheckedChange={(isSelected) => {
+                                const current = field.value || [];
+                                if (isSelected) {
+                                  field.onChange([...current, process.id]);
+                                } else {
+                                  field.onChange(current.filter((id) => id !== process.id));
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer flex items-center gap-2">
+                            <Activity className={cn("h-3 w-3", checked ? "text-primary" : "text-muted-foreground/40")} />
+                            {process.name}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
               </div>
             </div>
 

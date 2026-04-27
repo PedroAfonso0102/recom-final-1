@@ -10,6 +10,10 @@ import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
+import { getPromotions, getSuppliers } from "@/lib/services/supabase-data";
+import { PromotionCard } from "@/design-system/components/promotion-card";
+import { getSiteSettings } from "@/cms/queries";
+import { siteConfig } from "@/lib/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cmsPage = await getHomePage();
@@ -28,13 +32,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const cmsPage = await getHomePage();
+  const [cmsPage, suppliers, promotions, settings] = await Promise.all([
+    getHomePage(),
+    getSuppliers(),
+    getPromotions(),
+    getSiteSettings()
+  ]);
 
   if (cmsPage) {
     return <RenderPage pageData={cmsPage} />;
   }
 
-  const suppliers = await getSuppliers();
+  const activePromotions = promotions.filter(p => p.status === 'active');
 
   return (
     <div className="flex flex-col">
@@ -128,6 +137,39 @@ export default async function Home() {
         </div>
       </RecomSection>
 
+      {activePromotions.length > 0 && (
+        <RecomSection
+          data-hook="public.home.promotions-section"
+          eyebrow="Oportunidades"
+          title="Promoções e itens em destaque"
+          description="Aproveite condições especiais em ferramentas de corte selecionadas."
+          className="bg-recom-gray-50 py-16 md:py-20"
+        >
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {activePromotions.map((promo) => (
+              <PromotionCard
+                key={promo.id}
+                title={promo.title}
+                description={promo.description}
+                endsAt={promo.endsAt}
+                status={promo.status as "active" | "archived"}
+                supplierName={suppliers.find(s => s.id === promo.supplierId)?.name}
+                ctaLabel={promo.ctaLabel || undefined}
+                ctaLink={promo.ctaUrl}
+              />
+            ))}
+          </div>
+          <div className="mt-12 flex justify-center">
+            <RecomButton asChild intent="outline">
+              <Link href="/promocoes">
+                Ver todas as promoções
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </RecomButton>
+          </div>
+        </RecomSection>
+      )}
+
       <RecomSection
         data-hook="public.home.processes-section"
         eyebrow="Processos de usinagem"
@@ -201,7 +243,7 @@ export default async function Home() {
         title="Solicite orçamento com a equipe RECOM"
         description="Envie sua solicitação informando a marca, o processo de usinagem ou o código do item para agilizar o retorno comercial."
         primaryCta={{ label: "Enviar solicitação", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Ligar agora", href: "tel:+551932564235" }}
+        secondaryCta={{ label: "Ligar agora", href: `tel:${(settings || siteConfig).contact.phone.replace(/\D/g, "")}` }}
         note="Retorno comercial em horário útil e com orientação humana."
       />
     </div>

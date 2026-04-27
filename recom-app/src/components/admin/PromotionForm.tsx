@@ -287,6 +287,42 @@ export function PromotionForm({ initialData, suppliers = [] }: PromotionFormProp
                   </FormItem>
                 )}
               />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <FormField
+                control={form.control}
+                name="ctaLabel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={labelStyles}>Texto de Ação (CTA)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: SOLICITAR ORÇAMENTO" className={inputStyles} {...field} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="ctaUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={labelStyles}>Link de Destino (CTA)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </RecomCard>
+
+        <div className="flex justify-end gap-4 border-t border-border pt-10">
+          <RecomButton 
+            type="button" 
             intent="outline" 
             onClick={() => router.back()} 
             disabled={loading}

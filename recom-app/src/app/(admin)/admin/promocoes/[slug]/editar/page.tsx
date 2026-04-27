@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { PromotionForm } from "@/components/admin/PromotionForm";
-import { getPromotionBySlug } from "@/lib/services/supabase-data";
+import { getPromotionBySlug, getSuppliers } from "@/lib/services/supabase-data";
 
 interface PromotionEditPageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +25,10 @@ export async function generateMetadata({ params }: PromotionEditPageProps): Prom
 
 export default async function EditPromotionPage({ params }: PromotionEditPageProps) {
   const { slug } = await params;
-  const promotion = await getPromotionBySlug(slug, { allowFallback: false });
+  const [promotion, suppliers] = await Promise.all([
+    getPromotionBySlug(slug, { allowFallback: false }),
+    getSuppliers({ allowFallback: false })
+  ]);
 
   if (!promotion) {
     notFound();
@@ -42,7 +45,7 @@ export default async function EditPromotionPage({ params }: PromotionEditPagePro
         <p className="text-slate-500">Atualize a campanha, o período de vigência e o CTA comercial.</p>
       </div>
 
-      <PromotionForm initialData={promotion} />
+      <PromotionForm initialData={promotion} suppliers={suppliers} />
     </div>
   );
 }

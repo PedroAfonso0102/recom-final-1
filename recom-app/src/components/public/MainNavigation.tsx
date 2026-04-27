@@ -7,6 +7,7 @@ import { Menu, X, MessageCircle, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { siteConfig } from "@/lib/config";
+import type { SiteSettings } from "@/cms/schemas/site-settings.schema";
 
 type NavItem = {
   label: string;
@@ -23,14 +24,15 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Contato / Orçamento", href: "/sobre#contato", matchPath: "/sobre" },
 ] as const;
 
-export function MainNavigation() {
+export function MainNavigation({ settings }: { settings?: SiteSettings }) {
   const pathname = usePathname();
 
-  return <MainNavigationShell key={pathname} pathname={pathname} />;
+  return <MainNavigationShell key={pathname} pathname={pathname} settings={settings} />;
 }
 
-function MainNavigationShell({ pathname }: { pathname: string }) {
+function MainNavigationShell({ pathname, settings }: { pathname: string; settings?: SiteSettings }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const config = settings || siteConfig;
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/8 bg-recom-graphite/98 text-white shadow-[0_16px_40px_-30px_rgba(15,23,42,0.7)] backdrop-blur-md">
@@ -106,21 +108,21 @@ function MainNavigationShell({ pathname }: { pathname: string }) {
 
             <div className="grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-3">
               <a
-                href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+                href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
                 className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.12em] text-white/78 transition-colors hover:bg-white/10"
               >
                 <Phone className="h-4 w-4 text-recom-red" />
                 Ligar
               </a>
               <a
-                href={`mailto:${siteConfig.contact.email}`}
+                href={`mailto:${config.contact.email}`}
                 className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.12em] text-white/78 transition-colors hover:bg-white/10"
               >
                 <Mail className="h-4 w-4 text-recom-red" />
                 E-mail
               </a>
               <a
-                href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+                href={`https://wa.me/${config.contact.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.12em] text-white/78 transition-colors hover:bg-white/10"
