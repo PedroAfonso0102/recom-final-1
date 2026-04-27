@@ -9,8 +9,8 @@ const SUPPLIERS = [
     slug: "mitsubishi",
     logo_url: "/assets/images/mitsubishi-logo.png",
     catalog_url: "https://www.mmc-carbide.com/br/download/catalog-1",
-    short_description: "Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.",
-    long_description: "A Mitsubishi Materials é reconhecida mundialmente pela inovação em materiais e revestimentos. Sua linha completa abrange torneamento, fresamento e furação com tecnologia de ponta para máxima produtividade industrial.",
+    short_description: "Fornecedor global de ferramentas de metal duro para usinagem de precisão.",
+    long_description: "A Mitsubishi Materials produz materiais e revestimentos de alta durabilidade. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial.",
     status: "active",
     sort_order: 1,
     settings: { show_menu: true, show_promotions: true, show_processes: true, featured: true },
@@ -21,11 +21,23 @@ const SUPPLIERS = [
     slug: "7leaders",
     logo_url: "/assets/images/logo-7leaders.svg",
     catalog_url: "https://www.7leaders.com/e-catalog",
-    short_description: "Especialista em fresas de metal duro de alto desempenho e ferramentas rotativas.",
-    long_description: "A 7Leaders foca em ferramentas rotativas premium, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento superior.",
+    short_description: "Fabricante de fresas de metal duro e ferramentas rotativas.",
+    long_description: "A 7Leaders foca em ferramentas rotativas, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento de qualidade.",
     status: "active",
     sort_order: 2,
     settings: { show_menu: true, show_promotions: true, show_processes: true, featured: true },
+    related_processes: []
+  },
+  {
+    name: "PEDRO AFONSO TESTE",
+    slug: "pedro-afonso-teste",
+    logo_url: null,
+    catalog_url: null,
+    short_description: "Fornecedor de teste para validação do sistema.",
+    long_description: "Este é um fornecedor de teste criado para validar a listagem e o gerenciamento de fornecedores no CMS.",
+    status: "active",
+    sort_order: 3,
+    settings: { show_menu: true, show_promotions: false, show_processes: false, featured: false },
     related_processes: []
   }
 ];
@@ -35,8 +47,8 @@ const PROCESSES = [
     name: "Torneamento",
     slug: "torneamento",
     image_url: "/assets/images/optimized/koudoe.jpg",
-    short_description: "Remoção de material em peças rotativas com máxima precisão e controle de cavaco.",
-    long_description: "Soluções completas para operações de revolução. A RECOM oferece suporte técnico para a escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.",
+    short_description: "Remoção de material em peças rotativas com controle de cavaco.",
+    long_description: "Soluções para operações de revolução. A RECOM oferece apoio na escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.",
     status: "active",
     sort_order: 1
   },
@@ -44,8 +56,8 @@ const PROCESSES = [
     name: "Fresamento",
     slug: "fresamento",
     image_url: "/assets/images/optimized/fresamento-bg.jpg",
-    short_description: "Usinagem de superfícies complexas com ferramentas rotativas de alta velocidade.",
-    long_description: "Soluções de fresamento para alta remoção de material e acabamento superior. A RECOM provê as ferramentas ideais para faceamento, esquadrejamento e fresamento de cópia.",
+    short_description: "Usinagem de superfícies com ferramentas rotativas de alta velocidade.",
+    long_description: "Soluções de fresamento para remoção de material e acabamento. A RECOM provê as ferramentas para faceamento, esquadrejamento e fresamento de cópia.",
     status: "active",
     sort_order: 2
   }
@@ -59,14 +71,14 @@ async function seed() {
   // 1. Suppliers
   console.log("📦 Sincronizando fornecedores...");
   for (const supplier of SUPPLIERS) {
-    const { error } = await supabase.from("suppliers").upsert(supplier, { onConflict: 'slug' });
+    const { error } = await supabase.from("suppliers").upsert([supplier] as any, { onConflict: 'slug' });
     if (error) console.error(`❌ Erro em ${supplier.slug}:`, error.message);
   }
 
   // 2. Processes
   console.log("⚙️ Sincronizando processos...");
   for (const process of PROCESSES) {
-    const { error } = await supabase.from("processes").upsert(process, { onConflict: 'slug' });
+    const { error } = await supabase.from("processes").upsert([process] as any, { onConflict: 'slug' });
     if (error) console.error(`❌ Erro em ${process.slug}:`, error.message);
   }
 
@@ -86,9 +98,9 @@ async function seed() {
         visibility: "visible",
         props: {
           eyebrow: "RECOM INDUSTRIAL 2026",
-          title: "Distribuição e Suporte Técnico de Alta Performance",
-          subtitle: "Soluções integradas para usinagem de precisão com as melhores marcas mundiais.",
-          primaryCtaLabel: "Falar com Especialista",
+          title: "Distribuição de Ferramentas e Atendimento Comercial",
+          subtitle: "Sua produção com as melhores marcas do mundo e suporte de quem entende de usinagem.",
+          primaryCtaLabel: "Falar com Atendente",
           primaryCtaHref: "/sobre#contato",
           secondaryCtaLabel: "Ver Catálogos",
           secondaryCtaHref: "/fornecedores",
@@ -123,18 +135,18 @@ async function seed() {
           variant: "white",
           items: [
             {
-              title: "Suporte Técnico Especializado",
+              title: "Suporte Direto na Fábrica",
               description: "Engenheiros de aplicação prontos para otimizar seus processos de usinagem.",
               icon: "wrench"
             },
             {
-              title: "Estoque Estratégico",
-              description: "Pronta entrega para os itens mais críticos da sua produção.",
+              title: "Estoque Local e Ágil",
+              description: "Pronta entrega para os itens da sua produção.",
               icon: "package"
             },
             {
-              title: "Qualidade Garantida",
-              description: "Trabalhamos apenas com marcas líderes e originais de fábrica.",
+              title: "Procedência Garantida",
+              description: "Trabalhamos apenas com marcas originais de fábrica.",
               icon: "shield"
             }
           ]
@@ -144,7 +156,7 @@ async function seed() {
 
     // Delete existing sections to avoid duplicates
     await supabase.from("page_sections").delete().eq("page_id", homePage.id);
-    const { error: secError } = await supabase.from("page_sections").insert(HOME_SECTIONS);
+    const { error: secError } = await supabase.from("page_sections").insert(HOME_SECTIONS as any);
     if (secError) console.error("❌ Erro nas seções:", secError.message);
     else console.log("✅ Seções da Home sincronizadas.");
   } else {

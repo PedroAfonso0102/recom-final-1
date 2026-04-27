@@ -37,7 +37,7 @@ export async function Footer() {
             </Link>
 
             <p className="max-w-sm text-[14px] leading-relaxed text-slate-400">
-              Especialistas em ferramentas de corte e soluções técnicas para a indústria metal-mecânica. Distribuidor autorizado com atendimento humano desde {config.company.since}.
+              Distribuidor de ferramentas de corte e atendimento industrial. Atuação comercial humana desde {config.company.since}.
             </p>
 
             <RecomButton asChild size="sm" intent="accent" className="h-9 px-6">
@@ -71,6 +71,11 @@ export async function Footer() {
                   >
                     {config.contact.phone}
                   </a>
+                  {config.contact.fax && (
+                    <span className="text-[12px] text-slate-500 font-medium">
+                      Fax: {config.contact.fax}
+                    </span>
+                  )}
                 </div>
               </div>
 

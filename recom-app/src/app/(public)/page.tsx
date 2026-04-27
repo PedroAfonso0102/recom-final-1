@@ -53,10 +53,10 @@ export default async function Home() {
         title={
           <>
             Ferramentas para usinagem <br className="hidden md:block" />
-            <span className="text-recom-red">industrial de precisão</span>
+            industrial de qualidade
           </>
         }
-        description="A RECOM atende clientes industriais com fornecedores reconhecidos, catálogos oficiais e contato comercial direto para orçamento e orientação técnica."
+        description="A RECOM atende a indústria com marcas reconhecidas, catálogos oficiais e apoio comercial direto para orçamentos."
         primaryCta={{ label: "Solicitar orçamento", href: "/sobre#contato" }}
         secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores" }}
         image={
@@ -100,8 +100,8 @@ export default async function Home() {
 
       <RecomSection
         data-hook="public.home.trust-section"
-        title="Distribuidor de ferramentas de corte desde 1990"
-        description="Atendimento comercial especializado para a indústria metal-mecânica em Campinas e região."
+        title="Distribuidor industrial desde 1990"
+        description="Atendimento comercial para a indústria metal-mecânica em Campinas e região."
         className="bg-recom-gray-50 py-16 md:py-20"
       >
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -115,7 +115,7 @@ export default async function Home() {
             <div>
               <h3 className="mb-2 text-recom-graphite">Garantia de procedência</h3>
               <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade, suporte técnico oficial e segurança para sua produção.
+                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade, suporte direto da fábrica e segurança para sua produção.
               </p>
             </div>
           </div>
@@ -123,14 +123,14 @@ export default async function Home() {
           <div className="group flex gap-6 rounded-xl border border-recom-border bg-white p-8 transition-all duration-300 hover:border-recom-blue/20 hover:shadow-recom-card">
             <div
               className="shrink-0 rounded-md border border-recom-border/50 bg-recom-gray-50 p-4 transition-all duration-500 group-hover:bg-recom-blue group-hover:text-white"
-              data-tooltip="Experiência técnica"
+              data-tooltip="Experiência prática"
             >
               <CheckCircle2 className="h-7 w-7" />
             </div>
             <div>
               <h3 className="mb-2 text-recom-graphite">Suporte de engenharia</h3>
               <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Nossa equipe técnica atua diretamente na otimização de processos, auxiliando na escolha da melhor geometria e classe para maximizar sua produtividade.
+                Nossa equipe atua diretamente na otimização de processos, auxiliando na escolha da ferramenta certa para sua produção.
               </p>
             </div>
           </div>
@@ -200,17 +200,17 @@ export default async function Home() {
           <div className="group flex h-full flex-col rounded-xl border border-recom-border bg-white p-8 transition-all hover:border-recom-blue/20 hover:shadow-recom-card">
             <div
               className="mb-6 flex h-12 w-12 items-center justify-center rounded-md border border-recom-border/50 bg-recom-gray-50 text-recom-blue transition-all duration-500 group-hover:bg-recom-blue group-hover:text-white"
-              data-tooltip="Soluções completas"
+              data-tooltip="Ferramentas de usinagem"
             >
               <Wrench className="h-6 w-6" />
             </div>
             <h3 className="mb-3">Processos de usinagem</h3>
             <p className="mb-8 flex-grow text-[15px] leading-relaxed text-muted-foreground">
-              Soluções completas para torneamento, fresamento, furação e fixação. Orientação técnica personalizada para cada desafio de usinagem.
+              Ferramentas para torneamento, fresamento, furação e fixação. Apoio direto para cada desafio de usinagem.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
               <Link href="/processos">
-                Ver soluções por processo
+                Ver ferramentas por processo
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
@@ -229,7 +229,7 @@ export default async function Home() {
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
               <Link href="/sobre#contato">
-                Agendar visita técnica
+                Solicitar visita comercial
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
@@ -244,7 +244,7 @@ export default async function Home() {
         description="Envie sua solicitação informando a marca, o processo de usinagem ou o código do item para agilizar o retorno comercial."
         primaryCta={{ label: "Enviar solicitação", href: "/sobre#contato" }}
         secondaryCta={{ label: "Ligar agora", href: `tel:${(settings || siteConfig).contact.phone.replace(/\D/g, "")}` }}
-        note="Retorno comercial em horário útil e com orientação humana."
+        note="Retorno comercial rápido e direto."
       />
     </div>
   );

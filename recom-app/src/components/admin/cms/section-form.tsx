@@ -54,6 +54,9 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
           if (field.type === "checkbox") {
             return [field.name, value === "on"];
           }
+          if (field.type === "number") {
+            return [field.name, value ? Number(value) : (field.required ? 0 : null)];
+          }
           return [field.name, String(value ?? "")];
         })
       );
@@ -90,9 +93,8 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
     setSaving(true);
 
     const formData = new FormData(event.currentTarget);
-    const activeDefinition = componentRegistry[componentType];
     const props = Object.fromEntries(
-      activeDefinition.fields.map((field) => {
+      definition.fields.map((field) => {
         const value = formData.get(field.name);
         if (field.type === "list") {
           try {
@@ -103,6 +105,9 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
         }
         if (field.type === "checkbox") {
           return [field.name, value === "on"];
+        }
+        if (field.type === "number") {
+          return [field.name, value ? Number(value) : (field.required ? 0 : null)];
         }
         return [field.name, String(value ?? "")];
       })
@@ -219,7 +224,6 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
               >
                 <option value="draft">Rascunho</option>
                 <option value="published">Publicado</option>
-                <option value="hidden">Oculto</option>
                 <option value="archived">Arquivado</option>
               </select>
             </div>

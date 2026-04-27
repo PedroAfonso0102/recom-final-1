@@ -118,7 +118,7 @@ export function HeroSectionBlock({
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {["Suporte técnico", "Catálogos oficiais", "Atendimento comercial"].map((item) => (
+                      {["Apoio na fábrica", "Catálogos oficiais", "Atendimento direto"].map((item) => (
                         <span key={item} className="rounded-full border border-white/15 bg-white/8 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/80">
                           {item}
                         </span>

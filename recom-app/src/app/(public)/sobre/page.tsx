@@ -13,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cmsPage = await getPageBySlug("sobre");
   
   return {
-    title: cmsPage?.page.seo_title || "Sobre a RECOM Metal Duro | Contato e Suporte Técnico",
-    description: cmsPage?.page.seo_description || "Conheça a história da RECOM, parceira técnica das maiores indústrias de Campinas. Solicite cotações, agende visitas técnicas ou peça suporte.",
+    title: cmsPage?.page.seo_title || "Sobre a RECOM Metal Duro | Contato e Vendas",
+    description: cmsPage?.page.seo_description || "Conheça a história da RECOM, parceira comercial das maiores indústrias de Campinas. Peça orçamentos ou suporte.",
   };
 }
 
@@ -51,12 +51,12 @@ export default async function SobrePage() {
             </div>
           </section>
 
-          <RecomSection data-hook="public.about.section" eyebrow="Atendimento técnico" className="bg-white py-16 md:py-20">
+          <RecomSection data-hook="public.about.section" eyebrow="Atendimento comercial" className="bg-white py-16 md:py-20">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
               <div className="space-y-8">
                 <h2 className="text-recom-graphite">Atendimento comercial em Campinas e região</h2>
                 <p className="text-[17px] leading-relaxed text-muted-foreground">
-                  A RECOM constrói sua presença no setor industrial aproximando clientes de fornecedores reconhecidos e catálogos técnicos oficiais, facilitando o contato para orçamento e orientação comercial.
+                  A RECOM constrói sua presença no setor industrial aproximando clientes de fornecedores reconhecidos e catálogos oficiais, facilitando o contato para orçamento e orientação comercial.
                 </p>
 
                 <div className="space-y-6 pt-4">
@@ -65,8 +65,8 @@ export default async function SobrePage() {
                   </h3>
                   <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     {[
-                      { title: "Comercial direto", desc: "Equipe preparada para orientar sua cotação técnica." },
-                      { title: "Estoque local", desc: "Agilidade estratégica para indústrias da região." },
+                      { title: "Comercial direto", desc: "Equipe preparada para orientar sua cotação." },
+                      { title: "Estoque local", desc: "Agilidade para indústrias da região." },
                       { title: "Catálogos oficiais", desc: "Acesso total às especificações Mitsubishi e parceiros." },
                       { title: "Tradição B2B", desc: "Mais de três décadas de experiência no mercado." },
                     ].map((item) => (
@@ -99,7 +99,7 @@ export default async function SobrePage() {
         data-hook="public.contact.section"
         eyebrow="Canais de atendimento"
         title="Fale com a RECOM"
-        description="Solicite cotações, agende visitas técnicas ou envie sua dúvida sobre ferramentas de corte."
+        description="Peça orçamentos, tire dúvidas sobre ferramentas de corte ou fale com nossa equipe."
         className="scroll-mt-20 border-t border-recom-border bg-recom-gray-50 py-16 md:py-20"
       >
         <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-12">

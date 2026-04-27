@@ -9,33 +9,14 @@ import { CmsSectionForm } from "./section-form";
 import { SectionReorderButtons } from "./section-reorder-buttons";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { CmsPageRow, CmsSectionRow } from "@/cms/types";
 
 const HOME_CMS_SLUG = "home";
 
-interface CmsSection {
-  id: string;
-  component_type: string;
-  sort_order: number;
-  status: string;
-  visibility: string;
-  anchor_id?: string | null;
-  props: Record<string, any>;
-}
-
-interface CmsPage {
-  id: string;
-  title: string;
-  slug: string;
-  status: string;
-  seo_title?: string | null;
-  seo_description?: string | null;
-  is_system?: boolean;
-}
-
 type CmsPageEditorProps = {
   pageData: {
-    page: CmsPage;
-    sections: CmsSection[];
+    page: CmsPageRow;
+    sections: CmsSectionRow[];
   };
   showPageMeta?: boolean;
 };
@@ -120,8 +101,8 @@ export function CmsPageEditor({ pageData, showPageMeta: _showPageMeta = true }: 
                 <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">Página sem blocos de conteúdo.</p>
               </div>
             ) : (
-              sections.map((section: CmsSection, index: number) => {
-                const ids = sections.map((item: CmsSection) => item.id);
+              sections.map((section: CmsSectionRow, index: number) => {
+                const ids = sections.map((item: CmsSectionRow) => item.id);
                 const moveUpOrder = index > 0 ? ids.map((id: string, currentIndex: number) => (currentIndex === index - 1 ? ids[index] : currentIndex === index ? ids[index - 1] : id)) : undefined;
                 const moveDownOrder = index < sections.length - 1 ? ids.map((id: string, currentIndex: number) => (currentIndex === index + 1 ? ids[index] : currentIndex === index ? ids[index + 1] : id)) : undefined;
 
