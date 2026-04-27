@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { RecomButton } from "@/design-system/components/recom-button";
@@ -12,7 +13,13 @@ export function Footer() {
             <Link href="/" className="inline-block">
               <div className="flex items-center gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-md bg-white p-2">
-                  <img src="/assets/images/logo-triangulo.png" alt="RECOM" className="object-contain" />
+                  <Image
+                    src="/assets/images/logo-triangulo.png"
+                    alt="RECOM"
+                    width={32}
+                    height={32}
+                    className="h-full w-full object-contain"
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-bold leading-none tracking-tight text-white uppercase">

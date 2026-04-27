@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   Layers,
@@ -63,10 +64,12 @@ export function ProcessCard({
     >
       <div className="relative aspect-[16/9] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
         {imageUrl ? (
-          <img
+          <Image
             src={imageUrl}
             alt={name}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            fill
+            sizes="(max-width: 1279px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

@@ -88,7 +88,10 @@ export async function getAllSuppliers() {
     return [];
   }
 
-  return data;
+  return (data ?? []).map((supplier) => ({
+    ...supplier,
+    catalogs: Array.isArray(supplier.catalogs) ? supplier.catalogs : [],
+    related_processes: Array.isArray(supplier.related_processes) ? supplier.related_processes : [],
+  }));
 }
-
 

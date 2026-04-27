@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { RecomSection } from "@/design-system/components/recom-section";
@@ -58,12 +59,15 @@ export default function SobrePage() {
             </div>
           </div>
 
-          <div className="group relative overflow-hidden rounded-xl border border-recom-border shadow-recom-card">
+          <div className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-recom-border shadow-recom-card">
             <div className="absolute inset-0 z-10 bg-recom-blue/10 transition-all duration-700 group-hover:bg-transparent" />
-            <img
+            <Image
               src="/assets/images/escritorio.jpg"
               alt="Escritório RECOM Metal Duro"
-              className="aspect-[4/3] w-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-100"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-100"
+              priority
             />
           </div>
         </div>

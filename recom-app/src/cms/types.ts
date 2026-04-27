@@ -24,7 +24,7 @@ export type ActionResult<T = unknown> =
 export type CmsFieldDefinition = {
   name: string;
   label: string;
-  type: "text" | "textarea" | "url" | "select" | "switch" | "checkbox" | "list";
+  type: "text" | "textarea" | "url" | "select" | "switch" | "checkbox" | "list" | "media";
   placeholder?: string;
   description?: string;
   required?: boolean;

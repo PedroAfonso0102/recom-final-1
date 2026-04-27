@@ -3,6 +3,11 @@
 import React from "react";
 import type { CmsFieldDefinition } from "./types";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { MediaPickerDialog } from "@/components/admin/MediaPickerDialog";
+import type { MediaAsset } from "@/server/actions/media";
+import { Image as ImageIcon, X } from "lucide-react";
 
 type FieldRendererProps = {
   field: CmsFieldDefinition;
@@ -59,6 +64,10 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
     );
   }
 
+  if (field.type === "media") {
+    return <CmsMediaField field={field} defaultValue={defaultValue} />;
+  }
+
   return (
     <input
       name={field.name}
@@ -67,6 +76,99 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
       type="text"
       className={baseClassName}
     />
+  );
+}
+
+function CmsMediaField({ field, defaultValue }: { field: CmsFieldDefinition; defaultValue?: unknown }) {
+  const [value, setValue] = React.useState(typeof defaultValue === "string" ? defaultValue : "");
+  const [selectedMedia, setSelectedMedia] = React.useState<MediaAsset | null>(null);
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setValue(typeof defaultValue === "string" ? defaultValue : "");
+    setSelectedMedia(null);
+  }, [defaultValue]);
+
+  return (
+    <div className="space-y-3 rounded-xl border border-border bg-muted/20 p-4">
+      <input type="hidden" name={field.name} value={value} />
+
+      <div className="flex items-start gap-4">
+        <div className="flex h-24 w-36 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white">
+          {value ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={value} alt={field.label} className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <ImageIcon className="h-8 w-8" />
+              <span className="text-[10px] font-semibold uppercase tracking-widest">Sem imagem</span>
+            </div>
+          )}
+        </div>
+
+        <div className="min-w-0 flex-1 space-y-3">
+          <div className="space-y-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+              Imagem vinculada
+            </p>
+            <p className="truncate text-sm font-medium text-foreground">
+              {selectedMedia?.file_name || value || "Nenhuma imagem selecionada"}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" size="sm" className="gap-2" onClick={() => setOpen(true)}>
+              <ImageIcon className="h-3.5 w-3.5" />
+              Selecionar mídia
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="gap-2"
+              onClick={() => {
+                setValue("");
+                setSelectedMedia(null);
+              }}
+              disabled={!value}
+            >
+              <X className="h-3.5 w-3.5" />
+              Limpar
+            </Button>
+          </div>
+
+          {field.description && (
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              {field.description}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+          URL pública
+        </span>
+        <Input
+          value={value}
+          onChange={(event) => {
+            setValue(event.target.value);
+            setSelectedMedia(null);
+          }}
+          placeholder={field.placeholder || "https://..."}
+          className="bg-white"
+        />
+      </div>
+
+      <MediaPickerDialog
+        open={open}
+        onOpenChange={setOpen}
+        onSelect={(asset) => {
+          setValue(asset.public_url);
+          setSelectedMedia(asset);
+        }}
+      />
+    </div>
   );
 }
 

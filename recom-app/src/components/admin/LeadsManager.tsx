@@ -113,14 +113,14 @@ interface Lead {
   notified_at: string | null;
   process_id: string | null;
   source_page?: string | null;
-  revenue_value?: number;
+  revenue_value?: number | null;
   loss_reason?: string | null;
   closed_at?: string | null;
   assigned_rep_id?: string | null;
 }
 
 
-interface LeadNotificationsConfig {
+export interface LeadNotificationsConfig {
   enabled: boolean;
   emails: string[];
   frequency: 'instant' | 'daily' | 'weekly' | 'custom';

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ArrowRight, Calendar, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -48,10 +49,12 @@ export function PromotionCard({
     >
       <div className="relative aspect-[4/3] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
         {imageUrl ? (
-          <img
+          <Image
             src={imageUrl}
             alt={title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            fill
+            sizes="(max-width: 1279px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center p-6">

@@ -3,6 +3,7 @@
 import { requireAuth } from "@/lib/auth/utils";
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createAuditLog } from "@/lib/audit";
+import type { Database } from "@/lib/database.types";
 import { revalidatePath } from "next/cache";
 
 export type SalesRep = {
@@ -14,6 +15,9 @@ export type SalesRep = {
   last_assigned_at: string | null;
   assignment_count: number;
 };
+
+type SalesRepInsert = Database["public"]["Tables"]["sales_reps"]["Insert"];
+type SalesRepUpdate = Database["public"]["Tables"]["sales_reps"]["Update"];
 
 export async function getSalesReps() {
   await requireAuth();
@@ -27,7 +31,7 @@ export async function getSalesReps() {
   return data as SalesRep[];
 }
 
-export async function createSalesRep(data: Partial<SalesRep>) {
+export async function createSalesRep(data: SalesRepInsert) {
   await requireAuth();
   const supabase = createAdminClient();
   const { error } = await supabase.from('sales_reps').insert(data);
@@ -37,7 +41,7 @@ export async function createSalesRep(data: Partial<SalesRep>) {
   return { ok: true };
 }
 
-export async function updateSalesRep(id: string, data: Partial<SalesRep>) {
+export async function updateSalesRep(id: string, data: SalesRepUpdate) {
   await requireAuth();
   const supabase = createAdminClient();
   const { error } = await supabase.from('sales_reps').update(data).eq('id', id);
@@ -130,7 +134,7 @@ export async function assignLeadToRep(leadId: string, repId: string) {
     .from('leads')
     .update({ 
       assigned_rep_id: repId,
-      status: 'em_tratativa', // Update status as requested
+      status: 'contacted',
       updated_at: now
     })
     .eq('id', leadId);

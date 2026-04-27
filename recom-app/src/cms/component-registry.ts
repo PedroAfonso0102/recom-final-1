@@ -33,7 +33,7 @@ export const componentRegistry = {
       { name: "primaryCtaHref", label: "Link do CTA principal", type: "text" },
       { name: "secondaryCtaLabel", label: "CTA secundário", type: "text" },
       { name: "secondaryCtaHref", label: "Link do CTA secundário", type: "text" },
-      { name: "imageUrl", label: "URL da imagem", type: "text" },
+      { name: "imageUrl", label: "Imagem do Hero", type: "media", description: "Escolha uma imagem da biblioteca ou cole uma URL pública." },
       { name: "showCarousel", label: "Mostrar Carrossel", type: "checkbox", description: "Ative para exibir o carrossel na Home." },
       {
         name: "variant",
@@ -198,4 +198,3 @@ export type CmsComponentType = keyof typeof componentRegistry;
 export function getComponentDefinition(componentType: string) {
   return componentRegistry[componentType as CmsComponentType] ?? null;
 }
-

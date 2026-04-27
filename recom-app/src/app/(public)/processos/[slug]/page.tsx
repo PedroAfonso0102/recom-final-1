@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
@@ -39,6 +40,15 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
 
   const relatedSuppliers = suppliers.filter((supplier) => supplier.relatedProcesses.includes(process.id || "")).map((supplier) => supplier.name);
   const paragraphs = process.longDescription.split("\n").filter((paragraph) => paragraph.trim().length > 0);
+  const defaultImage =
+    process.slug === "torneamento"
+      ? "/assets/images/koudoe.jpg"
+      : process.slug === "fresamento"
+        ? "/assets/images/recom-editorial-2.jpg"
+        : process.slug === "furacao"
+          ? "/assets/images/recom-editorial-3.jpg"
+          : null;
+  const visualImage = process.imageUrl && process.imageUrl.trim() !== "" ? process.imageUrl : defaultImage;
 
   return (
     <div className="flex flex-col pb-16">
@@ -95,15 +105,29 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-border bg-white shadow-recom-card">
-              {process.imageUrl && process.imageUrl.trim() !== "" ? (
-                <img src={process.imageUrl} alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
-              ) : process.slug === "torneamento" ? (
-                <img src="/assets/images/koudoe.jpg" alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
-              ) : process.slug === "fresamento" ? (
-                <img src="/assets/images/recom-editorial-2.jpg" alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
-              ) : process.slug === "furacao" ? (
-                <img src="/assets/images/recom-editorial-3.jpg" alt={process.name} className="h-auto w-full object-cover grayscale transition-all duration-700" />
-              ) : null}
+              {visualImage ? (
+                <div className="relative aspect-[16/9] w-full">
+                  <Image
+                    src={visualImage}
+                    alt={process.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    className="object-cover grayscale transition-all duration-700"
+                  />
+                </div>
+              ) : (
+                <div className="flex min-h-[240px] items-center justify-center bg-recom-gray-50 p-8 text-center">
+                  <div className="max-w-sm space-y-3">
+                    <CheckCircle2 className="mx-auto h-12 w-12 text-recom-blue/45" />
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                      Imagem não definida
+                    </p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      Este processo ainda não tem imagem no CMS. Adicione uma mídia para enriquecer a página no desktop e no mobile.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="rounded-xl border border-border bg-recom-graphite p-8 text-white shadow-recom">

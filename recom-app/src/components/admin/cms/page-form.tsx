@@ -15,8 +15,6 @@ import { useBeforeUnload } from "@/hooks/use-before-unload";
 import { useAutosave } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
-
-
 const pageFields: CmsFieldDefinition[] = [
   { name: "title", label: "Título", type: "text", required: true },
   { name: "slug", label: "Slug", type: "text", required: true, placeholder: "home" },
@@ -35,7 +33,7 @@ const pageFields: CmsFieldDefinition[] = [
   { name: "description", label: "Descrição Interna", type: "textarea", rows: 2 },
   { name: "seoTitle", label: "SEO title", type: "text" },
   { name: "seoDescription", label: "SEO description", type: "textarea", rows: 3 },
-  { name: "ogImageUrl", label: "OG image URL", type: "url" },
+  { name: "ogImageUrl", label: "Imagem social / OG", type: "media", description: "Escolha uma imagem da biblioteca ou cole uma URL pública." },
   {
     name: "status",
     label: "Status",
@@ -57,10 +55,10 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const isSystem = page?.is_system ?? false;
 
   useBeforeUnload(isDirty);
 
@@ -95,9 +93,6 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
       }
     }
   }, 5000, isDirty);
-
-
-  const isSystem = page?.is_system ?? false;
 
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -199,7 +194,7 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
           <div className="grid gap-6 md:grid-cols-2">
             {pageFields.map((field) => {
               const isReadOnly = isSystem && (field.name === "slug" || field.name === "pageType" || field.name === "templateKey" || field.name === "routePattern");
-              
+
               return (
                 <div key={field.name} className={cn("space-y-2", field.type === "textarea" ? "md:col-span-2" : "")}>
                   <div className="flex items-center justify-between">
@@ -244,4 +239,3 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
 
   );
 }
-

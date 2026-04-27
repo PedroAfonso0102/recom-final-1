@@ -2,8 +2,37 @@ import React from 'react';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { unstable_noStore as noStore } from 'next/cache';
 import { LeadsManager } from '@/components/admin/LeadsManager';
+import type { LeadNotificationsConfig } from '@/components/admin/LeadsManager';
 import { getAdminConfig, getAllProcesses, getAllSuppliers } from '@/lib/services/dashboard';
 import { getSalesReps } from '@/server/actions/sales-reps';
+
+function isLeadNotificationsConfig(value: unknown): value is LeadNotificationsConfig {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const config = value as Record<string, unknown>;
+  const autoStatusUpdate = config.auto_status_update as Record<string, unknown> | undefined;
+  const workingHours = config.working_hours as Record<string, unknown> | undefined;
+  const emailTemplate = config.email_template as Record<string, unknown> | undefined;
+
+  return (
+    typeof config.enabled === 'boolean' &&
+    Array.isArray(config.emails) &&
+    ['instant', 'daily', 'weekly', 'custom'].includes(String(config.frequency)) &&
+    typeof config.round_robin_enabled === 'boolean' &&
+    !!autoStatusUpdate &&
+    typeof autoStatusUpdate.enabled === 'boolean' &&
+    typeof autoStatusUpdate.target_status === 'string' &&
+    !!workingHours &&
+    typeof workingHours.start === 'string' &&
+    typeof workingHours.end === 'string' &&
+    typeof workingHours.enabled === 'boolean' &&
+    !!emailTemplate &&
+    typeof emailTemplate.subject_prefix === 'string' &&
+    typeof emailTemplate.include_summary === 'boolean'
+  );
+}
 
 
 async function getLeads() {
@@ -65,7 +94,7 @@ export default async function AdminLeadsPage() {
 
       <LeadsManager 
         initialLeads={leads} 
-        config={config} 
+        config={isLeadNotificationsConfig(config) ? config : null} 
         processes={processes} 
         initialSalesReps={salesReps}
         suppliers={suppliers}

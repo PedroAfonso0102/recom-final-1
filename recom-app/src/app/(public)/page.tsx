@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, CheckCircle2, Factory, MapPin, ShieldCheck, Wrench } from "lucide-react";
 import { HOME_CMS_SLUG } from "@/cms/utils";
 import { RenderPage } from "@/cms/render-page";
@@ -65,14 +66,25 @@ export default async function Home() {
           <div className="flex flex-wrap items-center justify-center gap-12 opacity-45 grayscale transition-all duration-700 hover:opacity-100 hover:grayscale-0 md:gap-20">
             {suppliers.map((supplier) => 
               supplier.logoUrl ? (
-                <img
+                <div key={supplier.id || supplier.slug} className="relative h-7 w-28 md:h-8 md:w-32">
+                  <Image
+                    src={supplier.logoUrl}
+                    alt={supplier.name}
+                    fill
+                    sizes="(max-width: 768px) 112px, 128px"
+                    className="object-contain"
+                    data-tooltip={supplier.name}
+                  />
+                </div>
+              ) : (
+                <div
                   key={supplier.id || supplier.slug}
-                  src={supplier.logoUrl}
-                  alt={supplier.name}
-                  className="h-6 w-auto object-contain md:h-7"
-                  data-tooltip={supplier.name}
-                />
-              ) : null
+                  className="inline-flex items-center gap-2 rounded-full border border-recom-border bg-recom-gray-50 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-recom-graphite/55"
+                >
+                  <Factory className="h-3.5 w-3.5" />
+                  {supplier.name}
+                </div>
+              )
             )}
           </div>
         </div>

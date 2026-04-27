@@ -10,8 +10,10 @@ import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
 import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
 import { useFieldArray } from 'react-hook-form';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, X } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { MediaPickerDialog } from '@/components/admin/MediaPickerDialog';
+import type { MediaAsset } from '@/server/actions/media';
 
 import {
   Form,
@@ -32,6 +34,9 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [logoUrl, setLogoUrl] = useState(initialData?.logoUrl || '');
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState<MediaAsset | null>(null);
   const isEditing = !!initialData?.id;
 
   const form = useForm<Supplier>({
@@ -215,11 +220,64 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
                   control={form.control}
                   name="logoUrl"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>URL do Logotipo (Asset)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
-                      </FormControl>
+                    <FormItem className="md:col-span-2">
+                      <FormLabel className={labelStyles}>Logotipo</FormLabel>
+                      <div className="grid gap-4 rounded-2xl border border-border bg-slate-50/60 p-4 md:grid-cols-[180px_minmax(0,1fr)]">
+                        <div className="overflow-hidden rounded-xl border border-border bg-white">
+                          <div className="aspect-[4/3] bg-slate-100">
+                            {logoUrl ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={logoUrl} alt="Preview do logotipo" className="h-full w-full object-contain p-4" />
+                            ) : (
+                              <div className="flex h-full items-center justify-center text-muted-foreground">
+                                <ImageIcon className="h-10 w-10" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                            Identidade visual do fornecedor
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            <RecomButton type="button" intent="outline" className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2" onClick={() => setPickerOpen(true)}>
+                              <ImageIcon className="h-3.5 w-3.5" />
+                              Selecionar mídia
+                            </RecomButton>
+                            <RecomButton
+                              type="button"
+                              intent="outline"
+                              className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2"
+                              onClick={() => {
+                                setLogoUrl('');
+                                setSelectedMedia(null);
+                                field.onChange('');
+                                form.setValue('logoUrl', '', { shouldDirty: true, shouldValidate: true });
+                              }}
+                              disabled={!logoUrl}
+                            >
+                              <X className="h-3.5 w-3.5" />
+                              Limpar
+                            </RecomButton>
+                          </div>
+                          <Input
+                            placeholder="https://..."
+                            className={inputStyles}
+                            value={logoUrl}
+                            onChange={(event) => {
+                              const nextValue = event.target.value;
+                              setLogoUrl(nextValue);
+                              setSelectedMedia(null);
+                              field.onChange(nextValue);
+                              form.setValue('logoUrl', nextValue, { shouldDirty: true, shouldValidate: true });
+                            }}
+                          />
+                          <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
+                            {selectedMedia ? `Selecionada: ${selectedMedia.file_name}` : 'Use a biblioteca ou cole uma URL pública.'}
+                          </p>
+                        </div>
+                      </div>
                       <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
                     </FormItem>
                   )}
@@ -463,6 +521,15 @@ export function SupplierForm({ initialData }: SupplierFormProps) {
           </RecomButton>
         </div>
       </form>
+      <MediaPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        onSelect={(asset) => {
+          setSelectedMedia(asset);
+          setLogoUrl(asset.public_url);
+          form.setValue('logoUrl', asset.public_url, { shouldDirty: true, shouldValidate: true });
+        }}
+      />
     </Form>
   );
 }

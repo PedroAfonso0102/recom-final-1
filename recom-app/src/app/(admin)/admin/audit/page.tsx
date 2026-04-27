@@ -1,10 +1,34 @@
 import React from 'react';
 import { getAuditLogs } from '@/server/actions/audit';
 import { History, User, Database, Clock } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 export const dynamic = 'force-dynamic';
+
+function formatRelativeTime(dateValue: string) {
+  const date = new Date(dateValue);
+  const diffMs = Date.now() - date.getTime();
+  const diffMinutes = Math.max(1, Math.floor(diffMs / (1000 * 60)));
+
+  if (diffMinutes < 60) {
+    return `há ${diffMinutes} minuto${diffMinutes === 1 ? '' : 's'}`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) {
+    return `há ${diffHours} hora${diffHours === 1 ? '' : 's'}`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) {
+    return `há ${diffDays} dia${diffDays === 1 ? '' : 's'}`;
+  }
+
+  return date.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}
 
 export default async function AuditPage() {
   const logs = await getAuditLogs();
@@ -45,7 +69,7 @@ export default async function AuditPage() {
                       </span>
                       <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {formatDistanceToNow(new Date(log.created_at), { addSuffix: true, locale: ptBR })}
+                        {formatRelativeTime(log.created_at)}
                       </span>
                     </div>
                     <h3 className="text-sm font-bold text-slate-700">
@@ -77,10 +101,10 @@ export default async function AuditPage() {
       </div>
 
       <div className="flex justify-center pt-8">
-        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+        <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           Sistema de logs ativo e monitorado em tempo real
-        </p>
+        </div>
       </div>
     </div>
   );

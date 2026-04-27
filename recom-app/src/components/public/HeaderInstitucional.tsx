@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 
@@ -8,10 +9,13 @@ export function HeaderInstitucional() {
       <div className="container-recom flex items-center justify-between gap-6">
         <Link href="/" className="group flex items-center gap-4">
           <div className="relative h-12 w-12 overflow-hidden rounded-md border border-recom-border bg-white p-2 transition-all duration-300 group-hover:border-recom-blue/30">
-            <img
+            <Image
               src="/assets/images/logo-triangulo.png"
               alt="RECOM"
+              fill
+              sizes="48px"
               className="h-full w-full object-contain"
+              priority
             />
           </div>
           <div className="flex flex-col">

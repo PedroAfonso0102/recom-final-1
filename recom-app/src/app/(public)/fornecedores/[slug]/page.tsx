@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowRight, ExternalLink, Factory } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
@@ -60,9 +61,27 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
           <div className="flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-white p-8 shadow-recom-card lg:w-[280px]">
             {supplier.logoUrl && supplier.logoUrl.trim() !== "" ? (
-              <img src={supplier.logoUrl} alt={supplier.name} className="h-full w-full object-contain" />
+              <div className="relative h-24 w-full">
+                <Image
+                  src={supplier.logoUrl}
+                  alt={supplier.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 280px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
             ) : supplier.slug === "mitsubishi" || supplier.slug === "mitsubishi-materials" ? (
-              <img src="/assets/images/mitsubishi-logo.png" alt={supplier.name} className="h-full w-full object-contain" />
+              <div className="relative h-24 w-full">
+                <Image
+                  src="/assets/images/mitsubishi-logo.png"
+                  alt={supplier.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 280px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
             ) : (
               <div className="flex flex-col items-center gap-4 text-muted-foreground/35">
                 <Factory className="h-12 w-12" />

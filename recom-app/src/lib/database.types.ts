@@ -41,10 +41,16 @@ export type Database = {
           email: string
           id: string
           item_code: string | null
+          notified_at: string | null
           message: string | null
           name: string
           phone: string
+          process_id: string | null
           process_interest: string | null
+          revenue_value: number | null
+          loss_reason: string | null
+          closed_at: string | null
+          assigned_rep_id: string | null
           source_page: string | null
           status: Database["public"]["Enums"]["lead_status_type"]
           supplier_interest: string | null
@@ -56,10 +62,16 @@ export type Database = {
           email: string
           id?: string
           item_code?: string | null
+          notified_at?: string | null
           message?: string | null
           name: string
           phone: string
+          process_id?: string | null
           process_interest?: string | null
+          revenue_value?: number | null
+          loss_reason?: string | null
+          closed_at?: string | null
+          assigned_rep_id?: string | null
           source_page?: string | null
           status?: Database["public"]["Enums"]["lead_status_type"]
           supplier_interest?: string | null
@@ -71,16 +83,36 @@ export type Database = {
           email?: string
           id?: string
           item_code?: string | null
+          notified_at?: string | null
           message?: string | null
           name?: string
           phone?: string
+          process_id?: string | null
           process_interest?: string | null
+          revenue_value?: number | null
+          loss_reason?: string | null
+          closed_at?: string | null
+          assigned_rep_id?: string | null
           source_page?: string | null
           status?: Database["public"]["Enums"]["lead_status_type"]
           supplier_interest?: string | null
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "leads_assigned_rep_id_fkey"
+            columns: ["assigned_rep_id"]
+            isOneToOne: false
+            referencedRelation: "sales_reps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_process_id_fkey"
+            columns: ["process_id"]
+            isOneToOne: false
+            referencedRelation: "processes"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "leads_process_interest_fkey"
             columns: ["process_interest"]
@@ -543,7 +575,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_rep_stats: {
+        Args: {
+          rep_id: string
+          assignment_time: string
+        }
+        Returns: void
+      }
     }
     Enums: {
       lead_status_type: "new" | "contacted" | "qualified" | "lost"
@@ -683,4 +721,3 @@ export const Constants = {
     },
   },
 } as const
-

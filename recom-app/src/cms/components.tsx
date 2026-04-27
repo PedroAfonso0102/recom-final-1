@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RecomButton } from "@/design-system/components/recom-button";
@@ -24,6 +25,8 @@ export function HeroSectionBlock({
   showCarousel = true,
   variant,
 }: HeroSectionProps) {
+  const hasMedia = Boolean(imageUrl && imageUrl.trim()) || showCarousel;
+
   return (
     <section
       className={cn(
@@ -33,7 +36,7 @@ export function HeroSectionBlock({
     >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,61,98,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.18),transparent_34%)]" />
       <div className="container-recom relative z-10">
-        <div className={cn("grid gap-10 lg:items-center", (imageUrl || showCarousel) && variant !== "compact" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1")}>
+        <div className={cn("grid gap-10 lg:items-center", variant !== "compact" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1")}>
           <div className="max-w-3xl">
             {eyebrow && (
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-white/55">
@@ -59,14 +62,46 @@ export function HeroSectionBlock({
             </div>
           </div>
 
-          {(imageUrl || showCarousel) && variant !== "compact" && (
+          {variant !== "compact" && (
             <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-1 shadow-2xl backdrop-blur-sm h-full max-h-[500px]">
               {showCarousel ? (
                 <div className="w-full h-full rounded-lg overflow-hidden relative">
                   <HeroCarousel />
                 </div>
+              ) : hasMedia ? (
+                <div className="relative h-full min-h-[280px] w-full overflow-hidden rounded-lg">
+                  <Image
+                    src={imageUrl!}
+                    alt={typeof title === "string" ? title : "Imagem do hero"}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover"
+                  />
+                </div>
               ) : (
-                <img src={imageUrl!} alt={title} className="aspect-[4/3] w-full rounded-lg object-cover h-full" />
+                <div className="flex h-full min-h-[280px] items-end overflow-hidden rounded-lg bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_45%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6">
+                  <div className="space-y-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white">
+                      <ShieldCheck className="h-6 w-6" />
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
+                        Conteúdo em destaque
+                      </p>
+                      <p className="max-w-sm text-[15px] leading-relaxed text-white/78">
+                        Adicione uma imagem no CMS para reforçar esta seção, ou mantenha este painel como apoio visual.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {["Suporte técnico", "Catálogos oficiais", "Atendimento comercial"].map((item) => (
+                        <span key={item} className="rounded-full border border-white/15 bg-white/8 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/80">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}

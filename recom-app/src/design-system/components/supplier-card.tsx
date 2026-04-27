@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { ArrowRight, ExternalLink, Factory } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -41,11 +42,15 @@ export function SupplierCard({
       <RecomCardHeader className="gap-4 pb-4">
         <div className="flex h-18 w-full items-center justify-center rounded-lg border border-recom-border/60 bg-recom-gray-50 p-4 transition-colors group-hover:bg-white">
           {logoUrl && logoUrl.trim() !== "" ? (
-            <img
-              src={logoUrl}
-              alt={name}
-              className="h-full w-full object-contain"
-            />
+            <div className="relative h-full w-full">
+              <Image
+                src={logoUrl}
+                alt={name}
+                fill
+                sizes="(max-width: 1279px) 50vw, 33vw"
+                className="object-contain"
+              />
+            </div>
           ) : (
             <div className="flex items-center gap-3 text-muted-foreground/35">
               <Factory className="h-8 w-8" />
