@@ -124,6 +124,23 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
                   </a>
                 </RecomButton>
               )}
+              {supplier.catalogs && supplier.catalogs.length > 0 && (
+                <div className="w-full pt-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/55 mb-3">
+                    Catálogos Adicionais
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {supplier.catalogs.map((cat, idx) => (
+                      <RecomButton key={idx} asChild size="sm" intent="outline" className="h-10 px-4 text-xs">
+                        <a href={cat.url} target="_blank" rel="noopener noreferrer">
+                          {cat.label}
+                          <ExternalLink className="ml-2 h-3 w-3" />
+                        </a>
+                      </RecomButton>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

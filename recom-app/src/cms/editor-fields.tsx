@@ -64,7 +64,7 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
       name={field.name}
       defaultValue={defaultValue}
       placeholder={field.placeholder}
-      type={field.type === "url" ? "url" : "text"}
+      type="text"
       className={baseClassName}
     />
   );

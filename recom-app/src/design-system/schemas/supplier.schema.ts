@@ -9,7 +9,7 @@ export const SupplierSchema = z.object({
   eCatalogUrl: z.string().nullable().optional(),
   catalogs: z.array(z.object({
     label: z.string(),
-    url: z.string().url(),
+    url: z.string().trim().min(1, "O link do catálogo é obrigatório."),
   })).default([]),
   settings: z.object({
     showMenu: z.boolean().default(true),

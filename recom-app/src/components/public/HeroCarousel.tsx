@@ -6,10 +6,6 @@ import { cn } from "@/lib/utils";
 
 const images = [
   {
-    url: "/assets/images/koudoe.jpg",
-    alt: "Usinagem de Precisão - Torneamento",
-  },
-  {
     url: "/assets/images/recom-editorial-1.jpg",
     alt: "Suporte Técnico RECOM",
   },

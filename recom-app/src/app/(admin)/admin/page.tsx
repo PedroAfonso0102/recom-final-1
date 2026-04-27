@@ -2,13 +2,18 @@ import React from 'react';
 import { Package, Factory, Tag, Users, ArrowUpRight } from 'lucide-react';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { RecomButton } from '@/design-system/components/recom-button';
+import { getDashboardStats, getRecentLeads } from '@/lib/services/dashboard';
+import Link from 'next/link';
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const statsData = await getDashboardStats();
+  const recentLeads = await getRecentLeads(5);
+
   const stats = [
-    { title: "Fornecedores Ativos", value: "12", icon: Package, description: "+2 no último mês" },
-    { title: "Processos Cadastrados", value: "08", icon: Factory, description: "4 categorias técnicas" },
-    { title: "Promoções Ativas", value: "03", icon: Tag, description: "Sazonalidade atual" },
-    { title: "Novos Leads", value: "24", icon: Users, description: "+18% vs mês anterior" },
+    { title: "Fornecedores Ativos", value: statsData.suppliers.toString(), icon: Package, description: "Total cadastrado" },
+    { title: "Processos Cadastrados", value: statsData.processes.toString().padStart(2, '0'), icon: Factory, description: "Categorias técnicas" },
+    { title: "Promoções Ativas", value: statsData.promotions.toString().padStart(2, '0'), icon: Tag, description: "Vigência atual" },
+    { title: "Novos Leads", value: statsData.leads.toString(), icon: Users, description: "Conversões totais" },
   ];
 
   return (
@@ -45,13 +50,35 @@ export default function AdminDashboard() {
         <RecomCard className="lg:col-span-4 p-8 flex flex-col gap-6">
           <div className="flex items-center justify-between border-b border-border pb-4">
             <h3 className="text-sm font-bold uppercase tracking-widest">Leads Recentes</h3>
-            <RecomButton intent="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-primary">
-              Ver todos <ArrowUpRight className="ml-1 h-3 w-3" />
-            </RecomButton>
+            <Link href="/admin/leads">
+              <RecomButton intent="ghost" size="sm" className="h-auto p-0 hover:bg-transparent text-primary">
+                Ver todos <ArrowUpRight className="ml-1 h-3 w-3" />
+              </RecomButton>
+            </Link>
           </div>
-          <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-muted rounded-lg">
-            <Users className="h-8 w-8 text-muted/30 mb-2" />
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Aguardando novas conversões</p>
+          
+          <div className="flex flex-col gap-4">
+            {recentLeads.length > 0 ? (
+              recentLeads.map((lead) => (
+                <div key={lead.id} className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-muted/30 transition-colors">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs font-bold uppercase tracking-tight">{lead.name}</span>
+                    <span className="text-[10px] text-muted-foreground font-medium">{lead.company || lead.email}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-bold text-primary bg-primary/5 px-2 py-1 rounded uppercase">
+                      {new Date(lead.created_at).toLocaleDateString('pt-BR')}
+                    </span>
+                    <ArrowUpRight className="h-3 w-3 text-muted-foreground" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-muted rounded-lg">
+                <Users className="h-8 w-8 text-muted/30 mb-2" />
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Aguardando novas conversões</p>
+              </div>
+            )}
           </div>
         </RecomCard>
 
@@ -66,7 +93,7 @@ export default function AdminDashboard() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-tight opacity-70">Conexão BD</span>
-              <span className="text-xs font-bold uppercase tracking-tight px-2 py-0.5 bg-white/10 rounded">Mock Data</span>
+              <span className="text-xs font-bold uppercase tracking-tight px-2 py-0.5 bg-white/10 rounded">Supabase Ativo</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-tight opacity-70">Uptime</span>
@@ -83,4 +110,5 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
 
