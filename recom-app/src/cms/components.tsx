@@ -145,8 +145,7 @@ export function CtaSectionBlock({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ElementType> = {
   shield: ShieldCheck,
   check: CheckCircle2,
   factory: Factory,

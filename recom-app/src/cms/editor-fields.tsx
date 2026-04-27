@@ -70,10 +70,8 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defaultValue?: any }) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItems] = React.useState<any[]>(() => {
+function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defaultValue?: unknown }) {
+  const [items, setItems] = React.useState<Record<string, unknown>[]>(() => {
     if (Array.isArray(defaultValue)) return defaultValue;
     if (typeof defaultValue === "string") {
       try { return JSON.parse(defaultValue); } catch { return []; }
@@ -82,9 +80,8 @@ function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defa
   });
 
   const addItem = () => {
-    const newItem = {};
+    const newItem: Record<string, unknown> = {};
     field.itemFields?.forEach(f => {
-      // @ts-expect-error implicit any
       newItem[f.name] = "";
     });
     setItems([...items, newItem]);
@@ -94,8 +91,7 @@ function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defa
     setItems(items.filter((_, i) => i !== index));
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateItem = (index: number, name: string, value: any) => {
+  const updateItem = (index: number, name: string, value: unknown) => {
     const newItems = [...items];
     newItems[index] = { ...newItems[index], [name]: value };
     setItems(newItems);
@@ -121,13 +117,13 @@ function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defa
                  {itemField.type === "textarea" ? (
                    <textarea
                      className="mt-1 w-full rounded border border-border px-2 py-1 text-sm"
-                     value={item[itemField.name] || ""}
+                     value={(item[itemField.name] as string) || ""}
                      onChange={(e) => updateItem(index, itemField.name, e.target.value)}
                    />
                  ) : itemField.type === "select" ? (
                     <select
                       className="mt-1 w-full rounded border border-border px-2 py-1 text-sm"
-                      value={item[itemField.name] || ""}
+                      value={(item[itemField.name] as string) || ""}
                       onChange={(e) => updateItem(index, itemField.name, e.target.value)}
                     >
                       <option value="">Selecione</option>
@@ -136,7 +132,7 @@ function CmsListField({ field, defaultValue }: { field: CmsFieldDefinition; defa
                  ) : (
                    <input
                      className="mt-1 w-full rounded border border-border px-2 py-1 text-sm"
-                     value={item[itemField.name] || ""}
+                     value={(item[itemField.name] as string) || ""}
                      onChange={(e) => updateItem(index, itemField.name, e.target.value)}
                    />
                  )}
