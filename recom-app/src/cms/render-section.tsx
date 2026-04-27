@@ -6,6 +6,7 @@ import type { CmsSectionRow } from "./types";
 type RenderSectionProps = {
   section: CmsSectionRow;
   preview?: boolean;
+  context?: Record<string, unknown>;
 };
 
 function InvalidSection({ message }: { message: string }) {
@@ -16,7 +17,7 @@ function InvalidSection({ message }: { message: string }) {
   );
 }
 
-export function RenderSection({ section, preview = false }: RenderSectionProps) {
+export function RenderSection({ section, preview = false, context }: RenderSectionProps) {
   if (section.status === "archived") {
     return null;
   }
@@ -36,7 +37,10 @@ export function RenderSection({ section, preview = false }: RenderSectionProps) 
   }
 
   const Component = definition.component as ComponentType<Record<string, unknown>>;
-  const props = parsed.data as Record<string, unknown>;
+  const props = {
+    ...(parsed.data as Record<string, unknown>),
+    ...context,
+  };
 
   if (preview && section.visibility === "hidden") {
     return (

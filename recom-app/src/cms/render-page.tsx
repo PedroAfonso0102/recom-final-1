@@ -4,9 +4,10 @@ import { RenderSection } from "./render-section";
 type RenderPageProps = {
   pageData: CmsPageWithSections;
   preview?: boolean;
+  context?: Record<string, unknown>;
 };
 
-export function RenderPage({ pageData, preview = false }: RenderPageProps) {
+export function RenderPage({ pageData, preview = false, context }: RenderPageProps) {
   const { sections } = pageData;
 
   if (preview && sections.length === 0) {
@@ -20,7 +21,7 @@ export function RenderPage({ pageData, preview = false }: RenderPageProps) {
   return (
     <div className="flex flex-col">
       {sections.map((section) => (
-        <RenderSection key={section.id} section={section} preview={preview} />
+        <RenderSection key={section.id} section={section} preview={preview} context={context} />
       ))}
     </div>
   );

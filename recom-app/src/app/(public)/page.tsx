@@ -40,7 +40,7 @@ export default async function Home() {
   ]);
 
   if (cmsPage) {
-    return <RenderPage pageData={cmsPage} />;
+    return <RenderPage pageData={cmsPage} context={{ suppliers, promotions, settings }} />;
   }
 
   const activePromotions = promotions.filter(p => p.status === 'active');

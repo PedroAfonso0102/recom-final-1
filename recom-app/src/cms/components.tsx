@@ -31,21 +31,43 @@ export function HeroSectionBlock({
     <section
       className={cn(
         "relative overflow-hidden border-b border-border bg-recom-graphite py-16 text-white md:py-20",
-        variant === "compact" && "py-12 md:py-14"
+        variant === "compact" && "py-12 md:py-14",
+        variant === "full" && "min-h-[85vh] flex items-center md:py-32",
+        variant === "simple" && "py-10 md:py-12 bg-white text-recom-graphite border-none"
       )}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,61,98,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.18),transparent_34%)]" />
+      {(variant === "default" || variant === "split" || variant === "full" || variant === "compact") && (
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,61,98,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.18),transparent_34%)]" />
+      )}
+      {variant === "simple" && (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(205,29,46,0.03),transparent_35%)]" />
+      )}
       <div className="container-recom relative z-10">
-        <div className={cn("grid gap-10 lg:items-center", variant !== "compact" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1")}>
+        <div className={cn(
+          "grid gap-10 lg:items-center", 
+          (variant === "default" || variant === "split" || variant === "full") ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1 text-center items-center justify-center mx-auto"
+        )}>
           <div className="max-w-3xl">
             {eyebrow && (
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-white/55">
                 {eyebrow}
               </p>
             )}
-            <h1 className="text-white">{title}</h1>
-            {subtitle && <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-white/72">{subtitle}</p>}
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+            <h1 className={cn(variant === "simple" ? "text-recom-graphite" : "text-white")}>{title}</h1>
+            {subtitle && (
+              <p className={cn(
+                "mt-6 max-w-2xl text-[16px] leading-relaxed",
+                variant === "simple" ? "text-muted-foreground mx-auto" : "text-white/72",
+                variant === "compact" && "max-w-xl"
+              )}>
+                {subtitle}
+              </p>
+            )}
+            <div className={cn(
+              "mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap",
+              variant === "simple" && "justify-center",
+              variant === "compact" && "justify-start"
+            )}>
               {primaryCtaLabel && primaryCtaHref && (
                 <RecomButton asChild size="lg" intent="accent" className="h-12 px-8">
                   <Link href={primaryCtaHref}>
@@ -55,14 +77,17 @@ export function HeroSectionBlock({
                 </RecomButton>
               )}
               {secondaryCtaLabel && secondaryCtaHref && (
-                <RecomButton asChild size="lg" intent="outline" className="h-12 border-white/20 bg-transparent px-8 text-white hover:bg-white/10">
+                <RecomButton asChild size="lg" intent="outline" className={cn(
+                  "h-12 px-8",
+                  variant === "simple" ? "border-recom-border text-recom-graphite hover:bg-recom-gray-50" : "border-white/20 bg-transparent text-white hover:bg-white/10"
+                )}>
                   <Link href={secondaryCtaHref}>{secondaryCtaLabel}</Link>
                 </RecomButton>
               )}
             </div>
           </div>
 
-          {variant !== "compact" && (
+          {(variant === "default" || variant === "split" || variant === "full") && (
             <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-1 shadow-2xl backdrop-blur-sm h-full max-h-[500px]">
               {showCarousel ? (
                 <div className="w-full h-full rounded-lg overflow-hidden relative">
@@ -143,12 +168,18 @@ export function CtaSectionBlock({
   return (
     <section
       className={cn(
-        "relative overflow-hidden py-16 md:py-20",
-        variant === "light" ? "bg-white" : "bg-recom-graphite text-white"
+        "relative overflow-hidden py-16 md:py-24",
+        variant === "light" && "bg-white",
+        variant === "primary" && "bg-recom-blue text-white",
+        variant === "dark" && "bg-black text-white",
+        (!variant || variant === "default") && "bg-recom-graphite text-white"
       )}
     >
       {variant !== "light" && (
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,61,98,0.14),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.14),transparent_34%)]" />
+        <div className={cn(
+          "absolute inset-0 opacity-40",
+          variant === "primary" ? "bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_40%)]" : "bg-[linear-gradient(135deg,rgba(10,61,98,0.14),transparent_42%),radial-gradient(circle_at_top_right,rgba(205,29,46,0.14),transparent_34%)]"
+        )} />
       )}
       <div className="container-recom relative z-10">
         <div className="max-w-3xl">
@@ -158,7 +189,7 @@ export function CtaSectionBlock({
             </p>
           )}
           <h2 className={cn(variant === "light" ? "text-recom-graphite" : "text-white")}>{title}</h2>
-          <p className={cn("mt-5 max-w-2xl text-[16px] leading-relaxed", variant === "light" ? "text-muted-foreground" : "text-white/68")}>
+          <p className={cn("mt-6 max-w-2xl text-[17px] leading-relaxed", variant === "light" ? "text-muted-foreground" : "text-white/80")}>
             {description}
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">

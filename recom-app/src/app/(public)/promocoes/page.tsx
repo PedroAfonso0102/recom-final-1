@@ -42,7 +42,7 @@ export default async function PromocoesPage() {
 
   return (
     <div className="flex flex-col">
-      {cmsPage && <RenderPage pageData={cmsPage} />}
+      {cmsPage && <RenderPage pageData={cmsPage} context={{ promotions, suppliers }} />}
 
       {!cmsPage && (
         <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
