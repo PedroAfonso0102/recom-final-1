@@ -2,7 +2,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAuth } from "@/lib/auth/utils";
-import { siteSettingsSchema, type SiteSettings } from "../schemas/site-settings.schema";
+import { siteSettingsSchema, type SiteSettings } from "./schemas/site-settings.schema";
 import { revalidatePath } from "next/cache";
 
 const SITE_SETTINGS_KEY = "site_settings";
@@ -24,7 +24,7 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
 }
 
 export async function updateSiteSettings(input: unknown) {
-  const auth = await requireAuth();
+  await requireAuth();
   const parsed = siteSettingsSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -37,7 +37,6 @@ export async function updateSiteSettings(input: unknown) {
     .upsert({
       key: SITE_SETTINGS_KEY,
       value: parsed.data,
-      updated_at: new Date().toISOString(),
     }, { onConflict: 'key' });
 
   if (error) {

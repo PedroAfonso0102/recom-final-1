@@ -29,6 +29,12 @@ export default async function EditPromotionPage({ params }: PromotionEditPagePro
     getPromotionBySlug(slug, { allowFallback: false }),
     getSuppliers({ allowFallback: false })
   ]);
+  const selectableSuppliers = suppliers
+    .filter((supplier): supplier is typeof supplier & { id: string } => Boolean(supplier.id))
+    .map((supplier) => ({
+      id: supplier.id,
+      name: supplier.name,
+    }));
 
   if (!promotion) {
     notFound();
@@ -45,7 +51,7 @@ export default async function EditPromotionPage({ params }: PromotionEditPagePro
         <p className="text-slate-500">Atualize a campanha, o período de vigência e o CTA comercial.</p>
       </div>
 
-      <PromotionForm initialData={promotion} suppliers={suppliers} />
+      <PromotionForm initialData={promotion} suppliers={selectableSuppliers} />
     </div>
   );
 }

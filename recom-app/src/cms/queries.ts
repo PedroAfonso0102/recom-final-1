@@ -108,6 +108,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       phone: "+55 (19) 3256-4235",
       email: "vendas@recom-carbide.com.br",
       whatsapp: "551932564235",
+      address: "R. Carolina Florence, 1077 - Vila Nova, Campinas - SP",
+      cep: "13073-225",
     },
     links: {
       linkedin: "https://linkedin.com/company/recom-metal-duro",

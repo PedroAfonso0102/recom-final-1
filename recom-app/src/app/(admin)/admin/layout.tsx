@@ -18,16 +18,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   await requireAuth();
 
   return (
-    <div className="flex min-h-screen w-full bg-muted/30">
+    <div className="flex min-h-screen w-full bg-[#F8FAFC]">
       {/* Sidebar */}
-      <aside className="w-64 flex-col hidden md:flex bg-primary text-primary-foreground border-r border-primary/20">
-        <div className="flex h-16 items-center border-b border-primary/20 px-6">
-          <Link href="/admin" className="flex items-center gap-2 font-bold uppercase tracking-tight">
-            <span className="text-xl">RECOM <span className="text-primary-foreground/60 font-medium">CMS</span></span>
+      <aside className="w-64 flex-col hidden md:flex bg-white border-r border-slate-200">
+        <div className="flex h-16 items-center border-b border-slate-100 px-6">
+          <Link href="/admin" className="flex items-center gap-2 font-bold tracking-tight text-recom-blue">
+            <span className="text-lg">RECOM <span className="text-slate-400 font-medium">Admin</span></span>
           </Link>
         </div>
-        <div className="flex-1 overflow-auto py-6">
-          <nav className="grid items-start px-4 text-xs font-bold uppercase tracking-widest gap-2">
+        <div className="flex-1 overflow-auto py-8">
+          <nav className="grid items-start px-4 gap-1">
             {[
               { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
               { href: "/admin/pages", icon: FileText, label: "Páginas" },
@@ -37,38 +37,42 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               { href: "/admin/promocoes", icon: Tag, label: "Promoções" },
               { href: "/admin/leads", icon: Users, label: "Leads" },
               { href: "/admin/audit", icon: History, label: "Auditoria" },
-              { href: "/admin/configuracoes", icon: Settings, label: "Ajustes" },
-
+              { href: "/admin/configuracoes", icon: Settings, label: "Configurações" },
             ].map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2.5 transition-all hover:bg-white/10 hover:text-white",
-                  "text-primary-foreground/70"
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
+                  "text-slate-600 hover:bg-slate-50 hover:text-recom-blue"
                 )}
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon className="h-4 w-4 opacity-70" />
                 {item.label}
               </Link>
             ))}
           </nav>
         </div>
-        <div className="mt-auto p-4 border-t border-primary/20">
+        <div className="mt-auto p-6 border-t border-slate-100">
           <LogoutButton />
         </div>
       </aside>
 
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="h-16 border-b border-border bg-background px-8 flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Ambiente Administrativo</h2>
+        <header className="h-16 border-b border-slate-200 bg-white px-8 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Sistema Ativo</span>
+          </div>
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-muted rounded text-muted-foreground">v2.0 PRO</span>
+            <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center">
+              <Users className="h-4 w-4 text-slate-500" />
+            </div>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-8">
-          <div className="mx-auto max-w-[1200px]">
+        <main className="flex-1 overflow-auto bg-[#F8FAFC]">
+          <div className="p-8 mx-auto max-w-6xl">
             {children}
           </div>
         </main>

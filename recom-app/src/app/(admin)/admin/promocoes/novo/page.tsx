@@ -4,6 +4,12 @@ import { getSuppliers } from '@/lib/services/supabase-data';
 
 export default async function NewPromotionPage() {
   const suppliers = await getSuppliers({ allowFallback: false });
+  const selectableSuppliers = suppliers
+    .filter((supplier): supplier is typeof supplier & { id: string } => Boolean(supplier.id))
+    .map((supplier) => ({
+      id: supplier.id,
+      name: supplier.name,
+    }));
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
@@ -12,7 +18,7 @@ export default async function NewPromotionPage() {
         <p className="text-slate-500">Crie uma nova campanha promocional.</p>
       </div>
 
-      <PromotionForm suppliers={suppliers} />
+      <PromotionForm suppliers={selectableSuppliers} />
     </div>
   );
 }

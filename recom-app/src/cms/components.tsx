@@ -6,7 +6,6 @@ import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomCard, RecomCardContent, RecomCardHeader, RecomCardTitle } from "@/design-system/components/recom-card";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
-import { getSuppliers } from "@/lib/services/supabase-data";
 import type { CtaSectionProps } from "./schemas/cta-section.schema";
 import type { HeroSectionProps } from "./schemas/hero-section.schema";
 import type { TextSectionProps } from "./schemas/text-section.schema";
@@ -225,9 +224,9 @@ export function GridSectionBlock({ eyebrow, title, description, items, columns, 
   
   return (
     <RecomSection
-      eyebrow={eyebrow}
-      title={title}
-      description={description}
+      eyebrow={eyebrow || undefined}
+      title={title || undefined}
+      description={description || undefined}
       className={cn(variant === "gray" ? "bg-recom-gray-50" : variant === "white" ? "bg-white" : "")}
     >
       <div className={cn("mt-10 grid grid-cols-1 gap-6", colClass)}>
@@ -260,13 +259,10 @@ export function GridSectionBlock({ eyebrow, title, description, items, columns, 
   );
 }
 
-export async function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppliers: propSuppliers }: TrustLogosProps) {
-  // Use pre-fetched suppliers if provided, otherwise fetch them
-  const allSuppliers = propSuppliers || await getSuppliers();
-  
-  // Filter suppliers if supplierIds is provided and showAll is false
+export function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppliers: propSuppliers }: TrustLogosProps) {
+  const allSuppliers = propSuppliers ?? [];
   const suppliers = (!showAll && supplierIds && supplierIds.length > 0)
-    ? allSuppliers.filter(s => supplierIds.includes(s.id))
+    ? allSuppliers.filter((supplier) => supplierIds.includes(supplier.id))
     : allSuppliers;
 
   if (suppliers.length === 0) return null;

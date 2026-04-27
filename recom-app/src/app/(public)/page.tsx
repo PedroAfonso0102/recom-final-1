@@ -10,7 +10,7 @@ import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
-import { getPromotions, getSuppliers } from "@/lib/services/supabase-data";
+import { getPromotions } from "@/lib/services/supabase-data";
 import { PromotionCard } from "@/design-system/components/promotion-card";
 import { getSiteSettings } from "@/cms/queries";
 import { siteConfig } from "@/lib/config";
@@ -155,7 +155,7 @@ export default async function Home() {
                 status={promo.status as "active" | "archived"}
                 supplierName={suppliers.find(s => s.id === promo.supplierId)?.name}
                 ctaLabel={promo.ctaLabel || undefined}
-                ctaLink={promo.ctaUrl}
+                ctaLink={promo.ctaUrl || undefined}
               />
             ))}
           </div>

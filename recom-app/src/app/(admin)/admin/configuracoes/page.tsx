@@ -60,8 +60,8 @@ export default function AdminConfiguracoesPage() {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-3 border-b border-border pb-8">
         <div className="flex items-center gap-3">
-          <Settings2 className="h-5 w-5 text-primary" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Fonte única</span>
+          <Settings2 className="h-5 w-5 text-slate-400" />
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Fonte única</span>
         </div>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Configurações</h1>
         <p className="max-w-3xl text-slate-500">
@@ -72,13 +72,13 @@ export default function AdminConfiguracoesPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <RecomCard className="p-6">
           <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
-            <Globe className="h-4 w-4 text-primary" />
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900">Empresa</h2>
+            <Globe className="h-4 w-4 text-slate-400" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Empresa</h2>
           </div>
           <dl className="grid gap-4 text-sm">
             {configItems.map((item) => (
               <div key={item.label} className="flex items-start justify-between gap-6 border-b border-dashed border-border pb-3 last:border-0 last:pb-0">
-                <dt className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">{item.label}</dt>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{item.label}</dt>
                 <dd className="text-right font-medium text-slate-900">{item.value}</dd>
               </div>
             ))}
@@ -87,8 +87,8 @@ export default function AdminConfiguracoesPage() {
 
         <RecomCard className="p-6">
           <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
-            <Phone className="h-4 w-4 text-primary" />
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900">Contato oficial</h2>
+            <Phone className="h-4 w-4 text-slate-400" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Contato oficial</h2>
           </div>
           <div className="space-y-3">
             {contactItems.map((item) => (
@@ -100,8 +100,8 @@ export default function AdminConfiguracoesPage() {
                 className="flex items-center justify-between gap-4 rounded-lg border border-border bg-muted/20 px-4 py-3 transition-colors hover:border-primary/20 hover:bg-primary/5"
               >
                 <div className="flex items-center gap-3">
-                  <item.icon className="h-4 w-4 text-primary" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">{item.label}</span>
+                  <item.icon className="h-4 w-4 text-slate-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{item.label}</span>
                 </div>
                 <span className="text-right text-sm font-medium text-slate-900">{item.value}</span>
               </a>
@@ -112,19 +112,19 @@ export default function AdminConfiguracoesPage() {
 
       <RecomCard className="p-6">
         <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
-          <Settings2 className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900">Direção da fonte única</h2>
+          <Settings2 className="h-4 w-4 text-slate-400" />
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Direção da fonte única</h2>
         </div>
         <p className="max-w-3xl text-sm leading-relaxed text-slate-600">
           Esta tela reflete os valores definidos em <code className="rounded bg-muted px-1.5 py-0.5 text-[11px]">src/lib/config.ts</code>. Quando a configuração central mudar, o admin e o site público permanecem alinhados sem depender de dados de fallback.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <RecomButton asChild intent="outline" className="h-11 px-5">
+          <RecomButton asChild intent="outline" className="h-11 px-6 rounded-xl border-slate-200">
             <a href={`mailto:${siteConfig.contact.email}`}>
               Abrir e-mail institucional
             </a>
           </RecomButton>
-          <RecomButton asChild intent="primary" className="h-11 px-5">
+          <RecomButton asChild className="h-11 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white">
             <a href="/" target="_blank" rel="noopener noreferrer">
               Ver site público
             </a>

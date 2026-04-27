@@ -4,6 +4,8 @@ import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { CTASection } from "@/design-system/components/cta-section";
 import { EmptyState } from "@/design-system/components/empty-state";
 import { RecomButton } from "@/design-system/components/recom-button";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { SupplierCard } from "@/design-system/components/supplier-card";
 import { RenderPage } from "@/cms/render-page";
 import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 

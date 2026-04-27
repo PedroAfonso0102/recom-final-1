@@ -152,58 +152,56 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
   };
 
   return (
-    <Card className="border-border">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+    <Card className="border-slate-200 shadow-sm">
+      <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-4">
         <div className="space-y-1">
-          <CardTitle className="text-base uppercase tracking-[0.2em]">Dados da página</CardTitle>
-          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Informações estruturais e de SEO.</p>
+          <CardTitle className="text-sm font-bold text-slate-900">Configurações da Página</CardTitle>
+          <p className="text-xs text-muted-foreground font-medium">Informações estruturais e metadados de SEO.</p>
         </div>
         {isSystem && (
-          <Badge variant="secondary" className="gap-1 px-2 py-1 text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-700 border-blue-200">
+          <Badge variant="secondary" className="gap-1.5 px-2.5 py-0.5 text-[10px] font-semibold bg-blue-50 text-blue-700 border-blue-100">
             <Lock className="h-3 w-3" />
-            Página de Sistema
+            Sistema
           </Badge>
         )}
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form 
           ref={formRef}
           onSubmit={handleSubmit} 
           onChange={() => setIsDirty(true)}
           className="space-y-6"
         >
-
-
           {error && (
-            <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 flex gap-3 animate-in fade-in slide-in-from-top-2">
+            <div className="rounded-lg border border-destructive/10 bg-destructive/5 p-4 flex gap-3">
               <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase tracking-widest text-destructive">Falha ao salvar</p>
-                <p className="text-xs font-bold text-destructive/80">{error}</p>
+                <p className="text-xs font-bold text-destructive">Falha ao salvar</p>
+                <p className="text-[11px] font-medium text-destructive/80">{error}</p>
               </div>
             </div>
           )}
 
           {isSystem && (
-            <div className="flex items-center gap-3 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 text-[10px] text-blue-700 font-bold uppercase tracking-widest">
-              <AlertCircle className="h-5 w-5 shrink-0" />
-              Proteção Ativa: Esta página é essencial para o funcionamento do motor. Alguns campos estão bloqueados para evitar quebras.
+            <div className="flex items-center gap-3 rounded-lg border border-blue-100 bg-blue-50/30 p-4 text-[11px] text-blue-700 font-medium">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              Campos protegidos: Alguns valores não podem ser alterados para garantir a integridade do sistema.
             </div>
           )}
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-x-6 gap-y-5 md:grid-cols-2">
             {pageFields.map((field) => {
               const isReadOnly = isSystem && (field.name === "slug" || field.name === "pageType" || field.name === "templateKey" || field.name === "routePattern");
 
               return (
-                <div key={field.name} className={cn("space-y-2", field.type === "textarea" ? "md:col-span-2" : "")}>
-                  <div className="flex items-center justify-between">
-                    <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                <div key={field.name} className={cn("space-y-1.5", field.type === "textarea" ? "md:col-span-2" : "")}>
+                  <div className="flex items-center justify-between px-0.5">
+                    <span className="block text-xs font-semibold text-slate-500">
                       {field.label}
                     </span>
-                    {isReadOnly && <Lock className="h-3 w-3 text-muted-foreground/30" />}
+                    {isReadOnly && <Lock className="h-3 w-3 text-slate-300" />}
                   </div>
-                  <div className={cn("transition-opacity", isReadOnly && "pointer-events-none opacity-40 grayscale")}>
+                  <div className={cn("transition-opacity", isReadOnly && "pointer-events-none opacity-50")}>
                     <CmsFieldRenderer 
                       field={field} 
                       defaultValue={defaults[field.name as keyof typeof defaults]} 
@@ -217,25 +215,25 @@ export function CmsPageForm({ page, mode }: PageFormProps) {
             })}
           </div>
 
-          <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-            <Button type="submit" disabled={saving} className={cn("h-12 px-10 text-[10px] font-black uppercase tracking-widest gap-2 transition-all", saveSuccess ? "bg-emerald-500 hover:bg-emerald-600" : "")}>
-              {saving ? (
-                <>Salvando...</>
-              ) : saveSuccess ? (
-                <>Alterações Salvas!</>
-              ) : (
-                mode === "create" ? "Criar Página" : "Salvar Alterações"
+          <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
+            <Button 
+              type="submit" 
+              disabled={saving} 
+              className={cn(
+                "h-10 px-8 text-xs font-bold gap-2 transition-all shadow-sm", 
+                saveSuccess ? "bg-emerald-500 hover:bg-emerald-600" : ""
               )}
+            >
+              {saving ? "Salvando..." : saveSuccess ? "Salvo com Sucesso!" : mode === "create" ? "Criar Página" : "Salvar Alterações"}
             </Button>
             {saveSuccess && (
-              <span className="text-[10px] font-black uppercase text-emerald-600 tracking-widest animate-in fade-in slide-in-from-left-2">
-                Sucesso! O conteúdo foi persistido.
+              <span className="text-xs font-semibold text-emerald-600 animate-in fade-in slide-in-from-left-2">
+                Conteúdo persistido no banco de dados.
               </span>
             )}
           </div>
         </form>
       </CardContent>
     </Card>
-
   );
 }

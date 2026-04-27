@@ -29,6 +29,12 @@ export default async function EditSupplierPage({ params }: SupplierEditPageProps
     getSupplierBySlug(slug, { allowFallback: false }),
     getProcesses({ allowFallback: false })
   ]);
+  const selectableProcesses = processes
+    .filter((process): process is typeof process & { id: string } => Boolean(process.id))
+    .map((process) => ({
+      id: process.id,
+      name: process.name,
+    }));
 
   if (!supplier) {
     notFound();
@@ -45,7 +51,7 @@ export default async function EditSupplierPage({ params }: SupplierEditPageProps
         <p className="text-slate-500">Atualize a marca, o catálogo oficial e a descrição institucional.</p>
       </div>
 
-      <SupplierForm initialData={supplier} processes={processes} />
+      <SupplierForm initialData={supplier} processes={selectableProcesses} />
     </div>
   );
 }

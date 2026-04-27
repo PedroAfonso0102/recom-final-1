@@ -7,6 +7,7 @@ import { ContactForm } from "@/components/public/ContactForm";
 import { RenderPage } from "@/cms/render-page";
 import { siteConfig } from "@/lib/config";
 import { getPageBySlug, getSiteSettings } from "@/cms/queries";
+import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cmsPage = await getPageBySlug("sobre");

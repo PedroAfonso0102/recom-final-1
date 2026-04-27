@@ -4,7 +4,10 @@ export const ProcessSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().trim().min(2, "O nome do processo deve ter pelo menos 2 caracteres."),
   slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens (ex: processo-industrial)."),
-  imageUrl: z.string().trim().url("URL de imagem inválida.").nullable().optional().or(z.string().length(0)),
+  imageUrl: z.string().trim().refine(
+    (value) => value === "" || value.startsWith("/") || /^https?:\/\//i.test(value),
+    "URL de imagem inválida."
+  ).nullable().optional(),
   shortDescription: z.string().trim().min(10, "A descrição curta deve ter pelo menos 10 caracteres."),
   longDescription: z.string().trim().min(50, "A descrição longa deve ter pelo menos 50 caracteres."),
   status: z.enum(["draft", "active", "archived"]).default("draft"),

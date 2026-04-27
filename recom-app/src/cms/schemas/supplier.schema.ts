@@ -4,7 +4,10 @@ export const SupplierSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().trim().min(2, "O nome do fornecedor deve ter pelo menos 2 caracteres."),
   slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "O slug deve conter apenas letras minúsculas, números e hifens (ex: fornecedor-exemplo)."),
-  logoUrl: z.string().trim().url("URL do logo inválida.").nullable().optional().or(z.string().length(0)),
+  logoUrl: z.string().trim().refine(
+    (value) => value === "" || value.startsWith("/") || /^https?:\/\//i.test(value),
+    "URL do logo inválida."
+  ).nullable().optional(),
   catalogUrl: z.string().trim().url("URL do catálogo inválida.").nullable().optional().or(z.string().length(0)),
   eCatalogUrl: z.string().trim().url("URL do catálogo eletrônico inválida.").nullable().optional().or(z.string().length(0)),
   catalogs: z.array(z.object({

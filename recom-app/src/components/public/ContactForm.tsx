@@ -10,7 +10,7 @@ import { submitContactForm } from "@/lib/actions/lead-actions";
 import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
 import { LeadSchema } from "@/cms/schemas/lead.schema";
 import { useAnalytics } from "@/hooks/use-analytics";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/lib/config";
 import type { Supplier } from "@/cms/schemas/supplier.schema";
 import type { Process } from "@/cms/schemas/process.schema";
 

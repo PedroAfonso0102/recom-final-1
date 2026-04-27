@@ -4,6 +4,12 @@ import { getProcesses } from '@/lib/services/supabase-data';
 
 export default async function NewSupplierPage() {
   const processes = await getProcesses({ allowFallback: false });
+  const selectableProcesses = processes
+    .filter((process): process is typeof process & { id: string } => Boolean(process.id))
+    .map((process) => ({
+      id: process.id,
+      name: process.name,
+    }));
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
@@ -12,7 +18,7 @@ export default async function NewSupplierPage() {
         <p className="text-slate-500">Adicione uma nova fábrica parceira ao catálogo da RECOM.</p>
       </div>
 
-      <SupplierForm processes={processes} />
+      <SupplierForm processes={selectableProcesses} />
     </div>
   );
 }

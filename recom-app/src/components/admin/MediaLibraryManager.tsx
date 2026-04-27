@@ -171,11 +171,11 @@ export function MediaLibraryManager({
       {/* HEADER */}
       <div className="flex flex-col gap-6 border-b border-border pb-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h1 className="text-4xl font-black tracking-tight text-slate-900">
+          <div className="space-y-1.5">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
               Biblioteca de Mídia
             </h1>
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
               {assets.length} arquivo{assets.length !== 1 ? "s" : ""} •{" "}
               {formatFileSize(totalSize)} total
             </p>
@@ -194,7 +194,7 @@ export function MediaLibraryManager({
             <Button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="h-11 px-8 text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg bg-primary shadow-primary/20"
+              className="h-11 px-8 text-xs font-bold tracking-tight gap-2 shadow-sm bg-slate-900 hover:bg-slate-800 text-white rounded-xl"
             >
               {uploading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -227,10 +227,10 @@ export function MediaLibraryManager({
                   // We'll let filteredAssets handle this client-side
                 }}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-tight transition-all",
                   filter === f.value
                     ? "bg-white shadow-sm text-slate-900"
-                    : "text-muted-foreground hover:text-slate-600"
+                    : "text-slate-400 hover:text-slate-600"
                 )}
               >
                 {f.icon}
@@ -266,7 +266,7 @@ export function MediaLibraryManager({
           {filteredAssets.length === 0 ? (
             <div className="py-20 text-center border-2 border-dashed border-slate-200 rounded-3xl space-y-4">
               <Upload className="h-12 w-12 text-slate-200 mx-auto" />
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                 {searchQuery
                   ? "Nenhum arquivo encontrado."
                   : "Nenhum arquivo na biblioteca. Faça o primeiro upload."}
@@ -297,7 +297,7 @@ export function MediaLibraryManager({
                     )}
                     <Badge
                       variant="outline"
-                      className="absolute top-2 right-2 text-[8px] font-black uppercase bg-white/90 backdrop-blur-sm border-white/50"
+                      className="absolute top-2 right-2 text-[10px] font-bold bg-white/90 backdrop-blur-md border-white/50 rounded-full"
                     >
                       {asset.mime_type.split("/")[1]}
                     </Badge>
@@ -336,7 +336,7 @@ export function MediaLibraryManager({
 
               <CardContent className="p-6 space-y-5">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     Nome do Arquivo
                   </p>
                   <p className="text-sm font-bold text-slate-900 break-all">
@@ -346,7 +346,7 @@ export function MediaLibraryManager({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                       Tipo
                     </p>
                     <Badge variant="outline" className="text-[9px] font-bold">
@@ -354,7 +354,7 @@ export function MediaLibraryManager({
                     </Badge>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                       Tamanho
                     </p>
                     <p className="text-xs font-bold text-slate-700">
@@ -365,7 +365,7 @@ export function MediaLibraryManager({
 
                 {/* Alt text */}
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     Texto Alternativo (SEO)
                   </p>
                   {editingAlt === selectedAsset.id ? (
@@ -404,7 +404,7 @@ export function MediaLibraryManager({
 
                 {/* URL */}
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     URL Pública
                   </p>
                   <div className="flex gap-2">
@@ -430,7 +430,7 @@ export function MediaLibraryManager({
 
                 {/* Date */}
                 <div className="space-y-1">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     Enviado em
                   </p>
                   <p className="text-xs text-slate-600">
@@ -452,7 +452,7 @@ export function MediaLibraryManager({
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="w-full text-[10px] font-black uppercase tracking-widest gap-2"
+                    className="w-full text-xs font-bold tracking-tight gap-2 rounded-xl h-11"
                     disabled={deleting === selectedAsset.id}
                     onClick={() => {
                       if (

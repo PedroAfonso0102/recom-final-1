@@ -142,27 +142,25 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
       onChange={() => setIsDirty(true)}
       className="space-y-8"
     >
-
-
       {error && (
-        <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 flex gap-3 animate-in fade-in slide-in-from-top-2">
+        <div className="rounded-lg border border-destructive/10 bg-destructive/5 p-4 flex gap-3">
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-widest text-destructive">Falha na Seção</p>
-            <p className="text-xs font-bold text-destructive/80">{error}</p>
+            <p className="text-xs font-bold text-destructive">Falha na Seção</p>
+            <p className="text-[11px] font-medium text-destructive/80">{error}</p>
           </div>
         </div>
       )}
 
       {!section && (
-        <div className="space-y-2">
-          <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+        <div className="space-y-1.5">
+          <span className="block text-xs font-semibold text-slate-500 px-0.5">
             Tipo de Bloco Estrutural
           </span>
           <select
             name="componentType"
             value={componentType}
             onChange={(event) => setComponentType(event.target.value as CmsComponentType)}
-            className="w-full h-12 rounded-xl border border-border bg-white px-4 text-xs font-bold uppercase tracking-widest outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/5 shadow-sm"
+            className="w-full h-11 rounded-lg border border-slate-200 bg-white px-4 text-xs font-bold text-slate-700 outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/5 shadow-sm appearance-none"
           >
             {Object.values(componentRegistry).map((entry) => (
               <option key={entry.type} value={entry.type}>
@@ -173,89 +171,103 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
         </div>
       )}
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="md:col-span-2 grid gap-6 md:grid-cols-2 bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
-          <div className="md:col-span-2 mb-2">
-             <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Conteúdo do Bloco</h4>
+      <div className="grid gap-8">
+        {/* Conteúdo Dinâmico */}
+        <div className="bg-slate-50/50 p-6 rounded-xl border border-slate-200/60">
+          <div className="mb-6 flex items-center gap-2 border-b border-slate-200/60 pb-3">
+             <div className="h-4 w-1 bg-primary rounded-full" />
+             <h4 className="text-xs font-bold text-slate-800">Conteúdo do Bloco</h4>
           </div>
-          {definition.fields.map((field) => (
-            <div key={field.name} className={cn("space-y-2", field.type === "textarea" ? "md:col-span-2" : "")}>
-              <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                {field.label}
-              </span>
-              <CmsFieldRenderer field={field} defaultValue={String(defaults[field.name] ?? "")} />
-            </div>
-          ))}
+          <div className="grid gap-x-6 gap-y-5 md:grid-cols-2">
+            {definition.fields.map((field) => (
+              <div key={field.name} className={cn("space-y-1.5", field.type === "textarea" ? "md:col-span-2" : "")}>
+                <span className="block text-xs font-semibold text-slate-500 px-0.5">
+                  {field.label}
+                </span>
+                <CmsFieldRenderer field={field} defaultValue={String(defaults[field.name] ?? "")} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="md:col-span-2 grid gap-6 md:grid-cols-3 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-           <div className="md:col-span-3 mb-2">
-             <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Configurações de Exibição</h4>
+        {/* Configurações Técnicas */}
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+          <div className="mb-6 flex items-center gap-2 border-b border-slate-100 pb-3">
+             <div className="h-4 w-1 bg-slate-300 rounded-full" />
+             <h4 className="text-xs font-bold text-slate-800">Configurações de Exibição</h4>
           </div>
-          <div className="space-y-2">
-            <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-              Ordem
-            </span>
-            <input
-              name="sortOrder"
-              type="number"
-              defaultValue={section?.sort_order ?? sortOrder}
-              className="w-full h-10 rounded-lg border border-border bg-white px-3 text-xs font-bold outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-            />
-          </div>
-          <div className="space-y-2">
-            <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-              Status
-            </span>
-            <select
-              name="status"
-              defaultValue={section?.status ?? "draft"}
-              className="w-full h-10 rounded-lg border border-border bg-white px-3 text-xs font-bold uppercase tracking-widest outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-            >
-              <option value="draft">Rascunho</option>
-              <option value="published">Publicado</option>
-              <option value="hidden">Oculto</option>
-              <option value="archived">Arquivado</option>
-            </select>
-          </div>
-          <div className="space-y-2">
-            <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-              Visibilidade
-            </span>
-            <select
-              name="visibility"
-              defaultValue={section?.visibility ?? "visible"}
-              className="w-full h-10 rounded-lg border border-border bg-white px-3 text-xs font-bold uppercase tracking-widest outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-            >
-              <option value="visible">Visível</option>
-              <option value="hidden">Oculta</option>
-            </select>
-          </div>
-          <div className="md:col-span-3 space-y-2">
-            <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-              Anchor ID (Scroll Link)
-            </span>
-            <input
-              name="anchorId"
-              placeholder="ex: contato, especificacoes"
-              defaultValue={section?.anchor_id ?? ""}
-              className="w-full h-10 rounded-lg border border-border bg-white px-3 text-xs font-bold outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-            />
+          <div className="grid gap-x-6 gap-y-5 md:grid-cols-3">
+            <div className="space-y-1.5">
+              <span className="block text-xs font-semibold text-slate-500 px-0.5">
+                Ordem
+              </span>
+              <input
+                name="sortOrder"
+                type="number"
+                defaultValue={section?.sort_order ?? sortOrder}
+                className="w-full h-10 rounded-lg border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/5"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <span className="block text-xs font-semibold text-slate-500 px-0.5">
+                Status
+              </span>
+              <select
+                name="status"
+                defaultValue={section?.status ?? "draft"}
+                className="w-full h-10 rounded-lg border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/5"
+              >
+                <option value="draft">Rascunho</option>
+                <option value="published">Publicado</option>
+                <option value="hidden">Oculto</option>
+                <option value="archived">Arquivado</option>
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <span className="block text-xs font-semibold text-slate-500 px-0.5">
+                Visibilidade
+              </span>
+              <select
+                name="visibility"
+                defaultValue={section?.visibility ?? "visible"}
+                className="w-full h-10 rounded-lg border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/5"
+              >
+                <option value="visible">Visível</option>
+                <option value="hidden">Oculta</option>
+              </select>
+            </div>
+            <div className="md:col-span-3 space-y-1.5">
+              <span className="block text-xs font-semibold text-slate-500 px-0.5">
+                Anchor ID (Link de Âncora)
+              </span>
+              <input
+                name="anchorId"
+                placeholder="ex: contato, diferenciais"
+                defaultValue={section?.anchor_id ?? ""}
+                className="w-full h-10 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/5"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-        <Button type="submit" disabled={saving} className={cn("h-12 px-10 text-[10px] font-black uppercase tracking-widest gap-2", saveSuccess ? "bg-emerald-500 hover:bg-emerald-600" : "")}>
+      <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
+        <Button 
+          type="submit" 
+          disabled={saving} 
+          className={cn(
+            "h-10 px-8 text-xs font-bold gap-2 transition-all shadow-sm", 
+            saveSuccess ? "bg-emerald-500 hover:bg-emerald-600" : ""
+          )}
+        >
           {saving ? "Salvando..." : saveSuccess ? "Seção Salva!" : section ? "Salvar Seção" : "Criar Seção"}
         </Button>
         {saveSuccess && (
-           <span className="text-[10px] font-black uppercase text-emerald-600 tracking-widest animate-in fade-in slide-in-from-left-2">
-            Pronto para o preview.
+           <span className="text-xs font-semibold text-emerald-600 animate-in fade-in slide-in-from-left-2">
+            Pronto para visualização.
           </span>
         )}
       </div>
     </form>
-
   );
 }

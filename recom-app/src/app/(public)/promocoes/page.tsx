@@ -80,7 +80,7 @@ export default async function PromocoesPage() {
                 status={promo.status as "active" | "archived"}
                 supplierName={getSupplierName(promo.supplierId)}
                 ctaLabel={promo.ctaLabel || undefined}
-                ctaLink={promo.ctaUrl}
+                ctaLink={promo.ctaUrl || undefined}
               />
             ))}
           </div>

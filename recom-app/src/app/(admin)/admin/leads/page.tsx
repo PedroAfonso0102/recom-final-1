@@ -61,26 +61,29 @@ export default async function AdminLeadsPage() {
   ]);
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border pb-8">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">Real-time Pipeline</span>
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pipeline em Tempo Real</span>
           </div>
-          <h1 className="text-4xl font-black uppercase tracking-tighter text-primary">
-            Gestão de <span className="text-slate-400">Oportunidades</span>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Gestão de Oportunidades
           </h1>
-          <p className="text-sm font-medium text-muted-foreground max-w-xl">
+          <p className="text-sm font-medium text-slate-500 max-w-xl">
             Monitoramento centralizado de leads técnicos e requisições comerciais originadas via plataforma digital.
           </p>
         </div>
 
         {leads.length > 0 && (
-          <div className="bg-primary/5 border border-primary/20 p-4 min-w-[200px]">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1">Volume Total</div>
-            <div className="text-2xl font-mono font-bold text-primary tracking-tighter">
-              {leads.length.toString().padStart(3, '0')} <span className="text-xs uppercase tracking-normal">Unidades</span>
+          <div className="flex items-center gap-4 bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+            <div className="h-10 w-10 flex items-center justify-center bg-slate-50 rounded-xl">
+              <span className="text-sm font-bold text-slate-900">{leads.length}</span>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total de Leads</p>
+              <p className="text-xs font-semibold text-slate-600">Unidades registradas</p>
             </div>
           </div>
         )}
@@ -100,21 +103,6 @@ export default async function AdminLeadsPage() {
         suppliers={suppliers}
       />
 
-      <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-primary" />
-            <span>Novo</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-accent" />
-            <span>Processando</span>
-          </div>
-        </div>
-        <div>
-          RECOM ADMIN / v2.1.0
-        </div>
-      </div>
     </div>
   );
 }

@@ -64,6 +64,18 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
     );
   }
 
+  if (field.type === "number") {
+    return (
+      <input
+        name={field.name}
+        defaultValue={defaultValue}
+        placeholder={field.placeholder}
+        type="number"
+        className={baseClassName}
+      />
+    );
+  }
+
   if (field.type === "media") {
     return <CmsMediaField field={field} defaultValue={defaultValue} />;
   }

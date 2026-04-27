@@ -57,8 +57,8 @@ export function PublishPageButton({ pageId }: PublishPageButtonProps) {
       onClick={handlePublish} 
       disabled={loading || success}
       className={cn(
-        "h-11 px-8 text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg transition-all",
-        success ? "bg-emerald-500 hover:bg-emerald-500" : "bg-primary shadow-primary/20"
+        "h-11 px-8 text-xs font-bold tracking-tight gap-2 shadow-sm transition-all rounded-xl",
+        success ? "bg-emerald-500 hover:bg-emerald-600 text-white" : "bg-slate-900 hover:bg-slate-800 text-white"
       )}
     >
       {loading ? (

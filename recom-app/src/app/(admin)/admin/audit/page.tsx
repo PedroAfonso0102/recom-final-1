@@ -4,6 +4,16 @@ import { History, User, Database, Clock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
+interface AuditLog {
+  id: string;
+  action: string;
+  entity_type: string;
+  entity_id: string;
+  user_id: string;
+  created_at: string;
+  details?: Record<string, any>;
+}
+
 function formatRelativeTime(dateValue: string) {
   const date = new Date(dateValue);
   const diffMs = Date.now() - date.getTime();
@@ -31,31 +41,31 @@ function formatRelativeTime(dateValue: string) {
 }
 
 export default async function AuditPage() {
-  const logs = await getAuditLogs();
+  const logs = await getAuditLogs() as AuditLog[];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-accent">
+        <div className="flex items-center gap-2 text-slate-400">
           <History className="h-4 w-4" />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Trilha de Auditoria</span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider">Trilha de Auditoria</span>
         </div>
-        <h1 className="text-4xl font-black uppercase tracking-tighter text-primary">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900">
           Histórico de <span className="text-slate-400">Alterações</span>
         </h1>
-        <p className="text-sm text-muted-foreground max-w-2xl">
+        <p className="text-sm text-slate-500 max-w-2xl font-medium">
           Rastreabilidade completa de todas as ações administrativas críticas realizadas no sistema.
         </p>
       </div>
 
       <div className="grid gap-4">
         {logs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 bg-white border border-dashed border-slate-200 rounded-3xl opacity-50">
-            <History className="h-12 w-12 mb-4 text-slate-300" />
-            <p className="text-[10px] font-black uppercase tracking-widest">Nenhuma atividade registrada ainda</p>
+          <div className="flex flex-col items-center justify-center py-32 bg-white border border-dashed border-slate-200 rounded-3xl">
+            <History className="h-12 w-12 mb-4 text-slate-200" />
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Nenhuma atividade registrada ainda</p>
           </div>
         ) : (
-          logs.map((log: any) => (
+          logs.map((log: AuditLog) => (
             <div key={log.id} className="group relative bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-start gap-5">
@@ -64,7 +74,7 @@ export default async function AuditPage() {
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primary px-2 py-0.5 bg-primary/5 rounded border border-primary/10">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 px-2 py-0.5 bg-slate-100 rounded-full border border-slate-200">
                         {log.action.replace(/_/g, ' ')}
                       </span>
                       <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
@@ -72,8 +82,8 @@ export default async function AuditPage() {
                         {formatRelativeTime(log.created_at)}
                       </span>
                     </div>
-                    <h3 className="text-sm font-bold text-slate-700">
-                      Alterou {log.entity_type} <span className="font-mono text-xs opacity-50">({log.entity_id.substring(0, 8)}...)</span>
+                    <h3 className="text-sm font-semibold text-slate-900">
+                      Alterou {log.entity_type} <span className="font-mono text-[10px] text-slate-400">({log.entity_id.substring(0, 8)}...)</span>
                     </h3>
                     {log.details && (
                       <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
@@ -86,9 +96,9 @@ export default async function AuditPage() {
                 </div>
                 
                 <div className="flex flex-col items-end gap-1">
-                  <div className="flex items-center gap-2 text-[10px] font-black uppercase text-slate-400">
+                  <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                     <User className="h-3 w-3" />
-                    ID do Usuário: {log.user_id?.substring(0, 8)}...
+                    Usuário: {log.user_id?.substring(0, 8)}...
                   </div>
                   <div className="text-[9px] font-mono text-slate-300">
                     {new Date(log.created_at).toLocaleString('pt-BR')}
@@ -101,9 +111,9 @@ export default async function AuditPage() {
       </div>
 
       <div className="flex justify-center pt-8">
-        <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+        <div className="text-[9px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          Sistema de logs ativo e monitorado em tempo real
+          Logs monitorados em tempo real
         </div>
       </div>
     </div>

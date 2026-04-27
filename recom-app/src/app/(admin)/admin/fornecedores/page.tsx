@@ -17,70 +17,70 @@ export default async function AdminSuppliersPage() {
   const suppliers = await getSuppliers({ allowFallback: false });
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-8">
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Gestão de Portfólio</span>
-          <h1 className="text-4xl font-bold tracking-tighter uppercase">Fornecedores</h1>
-          <p className="text-muted-foreground max-w-2xl text-sm font-medium">
-            Gerenciamento de fábricas parceiras, catálogos técnicos e logos oficiais.
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-8">
+        <div className="flex flex-col gap-1.5">
+          <span className="text-xs font-semibold text-primary">Gestão de Portfólio</span>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Fornecedores</h1>
+          <p className="text-slate-500 max-w-2xl text-sm font-medium">
+            Gerenciamento de fábricas parceiras, catálogos técnicos e identidades visuais.
           </p>
         </div>
         <Link href="/admin/fornecedores/novo">
-          <RecomButton className="gap-2 uppercase font-bold text-xs tracking-widest">
+          <RecomButton className="gap-2 font-bold text-xs shadow-sm">
             <Plus className="h-4 w-4" />
             Novo Registro
           </RecomButton>
         </Link>
       </div>
 
-      <RecomCard className="overflow-hidden border-border">
+      <RecomCard className="overflow-hidden border-slate-200 shadow-sm">
         <Table>
-          <TableHeader className="bg-muted/50">
-            <TableRow className="border-border hover:bg-transparent">
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-foreground py-4">Fábrica / Marca</TableHead>
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-foreground py-4">slug_id</TableHead>
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-foreground py-4 text-center">Status Operacional</TableHead>
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-foreground py-4 text-center">Prioridade</TableHead>
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-foreground py-4 text-right px-6">Gerenciamento</TableHead>
+          <TableHeader className="bg-slate-50/50">
+            <TableRow className="border-slate-200 hover:bg-transparent">
+              <TableHead className="text-xs font-bold text-slate-500 py-4">Fábrica / Marca</TableHead>
+              <TableHead className="text-xs font-bold text-slate-500 py-4">Slug ID</TableHead>
+              <TableHead className="text-xs font-bold text-slate-500 py-4 text-center">Status</TableHead>
+              <TableHead className="text-xs font-bold text-slate-500 py-4 text-center">Ordem</TableHead>
+              <TableHead className="text-xs font-bold text-slate-500 py-4 text-right px-6">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {suppliers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="h-48 text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <TableCell colSpan={5} className="h-48 text-center text-sm font-medium text-slate-400">
                   Nenhum registro encontrado no sistema.
                 </TableCell>
               </TableRow>
             ) : (
               suppliers.map((supplier) => (
-                <TableRow key={supplier.id || supplier.slug} className="border-border hover:bg-muted/30 transition-colors">
+                <TableRow key={supplier.id || supplier.slug} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
                   <TableCell className="py-4">
-                    <span className="font-bold text-sm uppercase tracking-tight">{supplier.name}</span>
+                    <span className="font-bold text-sm text-slate-900">{supplier.name}</span>
                   </TableCell>
                   <TableCell className="py-4">
-                    <code className="text-[10px] font-mono bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                    <code className="text-[11px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
                       {supplier.slug}
                     </code>
                   </TableCell>
                   <TableCell className="py-4 text-center">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest rounded-none border ${
+                    <span className={`inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${
                       supplier.status === 'active' 
-                        ? 'bg-primary/5 text-primary border-primary/20' 
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
                         : supplier.status === 'archived' 
-                        ? 'bg-destructive/5 text-destructive border-destructive/20' 
-                        : 'bg-muted text-muted-foreground border-border'
+                        ? 'bg-slate-50 text-slate-500 border-slate-200' 
+                        : 'bg-amber-50 text-amber-700 border-amber-100'
                     }`}>
                       {supplier.status === 'active' ? 'Ativo' : supplier.status === 'archived' ? 'Arquivado' : 'Rascunho'}
                     </span>
                   </TableCell>
-                  <TableCell className="py-4 text-center text-xs font-bold text-muted-foreground">
+                  <TableCell className="py-4 text-center text-xs font-semibold text-slate-400">
                     {String(supplier.sortOrder).padStart(2, '0')}
                   </TableCell>
                   <TableCell className="py-4 text-right px-6">
                     <div className="flex justify-end gap-2">
                       <Link href={`/admin/fornecedores/${supplier.slug}/editar`}>
-                        <RecomButton intent="secondary" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-border">
+                        <RecomButton intent="secondary" size="sm" className="h-8 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50">
                           <Edit2 className="h-3 w-3 mr-1.5" />
                           Editar
                         </RecomButton>
