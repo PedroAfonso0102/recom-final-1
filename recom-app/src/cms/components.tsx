@@ -1,17 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Factory, ShieldCheck, CheckCircle2, Wrench, MapPin, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RecomButton } from "@/design-system/components/recom-button";
-import { RecomCard, RecomCardContent, RecomCardDescription, RecomCardFooter, RecomCardHeader, RecomCardTitle } from "@/design-system/components/recom-card";
+import { RecomCard, RecomCardContent, RecomCardHeader, RecomCardTitle } from "@/design-system/components/recom-card";
+import { RecomSection } from "@/design-system/components/recom-section";
+import { HeroCarousel } from "@/components/public/HeroCarousel";
+import { getSuppliers } from "@/lib/services/supabase-data";
 import type { CtaSectionProps } from "./schemas/cta-section.schema";
 import type { HeroSectionProps } from "./schemas/hero-section.schema";
 import type { TextSectionProps } from "./schemas/text-section.schema";
 import type { GridSectionProps } from "./schemas/grid-section.schema";
 import type { TrustLogosProps } from "./schemas/trust-logos.schema";
-import { RecomSection } from "@/design-system/components/recom-section";
-import { Factory, ShieldCheck, CheckCircle2, Wrench, MapPin, Package } from "lucide-react";
-import { HeroCarousel } from "@/components/public/HeroCarousel";
 
 export function HeroSectionBlock({
   eyebrow,
@@ -229,9 +229,16 @@ export function GridSectionBlock({ eyebrow, title, description, items, columns, 
   );
 }
 
-export function TrustLogosBlock({ title, grayscale }: TrustLogosProps) {
-  // In a real scenario, this would fetch from a service or context
-  // For now we'll show a placeholder or handle it via a client component if dynamic
+export async function TrustLogosBlock({ title, supplierIds, showAll, grayscale }: TrustLogosProps) {
+  const allSuppliers = await getSuppliers();
+  
+  // Filter suppliers if supplierIds is provided and showAll is false
+  const suppliers = (!showAll && supplierIds && supplierIds.length > 0)
+    ? allSuppliers.filter(s => supplierIds.includes(s.id))
+    : allSuppliers;
+
+  if (suppliers.length === 0) return null;
+
   return (
     <section className="border-b border-recom-gray-100 bg-white py-12">
       <div className="container-recom">
@@ -241,10 +248,29 @@ export function TrustLogosBlock({ title, grayscale }: TrustLogosProps) {
           </p>
         )}
         <div className={cn("flex flex-wrap items-center justify-center gap-12 transition-all duration-700 md:gap-20", grayscale && "opacity-45 grayscale hover:opacity-100 hover:grayscale-0")}>
-           <p className="text-sm text-muted-foreground italic">Seção de logotipos (dinâmica via CMS)</p>
+          {suppliers.map((supplier) => 
+            supplier.logoUrl ? (
+              <div key={supplier.id} className="relative h-7 w-28 md:h-8 md:w-32">
+                <Image
+                  src={supplier.logoUrl}
+                  alt={supplier.name}
+                  fill
+                  sizes="(max-width: 768px) 112px, 128px"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <div
+                key={supplier.id}
+                className="inline-flex items-center gap-2 rounded-full border border-recom-border bg-recom-gray-50 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-recom-graphite/55"
+              >
+                <Factory className="h-3.5 w-3.5" />
+                {supplier.name}
+              </div>
+            )
+          )}
         </div>
       </div>
     </section>
   );
 }
-

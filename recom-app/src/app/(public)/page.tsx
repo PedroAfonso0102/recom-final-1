@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2, Factory, MapPin, ShieldCheck, Wrench } from "lucide-react";
-import { HOME_CMS_SLUG } from "@/cms/utils";
+import { getHomePage } from "@/cms/queries";
 import { RenderPage } from "@/cms/render-page";
-import { getPublicCmsPageBySlug } from "@/server/queries/cms-pages";
 import { getSuppliers } from "@/lib/services/supabase-data";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 import { CTASection } from "@/design-system/components/cta-section";
@@ -13,7 +12,7 @@ import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+  const cmsPage = await getHomePage();
 
   if (!cmsPage) {
     return {
@@ -29,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+  const cmsPage = await getHomePage();
 
   if (cmsPage) {
     return <RenderPage pageData={cmsPage} />;

@@ -11,6 +11,8 @@ import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
 import { LeadSchema } from "@/cms/schemas/lead.schema";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { siteConfig } from "@/config/site";
+import type { Supplier } from "@/cms/schemas/supplier.schema";
+import type { Process } from "@/cms/schemas/process.schema";
 
 const contactFormSchema = LeadSchema.extend({
   consent: z
@@ -19,6 +21,11 @@ const contactFormSchema = LeadSchema.extend({
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+interface ContactFormProps {
+  suppliers?: Supplier[];
+  processes?: Process[];
+}
 
 function ContactField({
   label,
@@ -52,7 +59,7 @@ function ContactField({
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps) {
   const { trackEvent, trackCtaClick } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
@@ -198,34 +205,44 @@ export function ContactForm() {
           label="Fornecedor de interesse"
           name="supplierInterest"
           error={errors.supplierInterest?.message}
-          helper="Se já souber a marca, informe aqui. Ex.: Mitsubishi Materials."
+          helper="Selecione a marca ou fabricante."
         >
-          <input
+          <select
             id="supplierInterest"
-            type="text"
-            placeholder="Ex.: Mitsubishi Materials"
-            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors placeholder:text-muted-foreground/45 focus:border-recom-blue focus:bg-white"
+            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors focus:border-recom-blue focus:bg-white disabled:opacity-50"
             aria-invalid={!!errors.supplierInterest}
             disabled={status === "loading"}
             {...register("supplierInterest")}
-          />
+          >
+            <option value="">Não sei / Outro</option>
+            {suppliers.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
         </ContactField>
-
+ 
         <ContactField
           label="Processo / aplicação"
           name="processInterest"
           error={errors.processInterest?.message}
-          helper="Ex.: torneamento, fresamento, furação ou uma aplicação específica."
+          helper="Selecione o processo de usinagem principal."
         >
-          <input
+          <select
             id="processInterest"
-            type="text"
-            placeholder="Ex.: Torneamento"
-            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors placeholder:text-muted-foreground/45 focus:border-recom-blue focus:bg-white"
+            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors focus:border-recom-blue focus:bg-white disabled:opacity-50"
             aria-invalid={!!errors.processInterest}
             disabled={status === "loading"}
             {...register("processInterest")}
-          />
+          >
+            <option value="">Outro / Geral</option>
+            {processes.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
         </ContactField>
 
         <ContactField

@@ -25,6 +25,7 @@ import { Image as ImageIcon, X } from 'lucide-react';
 
 interface PromotionFormProps {
   initialData?: Partial<Promotion> & { id?: string };
+  suppliers?: Array<{ id: string; name: string }>;
 }
 
 // Helper to format ISO string to datetime-local format
@@ -33,7 +34,7 @@ function toDatetimeLocal(iso?: string) {
   return iso.slice(0, 16); // "YYYY-MM-DDTHH:mm"
 }
 
-export function PromotionForm({ initialData }: PromotionFormProps) {
+export function PromotionForm({ initialData, suppliers = [] }: PromotionFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -199,6 +200,29 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
               />
               <FormField
                 control={form.control}
+                name="supplierId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={labelStyles}>Fornecedor Parceiro</FormLabel>
+                    <FormControl>
+                      <select
+                        className={cn(inputStyles, "w-full appearance-none px-3 cursor-pointer")}
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value || undefined)}
+                      >
+                        <option value="">NENHUM (GERAL)</option>
+                        {suppliers.map(s => (
+                          <option key={s.id} value={s.id}>{s.name.toUpperCase()}</option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem className="md:col-span-2">
@@ -263,42 +287,6 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
                   </FormItem>
                 )}
               />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <FormField
-                control={form.control}
-                name="ctaLabel"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={labelStyles}>Texto de Ação (CTA)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: SOLICITAR ORÇAMENTO" className={inputStyles} {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="ctaUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={labelStyles}>Link de Destino (CTA)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-        </RecomCard>
-
-        <div className="flex justify-end gap-4 border-t border-border pt-10">
-          <RecomButton 
-            type="button" 
             intent="outline" 
             onClick={() => router.back()} 
             disabled={loading}

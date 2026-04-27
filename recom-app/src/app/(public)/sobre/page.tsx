@@ -5,7 +5,8 @@ import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { ContactForm } from "@/components/public/ContactForm";
 import { siteConfig } from "@/lib/config";
-import { getSiteSettings } from "@/cms/actions";
+import { getSiteSettings } from "@/cms/queries";
+import { getSuppliers, getProcesses } from "@/lib/services/supabase-data";
 
 export const metadata: Metadata = {
   title: "Sobre a RECOM Metal Duro | Contato e Suporte Técnico",
@@ -13,7 +14,12 @@ export const metadata: Metadata = {
 };
 
 export default async function SobrePage() {
-  const settings = await getSiteSettings();
+  const [settings, suppliers, processes] = await Promise.all([
+    getSiteSettings(),
+    getSuppliers(),
+    getProcesses()
+  ]);
+  
   const config = settings || siteConfig;
 
   return (
@@ -90,7 +96,7 @@ export default async function SobrePage() {
               Enviar solicitação para a equipe comercial
             </h3>
 
-            <ContactForm />
+            <ContactForm suppliers={suppliers} processes={processes} />
           </div>
 
           <div className="space-y-6 lg:col-span-4">
