@@ -76,6 +76,7 @@ Data: 2026-04-28
 2. `cmsPageTypeSchema` ainda aceita apenas `static | dynamic_template | landing`, diferente dos tipos de pagina de negocio.
 3. Preview publico por query `?preview=true` agora passa por `resolveCmsPreviewRequest`; anônimo cai para conteudo publicado e apenas `admin`/`editor` usam leitura admin.
 4. `contato` ja nao reexporta `sobre`; `/a-recom` agora fica institucional e termina com CTA para contato.
+5. Rotas legadas (`/sobre`, `/fornecedores`, `/fornecedores/[slug]`, `/processos`, `/processos/[slug]`) agora tem redirects permanentes para as rotas canonicas.
 6. Home ainda contem fallback hardcoded extenso e `HeroCarousel`, contrariando a meta de blocos estruturados simples.
 7. Eventos existiam em `design-system/hooks`, mas com nomes incompletos e um evento antigo `generate_lead_form_submit`.
 8. Links de contato e e-mail ainda aparecem fixos em alguns blocos, por exemplo `mailto:contato@recom.com.br`, em vez de `site_settings`.
