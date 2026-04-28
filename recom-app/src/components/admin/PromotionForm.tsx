@@ -231,7 +231,6 @@ export function PromotionForm({ initialData, suppliers = [] }: PromotionFormProp
                       <div className="overflow-hidden rounded-xl border border-border bg-white">
                         <div className="aspect-[4/3] bg-slate-100">
                           {imageUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
                             <img src={imageUrl} alt="Preview da promoção" className="h-full w-full object-cover" />
                           ) : (
                             <div className="flex h-full items-center justify-center text-muted-foreground">

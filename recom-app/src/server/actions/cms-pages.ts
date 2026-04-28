@@ -1,14 +1,15 @@
 "use server";
 
 import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
 import { revalidateCmsPaths } from "@/lib/revalidation/cms";
 import { getComponentDefinition } from "@/cms/component-registry";
 import { cmsCreatePageSchema, cmsUpdatePageSchema } from "@/cms/schemas/page.schema";
 import { cmsCreateSectionSchema, cmsPublishPageSchema, cmsReorderSectionsSchema, cmsUpdateSectionSchema } from "@/cms/schemas/section.schema";
-import type { ActionResult, CmsPageRow, CmsSectionRow } from "@/cms/types";
+import type { ActionResult, CmsPageRow, CmsRevisionRow, CmsSectionRow } from "@/cms/types";
 
 function toFieldErrors(error: z.ZodError) {
   const fieldErrors: Record<string, string[]> = {};
@@ -36,8 +37,8 @@ function normalizeSectionProps(componentType: string, props: Record<string, unkn
 
   if (!definition) {
     return {
-      ok: false as const,
-      error: `Bloco não registrado: ${componentType}`,
+      success: false as const,
+      formError: `Bloco não registrado: ${componentType}`,
     };
   }
 
@@ -45,13 +46,13 @@ function normalizeSectionProps(componentType: string, props: Record<string, unkn
 
   if (!parsed.success) {
     return {
-      ok: false as const,
-      error: parsed.error.flatten(),
+      success: false as const,
+      fieldErrors: toFieldErrors(parsed.error),
     };
   }
 
   return {
-    ok: true as const,
+    success: true as const,
     data: parsed.data,
   };
 }
@@ -71,11 +72,11 @@ async function getPageSections(supabase: ReturnType<typeof createAdminClient>, p
 }
 
 export async function createPage(input: unknown): Promise<ActionResult<CmsPageRow>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const parsed = cmsCreatePageSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const supabase = createAdminClient();
@@ -99,19 +100,19 @@ export async function createPage(input: unknown): Promise<ActionResult<CmsPageRo
   const { data, error } = await supabase.from("pages").insert(payload).select("*").single();
 
   if (error || !data) {
-    return { ok: false, formError: error?.message ?? "Não foi possível criar a página." };
+    return { success: false, formError: error?.message ?? "Não foi possível criar a página." };
   }
 
   revalidateCmsPaths(data.slug, data.id);
-  return { ok: true, data: data as CmsPageRow, message: "Página criada." };
+  return { success: true, data: data as CmsPageRow, message: "Página criada." };
 }
 
 export async function updatePage(input: unknown): Promise<ActionResult<CmsPageRow>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const parsed = cmsUpdatePageSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const supabase = createAdminClient();
@@ -139,29 +140,25 @@ export async function updatePage(input: unknown): Promise<ActionResult<CmsPageRo
     .single();
 
   if (error || !data) {
-    return { ok: false, formError: error?.message ?? "Não foi possível atualizar a página." };
+    return { success: false, formError: error?.message ?? "Não foi possível atualizar a página." };
   }
 
   revalidateCmsPaths(data.slug, data.id);
-  return { ok: true, data: data as CmsPageRow, message: "Página atualizada." };
+  return { success: true, data: data as CmsPageRow, message: "Página atualizada." };
 }
 
 export async function createSection(input: unknown): Promise<ActionResult<CmsSectionRow>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const parsed = cmsCreateSectionSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const definition = normalizeSectionProps(parsed.data.componentType, parsed.data.props as Record<string, unknown>);
 
-  if (!definition.ok) {
-    if (typeof definition.error !== "string") {
-      return { ok: false, fieldErrors: definition.error.fieldErrors as Record<string, string[]> };
-    }
-
-    return { ok: false, formError: definition.error };
+  if (!definition.success) {
+    return definition;
   }
 
   const supabase = createAdminClient();
@@ -180,7 +177,7 @@ export async function createSection(input: unknown): Promise<ActionResult<CmsSec
   const { data, error } = await supabase.from("page_sections").insert(payload).select("*").single();
 
   if (error || !data) {
-    return { ok: false, formError: error?.message ?? "Não foi possível criar a seção." };
+    return { success: false, formError: error?.message ?? "Não foi possível criar a seção." };
   }
 
   const page = await supabase.from("pages").select("slug").eq("id", parsed.data.pageId).maybeSingle();
@@ -188,25 +185,21 @@ export async function createSection(input: unknown): Promise<ActionResult<CmsSec
     revalidateCmsPaths(page.data.slug, parsed.data.pageId);
   }
 
-  return { ok: true, data: data as CmsSectionRow, message: "Seção criada." };
+  return { success: true, data: data as CmsSectionRow, message: "Seção criada." };
 }
 
 export async function updateSection(input: unknown): Promise<ActionResult<CmsSectionRow>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const parsed = cmsUpdateSectionSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const definition = normalizeSectionProps(parsed.data.componentType, parsed.data.props as Record<string, unknown>);
 
-  if (!definition.ok) {
-    if (typeof definition.error !== "string") {
-      return { ok: false, fieldErrors: definition.error.fieldErrors as Record<string, string[]> };
-    }
-
-    return { ok: false, formError: definition.error };
+  if (!definition.success) {
+    return definition;
   }
 
   const supabase = createAdminClient();
@@ -229,7 +222,7 @@ export async function updateSection(input: unknown): Promise<ActionResult<CmsSec
     .single();
 
   if (error || !data) {
-    return { ok: false, formError: error?.message ?? "Não foi possível atualizar a seção." };
+    return { success: false, formError: error?.message ?? "Não foi possível atualizar a seção." };
   }
 
   const page = await supabase.from("pages").select("slug").eq("id", parsed.data.pageId).maybeSingle();
@@ -237,15 +230,15 @@ export async function updateSection(input: unknown): Promise<ActionResult<CmsSec
     revalidateCmsPaths(page.data.slug, parsed.data.pageId);
   }
 
-  return { ok: true, data: data as CmsSectionRow, message: "Seção atualizada." };
+  return { success: true, data: data as CmsSectionRow, message: "Seção atualizada." };
 }
 
 export async function reorderSections(input: unknown): Promise<ActionResult<true>> {
-  await requireAuth();
+  await requireAdmin();
   const parsed = cmsReorderSectionsSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const supabase = createAdminClient();
@@ -259,7 +252,7 @@ export async function reorderSections(input: unknown): Promise<ActionResult<true
       .eq("page_id", parsed.data.pageId);
 
     if (error) {
-      return { ok: false, formError: error.message };
+      return { success: false, formError: error.message };
     }
   }
 
@@ -268,35 +261,35 @@ export async function reorderSections(input: unknown): Promise<ActionResult<true
     revalidateCmsPaths(page.data.slug, parsed.data.pageId);
   }
 
-  return { ok: true, data: true, message: "Seções reordenadas." };
+  return { success: true, data: true, message: "Seções reordenadas." };
 }
 
 export async function publishPage(input: unknown): Promise<ActionResult<true>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const parsed = cmsPublishPageSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, fieldErrors: toFieldErrors(parsed.error) };
+    return { success: false, fieldErrors: toFieldErrors(parsed.error) };
   }
 
   const supabase = createAdminClient();
   const { data: page, error: pageError } = await supabase.from("pages").select("*").eq("id", parsed.data.pageId).maybeSingle();
 
   if (pageError || !page) {
-    return { ok: false, formError: pageError?.message ?? "Página não encontrada." };
+    return { success: false, formError: pageError?.message ?? "Página não encontrada." };
   }
 
   const sections = await getPageSections(supabase, page.id);
 
   if (sections.length === 0) {
-    return { ok: false, formError: "Adicione ao menos uma seção antes de publicar." };
+    return { success: false, formError: "Adicione ao menos uma seção antes de publicar." };
   }
 
   for (const section of sections) {
     const definition = normalizeSectionProps(section.component_type, (section.props ?? {}) as Record<string, unknown>);
 
-    if (!definition.ok) {
-      return { ok: false, formError: `A seção ${section.component_type} está inválida e bloqueou a publicação.` };
+    if (!definition.success) {
+      return { success: false, formError: `A seção ${section.component_type} está inválida e bloqueou a publicação.` };
     }
   }
 
@@ -308,7 +301,7 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
     .limit(1);
 
   if (versionError) {
-    return { ok: false, formError: versionError.message };
+    return { success: false, formError: versionError.message };
   }
 
   const nextVersion = (versionRows?.[0]?.version_number ?? 0) + 1;
@@ -327,7 +320,7 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
   });
 
   if (versionInsertError) {
-    return { ok: false, formError: versionInsertError.message };
+    return { success: false, formError: versionInsertError.message };
   }
 
   const { error: pageUpdateError } = await supabase
@@ -340,7 +333,7 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
     .eq("id", page.id);
 
   if (pageUpdateError) {
-    return { ok: false, formError: pageUpdateError.message };
+    return { success: false, formError: pageUpdateError.message };
   }
 
   const sectionIds = sections.map((section) => section.id);
@@ -353,21 +346,21 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
     .in("id", sectionIds);
 
   if (sectionsUpdateError) {
-    return { ok: false, formError: sectionsUpdateError.message };
+    return { success: false, formError: sectionsUpdateError.message };
   }
 
   revalidateCmsPaths(page.slug, page.id);
-  return { ok: true, data: true, message: "Página publicada." };
+  return { success: true, data: true, message: "Página publicada." };
 }
 export async function archivePage(id: string): Promise<ActionResult<true>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
 
   // Protect system pages from being archived/deleted easily
   const { data: page } = await supabase.from("pages").select("is_system, slug").eq("id", id).single();
   
   if (page?.is_system) {
-    return { ok: false, formError: "Páginas de sistema não podem ser arquivadas." };
+    return { success: false, formError: "Páginas de sistema não podem ser arquivadas." };
   }
 
   const { error } = await supabase
@@ -379,7 +372,7 @@ export async function archivePage(id: string): Promise<ActionResult<true>> {
     .eq("id", id);
 
   if (error) {
-    return { ok: false, formError: error.message };
+    return { success: false, formError: error.message };
   }
 
   if (page?.slug) {
@@ -395,29 +388,29 @@ export async function archivePage(id: string): Promise<ActionResult<true>> {
     user_id: auth.id
   });
 
-  return { ok: true, data: true, message: "Página arquivada." };
+  return { success: true, data: true, message: "Página arquivada." };
 }
 
 export async function deletePage(id: string): Promise<ActionResult<true>> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
 
   // System pages protection
   const { data: page } = await supabase.from("pages").select("is_system, status").eq("id", id).single();
   
   if (page?.is_system) {
-    return { ok: false, formError: "Páginas de sistema não podem ser excluídas." };
+    return { success: false, formError: "Páginas de sistema não podem ser excluídas." };
   }
 
   // Only allow deleting drafts
   if (page?.status !== 'draft') {
-    return { ok: false, formError: "Apenas rascunhos podem ser excluídos permanentemente. Arquive páginas publicadas." };
+    return { success: false, formError: "Apenas rascunhos podem ser excluídos permanentemente. Arquive páginas publicadas." };
   }
 
   const { error } = await supabase.from("pages").delete().eq("id", id);
 
   if (error) {
-    return { ok: false, formError: error.message };
+    return { success: false, formError: error.message };
   }
 
   // Log action
@@ -428,6 +421,107 @@ export async function deletePage(id: string): Promise<ActionResult<true>> {
     user_id: auth.id
   });
 
-  return { ok: true, data: true, message: "Rascunho excluído." };
+  return { success: true, data: true, message: "Rascunho excluído." };
 }
+
+// --- Revisions ---
+
+export async function createRevision(pageId: string, snapshot: Record<string, unknown>, label?: string): Promise<ActionResult> {
+  try {
+    const auth = await requireAdmin();
+    const supabase = await createClient();
+
+    const { error } = await supabase
+      .from("cms_revisions")
+      .insert({
+        page_id: pageId,
+        snapshot,
+        label,
+        is_autosave: !label,
+        created_by: auth.id
+      });
+
+    if (error) throw error;
+
+    await createAuditLog({
+      action: label ? "create_revision" : "autosave_revision",
+      entity_type: "page",
+      entity_id: pageId,
+      user_id: auth.id,
+      details: { label }
+    });
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error("Error creating revision:", error);
+    return { success: false, formError: error instanceof Error ? error.message : "Unknown error" };
+  }
+}
+
+export async function getRevisions(pageId: string): Promise<ActionResult<CmsRevisionRow[]>> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from("cms_revisions")
+      .select("*")
+      .eq("page_id", pageId)
+      .order("created_at", { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+
+    return { success: true, data };
+  } catch (error: unknown) {
+    console.error("Error fetching revisions:", error);
+    return { success: false, formError: error instanceof Error ? error.message : "Unknown error" };
+  }
+}
+
+export async function restoreRevision(revisionId: string): Promise<ActionResult> {
+  try {
+    const auth = await requireAdmin();
+    const supabase = await createClient();
+
+    // 1. Get snapshot
+    const { data: revision, error: revError } = await supabase
+      .from("cms_revisions")
+      .select("*")
+      .eq("id", revisionId)
+      .single();
+
+    if (revError || !revision) throw new Error("Revisão não encontrada.");
+
+    // 2. Update page content
+    const { error: updateError } = await supabase
+      .from("pages")
+      .update(revision.snapshot)
+      .eq("id", revision.page_id);
+
+    if (updateError) throw updateError;
+
+    // 3. Create a new revision to mark the restoration
+    await supabase.from("cms_revisions").insert({
+      page_id: revision.page_id,
+      snapshot: revision.snapshot,
+      label: `Restaurado de ${new Date(revision.created_at).toLocaleString()}`,
+      created_by: auth.id
+    });
+
+    await createAuditLog({
+      action: "restore_revision",
+      entity_type: "page",
+      entity_id: revision.page_id,
+      user_id: auth.id,
+      details: { revision_id: revisionId }
+    });
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error("Error restoring revision:", error);
+    return { success: false, formError: error instanceof Error ? error.message : "Unknown error" };
+  }
+}
+
 

@@ -1,5 +1,5 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
@@ -15,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createProcess(data: Process): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -44,7 +44,7 @@ export async function createProcess(data: Process): Promise<ActionState> {
 }
 
 export async function updateProcess(id: string, data: Process): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -73,7 +73,7 @@ export async function updateProcess(id: string, data: Process): Promise<ActionSt
 }
 
 export async function deleteProcess(id: string): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('processes').select('name, slug').eq('id', id).maybeSingle();
 

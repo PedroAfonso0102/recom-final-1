@@ -1,5 +1,5 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
@@ -15,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createPromotion(data: Promotion): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
@@ -44,7 +44,7 @@ export async function createPromotion(data: Promotion): Promise<ActionState> {
 }
 
 export async function updatePromotion(id: string, data: Promotion): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
@@ -73,7 +73,7 @@ export async function updatePromotion(id: string, data: Promotion): Promise<Acti
 }
 
 export async function deletePromotion(id: string): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('promotions').select('title, slug').eq('id', id).maybeSingle();
 

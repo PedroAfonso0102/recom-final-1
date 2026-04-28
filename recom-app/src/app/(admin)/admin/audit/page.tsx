@@ -11,7 +11,7 @@ interface AuditLog {
   entity_id: string;
   user_id: string;
   created_at: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 function formatRelativeTime(dateValue: string) {

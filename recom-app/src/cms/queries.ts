@@ -8,8 +8,9 @@ import { siteSettingsSchema, type SiteSettings } from "./schemas/site-settings.s
 /**
  * Busca as seções de uma página.
  */
-async function fetchPageSections(supabase: any, pageId: string, isAdmin = false): Promise<CmsSectionRow[]> {
-  const query = supabase
+async function fetchPageSections(supabase: unknown, pageId: string, isAdmin = false): Promise<CmsSectionRow[]> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const query = (supabase as any)
     .from("page_sections")
     .select("*")
     .eq("page_id", pageId)
@@ -31,7 +32,7 @@ async function fetchPageSections(supabase: any, pageId: string, isAdmin = false)
  * Suporta modo público (createClient) ou admin/preview (createAdminClient).
  */
 export async function getPageBySlug(
-  slug: string, 
+  slug: string,
   options: { preview?: boolean; isAdmin?: boolean } = {}
 ): Promise<CmsPageWithSections | null> {
   noStore();

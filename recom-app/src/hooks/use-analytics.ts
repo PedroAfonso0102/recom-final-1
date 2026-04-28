@@ -20,11 +20,12 @@ export function useAnalytics() {
     }
 
     // Integração com dataLayer (GTM/GA4)
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
+    const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+    if (typeof window !== "undefined" && win.dataLayer) {
+      win.dataLayer.push({
         event: eventName,
         ...params,
-      });
+      } as Record<string, unknown>);
     }
   }, []);
 

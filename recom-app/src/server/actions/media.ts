@@ -1,6 +1,6 @@
 'use server';
 
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createAuditLog } from "@/lib/audit";
 import { revalidatePath } from "next/cache";
@@ -40,7 +40,7 @@ export async function uploadMedia(formData: FormData): Promise<{
   data?: MediaAsset;
   error?: string;
 }> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const file = formData.get('file') as File | null;
 
   if (!file) {
@@ -142,7 +142,7 @@ export async function getMediaAssets(options?: {
   limit?: number;
   offset?: number;
 }): Promise<MediaAsset[]> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
 
   let query = supabase
@@ -179,7 +179,7 @@ export async function updateMediaAltText(
   id: string,
   altText: string
 ): Promise<{ ok: boolean; error?: string }> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
 
   const { error } = await supabase
@@ -201,7 +201,7 @@ export async function updateMediaAltText(
 export async function deleteMediaAsset(
   id: string
 ): Promise<{ ok: boolean; error?: string }> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
 
   // Get file path first

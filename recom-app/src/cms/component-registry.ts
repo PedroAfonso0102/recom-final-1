@@ -14,7 +14,7 @@ export const componentRegistry = {
     category: "content",
     component: HeroSectionBlock,
     schema: heroSectionSchema,
-    defaultProps: {
+    defaults: {
       eyebrow: "",
       title: "",
       subtitle: "",
@@ -52,6 +52,9 @@ export const componentRegistry = {
       },
     ],
     allowedVariants: ["default", "split", "compact", "full", "simple"],
+    previewConfig: { layout: "full" },
+    permissions: ["admin", "editor"],
+    revisionStrategy: "snapshot",
   },
   TextSection: {
     type: "TextSection",
@@ -60,7 +63,7 @@ export const componentRegistry = {
     category: "content",
     component: TextSectionBlock,
     schema: textSectionSchema,
-    defaultProps: {
+    defaults: {
       title: "",
       body: "",
       variant: "default",
@@ -79,6 +82,9 @@ export const componentRegistry = {
       },
     ],
     allowedVariants: ["default", "panel"],
+    previewConfig: { layout: "contained" },
+    permissions: ["admin", "editor"],
+    revisionStrategy: "snapshot",
   },
   CtaSection: {
     type: "CtaSection",
@@ -87,7 +93,7 @@ export const componentRegistry = {
     category: "cta",
     component: CtaSectionBlock,
     schema: ctaSectionSchema,
-    defaultProps: {
+    defaults: {
       eyebrow: "",
       title: "",
       description: "",
@@ -118,6 +124,9 @@ export const componentRegistry = {
       },
     ],
     allowedVariants: ["default", "light", "primary", "dark"],
+    previewConfig: { layout: "full" },
+    permissions: ["admin", "editor"],
+    revisionStrategy: "snapshot",
   },
   GridSection: {
     type: "GridSection",
@@ -126,7 +135,7 @@ export const componentRegistry = {
     category: "content",
     component: GridSectionBlock,
     schema: gridSectionSchema,
-    defaultProps: {
+    defaults: {
       title: "",
       items: [],
       columns: "3",
@@ -184,6 +193,9 @@ export const componentRegistry = {
         ],
       },
     ],
+    previewConfig: { layout: "contained" },
+    permissions: ["admin", "editor"],
+    revisionStrategy: "snapshot",
   },
   TrustLogos: {
     type: "TrustLogos",
@@ -192,7 +204,7 @@ export const componentRegistry = {
     category: "content",
     component: TrustLogosBlock,
     schema: trustLogosSchema,
-    defaultProps: {
+    defaults: {
       title: "Nossos Parceiros Oficiais",
       showAll: true,
       grayscale: true,
@@ -202,6 +214,9 @@ export const componentRegistry = {
       { name: "showAll", label: "Mostrar Todos", type: "checkbox", description: "Se desmarcado, use IDs para filtrar." },
       { name: "grayscale", label: "Efeito P&B (Grayscale)", type: "checkbox" },
     ],
+    previewConfig: { layout: "contained" },
+    permissions: ["admin", "editor"],
+    revisionStrategy: "snapshot",
   },
 } satisfies Record<string, EditableComponentDefinition>;
 

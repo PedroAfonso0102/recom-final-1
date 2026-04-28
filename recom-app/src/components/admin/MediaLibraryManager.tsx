@@ -286,7 +286,6 @@ export function MediaLibraryManager({
                 >
                   <div className="aspect-square bg-slate-50 relative flex items-center justify-center overflow-hidden">
                     {isImageMime(asset.mime_type) ? (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={asset.public_url}
                         alt={asset.alt_text || asset.file_name}
@@ -323,7 +322,6 @@ export function MediaLibraryManager({
               {/* Preview */}
               <div className="aspect-video bg-slate-50 flex items-center justify-center overflow-hidden">
                 {isImageMime(selectedAsset.mime_type) ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={selectedAsset.public_url}
                     alt={selectedAsset.alt_text || selectedAsset.file_name}

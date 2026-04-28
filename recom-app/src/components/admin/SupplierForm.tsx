@@ -269,7 +269,6 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
                         <div className="overflow-hidden rounded-xl border border-border bg-white">
                           <div className="aspect-[4/3] bg-slate-100">
                             {logoUrl ? (
-                              // eslint-disable-next-line @next/next/no-img-element
                               <img src={logoUrl} alt="Preview do logotipo" className="h-full w-full object-contain p-4" />
                             ) : (
                               <div className="flex h-full items-center justify-center text-muted-foreground">

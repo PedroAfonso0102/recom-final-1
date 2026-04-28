@@ -22,7 +22,7 @@ export function PublishPageButton({ pageId }: PublishPageButtonProps) {
     try {
       const result = await publishPage({ pageId });
 
-      if (!result.ok) {
+      if (!result.success) {
         toast({ 
           variant: "destructive", 
           title: "Falha na Publicação",
@@ -41,12 +41,13 @@ export function PublishPageButton({ pageId }: PublishPageButtonProps) {
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-    } catch (e) {
-      toast({ 
-        variant: "destructive", 
-        title: "Erro Crítico",
-        description: "Houve um problema na comunicação com o servidor."
+    } catch (_e) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao publicar",
+        description: "Não foi possível publicar a página."
       });
+    } finally {
       setLoading(false);
     }
   }

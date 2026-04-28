@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 export type AuthContext = {
   id: string;
   email: string | null;
+  role: "admin" | "editor" | "user";
   isMock: boolean;
 };
 
@@ -17,6 +18,7 @@ export async function getCurrentAuthContext(): Promise<AuthContext | null> {
       return {
         id: data.user.id,
         email: data.user.email ?? null,
+        role: (data.user.app_metadata?.role as "admin" | "editor" | "user") ?? "user",
         isMock: false,
       };
     }
@@ -31,6 +33,7 @@ export async function getCurrentAuthContext(): Promise<AuthContext | null> {
     return {
       id: "00000000-0000-0000-0000-000000000001",
       email: "dev@recom.local",
+      role: "admin",
       isMock: true,
     };
   }
@@ -43,6 +46,16 @@ export async function requireAuth() {
 
   if (!authContext) {
     redirect('/login');
+  }
+
+  return authContext;
+}
+
+export async function requireAdmin() {
+  const authContext = await requireAuth();
+
+  if (authContext.role !== "admin") {
+    redirect('/unauthorized'); // Ou lance um erro apropriado para Server Actions
   }
 
   return authContext;

@@ -1,5 +1,5 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
@@ -15,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createSupplier(data: Supplier): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
@@ -36,7 +36,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
 }
 
 export async function updateSupplier(id: string, data: Supplier): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   console.log(`[Action: updateSupplier] ID: ${id}, Slug: ${data.slug}`);
   const supabase = createAdminClient();
   
@@ -96,7 +96,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
 }
 
 export async function archiveSupplier(id: string): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('suppliers').select('name, slug').eq('id', id).maybeSingle();
 
@@ -128,7 +128,7 @@ export async function archiveSupplier(id: string): Promise<ActionState> {
 }
 
 export async function deleteSupplier(id: string): Promise<ActionState> {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug, status').eq('id', id).maybeSingle();
 

@@ -107,7 +107,6 @@ export function MediaPickerDialog({ open, onOpenChange, onSelect }: MediaPickerD
                 >
                   <div className="aspect-video bg-muted/40">
                     {isImageMime(asset.mime_type) ? (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={asset.public_url}
                         alt={asset.alt_text || asset.file_name}

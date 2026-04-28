@@ -71,6 +71,7 @@ async function seed() {
   // 1. Suppliers
   console.log("📦 Sincronizando fornecedores...");
   for (const supplier of SUPPLIERS) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.from("suppliers").upsert([supplier] as any, { onConflict: 'slug' });
     if (error) console.error(`❌ Erro em ${supplier.slug}:`, error.message);
   }
@@ -78,6 +79,7 @@ async function seed() {
   // 2. Processes
   console.log("⚙️ Sincronizando processos...");
   for (const process of PROCESSES) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.from("processes").upsert([process] as any, { onConflict: 'slug' });
     if (error) console.error(`❌ Erro em ${process.slug}:`, error.message);
   }
@@ -156,6 +158,7 @@ async function seed() {
 
     // Delete existing sections to avoid duplicates
     await supabase.from("page_sections").delete().eq("page_id", homePage.id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error: secError } = await supabase.from("page_sections").insert(HOME_SECTIONS as any);
     if (secError) console.error("❌ Erro nas seções:", secError.message);
     else console.log("✅ Seções da Home sincronizadas.");

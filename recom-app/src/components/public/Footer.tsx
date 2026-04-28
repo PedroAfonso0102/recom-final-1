@@ -71,11 +71,6 @@ export async function Footer() {
                   >
                     {config.contact.phone}
                   </a>
-                  {config.contact.fax && (
-                    <span className="text-[12px] text-slate-500 font-medium">
-                      Fax: {config.contact.fax}
-                    </span>
-                  )}
                 </div>
               </div>
 

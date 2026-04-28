@@ -1,6 +1,6 @@
 'use server';
 
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createAuditLog } from "@/lib/audit";
 import type { Database } from "@/lib/database.types";
@@ -20,7 +20,7 @@ type SalesRepInsert = Database["public"]["Tables"]["sales_reps"]["Insert"];
 type SalesRepUpdate = Database["public"]["Tables"]["sales_reps"]["Update"];
 
 export async function getSalesReps() {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from('sales_reps')
@@ -32,7 +32,7 @@ export async function getSalesReps() {
 }
 
 export async function createSalesRep(data: SalesRepInsert) {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
   const { error } = await supabase.from('sales_reps').insert(data);
   if (error) return { ok: false, error: error.message };
@@ -42,7 +42,7 @@ export async function createSalesRep(data: SalesRepInsert) {
 }
 
 export async function updateSalesRep(id: string, data: SalesRepUpdate) {
-  await requireAuth();
+  await requireAdmin();
   const supabase = createAdminClient();
   const { error } = await supabase.from('sales_reps').update(data).eq('id', id);
   if (error) return { ok: false, error: error.message };
@@ -52,7 +52,7 @@ export async function updateSalesRep(id: string, data: SalesRepUpdate) {
 }
 
 export async function toggleSalesRepStatus(id: string, currentStatus: string) {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
   const supabase = createAdminClient();
   const { error } = await supabase
@@ -76,7 +76,7 @@ export async function toggleSalesRepStatus(id: string, currentStatus: string) {
 }
 
 export async function deleteSalesRep(id: string) {
-  const auth = await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   
   // Check if rep has assignments (we might want to archive instead if so)

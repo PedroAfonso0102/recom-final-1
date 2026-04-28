@@ -60,7 +60,7 @@ function ContactField({
 }
 
 export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps) {
-  const { trackEvent, trackCtaClick } = useAnalytics();
+  const { trackEvent } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
 

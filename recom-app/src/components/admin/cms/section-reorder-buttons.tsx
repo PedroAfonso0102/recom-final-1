@@ -4,20 +4,25 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { reorderSections } from "@/server/actions/cms-pages";
 
+import { useRouter } from "next/navigation";
+
 type SectionReorderButtonsProps = {
   pageId: string;
   moveUpOrder?: string[];
   moveDownOrder?: string[];
+  onReorder?: () => void;
 };
 
-export function SectionReorderButtons({ pageId, moveUpOrder, moveDownOrder }: SectionReorderButtonsProps) {
+export function SectionReorderButtons({ pageId, moveUpOrder, moveDownOrder, onReorder }: SectionReorderButtonsProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState<"up" | "down" | null>(null);
 
   async function handleMove(orderedSectionIds: string[], direction: "up" | "down") {
     setLoading(direction);
     await reorderSections({ pageId, orderedSectionIds });
     setLoading(null);
-    window.location.reload();
+    onReorder?.();
+    router.refresh();
   }
 
   return (

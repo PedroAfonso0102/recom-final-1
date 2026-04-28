@@ -277,7 +277,7 @@ export function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppli
         )}
         <div className={cn("flex flex-wrap items-center justify-center gap-12 transition-all duration-700 md:gap-20", grayscale && "opacity-45 grayscale hover:opacity-100 hover:grayscale-0")}>
           {suppliers.map((supplier) => {
-            const isMitsubishi = supplier.slug === "mitsubishi";
+            const isMitsubishi = supplier.name.toLowerCase().includes("mitsubishi");
             const logoUrl = isMitsubishi 
               ? "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg" 
               : supplier.logoUrl;

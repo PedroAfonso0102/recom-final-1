@@ -1,10 +1,10 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function getAuditLogs(limit = 100) {
-  await requireAuth();
+  await requireAdmin();
   noStore();
   const supabase = createAdminClient();
   

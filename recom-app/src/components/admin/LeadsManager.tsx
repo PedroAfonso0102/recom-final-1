@@ -70,20 +70,16 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { 
   updateLeadStatus, 
-  deleteLead, 
   updateAdminConfig, 
   processLeadBatch, 
   assignProcessToLead,
   updateLeadFeedback
 } from '@/server/actions/leads';
 import {
-  getSalesReps,
   createSalesRep,
-  updateSalesRep,
-  deleteSalesRep,
   toggleSalesRepStatus,
   assignLeadToRep,
-  getNextRepForAssignment
+  deleteSalesRep
 } from '@/server/actions/sales-reps';
 
 import { toast } from '@/components/ui/use-toast';
@@ -99,8 +95,9 @@ interface Process {
 interface Supplier {
   id: string;
   name: string;
-  catalogs?: any[];
+  catalogs?: unknown[];
   related_processes?: string[];
+  catalog_url?: string | null;
 }
 
 interface SalesRep {
@@ -265,7 +262,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
         setLeads(prev => prev.map(l => l.id === id ? { ...l, status: newStatus } : l));
         toast({ title: "Status atualizado" });
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ variant: "destructive", title: "Erro técnico" });
     }
   };
@@ -288,7 +285,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
         setFeedbackData({});
         toast({ title: "Resultados salvos com sucesso" });
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ variant: "destructive", title: "Erro ao salvar feedback" });
     } finally {
       setIsSavingFeedback(false);
@@ -312,7 +309,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
         setIsAddingRep(false);
         toast({ title: "Vendedor cadastrado com sucesso" });
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ variant: "destructive", title: "Erro ao cadastrar vendedor" });
     }
   };
@@ -325,7 +322,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
         setLeads(prev => prev.map(l => l.id === leadId ? { ...l, process_id: processId } : l));
         toast({ title: "Processo vinculado" });
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ variant: "destructive", title: "Erro ao vincular" });
     }
   };
@@ -372,7 +369,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
           toast({ title: "Handoff concluído com sucesso" });
         }
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ variant: "destructive", title: "Erro no processamento" });
     }
   };
@@ -394,7 +391,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
           description: result.error 
         });
       }
-    } catch (e) {
+    } catch (_e) {
       toast({ 
         variant: "destructive", 
         title: "Erro técnico", 
@@ -609,12 +606,9 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
 
                 const relatedSuppliers = suppliers.filter(s => s.related_processes?.includes(lead.process_id || ''));
                 
-                // Consolidar catálogos alternativos + catálogo principal se houver
                 const allCatalogs = relatedSuppliers.flatMap(s => {
-                  const list = [...(s.catalogs || [])];
-                  // @ts-ignore
+                  const list = [...((s.catalogs as { label: string; url: string }[]) || [])];
                   if (s.catalog_url) {
-                    // @ts-ignore
                     list.unshift({ label: 'Catálogo Principal', url: s.catalog_url });
                   }
                   return list;
@@ -713,7 +707,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
                                     <div className="pt-6 border-t border-slate-100">
                                       <p className="text-[10px] font-bold uppercase text-slate-400 mb-4 tracking-wider">Links de Apoio Técnico:</p>
                                       <div className="flex flex-wrap gap-2">
-                                        {allCatalogs.slice(0, 4).map((cat, i) => (
+                                        {(allCatalogs as { label: string; url: string }[]).slice(0, 4).map((cat, i) => (
                                           <a key={i} href={cat.url} target="_blank" className="flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[11px] font-bold tracking-tight transition-colors">
                                             <FileText className="h-4 w-4 text-slate-400" /> {cat.label || 'Catálogo'}
                                           </a>

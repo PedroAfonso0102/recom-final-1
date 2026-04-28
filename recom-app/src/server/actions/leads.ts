@@ -1,5 +1,5 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
@@ -14,7 +14,7 @@ export type ActionState = {
 };
 
 export async function updateLeadStatus(id: string, status: string): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   const parsed = LeadStatusSchema.safeParse(status);
 
@@ -36,7 +36,7 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
 }
 
 export async function deleteLead(id: string): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from('leads').delete().eq('id', id);
 
@@ -48,8 +48,8 @@ export async function deleteLead(id: string): Promise<ActionState> {
   return { success: true };
 }
 
-export async function updateAdminConfig(key: string, value: any): Promise<ActionState> {
-  await requireAuth();
+export async function updateAdminConfig(key: string, value: unknown): Promise<ActionState> {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from('admin_configs').upsert({ key, value });
   
@@ -62,7 +62,7 @@ export async function updateAdminConfig(key: string, value: any): Promise<Action
 }
 
 export async function processLeadBatch(ids: string[], targetStatus: string): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -82,7 +82,7 @@ export async function processLeadBatch(ids: string[], targetStatus: string): Pro
 }
 
 export async function assignProcessToLead(leadId: string, processId: string | null): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -106,7 +106,7 @@ export async function updateLeadFeedback(id: string, feedback: {
   closed_at?: string 
 }): Promise<ActionState> {
 
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -123,7 +123,7 @@ export async function updateLeadFeedback(id: string, feedback: {
 }
 
 export async function getLeadTechnicalDossier(leadId: string) {
-  await requireAuth();
+  await requireAdmin();
   const supabase = await createClient();
   
   // 1. Fetch Lead data
@@ -142,10 +142,14 @@ export async function getLeadTechnicalDossier(leadId: string) {
     .select('name, catalog_url, catalogs')
     .contains('related_processes', [lead.process_id]);
     
+  if (suppliersError) {
+    console.error("Error fetching suppliers:", suppliersError);
+  }
+    
   return {
     lead,
     suppliers: suppliers || [],
-    suggested_catalogs: suppliers?.map((s: any) => ({
+    suggested_catalogs: suppliers?.map((s: Record<string, unknown>) => ({
       supplier: s.name,
       main_catalog: s.catalog_url,
       extra_catalogs: s.catalogs

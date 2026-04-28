@@ -8,101 +8,148 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CmsFieldRenderer } from "@/cms/editor-fields";
 import { componentRegistry, type CmsComponentType } from "@/cms/component-registry";
 import type { CmsSectionRow } from "@/cms/types";
-import { createSection, updateSection } from "@/server/actions/cms-pages";
+import { createSection, updateSection, createRevision } from "@/server/actions/cms-pages";
 import { useBeforeUnload } from "@/hooks/use-before-unload";
 import { useAutosave } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
 import { extractPropsFromFormData } from "@/cms/utils";
 import { useRef } from "react";
+import { Check, Cloud, Loader2, Save, AlertCircle } from "lucide-react";
 
 
 type SectionFormProps = {
   pageId: string;
   section?: CmsSectionRow;
   sortOrder: number;
+  onSaveSuccess?: () => void;
+  onLiveUpdate?: (data: Record<string, unknown>) => void;
 };
 
-export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps) {
+export function CmsSectionForm({ pageId, section, sortOrder, onSaveSuccess, onLiveUpdate }: SectionFormProps) {
   const router = useRouter();
   const [componentType, setComponentType] = useState<CmsComponentType>(
     (section?.component_type as CmsComponentType) ?? "HeroSection"
   );
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [props, setProps] = useState<Record<string, unknown>>((section?.props as Record<string, unknown>) ?? {});
   const formRef = useRef<HTMLFormElement>(null);
 
   useBeforeUnload(isDirty);
 
-  // Autosave logic
+  // Auto-save logic
   useAutosave(async () => {
     if (!isDirty || saving || !section) return;
-
-    if (formRef.current) {
-      const formData = new FormData(formRef.current);
-      const activeDefinition = componentRegistry[componentType];
-      const props = extractPropsFromFormData(formData, activeDefinition.fields);
-
-      const payload = {
-        id: section.id,
-        pageId,
-        componentType,
-        sortOrder: Number(formData.get("sortOrder") ?? sortOrder),
-        status: String(formData.get("status") ?? "draft"),
-        visibility: String(formData.get("visibility") ?? "visible"),
-        anchorId: String(formData.get("anchorId") ?? ""),
-        props,
-      };
-
-      const result = await updateSection(payload);
-      if (result.ok) {
-        setIsDirty(false);
-        setSaveSuccess(true);
-        setTimeout(() => setSaveSuccess(false), 2000);
-      }
-    }
+    handleSave(true); // true = silent/background save
   }, 5000, isDirty);
 
-
-
   const definition = componentRegistry[componentType];
-  const defaults = (section?.props ?? definition.defaultProps) as Record<string, unknown>;
+  const defaults = (section?.props ?? definition.defaults) as Record<string, unknown>;
+
+  async function handleSave(isAutosave = false) {
+    if (!section) return;
+    setError(null);
+    setFieldErrors({});
+    if (!isAutosave) setSaving(true);
+
+    // Validate
+    if (definition.schema) {
+      const result = definition.schema.safeParse(props);
+      if (!result.success) {
+        const errors: Record<string, string[]> = {};
+        result.error.issues.forEach((err) => {
+          const path = err.path[0] as string;
+          if (!errors[path]) errors[path] = [];
+          errors[path].push(err.message);
+        });
+        setFieldErrors(errors);
+        if (!isAutosave) setError("Verifique os erros no formulário.");
+        setSaving(false);
+        return;
+      }
+    }
+
+    const result = await updateSection({
+      id: section.id,
+      pageId: section.page_id,
+      componentType: section.component_type as CmsComponentType,
+      props,
+    });
+
+    if (!result.success) {
+      if (!isAutosave) {
+        setFieldErrors(result.fieldErrors ?? {});
+        setError(result.formError ?? "Erro ao salvar seção.");
+      }
+      setSaving(false);
+      return;
+    }
+
+    // If it's a manual save or significant change, create a revision
+    if (!isAutosave) {
+      await createRevision(section.page_id, { props }, "Edição manual da seção");
+    }
+
+    setSaveSuccess(true);
+    setIsDirty(false);
+    if (!isAutosave) {
+      setTimeout(() => setSaveSuccess(false), 3000);
+      setSaving(false);
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (section) {
+      await handleSave(false);
+      return;
+    }
+
     setError(null);
-    setSaveSuccess(false);
+    setFieldErrors({});
     setSaving(true);
 
     const formData = new FormData(event.currentTarget);
-    const props = extractPropsFromFormData(formData, definition.fields);
+    const propsData = extractPropsFromFormData(formData, definition.fields);
 
-    const payload = {
-      ...(section ? { id: section.id } : {}),
+    const parsed = definition.schema.safeParse(propsData);
+    if (!parsed.success) {
+      const errors: Record<string, string[]> = {};
+      parsed.error.issues.forEach((err) => {
+        const path = err.path[0] as string;
+        if (!errors[path]) errors[path] = [];
+        errors[path].push(err.message);
+      });
+      setFieldErrors(errors);
+      setError("Verifique os campos destacados abaixo.");
+      setSaving(false);
+      return;
+    }
+
+    const data = {
       pageId,
       componentType,
       sortOrder: Number(formData.get("sortOrder") ?? sortOrder),
       status: String(formData.get("status") ?? "draft"),
       visibility: String(formData.get("visibility") ?? "visible"),
       anchorId: String(formData.get("anchorId") ?? ""),
-      props,
+      props: parsed.data,
     };
 
-    const result = section ? await updateSection(payload) : await createSection(payload);
+    const result = await createSection(data);
 
-    if (!result.ok) {
-      setError(result.formError ?? Object.values(result.fieldErrors ?? {})[0]?.[0] ?? "Erro ao salvar seção. Verifique os dados.");
+    if (result.success) {
+      onSaveSuccess?.();
+      router.refresh();
       setSaving(false);
-      return;
+    } else {
+      setFieldErrors(result.fieldErrors ?? {});
+      setError(result.formError ?? "Erro ao salvar seção. Verifique os dados.");
+      setSaving(false);
     }
-
-    setSaveSuccess(true);
-    setIsDirty(false);
-    setTimeout(() => setSaveSuccess(false), 3000);
-
-    router.refresh();
-    setSaving(false);
   }
 
   return (
@@ -112,6 +159,46 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
       onChange={() => setIsDirty(true)}
       className="space-y-8"
     >
+      {section && (
+        <div className="flex items-center justify-between border-b border-border bg-white p-4 sticky top-0 z-10 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">{definition.label}</h2>
+              <div className="flex items-center gap-2 mt-0.5">
+                {saving ? (
+                  <span className="flex items-center gap-1.5, text-xs text-muted-foreground animate-pulse">
+                    <Loader2 className="h-3 w-3 animate-spin" /> Salvando...
+                  </span>
+                ) : isDirty ? (
+                  <span className="flex items-center gap-1.5, text-xs text-amber-600 font-medium">
+                    <AlertCircle className="h-3 w-3" /> Alterações pendentes
+                  </span>
+                ) : saveSuccess ? (
+                  <span className="flex items-center gap-1.5, text-xs text-emerald-600 font-medium">
+                    <Check className="h-3 w-3" /> Salvo
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5, text-xs text-muted-foreground">
+                    <Cloud className="h-3 w-3" /> Todas as alterações salvas
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button 
+              type="button"
+              onClick={() => handleSave(false)} 
+              disabled={saving || (!isDirty && !error)}
+              className="bg-primary hover:bg-primary/90 transition-all shadow-md active:scale-95"
+            >
+              {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+              Salvar Agora
+            </Button>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="rounded-lg border border-destructive/10 bg-destructive/5 p-4 flex gap-3">
           <div className="space-y-1">
@@ -153,7 +240,14 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
               <CmsFieldRenderer 
                 key={field.name} 
                 field={field} 
-                defaultValue={String(defaults[field.name] ?? "")} 
+                defaultValue={defaults[field.name]}
+                error={fieldErrors[field.name]}
+                onChange={(val) => {
+                  const newProps = { ...props, [field.name]: val };
+                  setProps(newProps);
+                  setIsDirty(true);
+                  onLiveUpdate?.(newProps);
+                }}
               />
             ))}
           </div>
