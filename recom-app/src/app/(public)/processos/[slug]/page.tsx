@@ -38,17 +38,10 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
     notFound();
   }
 
-  const relatedSuppliers = suppliers.filter((supplier) => supplier.relatedProcesses.includes(process.id || "")).map((supplier) => supplier.name);
+  const relatedSuppliers = suppliers.filter((supplier) => supplier.relatedProcesses.includes(process.id || ""));
   const paragraphs = process.longDescription.split("\n").filter((paragraph) => paragraph.trim().length > 0);
-  const defaultImage =
-    process.slug === "torneamento"
-      ? "/assets/images/koudoe.jpg"
-      : process.slug === "fresamento"
-        ? "/assets/images/recom-editorial-2.jpg"
-        : process.slug === "furacao"
-          ? "/assets/images/recom-editorial-3.jpg"
-          : null;
-  const visualImage = process.imageUrl && process.imageUrl.trim() !== "" ? process.imageUrl : defaultImage;
+  const visualImage = process.imageUrl && process.imageUrl.trim() !== "" ? process.imageUrl : null;
+  const contactHref = `/contato?processo=${encodeURIComponent(process.slug)}&solucao=${encodeURIComponent(process.name)}`;
 
   return (
     <div className="flex flex-col pb-16">
@@ -146,7 +139,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
                 </p>
                 <div className="pt-2">
                   <RecomButton asChild size="lg" intent="accent" className="h-11 px-8">
-                    <Link href="/contato">
+                    <Link href={contactHref}>
                       Solicitar orçamento
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -165,7 +158,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
 
               <div className="space-y-4">
                 <RecomButton asChild intent="primary" className="h-11 w-full">
-                  <Link href="/contato">Falar com a RECOM</Link>
+                  <Link href={contactHref}>Falar com a RECOM</Link>
                 </RecomButton>
                 <RecomButton asChild intent="outline" className="h-11 w-full">
                   <Link href="/fornecedores-catalogos">Ver fornecedores</Link>
@@ -180,12 +173,13 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {relatedSuppliers.map((supplier) => (
-                    <span
-                      key={supplier}
-                      className="inline-flex items-center rounded-md border border-recom-border/40 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75"
+                    <Link
+                      key={supplier.id}
+                      href={`/fornecedores-catalogos/${supplier.slug}`}
+                      className="inline-flex items-center rounded-md border border-recom-border/40 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75 transition-colors hover:border-recom-blue/25 hover:text-recom-blue"
                     >
-                      {supplier}
-                    </span>
+                      {supplier.name}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -196,15 +190,24 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
                 Exploração adicional
               </h4>
               <nav className="flex flex-col gap-4">
-                <Link href="/fornecedores-catalogos" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/fornecedores-catalogos"
+                  className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary"
+                >
                   Nossos fornecedores
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
-                <Link href="/solucoes" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href="/solucoes"
+                  className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary"
+                >
                   Todos os processos
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
-                <Link href="/contato" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link
+                  href={contactHref}
+                  className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary"
+                >
                   Solicitar cotação
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
@@ -219,7 +222,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
         eyebrow="Atendimento técnico comercial"
         title={`Ferramentas para ${process.name}`}
         description="A RECOM oferece consultoria técnica especializada e fornece as melhores geometrias e coberturas para o seu processo."
-        primaryCta={{ label: "Solicitar orçamento", href: "/contato" }}
+        primaryCta={{ label: "Solicitar orçamento", href: contactHref }}
         secondaryCta={{ label: "Explorar fornecedores", href: "/fornecedores-catalogos" }}
         note="Foco em produtividade, precisão e suporte humano."
       />

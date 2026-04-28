@@ -1,6 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { ArrowRight, ExternalLink, Factory } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   RecomCard,
@@ -11,7 +12,6 @@ import {
   RecomCardTitle,
 } from "./recom-card";
 import { RecomButton } from "./recom-button";
-import Link from "next/link";
 
 interface SupplierCardProps {
   name: string;
@@ -21,6 +21,8 @@ interface SupplierCardProps {
   internalLink: string;
   externalCatalogLink?: string;
   catalogAvailable?: boolean;
+  contactLink?: string;
+  contactLabel?: string;
   className?: string;
   isAuthorized?: boolean;
 }
@@ -33,6 +35,8 @@ export function SupplierCard({
   internalLink,
   externalCatalogLink,
   catalogAvailable = true,
+  contactLink = "/contato",
+  contactLabel = "Falar com a RECOM sobre esta marca",
   className,
   isAuthorized = false,
 }: SupplierCardProps) {
@@ -120,13 +124,11 @@ export function SupplierCard({
             </a>
           </RecomButton>
         ) : (
-          <RecomButton
-            type="button"
-            intent="outline"
-            disabled
-            className="h-11 w-full justify-center"
-          >
-            Catálogo sob consulta
+          <RecomButton asChild intent="outline" className="h-11 w-full justify-center">
+            <Link href={contactLink}>
+              {contactLabel}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </RecomButton>
         )}
       </RecomCardFooter>

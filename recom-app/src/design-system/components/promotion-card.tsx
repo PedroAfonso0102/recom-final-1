@@ -16,7 +16,7 @@ interface PromotionCardProps {
   title: string;
   description: string;
   endsAt: string;
-  status: "active" | "archived";
+  status: "active" | "expired" | "archived";
   ctaLabel?: string;
   ctaLink?: string;
   supplierName?: string;
@@ -30,13 +30,14 @@ export function PromotionCard({
   endsAt,
   status,
   ctaLabel = "Consultar disponibilidade",
-  ctaLink = "/sobre#contato",
+  ctaLink = "/contato",
   supplierName,
   imageUrl,
   className,
 }: PromotionCardProps) {
   const isActive = status === "active";
-  const validityLabel = isActive ? "Válido até" : "Encerrado em";
+  const isExpired = status === "expired";
+  const validityLabel = isActive ? "Valido ate" : isExpired ? "Encerrado em" : "Sob consulta";
 
   return (
     <RecomCard
@@ -68,10 +69,10 @@ export function PromotionCard({
         <div
           className={cn(
             "absolute left-4 top-4 rounded-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white shadow-sm",
-            isActive ? "bg-recom-red" : "bg-recom-graphite"
+            isActive ? "bg-recom-red" : isExpired ? "bg-slate-500" : "bg-recom-graphite"
           )}
         >
-          {isActive ? "Oferta ativa" : "Sob consulta"}
+          {isActive ? "Oferta ativa" : isExpired ? "Oferta expirada" : "Sob consulta"}
         </div>
       </div>
 

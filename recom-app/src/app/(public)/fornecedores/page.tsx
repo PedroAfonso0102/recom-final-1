@@ -75,7 +75,7 @@ export default async function FornecedoresPage() {
                 : (supplier.logoUrl || "");
 
               return (
-                <SupplierCard
+              <SupplierCard
                   key={supplier.id ?? supplier.slug}
                   name={supplier.name}
                   description={supplier.shortDescription || ""}
@@ -84,6 +84,8 @@ export default async function FornecedoresPage() {
                   internalLink={`/fornecedores-catalogos/${supplier.slug}`}
                   externalCatalogLink={supplier.catalogUrl || undefined}
                   catalogAvailable={!!supplier.catalogUrl}
+                  contactLink={`/contato?fornecedor=${encodeURIComponent(supplier.slug)}&marca=${encodeURIComponent(supplier.name)}`}
+                  contactLabel="Falar com a RECOM sobre esta marca"
                   processes={getProcessNames(supplier.relatedProcesses)}
                 />
               );

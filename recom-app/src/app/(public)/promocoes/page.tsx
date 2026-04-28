@@ -34,9 +34,19 @@ export default async function PromocoesPage() {
     return suppliers.find((supplier) => supplier.id === id)?.name;
   };
 
+  const getCardStatus = (promotion: (typeof promotions)[number]) => {
+    const status = String(promotion.status);
+    const isVisible = status === "active" || status === "published";
+    if (!isVisible) return "archived" as const;
+    return "active" as const;
+  };
+
   const sortedPromotions = [...promotions].sort((a, b) => {
-    if (a.status === "active" && b.status !== "active") return -1;
-    if (a.status !== "active" && b.status === "active") return 1;
+    const aStatus = getCardStatus(a);
+    const bStatus = getCardStatus(b);
+
+    if (aStatus === "active" && bStatus !== "active") return -1;
+    if (aStatus !== "active" && bStatus === "active") return 1;
     return 0;
   });
 
@@ -77,7 +87,7 @@ export default async function PromocoesPage() {
                 title={promo.title}
                 description={promo.description}
                 endsAt={promo.endsAt}
-                status={promo.status as "active" | "archived"}
+                status={getCardStatus(promo)}
                 supplierName={getSupplierName(promo.supplierId)}
                 ctaLabel={promo.ctaLabel || undefined}
                 ctaLink={promo.ctaUrl || undefined}

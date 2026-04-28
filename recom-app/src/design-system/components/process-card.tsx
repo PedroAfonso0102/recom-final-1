@@ -50,7 +50,7 @@ export function ProcessCard({
   imageUrl,
   suppliers = [],
   link,
-  contactLink = "/sobre#contato",
+  contactLink = "/contato",
   contactLabel = "Falar com especialista",
   className,
 }: ProcessCardProps) {

@@ -73,7 +73,7 @@ export default async function ProcessosPage() {
                 imageUrl={process.imageUrl || undefined}
                 link={`/solucoes/${process.slug}`}
                 suppliers={getSupplierNames(process.id)}
-                contactLink="/contato"
+                contactLink={`/contato?processo=${encodeURIComponent(process.slug)}&solucao=${encodeURIComponent(process.name)}`}
               />
             ))
           )}
