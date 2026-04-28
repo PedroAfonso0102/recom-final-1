@@ -60,6 +60,8 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
         featured: false,
       },
       relatedProcesses: initialData?.relatedProcesses || [],
+      seoTitle: initialData?.seoTitle || '',
+      seoDescription: initialData?.seoDescription || '',
     },
   });
 
@@ -207,7 +209,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
 
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Processos Relacionados
+                Relacionamentos
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {processes.length === 0 && (
@@ -256,7 +258,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
 
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Recursos Digitais
+                Catálogo
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <FormField
@@ -415,7 +417,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
 
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Personalização e Menus
+                Publicação
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <FormField
@@ -491,6 +493,43 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
                           Destaque RECOM
                         </FormLabel>
                       </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
+                SEO
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <FormField
+                  control={form.control}
+                  name="seoTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={labelStyles}>Título SEO</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Fornecedor | RECOM" className={inputStyles} {...field} value={field.value ?? ''} />
+                      </FormControl>
+                      <FormDescription className="text-[10px] font-medium text-muted-foreground/60 uppercase">
+                        Aparece em buscadores e compartilhamentos.
+                      </FormDescription>
+                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="seoDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={labelStyles}>Descrição SEO</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Resumo comercial em até 160 caracteres." className={inputStyles} {...field} value={field.value ?? ''} />
+                      </FormControl>
+                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
                     </FormItem>
                   )}
                 />

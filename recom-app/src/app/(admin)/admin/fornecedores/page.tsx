@@ -1,98 +1,77 @@
-import React from 'react';
-import Link from 'next/link';
-import { Plus, ArrowLeft, MoreVertical, Edit2 } from 'lucide-react';
-import { RecomButton } from '@/design-system/components/recom-button';
-import { RecomCard } from '@/design-system/components/recom-card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { getSuppliers } from '@/lib/services/supabase-data';
+import Link from "next/link";
+import { Plus } from "lucide-react";
+
+import { DataTable, EmptyState, PageHeader, StatusBadge } from "@/components/admin/admin-kit";
+import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { getSuppliers } from "@/lib/services/supabase-data";
+
+function formatDate(value?: string | null) {
+  if (!value) return "Sem revisao";
+  return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short" }).format(new Date(value));
+}
 
 export default async function AdminSuppliersPage() {
   const suppliers = await getSuppliers({ allowFallback: false });
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-8">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-primary">Gestão de Portfólio</span>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Fornecedores</h1>
-          <p className="text-slate-500 max-w-2xl text-sm font-medium">
-            Gerenciamento de fábricas parceiras, catálogos técnicos e identidades visuais.
-          </p>
-        </div>
-        <Link href="/admin/fornecedores/novo">
-          <RecomButton className="gap-2 font-bold text-xs shadow-sm">
-            <Plus className="h-4 w-4" />
-            Novo Registro
-          </RecomButton>
-        </Link>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Catalogo"
+        title="Fornecedores"
+        description="Inventario operacional de marcas, catalogos, processos relacionados, SEO e publicacao. Pendencias aparecem sem abrir o registro."
+        actions={
+          <Button asChild size="sm">
+            <Link href="/admin/fornecedores/novo">
+              <Plus className="h-4 w-4" /> Novo fornecedor
+            </Link>
+          </Button>
+        }
+      />
 
-      <RecomCard className="overflow-hidden border-slate-200 shadow-sm">
-        <Table>
-          <TableHeader className="bg-slate-50/50">
-            <TableRow className="border-slate-200 hover:bg-transparent">
-              <TableHead className="text-xs font-bold text-slate-500 py-4">Fábrica / Marca</TableHead>
-              <TableHead className="text-xs font-bold text-slate-500 py-4">Slug ID</TableHead>
-              <TableHead className="text-xs font-bold text-slate-500 py-4 text-center">Status</TableHead>
-              <TableHead className="text-xs font-bold text-slate-500 py-4 text-center">Ordem</TableHead>
-              <TableHead className="text-xs font-bold text-slate-500 py-4 text-right px-6">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {suppliers.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="h-48 text-center text-sm font-medium text-slate-400">
-                  Nenhum registro encontrado no sistema.
+      {suppliers.length === 0 ? (
+        <EmptyState title="Nenhum fornecedor cadastrado" description="Cadastre o primeiro fornecedor para montar o catalogo publico e relacionar processos." action={<Button asChild size="sm"><Link href="/admin/fornecedores/novo">Criar fornecedor</Link></Button>} />
+      ) : (
+        <DataTable columns={["Fornecedor", "Catalogo", "Processos", "SEO", "Status", "Ultima revisao", "Acoes"]}>
+          {suppliers.map((supplier) => {
+            const catalogCount = supplier.catalogs.length + (supplier.catalogUrl ? 1 : 0) + (supplier.eCatalogUrl ? 1 : 0);
+            const seoOk = Boolean(supplier.seoTitle && supplier.seoDescription);
+            const processCount = supplier.relatedProcesses.length;
+
+            return (
+              <TableRow key={supplier.id || supplier.slug} className="border-slate-100 hover:bg-slate-50">
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-14 items-center justify-center border border-slate-200 bg-white">
+                      {supplier.logoUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={supplier.logoUrl} alt="" className="max-h-8 w-auto object-contain" />
+                      ) : (
+                        <span className="text-[10px] font-semibold text-slate-400">Logo</span>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-950">{supplier.name}</p>
+                      <p className="text-xs text-slate-500">/{supplier.slug}</p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>{catalogCount > 0 ? <StatusBadge status="success" label={`${catalogCount} links`} /> : <StatusBadge status="warning" label="Sem catalogo" />}</TableCell>
+                <TableCell className="text-sm text-slate-700">{processCount > 0 ? `${processCount} processos` : "Sem vinculo"}</TableCell>
+                <TableCell>{seoOk ? <StatusBadge status="success" label="Completo" /> : <StatusBadge status="warning" label="Pendente" />}</TableCell>
+                <TableCell><StatusBadge status={supplier.status === "active" ? "active" : supplier.status} /></TableCell>
+                <TableCell className="text-sm text-slate-600">{formatDate(supplier.updatedAt)}</TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-2">
+                    <Button asChild size="sm" variant="outline"><Link href={`/admin/fornecedores/${supplier.slug}/editar`}>Editar fornecedor</Link></Button>
+                    <Button asChild size="sm" variant="ghost"><Link href={`/fornecedores/${supplier.slug}`} target="_blank">Ver pagina</Link></Button>
+                  </div>
                 </TableCell>
               </TableRow>
-            ) : (
-              suppliers.map((supplier) => (
-                <TableRow key={supplier.id || supplier.slug} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                  <TableCell className="py-4">
-                    <span className="font-bold text-sm text-slate-900">{supplier.name}</span>
-                  </TableCell>
-                  <TableCell className="py-4">
-                    <code className="text-[11px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                      {supplier.slug}
-                    </code>
-                  </TableCell>
-                  <TableCell className="py-4 text-center">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${
-                      supplier.status === 'active' 
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-                        : supplier.status === 'archived' 
-                        ? 'bg-slate-50 text-slate-500 border-slate-200' 
-                        : 'bg-amber-50 text-amber-700 border-amber-100'
-                    }`}>
-                      {supplier.status === 'active' ? 'Ativo' : supplier.status === 'archived' ? 'Arquivado' : 'Rascunho'}
-                    </span>
-                  </TableCell>
-                  <TableCell className="py-4 text-center text-xs font-semibold text-slate-400">
-                    {String(supplier.sortOrder).padStart(2, '0')}
-                  </TableCell>
-                  <TableCell className="py-4 text-right px-6">
-                    <div className="flex justify-end gap-2">
-                      <Link href={`/admin/fornecedores/${supplier.slug}/editar`}>
-                        <RecomButton intent="secondary" size="sm" className="h-8 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50">
-                          <Edit2 className="h-3 w-3 mr-1.5" />
-                          Editar
-                        </RecomButton>
-                      </Link>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </RecomCard>
+            );
+          })}
+        </DataTable>
+      )}
     </div>
   );
 }
