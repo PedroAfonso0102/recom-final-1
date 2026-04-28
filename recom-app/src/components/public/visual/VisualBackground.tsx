@@ -39,10 +39,12 @@ export function VisualBackground({
 }: VisualBackgroundProps) {
   const hasImage = Boolean(backgroundImageUrl && backgroundImageUrl.trim());
   const imagePreset = preset === "image-dark-overlay" || preset === "image-red-overlay" || preset === "split-dark-image";
+  const strength = overlayStrength ?? 60;
+  const tone = overlayTone ?? "black";
   const style: CSSProperties = {};
 
   if (hasImage && imagePreset) {
-    style.backgroundImage = `linear-gradient(rgba(${toneRgb[overlayTone]} / ${overlayAlpha[overlayStrength]}), rgba(${toneRgb[overlayTone]} / ${overlayAlpha[overlayStrength]})), url("${backgroundImageUrl}")`;
+    style.backgroundImage = `linear-gradient(rgba(${toneRgb[tone]} / ${overlayAlpha[strength]}), rgba(${toneRgb[tone]} / ${overlayAlpha[strength]})), url("${backgroundImageUrl}")`;
     style.backgroundSize = "cover";
     style.backgroundPosition = backgroundPosition ?? "center";
   }
@@ -80,4 +82,3 @@ export function VisualBackground({
     </section>
   );
 }
-

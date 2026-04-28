@@ -1,16 +1,9 @@
 import * as React from "react";
-import Image from "next/image";
 import { ArrowRight, ExternalLink, Factory } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import {
-  RecomCard,
-  RecomCardContent,
-  RecomCardDescription,
-  RecomCardFooter,
-  RecomCardHeader,
-  RecomCardTitle,
-} from "./recom-card";
+import { CardSurface, CardSurfaceActions, CardSurfaceBody, MediaFrame } from "@/components/public/visual";
+import type { CardDensity, CardMediaMode, CardVariant, CtaStyle, MediaObjectPosition } from "@/components/public/visual";
+import { RecomCardDescription, RecomCardTitle } from "./recom-card";
 import { RecomButton } from "./recom-button";
 
 interface SupplierCardProps {
@@ -25,6 +18,13 @@ interface SupplierCardProps {
   contactLabel?: string;
   className?: string;
   isAuthorized?: boolean;
+  imageUrl?: string;
+  imageAlt?: string;
+  mediaMode?: CardMediaMode;
+  imagePosition?: MediaObjectPosition;
+  cardVariant?: CardVariant;
+  cardDensity?: CardDensity;
+  ctaStyle?: CtaStyle;
 }
 
 export function SupplierCard({
@@ -39,47 +39,53 @@ export function SupplierCard({
   contactLabel = "Falar com a RECOM sobre esta marca",
   className,
   isAuthorized = false,
+  imageUrl,
+  imageAlt,
+  mediaMode = "logo",
+  imagePosition = "center",
+  cardVariant = "catalog",
+  cardDensity = "normal",
+  ctaStyle = "primary",
 }: SupplierCardProps) {
+  const mediaUrl = imageUrl || logoUrl;
+
   return (
-    <RecomCard
+    <CardSurface
       data-hook="public.suppliers.card"
-      className={cn("group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom", className)}
+      variant={cardVariant}
+      density={cardDensity}
+      className={className}
     >
-      <RecomCardHeader className="gap-4 pb-4">
-        {isAuthorized && (
-          <div className="mb-[-12px] flex items-center px-0.5">
+      {mediaMode !== "none" && mediaMode !== "background" && (
+        <MediaFrame
+          imageUrl={mediaUrl}
+          alt={imageAlt || name}
+          aspectRatio={mediaMode === "logo" ? "3 / 2" : "16 / 9"}
+          objectFit={mediaMode === "logo" ? "contain" : "cover"}
+          objectPosition={imagePosition}
+          rounded="none"
+          bleed
+          fallbackLabel={name}
+        />
+      )}
+      <CardSurfaceBody density={cardDensity}>
+        <div className="flex flex-col gap-2">
+          {isAuthorized && (
             <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-recom-graphite/40">
               Agente autorizado
             </span>
-          </div>
-        )}
-        <div className="flex h-18 w-full items-center justify-center rounded-lg border border-recom-border/60 bg-recom-gray-50 p-4 transition-colors group-hover:bg-white">
-          {logoUrl && logoUrl.trim() !== "" ? (
-            <div className="relative h-full w-full">
-              <Image
-                src={logoUrl}
-                alt={name}
-                fill
-                sizes="(max-width: 1279px) 50vw, 33vw"
-                className="object-contain"
-              />
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 text-muted-foreground/35">
-              <Factory className="h-8 w-8" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.18em]">{name}</span>
+          )}
+          {mediaMode === "none" && (
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-md border border-recom-border/60 bg-recom-gray-50 text-recom-blue">
+              <Factory className="h-6 w-6" />
             </div>
           )}
-        </div>
-        <div className="flex flex-col gap-2">
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-recom-blue">
             {isAuthorized ? "Agente autorizado" : "Fornecedor parceiro"}
           </span>
           <RecomCardTitle>{name}</RecomCardTitle>
         </div>
-      </RecomCardHeader>
 
-      <RecomCardContent className="flex-grow">
         <RecomCardDescription className="line-clamp-3 text-[15px] text-recom-graphite/72">
           {description}
         </RecomCardDescription>
@@ -101,10 +107,9 @@ export function SupplierCard({
             </div>
           </div>
         )}
-      </RecomCardContent>
 
-      <RecomCardFooter className="mt-2 flex flex-col gap-3 border-t border-recom-gray-100 pt-5">
-        <RecomButton asChild intent="primary" className="h-11 w-full justify-center">
+      <CardSurfaceActions className="border-t border-recom-gray-100">
+        <RecomButton asChild intent={ctaStyle === "quiet" ? "outline" : "primary"} className="h-11 w-full justify-center">
           <Link href={internalLink} data-hook="public.suppliers.internal-link">
             Ver fornecedor
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -131,7 +136,8 @@ export function SupplierCard({
             </Link>
           </RecomButton>
         )}
-      </RecomCardFooter>
-    </RecomCard>
+      </CardSurfaceActions>
+      </CardSurfaceBody>
+    </CardSurface>
   );
 }

@@ -133,3 +133,12 @@ Data: 2026-04-28
 ### Implicacao
 
 O CMS passa a permitir paginas com estilo e experiencia diferentes por tipo editorial, mas dentro de presets claros. Isso atende ao inventario anexado sem abrir liberdade visual arbitraria.
+
+## Progresso do batch visual governado
+
+- `src/components/public/visual/*`: adiciona `MediaFrame`, `VisualBackground`, `SectionLayout`, `GridLayout`, `CardSurface` e `CarouselRail` como camada visual reutilizavel.
+- `src/cms/schemas/visual-options.schema.ts`: centraliza enums de aparencia, fundo, grid, midia, densidade e comportamento mobile.
+- `src/cms/components.tsx`: blocos CMS passam a usar fundos, grids e cards governados por presets.
+- `src/design-system/components/*-card.tsx`: `SupplierCard`, `ProcessCard` e `PromotionCard` usam `CardSurface` e `MediaFrame`, com CTA ancorado no fim do card.
+- `src/cms/component-registry.ts`: editor de blocos ganhou selects de aparencia, fundo, overlay, layout dos cards, modo de imagem, densidade, alinhamento e mobile behavior.
+- `supabase/migrations/20260428000006_visual_media_presets.sql`: aplica presets iniciais e imagens locais aos blocos seedados.

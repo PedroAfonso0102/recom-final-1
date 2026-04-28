@@ -4,7 +4,170 @@ import { textSectionSchema } from "./schemas/text-section.schema";
 import { gridSectionSchema } from "./schemas/grid-section.schema";
 import { trustLogosSchema } from "./schemas/trust-logos.schema";
 import { CtaSectionBlock, HeroSectionBlock, TextSectionBlock, GridSectionBlock, TrustLogosBlock } from "./components";
-import type { EditableComponentDefinition } from "./types";
+import type { CmsFieldDefinition, EditableComponentDefinition } from "./types";
+
+const appearanceFields: CmsFieldDefinition[] = [
+  {
+    name: "layoutPreset",
+    label: "Aparencia da secao",
+    type: "select",
+    description: "Controla o ritmo visual sem liberar layout livre.",
+    options: [
+      { label: "Padrao", value: "default" },
+      { label: "Compacto", value: "compact" },
+      { label: "Dividido", value: "split" },
+      { label: "Destaque", value: "feature" },
+      { label: "Denso", value: "dense" },
+    ],
+  },
+  {
+    name: "backgroundPreset",
+    label: "Fundo",
+    type: "select",
+    options: [
+      { label: "Nenhum", value: "none" },
+      { label: "Escuro solido", value: "solid-dark" },
+      { label: "Claro solido", value: "solid-light" },
+      { label: "Gradiente industrial", value: "industrial-gradient" },
+      { label: "Imagem com overlay escuro", value: "image-dark-overlay" },
+      { label: "Imagem com overlay vermelho", value: "image-red-overlay" },
+      { label: "Split escuro + imagem", value: "split-dark-image" },
+      { label: "Textura escura", value: "texture-dark" },
+      { label: "Grid tecnico", value: "technical-grid" },
+    ],
+  },
+  { name: "backgroundImageUrl", label: "Imagem de fundo", type: "media" },
+  {
+    name: "backgroundPosition",
+    label: "Enquadramento do fundo",
+    type: "select",
+    options: [
+      { label: "Centro", value: "center" },
+      { label: "Topo", value: "top" },
+      { label: "Base", value: "bottom" },
+      { label: "Esquerda", value: "left" },
+      { label: "Direita", value: "right" },
+    ],
+  },
+  {
+    name: "overlayStrength",
+    label: "Intensidade do overlay",
+    type: "select",
+    description: "Use 60 ou 80 quando houver texto sobre imagem.",
+    options: [
+      { label: "20%", value: "20" },
+      { label: "40%", value: "40" },
+      { label: "60% recomendado", value: "60" },
+      { label: "80% alto contraste", value: "80" },
+    ],
+  },
+  {
+    name: "overlayTone",
+    label: "Tom do overlay",
+    type: "select",
+    options: [
+      { label: "Preto", value: "black" },
+      { label: "Vermelho RECOM", value: "red" },
+      { label: "Aco", value: "steel" },
+      { label: "Neutro", value: "neutral" },
+    ],
+  },
+  { name: "textureEnabled", label: "Textura tecnica discreta", type: "checkbox" },
+];
+
+const gridAppearanceFields: CmsFieldDefinition[] = [
+  {
+    name: "gridPreset",
+    label: "Layout dos cards",
+    type: "select",
+    options: [
+      { label: "Automatico", value: "auto" },
+      { label: "2 colunas", value: "two-columns" },
+      { label: "3 colunas", value: "three-columns" },
+      { label: "4 colunas", value: "four-columns" },
+      { label: "Destaque a esquerda", value: "featured-left" },
+      { label: "Primeiro destacado", value: "featured-first" },
+      { label: "Denso", value: "dense" },
+      { label: "Editorial", value: "editorial" },
+    ],
+  },
+  {
+    name: "gridGap",
+    label: "Espacamento",
+    type: "select",
+    options: [
+      { label: "Compacto", value: "compact" },
+      { label: "Normal", value: "normal" },
+      { label: "Relaxado", value: "relaxed" },
+    ],
+  },
+  {
+    name: "alignItems",
+    label: "Alinhamento",
+    type: "select",
+    options: [
+      { label: "Esticar cards", value: "stretch" },
+      { label: "Alinhar pelo topo", value: "start" },
+    ],
+  },
+  {
+    name: "mobileBehavior",
+    label: "Comportamento mobile",
+    type: "select",
+    options: [
+      { label: "Empilhar", value: "stack" },
+      { label: "Carrossel horizontal", value: "carousel" },
+      { label: "Compacto", value: "compact" },
+    ],
+  },
+  {
+    name: "mediaMode",
+    label: "Modo da imagem",
+    type: "select",
+    options: [
+      { label: "Sem imagem", value: "none" },
+      { label: "Logo", value: "logo" },
+      { label: "Thumbnail", value: "thumbnail" },
+      { label: "Capa", value: "cover" },
+      { label: "Fundo", value: "background" },
+      { label: "Split", value: "split" },
+    ],
+  },
+  {
+    name: "cardVariant",
+    label: "Visual do card",
+    type: "select",
+    options: [
+      { label: "Padrao", value: "default" },
+      { label: "Industrial", value: "industrial" },
+      { label: "Tecnico", value: "technical" },
+      { label: "Catalogo", value: "catalog" },
+      { label: "Promocao", value: "promotion" },
+    ],
+  },
+  {
+    name: "cardDensity",
+    label: "Densidade",
+    type: "select",
+    options: [
+      { label: "Compacta", value: "compact" },
+      { label: "Normal", value: "normal" },
+      { label: "Relaxada", value: "relaxed" },
+    ],
+  },
+  {
+    name: "imagePosition",
+    label: "Enquadramento da imagem",
+    type: "select",
+    options: [
+      { label: "Centro", value: "center" },
+      { label: "Topo", value: "top" },
+      { label: "Base", value: "bottom" },
+      { label: "Esquerda", value: "left" },
+      { label: "Direita", value: "right" },
+    ],
+  },
+];
 
 export const componentRegistry = {
   HeroSection: {
@@ -26,6 +189,11 @@ export const componentRegistry = {
       showCarousel: true,
       variant: "default",
       carouselSpeed: 5000,
+      layoutPreset: "default",
+      backgroundPreset: "industrial-gradient",
+      backgroundPosition: "center",
+      overlayStrength: 60,
+      overlayTone: "black",
     },
     fields: [
       { name: "eyebrow", label: "Eyebrow", type: "text", description: "Texto curto acima do título." },
@@ -54,6 +222,7 @@ export const componentRegistry = {
           { label: "CatÃ¡logo / hub", value: "catalog" },
         ],
       },
+      ...appearanceFields,
     ],
     allowedVariants: ["default", "split", "compact", "full", "simple", "industrial", "technical", "contact", "catalog"],
     previewConfig: { layout: "full" },
@@ -71,6 +240,8 @@ export const componentRegistry = {
       title: "",
       body: "",
       variant: "default",
+      layoutPreset: "default",
+      backgroundPreset: "none",
     },
     fields: [
       { name: "title", label: "Título da Seção", type: "text" },
@@ -88,6 +259,7 @@ export const componentRegistry = {
           { label: "Nota / aviso", value: "note" },
         ],
       },
+      ...appearanceFields,
     ],
     allowedVariants: ["default", "panel", "editorial", "technical", "compact", "note"],
     previewConfig: { layout: "contained" },
@@ -110,6 +282,11 @@ export const componentRegistry = {
       secondaryCtaLabel: "",
       secondaryCtaHref: "",
       variant: "default",
+      layoutPreset: "default",
+      backgroundPreset: "industrial-gradient",
+      backgroundPosition: "center",
+      overlayStrength: 60,
+      overlayTone: "black",
     },
     fields: [
       { name: "eyebrow", label: "Texto de Apoio", type: "text" },
@@ -133,6 +310,7 @@ export const componentRegistry = {
           { label: "Discreto", value: "quiet" },
         ],
       },
+      ...appearanceFields,
     ],
     allowedVariants: ["default", "light", "primary", "dark", "contact", "catalog", "quiet"],
     previewConfig: { layout: "full" },
@@ -151,6 +329,16 @@ export const componentRegistry = {
       items: [],
       columns: "3",
       variant: "default",
+      layoutPreset: "default",
+      backgroundPreset: "none",
+      gridPreset: "three-columns",
+      gridGap: "normal",
+      alignItems: "stretch",
+      mobileBehavior: "stack",
+      mediaMode: "none",
+      cardVariant: "default",
+      cardDensity: "normal",
+      imagePosition: "center",
     },
     fields: [
       { name: "eyebrow", label: "Eyebrow", type: "text" },
@@ -205,8 +393,24 @@ export const componentRegistry = {
           },
           { name: "linkLabel", label: "Texto do Link", type: "text" },
           { name: "linkHref", label: "URL do Link", type: "text" },
+          { name: "imageUrl", label: "Imagem do item", type: "media" },
+          { name: "imageAlt", label: "Texto alternativo", type: "text" },
+          {
+            name: "imagePosition",
+            label: "Enquadramento",
+            type: "select",
+            options: [
+              { label: "Centro", value: "center" },
+              { label: "Topo", value: "top" },
+              { label: "Base", value: "bottom" },
+              { label: "Esquerda", value: "left" },
+              { label: "Direita", value: "right" },
+            ],
+          },
         ],
       },
+      ...appearanceFields,
+      ...gridAppearanceFields,
     ],
     previewConfig: { layout: "contained" },
     permissions: ["admin", "editor"],

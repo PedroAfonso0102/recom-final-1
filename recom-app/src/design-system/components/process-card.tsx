@@ -1,5 +1,4 @@
 import * as React from "react";
-import Image from "next/image";
 import {
   ArrowRight,
   Layers,
@@ -10,15 +9,9 @@ import {
   Target,
   Wrench,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  RecomCard,
-  RecomCardContent,
-  RecomCardDescription,
-  RecomCardFooter,
-  RecomCardHeader,
-  RecomCardTitle,
-} from "./recom-card";
+import { CardSurface, CardSurfaceActions, CardSurfaceBody, MediaFrame } from "@/components/public/visual";
+import type { CardDensity, CardMediaMode, CardVariant, CtaStyle, MediaObjectPosition } from "@/components/public/visual";
+import { RecomCardDescription, RecomCardTitle } from "./recom-card";
 import { RecomButton } from "./recom-button";
 import Link from "next/link";
 
@@ -31,6 +24,12 @@ interface ProcessCardProps {
   contactLink?: string;
   contactLabel?: string;
   className?: string;
+  imageAlt?: string;
+  mediaMode?: CardMediaMode;
+  imagePosition?: MediaObjectPosition;
+  cardVariant?: CardVariant;
+  cardDensity?: CardDensity;
+  ctaStyle?: CtaStyle;
 }
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -53,44 +52,56 @@ export function ProcessCard({
   contactLink = "/contato",
   contactLabel = "Falar com especialista",
   className,
+  imageAlt,
+  mediaMode = "cover",
+  imagePosition = "center",
+  cardVariant = "technical",
+  cardDensity = "normal",
+  ctaStyle = "secondary",
 }: ProcessCardProps) {
   const slug = name.toLowerCase();
   const icon = ICON_MAP[slug] || ICON_MAP[Object.keys(ICON_MAP).find((key) => slug.includes(key)) || "default"];
 
   return (
-    <RecomCard
+    <CardSurface
       data-hook="public.processes.card"
-      className={cn("group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom", className)}
+      variant={cardVariant}
+      density={cardDensity}
+      className={className}
     >
-      <div className="relative aspect-[16/9] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={name}
-            fill
-            sizes="(max-width: 1279px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+      {mediaMode !== "none" && (
+        <div className="relative">
+          <MediaFrame
+            imageUrl={imageUrl}
+            alt={imageAlt || name}
+            aspectRatio={mediaMode === "split" ? "3 / 2" : "16 / 9"}
+            objectFit={mediaMode === "logo" ? "contain" : "cover"}
+            objectPosition={imagePosition}
+            rounded="none"
+            bleed
+            fallbackLabel="Processo"
           />
-        ) : (
+          <div className="absolute left-4 top-4 rounded-md bg-recom-graphite/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-sm">
+            Processo
+          </div>
+        </div>
+      )}
+      {mediaMode === "none" && (
+        <div className="border-b border-recom-border/60 bg-recom-gray-50 p-6">
           <div className="flex h-full w-full items-center justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full border border-recom-border/60 bg-white text-recom-blue shadow-sm">
               {icon}
             </div>
           </div>
-        )}
-        <div className="absolute left-4 top-4 rounded-md bg-recom-graphite/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-sm">
-          Processo
         </div>
-      </div>
+      )}
 
-      <RecomCardHeader className="pb-4">
+      <CardSurfaceBody density={cardDensity}>
         <RecomCardTitle>{name}</RecomCardTitle>
         <RecomCardDescription className="line-clamp-2 min-h-[3rem]">
           {description}
         </RecomCardDescription>
-      </RecomCardHeader>
 
-      <RecomCardContent className="flex-grow">
         {suppliers.length > 0 && (
           <div className="space-y-3">
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
@@ -108,10 +119,9 @@ export function ProcessCard({
             </div>
           </div>
         )}
-      </RecomCardContent>
 
-      <RecomCardFooter className="mt-2 flex flex-col gap-3 border-t border-recom-gray-100 pt-5">
-        <RecomButton asChild intent="outline" className="h-11 w-full justify-center">
+      <CardSurfaceActions className="border-t border-recom-gray-100">
+        <RecomButton asChild intent={ctaStyle === "primary" ? "primary" : "outline"} className="h-11 w-full justify-center">
           <Link href={link}>
             Ver processo
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -121,7 +131,8 @@ export function ProcessCard({
         <RecomButton asChild intent="ghost" className="h-11 w-full justify-center">
           <Link href={contactLink}>{contactLabel}</Link>
         </RecomButton>
-      </RecomCardFooter>
-    </RecomCard>
+      </CardSurfaceActions>
+      </CardSurfaceBody>
+    </CardSurface>
   );
 }

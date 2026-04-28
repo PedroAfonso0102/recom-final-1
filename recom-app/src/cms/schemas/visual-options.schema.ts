@@ -15,7 +15,7 @@ export const backgroundPresetSchema = z.enum([
 ]);
 
 export const backgroundPositionSchema = z.enum(["center", "top", "bottom", "left", "right"]);
-export const overlayStrengthSchema = z.union([z.literal(20), z.literal(40), z.literal(60), z.literal(80)]);
+export const overlayStrengthSchema = z.coerce.number().pipe(z.union([z.literal(20), z.literal(40), z.literal(60), z.literal(80)]));
 export const overlayToneSchema = z.enum(["black", "red", "steel", "neutral"]);
 
 export const gridPresetSchema = z.enum([
@@ -62,4 +62,3 @@ export const visualCardFields = {
   cardDensity: cardDensitySchema.default("normal").optional(),
   ctaStyle: ctaStyleSchema.default("primary").optional(),
 };
-

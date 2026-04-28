@@ -12,7 +12,7 @@ export const heroSectionSchema = z.object({
   imageUrl: z.string().trim().optional().nullable(),
   showCarousel: z.boolean().optional().default(true),
   variant: z.enum(["default", "split", "compact", "full", "simple", "industrial", "technical", "contact", "catalog"]).default("default"),
-  carouselSpeed: z.number().optional().default(5000),
+  carouselSpeed: z.coerce.number().optional().default(5000),
   ...visualSectionFields,
 });
 

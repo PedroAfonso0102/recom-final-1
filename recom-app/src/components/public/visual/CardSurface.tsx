@@ -1,13 +1,12 @@
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { CardDensity, CardVariant } from "./types";
 
-type CardSurfaceProps = {
+type CardSurfaceProps = HTMLAttributes<HTMLElement> & {
   variant?: CardVariant | null;
   density?: CardDensity | null;
   interactive?: boolean;
   children: ReactNode;
-  className?: string;
 };
 
 const densityClass: Record<CardDensity, string> = {
@@ -22,9 +21,12 @@ export function CardSurface({
   interactive = true,
   children,
   className,
+  ...props
 }: CardSurfaceProps) {
   return (
     <article
+      {...props}
+      data-card-density={density}
       className={cn(
         "group flex h-full min-h-0 flex-col overflow-hidden rounded-lg border bg-white",
         "border-recom-border shadow-sm",
@@ -56,4 +58,3 @@ export function CardSurfaceBody({
 export function CardSurfaceActions({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cn("mt-auto flex flex-col gap-3 pt-5", className)}>{children}</div>;
 }
-

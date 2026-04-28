@@ -38,6 +38,42 @@ export const PAGE_TYPES = [
 export type PageBlockType = (typeof PAGE_BLOCK_TYPES)[number];
 export type PageType = (typeof PAGE_TYPES)[number];
 
+export type BackgroundPreset =
+  | "none"
+  | "solid-dark"
+  | "solid-light"
+  | "industrial-gradient"
+  | "image-dark-overlay"
+  | "image-red-overlay"
+  | "split-dark-image"
+  | "texture-dark"
+  | "technical-grid";
+
+export type GridPreset =
+  | "auto"
+  | "two-columns"
+  | "three-columns"
+  | "four-columns"
+  | "featured-left"
+  | "featured-first"
+  | "dense"
+  | "editorial";
+
+export type CardMediaMode = "none" | "logo" | "thumbnail" | "cover" | "background" | "split";
+
+export type VisualBlockProps = {
+  layoutPreset?: "default" | "compact" | "split" | "feature" | "dense";
+  backgroundPreset?: BackgroundPreset;
+  backgroundImageUrl?: string;
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right";
+  overlayStrength?: 20 | 40 | 60 | 80;
+  gridPreset?: GridPreset;
+  mediaMode?: CardMediaMode;
+  cardVariant?: "default" | "industrial" | "technical" | "catalog" | "promotion";
+  cardDensity?: "compact" | "normal" | "relaxed";
+  mobileBehavior?: "stack" | "carousel" | "compact";
+};
+
 export type PublicBlockState =
   | "loading"
   | "error"
@@ -168,6 +204,19 @@ const imageFields: PageBlockField[] = [
   },
 ];
 
+const visualBlockFields: PageBlockField[] = [
+  { name: "layoutPreset", label: "Aparencia da secao", kind: "select" },
+  { name: "backgroundPreset", label: "Fundo", kind: "select" },
+  { name: "backgroundImageUrl", label: "Imagem de fundo", kind: "image" },
+  { name: "backgroundPosition", label: "Enquadramento do fundo", kind: "select" },
+  { name: "overlayStrength", label: "Intensidade do overlay", kind: "select" },
+  { name: "gridPreset", label: "Layout dos cards", kind: "select" },
+  { name: "mediaMode", label: "Modo da imagem", kind: "select" },
+  { name: "cardVariant", label: "Visual do card", kind: "select" },
+  { name: "cardDensity", label: "Densidade do card", kind: "select" },
+  { name: "mobileBehavior", label: "Comportamento mobile", kind: "select" },
+];
+
 function contract(input: PageBlockContract): PageBlockContract {
   return input;
 }
@@ -186,6 +235,7 @@ export const pageBlockContracts = {
       ...secondaryCtaFields,
       ...imageFields,
       { name: "trust_line", label: "Linha de confianca", kind: "text", characterLimit: { max: 120 } },
+      ...visualBlockFields,
     ],
     publicStates: ["published", "fallback"],
     fallback: "Renderizar titulo, subtitulo e CTA de contato quando imagem ou apoio nao existirem.",
@@ -254,7 +304,7 @@ export const pageBlockContracts = {
       { name: "items_source", label: "Origem dos itens", kind: "select", required: true },
       { name: "display_mode", label: "Modo de exibicao", kind: "select", required: true },
     ],
-    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "supplier_ids", label: "Fornecedores manuais", kind: "entity_reference" }],
+    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "supplier_ids", label: "Fornecedores manuais", kind: "entity_reference" }, ...visualBlockFields],
     publicStates: ["loading", "error", "empty", "unavailable", "published"],
     fallback: "Exibir estado vazio com contato quando nao houver fornecedores publicados.",
     preview: { mode: "responsive", description: "Preview com filtros, badges de catalogo e CTAs externos." },
@@ -299,7 +349,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["processes_hub"],
     reorderable: "fixed",
     requiredFields: [{ name: "items_source", label: "Origem dos processos", kind: "select", required: true }],
-    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "max_items", label: "Limite de itens", kind: "number" }],
+    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "max_items", label: "Limite de itens", kind: "number" }, ...visualBlockFields],
     publicStates: ["loading", "error", "empty", "published"],
     fallback: "Estado vazio com contato comercial.",
     preview: { mode: "responsive", description: "Preview dos ProcessCards e fornecedores relacionados." },
@@ -344,7 +394,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["promotions"],
     reorderable: "fixed",
     requiredFields: [{ name: "items_source", label: "Origem das promocoes", kind: "select", required: true }],
-    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "show_expired", label: "Mostrar encerradas", kind: "boolean" }],
+    optionalFields: [titleField("Titulo opcional"), descriptionField(), { name: "show_expired", label: "Mostrar encerradas", kind: "boolean" }, ...visualBlockFields],
     publicStates: ["loading", "error", "empty", "expired", "active", "published"],
     fallback: "Estado vazio com CTA para orcamento.",
     preview: { mode: "responsive", description: "Preview com status, validade, termos e CTA." },
@@ -359,7 +409,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["institutional", "supplier_detail_template", "process_detail_template", "privacy"],
     reorderable: "limited",
     requiredFields: [{ name: "body", label: "Conteudo", kind: "rich_text", required: true }],
-    optionalFields: [titleField("Titulo opcional"), { name: "bullets", label: "Topicos", kind: "list" }],
+    optionalFields: [titleField("Titulo opcional"), { name: "bullets", label: "Topicos", kind: "list" }, ...visualBlockFields],
     publicStates: ["published", "fallback"],
     fallback: "Renderizar apenas conteudo validado; ocultar bloco vazio.",
     preview: { mode: "inline", description: "Preview de rich text seguro com limites de concisao." },
@@ -374,7 +424,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["home", "institutional", "process_detail_template"],
     reorderable: "limited",
     requiredFields: [titleField(), { name: "items", label: "Itens", kind: "list", required: true, validations: [{ type: "minItems", value: 1, message: "Informe ao menos um item." }] }],
-    optionalFields: [descriptionField()],
+    optionalFields: [descriptionField(), ...visualBlockFields],
     publicStates: ["empty", "published"],
     fallback: "Ocultar bloco quando a lista estiver vazia.",
     preview: { mode: "inline", description: "Preview de lista com densidade tecnica." },
@@ -419,7 +469,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["supplier_detail_template"],
     reorderable: "fixed",
     requiredFields: [{ name: "catalog_status", label: "Status do catalogo", kind: "select", required: true }],
-    optionalFields: [{ name: "catalog_url", label: "URL do catalogo", kind: "url" }, { name: "catalog_label", label: "Texto do botao", kind: "text" }, { name: "support_text", label: "Microcopy", kind: "textarea" }],
+    optionalFields: [{ name: "catalog_url", label: "URL do catalogo", kind: "url" }, { name: "catalog_label", label: "Texto do botao", kind: "text" }, { name: "support_text", label: "Microcopy", kind: "textarea" }, ...visualBlockFields],
     publicStates: ["unavailable", "published", "fallback"],
     fallback: "Trocar catalogo por CTA Falar com a RECOM sobre esta marca.",
     preview: { mode: "inline", description: "Preview da regra available/unavailable/under_review." },
@@ -434,7 +484,7 @@ export const pageBlockContracts = {
     allowedPageTypes: ["home", "institutional", "suppliers_hub", "supplier_detail_template", "processes_hub", "process_detail_template", "promotions", "not_found"],
     reorderable: "limited",
     requiredFields: [titleField(), descriptionField(), ...primaryCtaFields],
-    optionalFields: secondaryCtaFields,
+    optionalFields: [...secondaryCtaFields, ...visualBlockFields],
     publicStates: ["published", "fallback"],
     fallback: "Usar contato principal de site_settings.",
     preview: { mode: "responsive", description: "Preview com links reais de contato." },
