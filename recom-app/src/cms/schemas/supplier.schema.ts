@@ -28,7 +28,7 @@ export const SupplierSchema = z.object({
   shortDescription: z.string().trim().min(10, "A descrição curta deve ter pelo menos 10 caracteres."),
   longDescription: z.string().trim().min(50, "A descrição longa deve ter pelo menos 50 caracteres."),
   relatedProcesses: z.array(z.string().uuid("ID de processo inválido.")).default([]),
-  status: z.enum(["draft", "active", "archived"]).default("draft"),
+  status: z.enum(["draft", "active", "published", "scheduled", "archived"]).default("draft"),
   sortOrder: z.number().int().default(0),
   seoTitle: z.string().trim().max(120, "O título SEO não deve exceder 120 caracteres.").optional().nullable(),
   seoDescription: z.string().trim().max(160, "A descrição SEO não deve exceder 160 caracteres.").optional().nullable(),

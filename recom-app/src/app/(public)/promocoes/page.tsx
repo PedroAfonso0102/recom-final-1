@@ -89,7 +89,7 @@ export default async function PromocoesPage() {
             <EmptyState
               title="Sem ofertas ativas no momento"
               description="Assine nossa lista prioritária para ser avisado sobre novos lotes técnicos e condições comerciais."
-              primaryCta={{ label: "Quero receber avisos", href: "/sobre#contato" }}
+              primaryCta={{ label: "Quero receber avisos", href: "/contato" }}
             />
           </div>
         )}
@@ -111,7 +111,7 @@ export default async function PromocoesPage() {
             </p>
             <div className="flex justify-center">
               <RecomButton asChild size="lg" intent="accent" className="h-12 px-12">
-                <Link href="/sobre#contato">Quero receber avisos</Link>
+                <Link href="/contato">Quero receber avisos</Link>
               </RecomButton>
             </div>
           </div>

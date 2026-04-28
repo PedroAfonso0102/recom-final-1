@@ -50,7 +50,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
           <Breadcrumb
             items={[
               { label: "Início", href: "/" },
-              { label: "Fornecedores & Catálogos", href: "/fornecedores" },
+              { label: "Fornecedores & Catálogos", href: "/fornecedores-catalogos" },
               { label: supplier.name },
             ]}
           />
@@ -130,7 +130,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
 
             <div className="flex flex-wrap gap-4 pt-4">
               <RecomButton asChild size="lg" intent="primary" className="h-12 px-8">
-                <Link href="/sobre#contato">
+                <Link href="/contato">
                   Solicitar cotação
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -179,13 +179,13 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
           </p>
           <div className="flex flex-wrap gap-3">
             <RecomButton asChild intent="outline" className="h-11 px-6">
-              <Link href="/fornecedores">
+              <Link href="/fornecedores-catalogos">
                 Ver todos os fornecedores
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
             <RecomButton asChild intent="ghost" className="h-11 px-6">
-              <Link href="/processos">Explorar processos</Link>
+              <Link href="/solucoes">Explorar processos</Link>
             </RecomButton>
           </div>
         </div>
@@ -196,8 +196,8 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         eyebrow="Atendimento técnico comercial"
         title="Precisa de uma cotação ou de uma orientação técnica?"
         description="Atendimento direto de nossa sede em Campinas para indicar ferramentas de metal duro e catálogos técnicos para sua usinagem."
-        primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Voltar para fornecedores", href: "/fornecedores" }}
+        primaryCta={{ label: "Falar com a RECOM", href: "/contato" }}
+        secondaryCta={{ label: "Voltar para fornecedores", href: "/fornecedores-catalogos" }}
         note="Compra assistida, catalogação oficial e contato humano na mesma jornada."
       />
     </div>

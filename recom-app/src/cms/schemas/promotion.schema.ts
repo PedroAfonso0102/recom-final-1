@@ -10,12 +10,17 @@ export const PromotionSchema = z
     imageUrl: z.string().trim().url("URL de imagem inválida.").nullable().optional().or(z.string().length(0)),
     startsAt: z.string().min(1, "Data de início obrigatória."),
     endsAt: z.string().min(1, "Data de fim obrigatória."),
-    status: z.enum(["draft", "active", "archived"]).default("draft"),
+    status: z.enum(["draft", "active", "expired", "archived", "scheduled"]).default("draft"),
     ctaLabel: z.string().trim().optional().nullable(),
     ctaUrl: z.string().trim().refine(
       (value) => value === "" || value.startsWith("/") || /^https?:\/\//i.test(value),
       "URL de ação inválida."
     ).optional().nullable(),
+    terms: z.string().trim().optional().nullable(),
+    seoTitle: z.string().trim().max(120, "O titulo SEO nao deve exceder 120 caracteres.").optional().nullable(),
+    seoDescription: z.string().trim().max(160, "A descricao SEO nao deve exceder 160 caracteres.").optional().nullable(),
+    publishedAt: z.string().optional().nullable(),
+    scheduledAt: z.string().optional().nullable(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   })

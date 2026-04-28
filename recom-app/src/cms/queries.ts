@@ -92,6 +92,15 @@ export async function listCmsPages(): Promise<CmsPageRow[]> {
 export async function getSiteSettings(): Promise<SiteSettings> {
   noStore();
   const supabase = await createClient();
+  // database.types is regenerated after migrations; keep this compatible before local type generation.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: siteSettingsRow } = await (supabase as any)
+    .from("site_settings")
+    .select("*")
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
   const { data, error } = await supabase
     .from("admin_configs")
     .select("value")
@@ -121,6 +130,35 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       titleTemplate: "%s | RECOM",
     },
   };
+
+  if (siteSettingsRow) {
+    const row = siteSettingsRow as Record<string, unknown>;
+    const parsed = siteSettingsSchema.safeParse({
+      company: {
+        name: String(row.company_name || fallback.company.name),
+        fullName: String(row.company_name || fallback.company.fullName),
+        subtitle: "Distribuidor de ferramentas de corte",
+        since: fallback.company.since,
+      },
+      contact: {
+        phone: String(row.phone || fallback.contact.phone),
+        email: String(row.email || fallback.contact.email),
+        whatsapp: String(row.whatsapp || fallback.contact.whatsapp),
+        address: String(row.address || fallback.contact.address),
+        cep: fallback.contact.cep,
+      },
+      links: (row.social_links as Record<string, unknown>) || fallback.links,
+      seo: {
+        defaultTitle: String(row.default_seo_title || fallback.seo.defaultTitle),
+        defaultDescription: String(row.default_seo_description || fallback.seo.defaultDescription),
+        titleTemplate: fallback.seo.titleTemplate,
+      },
+    });
+
+    if (parsed.success) {
+      return parsed.data;
+    }
+  }
 
   if (error || !data || !data.value) {
     return fallback;

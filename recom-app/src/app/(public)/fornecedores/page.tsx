@@ -64,7 +64,7 @@ export default async function FornecedoresPage() {
             <EmptyState
               title="Nenhum fornecedor cadastrado"
               description="Não encontramos fornecedores ativos agora. Você ainda pode falar com a equipe RECOM para solicitar suporte comercial."
-              primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
+              primaryCta={{ label: "Falar com a RECOM", href: "/contato" }}
               className="md:col-span-2 xl:col-span-3"
             />
           ) : (
@@ -81,7 +81,7 @@ export default async function FornecedoresPage() {
                   description={supplier.shortDescription || ""}
                   logoUrl={logoUrl}
                   isAuthorized={isMitsubishi}
-                  internalLink={`/fornecedores/${supplier.slug}`}
+                  internalLink={`/fornecedores-catalogos/${supplier.slug}`}
                   externalCatalogLink={supplier.catalogUrl || undefined}
                   catalogAvailable={!!supplier.catalogUrl}
                   processes={getProcessNames(supplier.relatedProcesses)}
@@ -131,7 +131,7 @@ export default async function FornecedoresPage() {
         eyebrow="Orientação comercial"
         title="Precisa confirmar uma linha ou aplicação específica?"
         description="Nossa equipe pode enviar a documentação técnica oficial para a sua necessidade e orientar a cotação com rapidez."
-        primaryCta={{ label: "Falar com consultor", href: "/sobre#contato" }}
+        primaryCta={{ label: "Falar com consultor", href: "/contato" }}
         secondaryCta={{ label: "Solicitar catálogo", href: "mailto:contato@recom.com.br" }}
         note="Atendimento comercial e técnico em uma única jornada."
       />

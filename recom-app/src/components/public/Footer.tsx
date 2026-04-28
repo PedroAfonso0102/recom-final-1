@@ -41,7 +41,7 @@ export async function Footer() {
             </p>
 
             <RecomButton asChild size="sm" intent="accent" className="h-9 px-6">
-              <Link href="/sobre#contato">Solicitar orçamento</Link>
+              <Link href="/contato">Solicitar orçamento</Link>
             </RecomButton>
           </div>
 
@@ -49,9 +49,9 @@ export async function Footer() {
             <h4 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white">Navegação</h4>
             <nav className="flex flex-col gap-3">
               <Link href="/" className="text-[14px] text-slate-400 transition-colors hover:text-white">Início</Link>
-              <Link href="/sobre" className="text-[14px] text-slate-400 transition-colors hover:text-white">A RECOM</Link>
-              <Link href="/fornecedores" className="text-[14px] text-slate-400 transition-colors hover:text-white">Fornecedores</Link>
-              <Link href="/processos" className="text-[14px] text-slate-400 transition-colors hover:text-white">Processos</Link>
+              <Link href="/a-recom" className="text-[14px] text-slate-400 transition-colors hover:text-white">A RECOM</Link>
+              <Link href="/fornecedores-catalogos" className="text-[14px] text-slate-400 transition-colors hover:text-white">Fornecedores</Link>
+              <Link href="/solucoes" className="text-[14px] text-slate-400 transition-colors hover:text-white">Processos</Link>
               <Link href="/promocoes" className="text-[14px] text-slate-400 transition-colors hover:text-white">Promoções</Link>
             </nav>
           </div>

@@ -57,8 +57,8 @@ export default async function Home() {
           </>
         }
         description="A RECOM atende a indústria com marcas reconhecidas, catálogos oficiais e apoio comercial direto para orçamentos."
-        primaryCta={{ label: "Solicitar orçamento", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores" }}
+        primaryCta={{ label: "Solicitar orçamento", href: "/contato" }}
+        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores-catalogos" }}
         image={
           <div className="relative h-full w-full">
             <HeroCarousel />
@@ -190,7 +190,7 @@ export default async function Home() {
               Acesso direto aos principais fabricantes globais como Mitsubishi Materials e 7Leaders. Consulte especificações técnicas e manuais oficiais.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/fornecedores">
+              <Link href="/fornecedores-catalogos">
                 Explorar catálogos
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -209,7 +209,7 @@ export default async function Home() {
               Ferramentas para torneamento, fresamento, furação e fixação. Apoio direto para cada desafio de usinagem.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/processos">
+              <Link href="/solucoes">
                 Ver ferramentas por processo
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -228,7 +228,7 @@ export default async function Home() {
               Presença constante nos principais polos industriais paulistas. Entrega ágil e visitas técnicas para setup de máquinas e testes in loco.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/sobre#contato">
+              <Link href="/contato">
                 Solicitar visita comercial
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -242,7 +242,7 @@ export default async function Home() {
         eyebrow="Atendimento comercial"
         title="Solicite orçamento com a equipe RECOM"
         description="Envie sua solicitação informando a marca, o processo de usinagem ou o código do item para agilizar o retorno comercial."
-        primaryCta={{ label: "Enviar solicitação", href: "/sobre#contato" }}
+        primaryCta={{ label: "Enviar solicitação", href: "/contato" }}
         secondaryCta={{ label: "Ligar agora", href: `tel:${(settings || siteConfig).contact.phone.replace(/\D/g, "")}` }}
         note="Retorno comercial rápido e direto."
       />

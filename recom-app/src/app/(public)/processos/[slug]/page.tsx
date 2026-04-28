@@ -57,7 +57,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
           <Breadcrumb
             items={[
               { label: "Início", href: "/" },
-              { label: "Soluções / Processos", href: "/processos" },
+              { label: "Soluções / Processos", href: "/solucoes" },
               { label: process.name },
             ]}
           />
@@ -67,7 +67,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
       <section className="border-b border-recom-border bg-white py-12 md:py-16">
         <div className="container-recom">
           <Link
-            href="/processos"
+            href="/solucoes"
             className="mb-10 inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-recom-blue"
           >
             <ArrowLeft className="mr-2 h-3 w-3" />
@@ -146,7 +146,7 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
                 </p>
                 <div className="pt-2">
                   <RecomButton asChild size="lg" intent="accent" className="h-11 px-8">
-                    <Link href="/sobre#contato">
+                    <Link href="/contato">
                       Solicitar orçamento
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -165,10 +165,10 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
 
               <div className="space-y-4">
                 <RecomButton asChild intent="primary" className="h-11 w-full">
-                  <Link href="/sobre#contato">Falar com a RECOM</Link>
+                  <Link href="/contato">Falar com a RECOM</Link>
                 </RecomButton>
                 <RecomButton asChild intent="outline" className="h-11 w-full">
-                  <Link href="/fornecedores">Ver fornecedores</Link>
+                  <Link href="/fornecedores-catalogos">Ver fornecedores</Link>
                 </RecomButton>
               </div>
             </div>
@@ -196,15 +196,15 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
                 Exploração adicional
               </h4>
               <nav className="flex flex-col gap-4">
-                <Link href="/fornecedores" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link href="/fornecedores-catalogos" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
                   Nossos fornecedores
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
-                <Link href="/processos" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link href="/solucoes" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
                   Todos os processos
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
-                <Link href="/sobre#contato" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
+                <Link href="/contato" className="group flex items-center justify-between text-[10px] font-bold uppercase tracking-tight text-muted-foreground transition-colors hover:text-primary">
                   Solicitar cotação
                   <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100" />
                 </Link>
@@ -219,8 +219,8 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
         eyebrow="Atendimento técnico comercial"
         title={`Ferramentas para ${process.name}`}
         description="A RECOM oferece consultoria técnica especializada e fornece as melhores geometrias e coberturas para o seu processo."
-        primaryCta={{ label: "Solicitar orçamento", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Explorar fornecedores", href: "/fornecedores" }}
+        primaryCta={{ label: "Solicitar orçamento", href: "/contato" }}
+        secondaryCta={{ label: "Explorar fornecedores", href: "/fornecedores-catalogos" }}
         note="Foco em produtividade, precisão e suporte humano."
       />
     </div>

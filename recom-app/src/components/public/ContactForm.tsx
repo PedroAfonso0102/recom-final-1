@@ -10,6 +10,7 @@ import { submitContactForm } from "@/lib/actions/lead-actions";
 import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
 import { LeadSchema } from "@/cms/schemas/lead.schema";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { AnalyticsEvents } from "@/design-system/hooks/analytics-events";
 import { siteConfig } from "@/lib/config";
 import type { Supplier } from "@/cms/schemas/supplier.schema";
 import type { Process } from "@/cms/schemas/process.schema";
@@ -102,15 +103,16 @@ export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps
     formData.set("processInterest", values.processInterest || "");
     formData.set("itemCode", values.itemCode || "");
     formData.set("message", values.message);
-    formData.set("sourcePage", typeof window !== "undefined" ? window.location.pathname : "/sobre");
+    formData.set("sourcePage", typeof window !== "undefined" ? window.location.pathname : "/contato");
+    formData.set("sourceType", "contact");
 
     const result = await submitContactForm(formData);
 
     if (result.success) {
       setStatus("success");
-      trackEvent("lead_capture_success", { 
-        source_page: values.sourcePage,
-        company: values.company 
+      trackEvent(AnalyticsEvents.leadFormSubmit, {
+        page_location: typeof window !== "undefined" ? window.location.pathname : "/contato",
+        form_name: "contact_request",
       });
       reset();
       return;
@@ -118,7 +120,11 @@ export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps
 
     setStatus("error");
     setSubmitError(result.error || "Ocorreu um erro ao enviar sua mensagem.");
-    trackEvent("lead_capture_error", { error: result.error });
+    trackEvent(AnalyticsEvents.formError, {
+      page_location: typeof window !== "undefined" ? window.location.pathname : "/contato",
+      form_name: "contact_request",
+      error_type: result.error || "server_error",
+    });
   }
 
   if (status === "success") {

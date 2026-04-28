@@ -15,6 +15,13 @@ async function getDataClient(allowFallback: boolean) {
   return allowFallback ? await createClient() : createAdminClient();
 }
 
+function isActivePromotionStatus(status: string | null | undefined, endsAt?: string | null) {
+  const isVisibleStatus = status === "active" || status === "published";
+  if (!isVisibleStatus) return false;
+  if (!endsAt) return true;
+  return new Date(endsAt).getTime() >= Date.now();
+}
+
 const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
@@ -174,7 +181,7 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("suppliers").select("*").order("sort_order", { ascending: true });
 
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_SUPPLIERS : [];
@@ -222,7 +229,7 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("suppliers").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
@@ -267,7 +274,7 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("processes").select("*").order("sort_order", { ascending: true });
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_PROCESSES : [];
@@ -296,7 +303,7 @@ export async function getProcessBySlug(slug: string, options: DataOptions = {}):
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("processes").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_PROCESSES.find((process) => process.slug === slug) || null : null;
@@ -323,13 +330,13 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("promotions").select("*").order("starts_at", { ascending: false });
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_PROMOTIONS : [];
   }
 
-  return data.map((item: Record<string, any>) =>
+  return data.filter((item: Record<string, any>) => !allowFallback || isActivePromotionStatus(item.status, item.ends_at)).map((item: Record<string, any>) =>
     PromotionSchema.parse({
       ...item,
       supplierId: item.supplier_id ?? undefined,
@@ -353,7 +360,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("promotions").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_PROMOTIONS.find((promotion) => promotion.slug === slug) || null : null;
@@ -375,7 +382,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
 
 export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
-  const { data, error } = await supabase.from("suppliers").select("slug").eq("status", "active");
+  const { data, error } = await supabase.from("suppliers").select("slug").in("status", ["active", "published"]);
 
   if (error || !data) {
     return FALLBACK_SUPPLIERS.map((supplier) => ({ slug: supplier.slug }));
@@ -386,7 +393,7 @@ export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
 
 export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
-  const { data, error } = await supabase.from("processes").select("slug").eq("status", "active");
+  const { data, error } = await supabase.from("processes").select("slug").in("status", ["active", "published"]);
 
   if (error || !data) {
     return FALLBACK_PROCESSES.map((process) => ({ slug: process.slug }));

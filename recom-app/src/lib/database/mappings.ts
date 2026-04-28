@@ -30,13 +30,18 @@ function normalize<T>(value: T): T | null {
   return value;
 }
 
+function normalizeLegacyStatus<T extends "draft" | "active" | "archived" | undefined>(status: string): T {
+  const normalized = status === "published" ? "active" : status === "scheduled" ? "draft" : status === "expired" ? "archived" : status;
+  return normalized as T;
+}
+
 export function mapSupplierToInsert(data: Supplier): SupplierInsert {
   return {
     name: data.name,
     slug: data.slug || data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
     short_description: data.shortDescription,
     long_description: data.longDescription,
-    status: data.status,
+    status: normalizeLegacyStatus<SupplierInsert["status"]>(data.status),
     sort_order: data.sortOrder,
     logo_url: normalize(data.logoUrl),
     catalog_url: normalize(data.catalogUrl),
@@ -60,7 +65,7 @@ export function mapSupplierToUpdate(data: Supplier): SupplierUpdate {
     slug: data.slug,
     short_description: data.shortDescription,
     long_description: data.longDescription,
-    status: data.status,
+    status: normalizeLegacyStatus<SupplierUpdate["status"]>(data.status),
     sort_order: data.sortOrder,
     logo_url: normalize(data.logoUrl),
     catalog_url: normalize(data.catalogUrl),
@@ -84,7 +89,7 @@ export function mapPromotionToInsert(data: Promotion): PromotionInsert {
     title: data.title,
     slug: data.slug,
     description: data.description,
-    status: data.status,
+    status: normalizeLegacyStatus<PromotionInsert["status"]>(data.status),
     image_url: normalize(data.imageUrl),
     starts_at: data.startsAt,
     ends_at: data.endsAt,
@@ -99,7 +104,7 @@ export function mapPromotionToUpdate(data: Promotion): PromotionUpdate {
     title: data.title,
     slug: data.slug,
     description: data.description,
-    status: data.status,
+    status: normalizeLegacyStatus<PromotionUpdate["status"]>(data.status),
     image_url: normalize(data.imageUrl),
     starts_at: data.startsAt,
     ends_at: data.endsAt,
@@ -116,7 +121,7 @@ export function mapProcessToInsert(data: Process): ProcessInsert {
     slug: data.slug,
     short_description: data.shortDescription,
     long_description: data.longDescription,
-    status: data.status,
+    status: normalizeLegacyStatus<ProcessInsert["status"]>(data.status),
     sort_order: data.sortOrder,
     image_url: normalize(data.imageUrl),
     seo_title: normalize(data.seoTitle),
@@ -130,7 +135,7 @@ export function mapProcessToUpdate(data: Process): ProcessUpdate {
     slug: data.slug,
     short_description: data.shortDescription,
     long_description: data.longDescription,
-    status: data.status,
+    status: normalizeLegacyStatus<ProcessUpdate["status"]>(data.status),
     sort_order: data.sortOrder,
     image_url: normalize(data.imageUrl),
     seo_title: normalize(data.seoTitle),

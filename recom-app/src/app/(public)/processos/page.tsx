@@ -61,7 +61,7 @@ export default async function ProcessosPage() {
             <EmptyState
               title="Nenhum processo cadastrado"
               description="Não encontramos processos ativos agora. Você ainda pode falar com a equipe RECOM para pedir orientação técnica."
-              primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
+              primaryCta={{ label: "Falar com a RECOM", href: "/contato" }}
               className="md:col-span-2 xl:col-span-3"
             />
           ) : (
@@ -71,9 +71,9 @@ export default async function ProcessosPage() {
                 name={process.name}
                 description={process.shortDescription || ""}
                 imageUrl={process.imageUrl || undefined}
-                link={`/processos/${process.slug}`}
+                link={`/solucoes/${process.slug}`}
                 suppliers={getSupplierNames(process.id)}
-                contactLink="/sobre#contato"
+                contactLink="/contato"
               />
             ))
           )}
@@ -85,8 +85,8 @@ export default async function ProcessosPage() {
         eyebrow="Consultoria técnica"
         title="Fale com a RECOM"
         description="Nossa equipe está disponível para orientar sua cotação e indicar o ferramental correto para seu processo de usinagem."
-        primaryCta={{ label: "Entrar em contato", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores" }}
+        primaryCta={{ label: "Entrar em contato", href: "/contato" }}
+        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores-catalogos" }}
         note="A decisão comercial e a orientação técnica começam no mesmo fluxo."
       />
     </div>

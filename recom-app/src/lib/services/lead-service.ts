@@ -1,4 +1,4 @@
-import { createAdminClient } from "../supabase/admin";
+import { createClient } from "../supabase/server";
 import { Lead, LeadSchema } from '../../cms/schemas/lead.schema';
 import { mapLeadToInsert } from "../database/mappings";
 
@@ -16,7 +16,7 @@ export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'upda
       };
     }
 
-    const supabase = createAdminClient();
+    const supabase = await createClient();
     const payload = mapLeadToInsert(parsed.data);
     
     const { error } = await supabase

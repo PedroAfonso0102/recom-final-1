@@ -44,7 +44,6 @@ export default async function AdminSuppliersPage() {
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-14 items-center justify-center border border-slate-200 bg-white">
                       {supplier.logoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img src={supplier.logoUrl} alt="" className="max-h-8 w-auto object-contain" />
                       ) : (
                         <span className="text-[10px] font-semibold text-slate-400">Logo</span>

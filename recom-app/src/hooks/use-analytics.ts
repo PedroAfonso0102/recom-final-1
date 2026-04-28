@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback } from "react";
+import type { AnalyticsEventName, AnalyticsEventParams } from "@/design-system/hooks/analytics-events";
 
-type EventParams = Record<string, string | number | boolean | undefined | null>;
+type EventParams = AnalyticsEventParams & Record<string, string | number | boolean | undefined | null>;
 
 /**
  * Hook para disparar eventos de analytics e rastreamento.
@@ -13,7 +14,7 @@ export function useAnalytics() {
    * Dispara um evento personalizado.
    * Se houver um dataLayer (GTM), envia para lá. Caso contrário, apenas loga em desenvolvimento.
    */
-  const trackEvent = useCallback((eventName: string, params?: EventParams) => {
+  const trackEvent = useCallback((eventName: AnalyticsEventName | "cta_click" | "section_view", params?: EventParams) => {
     // Log básico em desenvolvimento
     if (process.env.NODE_ENV === "development") {
       console.log(`[Analytics] Event: ${eventName}`, params);

@@ -7,7 +7,7 @@ export default function NotFound() {
         title="Página não encontrada"
         description="O endereço solicitado não existe ou não está mais disponível. Use os atalhos abaixo para continuar sua navegação."
         primaryCta={{ label: "Voltar para a home", href: "/" }}
-        secondaryCta={{ label: "Explorar fornecedores", href: "/fornecedores" }}
+        secondaryCta={{ label: "Explorar fornecedores e catalogos", href: "/fornecedores-catalogos" }}
         className="w-full"
       />
     </div>

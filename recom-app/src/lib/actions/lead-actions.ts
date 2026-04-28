@@ -31,6 +31,7 @@ export async function submitContactForm(formData: FormData) {
     itemCode: (formData.get("itemCode") as string) || undefined,
     message: composeLeadMessage(formData),
     sourcePage,
+    sourceType: (formData.get("sourceType") as "contact" | "supplier" | "process" | "promotion" | "general") || "contact",
   });
 
   if (result.success) {

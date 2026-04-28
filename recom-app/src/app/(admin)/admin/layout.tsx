@@ -6,6 +6,10 @@ import { requireAuth } from "@/lib/auth/utils";
 export const metadata = {
   title: "Painel CMS - RECOM",
   description: "Sistema administrativo RECOM",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export const dynamic = "force-dynamic";

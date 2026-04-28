@@ -1,79 +1,48 @@
 import type { Metadata } from "next";
 import { ExternalLink, Globe, Mail, MapPin, Phone, Settings2 } from "lucide-react";
+
+import { PageHeader, StatusBadge } from "@/components/admin/admin-kit";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomCard } from "@/design-system/components/recom-card";
-import { siteConfig } from "@/lib/config";
+import { getSiteSettings } from "@/cms/queries";
 
 export const metadata: Metadata = {
-  title: "Configurações | Painel RECOM",
-  description: "Fonte única de verdade para dados institucionais e canais oficiais da RECOM.",
+  title: "Configuracoes | Painel RECOM",
+  description: "Fonte unica de verdade para dados institucionais e canais oficiais da RECOM.",
 };
 
-const configItems = [
-  {
-    label: "Razão social",
-    value: siteConfig.company.fullName,
-  },
-  {
-    label: "Marca",
-    value: siteConfig.company.name,
-  },
-  {
-    label: "Desde",
-    value: siteConfig.company.since,
-  },
-  {
-    label: "CNPJ",
-    value: siteConfig.company.cnpj,
-  },
-];
+export default async function AdminConfiguracoesPage() {
+  const settings = await getSiteSettings();
+  const configItems = [
+    { label: "Razao social", value: settings.company.fullName },
+    { label: "Marca", value: settings.company.name },
+    { label: "Desde", value: settings.company.since },
+    { label: "Titulo SEO padrao", value: settings.seo.defaultTitle },
+  ];
 
-const contactItems = [
-  {
-    label: "Telefone",
-    value: siteConfig.contact.phone,
-    href: `tel:${siteConfig.contact.phone.replace(/\D/g, "")}`,
-    icon: Phone,
-  },
-  {
-    label: "E-mail",
-    value: siteConfig.contact.email,
-    href: `mailto:${siteConfig.contact.email}`,
-    icon: Mail,
-  },
-  {
-    label: "WhatsApp",
-    value: siteConfig.contact.whatsapp,
-    href: `https://wa.me/${siteConfig.contact.whatsapp}`,
-    icon: ExternalLink,
-  },
-  {
-    label: "Endereço",
-    value: `${siteConfig.contact.address} - CEP ${siteConfig.contact.cep}`,
-    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.contact.address)}`,
-    icon: MapPin,
-  },
-];
+  const contactItems = [
+    { label: "Telefone", value: settings.contact.phone, href: `tel:${settings.contact.phone.replace(/\D/g, "")}`, icon: Phone },
+    { label: "E-mail", value: settings.contact.email, href: `mailto:${settings.contact.email}`, icon: Mail },
+    { label: "WhatsApp", value: settings.contact.whatsapp, href: `https://wa.me/${settings.contact.whatsapp}`, icon: ExternalLink },
+    { label: "Endereco", value: `${settings.contact.address} - CEP ${settings.contact.cep}`, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.contact.address)}`, icon: MapPin },
+  ];
 
-export default function AdminConfiguracoesPage() {
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-3 border-b border-border pb-8">
-        <div className="flex items-center gap-3">
-          <Settings2 className="h-5 w-5 text-slate-400" />
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Fonte única</span>
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Configurações</h1>
-        <p className="max-w-3xl text-slate-500">
-          Os dados institucionais e os canais oficiais da RECOM são centralizados aqui para manter a consistência entre o admin e o site público.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Sistema"
+        title="Configuracoes do site"
+        description="Dados institucionais que alimentam header, footer, contato, SEO defaults e canais comerciais. A leitura prioriza a tabela site_settings e usa fallback seguro quando ela ainda nao existe."
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <RecomCard className="p-6">
-          <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
-            <Globe className="h-4 w-4 text-slate-400" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Empresa</h2>
+        <RecomCard className="rounded-none border-slate-200 p-6 shadow-none">
+          <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-slate-400" />
+              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Empresa</h2>
+            </div>
+            <StatusBadge status="published" label="Fonte publica" />
           </div>
           <dl className="grid gap-4 text-sm">
             {configItems.map((item) => (
@@ -85,20 +54,14 @@ export default function AdminConfiguracoesPage() {
           </dl>
         </RecomCard>
 
-        <RecomCard className="p-6">
+        <RecomCard className="rounded-none border-slate-200 p-6 shadow-none">
           <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
             <Phone className="h-4 w-4 text-slate-400" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Contato oficial</h2>
           </div>
           <div className="space-y-3">
             {contactItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target={item.label === "WhatsApp" || item.label === "Endereço" ? "_blank" : undefined}
-                rel={item.label === "WhatsApp" || item.label === "Endereço" ? "noopener noreferrer" : undefined}
-                className="flex items-center justify-between gap-4 rounded-lg border border-border bg-muted/20 px-4 py-3 transition-colors hover:border-primary/20 hover:bg-primary/5"
-              >
+              <a key={item.label} href={item.href} target={item.label === "WhatsApp" || item.label === "Endereco" ? "_blank" : undefined} rel={item.label === "WhatsApp" || item.label === "Endereco" ? "noopener noreferrer" : undefined} className="flex items-center justify-between gap-4 rounded-md border border-border bg-muted/20 px-4 py-3 transition-colors hover:border-primary/20 hover:bg-primary/5">
                 <div className="flex items-center gap-3">
                   <item.icon className="h-4 w-4 text-slate-400" />
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{item.label}</span>
@@ -110,24 +73,20 @@ export default function AdminConfiguracoesPage() {
         </RecomCard>
       </div>
 
-      <RecomCard className="p-6">
+      <RecomCard className="rounded-none border-slate-200 p-6 shadow-none">
         <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
           <Settings2 className="h-4 w-4 text-slate-400" />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Direção da fonte única</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">Proximo passo</h2>
         </div>
         <p className="max-w-3xl text-sm leading-relaxed text-slate-600">
-          Esta tela reflete os valores definidos em <code className="rounded bg-muted px-1.5 py-0.5 text-[11px]">src/lib/config.ts</code>. Quando a configuração central mudar, o admin e o site público permanecem alinhados sem depender de dados de fallback.
+          Para editar estes dados pelo admin, o proximo batch deve adicionar um formulario com `siteSettingsSchema` e server action gravando em `site_settings`.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <RecomButton asChild intent="outline" className="h-11 px-6 rounded-xl border-slate-200">
-            <a href={`mailto:${siteConfig.contact.email}`}>
-              Abrir e-mail institucional
-            </a>
+          <RecomButton asChild intent="outline" className="h-11 rounded-md border-slate-200 px-6">
+            <a href={`mailto:${settings.contact.email}`}>Abrir e-mail institucional</a>
           </RecomButton>
-          <RecomButton asChild className="h-11 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white">
-            <a href="/" target="_blank" rel="noopener noreferrer">
-              Ver site público
-            </a>
+          <RecomButton asChild className="h-11 rounded-md bg-slate-900 px-6 text-white hover:bg-slate-800">
+            <a href="/" target="_blank" rel="noopener noreferrer">Ver site publico</a>
           </RecomButton>
         </div>
       </RecomCard>

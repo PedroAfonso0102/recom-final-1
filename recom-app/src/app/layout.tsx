@@ -16,11 +16,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://recom.com.br"),
   title: {
     default: "RECOM Metal Duro | Distribuidor B2B desde 1990",
     template: "%s | RECOM Metal Duro",
   },
   description: siteConfig.company.subtitle,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "RECOM Metal Duro",
+    title: "RECOM Metal Duro | Distribuidor B2B desde 1990",
+    description: siteConfig.company.subtitle,
+    locale: "pt_BR",
+  },
 };
 
 export default function RootLayout({
