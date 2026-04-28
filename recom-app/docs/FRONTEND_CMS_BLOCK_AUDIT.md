@@ -10,6 +10,7 @@ Data: 2026-04-28
 - CMS proprio em `src/cms`, com `pages`, `page_sections`, `page_versions` e `cms_revisions`.
 - Dados comerciais em Supabase: `suppliers`, `processes`, `promotions`, `leads`, `site_settings`, `supplier_processes`, `media_assets`.
 - Design system existente em `src/design-system`.
+- Anexos editoriais em `Downloads`: extracao editorial, inventario de paginas/componentes/campos, guia de tom/copywriting e singlefile HTML do legado.
 
 ## Mapa de paginas publicas
 
@@ -118,3 +119,17 @@ Data: 2026-04-28
 - `src/app/(public)/sobre/page.tsx`: removeu formulario duplicado e contatos extensos; pagina institucional agora fecha com CTA para `/contato`.
 - Supabase local: `supabase status` confirmou API, DB, Studio e Storage rodando enquanto Docker estava ativo; `supabase migration list --local` mostrou todas as 15 migrations aplicadas; `supabase migration up --local` retornou "Local database is up to date".
 - RLS comportamental: pendente, porque Docker foi parado antes das consultas SQL de policies e testes como anon/authenticated.
+
+## Progresso do batch baseado nos anexos
+
+- `src/design-system/contracts/page-experience-presets.ts`: adiciona presets governados de experiencia para Home, Institucional, Hub comercial, Detalhe de entidade, Conteudo tecnico, Promocao, Contato e Recuperacao.
+- `src/cms/render-page.tsx`: cada pagina CMS renderizada recebe `data-page-experience`, `data-page-intent` e classes de experiencia inferidas por `template_key`/slug.
+- `src/components/admin/cms/page-form.tsx`: o campo `templateKey` virou seletor de "Experiencia da pagina", permitindo diferencas de UI/UX sem virar page builder livre.
+- `src/cms/schemas/*-section.schema.ts` e `src/cms/component-registry.ts`: variantes controladas foram ampliadas para usos dos anexos, incluindo `industrial`, `technical`, `contact`, `catalog`, `editorial`, `note`, `supplier`, `process` e `promotion`.
+- `src/app/(public)/fornecedores/page.tsx` e `src/app/(public)/processos/page.tsx`: corrigida a leitura do CMS migrado, buscando os slugs canonicos `fornecedores-catalogos` e `solucoes`, com fallback aos slugs legados.
+- `supabase/migrations/20260428000005_seed_editorial_cms_pages.sql`: migration de seed editorial criada a partir dos anexos (`extracao editorial`, `inventario`, `guia de tom` e `singlefile HTML`) para popular `pages` e `page_sections` com Home, A RECOM, Fornecedores & Catalogos, Solucoes, Promocoes, Contato e paginas tecnicas legadas.
+- Aplicacao da migration editorial: aplicada localmente em 2026-04-28 com `npx.cmd supabase migration up --local`. Validacao anon confirmou paginas publicadas e secoes visiveis.
+
+### Implicacao
+
+O CMS passa a permitir paginas com estilo e experiencia diferentes por tipo editorial, mas dentro de presets claros. Isso atende ao inventario anexado sem abrir liberdade visual arbitraria.

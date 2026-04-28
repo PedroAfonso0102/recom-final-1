@@ -9,7 +9,7 @@ import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 import { getPageBySlug } from "@/cms/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsPage = await getPageBySlug("processos");
+  const cmsPage = (await getPageBySlug("solucoes")) ?? (await getPageBySlug("processos"));
   
   return {
     title: cmsPage?.page.seo_title || "Processos de Usinagem e Soluções Técnicas | RECOM",
@@ -21,6 +21,7 @@ export default async function ProcessosPage() {
   const [processes, suppliers, cmsPage] = await Promise.all([
     getProcesses(),
     getSuppliers(),
+    getPageBySlug("solucoes").then((page) => page ?? getPageBySlug("processos")),
   ]);
 
   const hasCmsContent = cmsPage && cmsPage.sections.length > 0;

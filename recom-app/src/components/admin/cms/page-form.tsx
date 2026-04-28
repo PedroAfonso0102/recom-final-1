@@ -17,6 +17,13 @@ import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import { cmsPageFormSchema } from "@/cms/schemas/page.schema";
 import { RevisionHistory } from "./revision-history";
+import { PAGE_EXPERIENCE_PRESETS } from "@/design-system/contracts/page-experience-presets";
+
+const pageExperienceOptions = Object.values(PAGE_EXPERIENCE_PRESETS).map((preset) => ({
+  label: preset.label,
+  value: preset.key,
+}));
+
 const pageFields: CmsFieldDefinition[] = [
   { name: "title", label: "Título", type: "text", required: true },
   { name: "slug", label: "Slug", type: "text", required: true, placeholder: "home" },
@@ -31,7 +38,13 @@ const pageFields: CmsFieldDefinition[] = [
       { label: "Landing Page", value: "landing" },
     ],
   },
-  { name: "templateKey", label: "Chave do Template", type: "text", placeholder: "home, supplier_detail, etc." },
+  {
+    name: "templateKey",
+    label: "ExperiÃªncia da pÃ¡gina",
+    type: "select",
+    description: "Controla diferenÃ§as de UI/UX sem liberar layout livre.",
+    options: pageExperienceOptions,
+  },
   { name: "description", label: "Descrição Interna", type: "textarea", rows: 2 },
   { name: "seoTitle", label: "SEO title", type: "text" },
   { name: "seoDescription", label: "SEO description", type: "textarea", rows: 3 },

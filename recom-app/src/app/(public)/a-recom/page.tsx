@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { getPageBySlug, getSiteSettings } from "@/cms/queries";
+import { getPageBySlug } from "@/cms/queries";
 import { RenderPage } from "@/cms/render-page";
-import { siteConfig } from "@/lib/config";
 import SobrePage, { generateMetadata as generateSobreMetadata } from "../sobre/page";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ARecomPage() {
-  const [settings, cmsPage] = await Promise.all([getSiteSettings(), getPageBySlug("a-recom")]);
+  const cmsPage = await getPageBySlug("a-recom");
   
   const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
   

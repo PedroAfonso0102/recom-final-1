@@ -16,6 +16,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Docker em execucao.
 - [x] `supabase start` ou stack local ativa. Validado por `supabase status` em 2026-04-28 antes do Docker ser parado.
 - [x] `supabase migration up --local`. Retornou "Local database is up to date" em 2026-04-28.
+- [x] Aplicar `supabase/migrations/20260428000005_seed_editorial_cms_pages.sql`. Aplicada em 2026-04-28; validacao anon confirmou paginas publicadas e secoes visiveis.
 - [ ] `supabase db reset` com seed aplicavel.
 - [ ] Tipos regenerados com `npm run db:types`.
 - [ ] RLS habilitada nas tabelas publicas. Consulta SQL pendente porque Docker foi parado.
@@ -49,6 +50,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 
 - [ ] Dashboard mostra pendencias reais.
 - [ ] Paginas listam status, rota, SEO e ultima edicao.
+- [x] Editor de pagina permite escolher experiencia governada de UI/UX via presets, sem layout livre.
 - [ ] Editor de blocos nao permite layout livre.
 - [ ] Editor mostra loading, saving, saved, dirty, validation_error e publish_blocked.
 - [ ] Preview responsivo nao vaza publicamente sem permissao. Helper aplicado; falta smoke com sessao real e anonima.

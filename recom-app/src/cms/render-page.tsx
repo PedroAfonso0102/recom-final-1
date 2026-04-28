@@ -1,5 +1,7 @@
 import type { CmsPageWithSections } from "./types";
 import { RenderSection } from "./render-section";
+import { getPageExperienceFromPage } from "@/design-system/contracts/page-experience-presets";
+import { cn } from "@/lib/utils";
 
 type RenderPageProps = {
   pageData: CmsPageWithSections;
@@ -8,7 +10,8 @@ type RenderPageProps = {
 };
 
 export function RenderPage({ pageData, preview = false, context }: RenderPageProps) {
-  const { sections } = pageData;
+  const { page, sections } = pageData;
+  const experience = getPageExperienceFromPage(page);
 
   if (preview && sections.length === 0) {
     return (
@@ -19,11 +22,14 @@ export function RenderPage({ pageData, preview = false, context }: RenderPagePro
   }
 
   return (
-    <div className="flex flex-col">
+    <div
+      className={cn("flex flex-col", experience.className)}
+      data-page-experience={experience.key}
+      data-page-intent={experience.primaryIntent}
+    >
       {sections.map((section) => (
         <RenderSection key={section.id} section={section} preview={preview} context={context} />
       ))}
     </div>
   );
 }
-

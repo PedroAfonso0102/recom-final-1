@@ -12,7 +12,7 @@ import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 import { getPageBySlug } from "@/cms/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsPage = await getPageBySlug("fornecedores");
+  const cmsPage = (await getPageBySlug("fornecedores-catalogos")) ?? (await getPageBySlug("fornecedores"));
   
   return {
     title: cmsPage?.page.seo_title || "Fornecedores e Marcas Parceiras | RECOM Metal Duro",
@@ -24,6 +24,7 @@ export default async function FornecedoresPage() {
   const [suppliers, processes, cmsPage] = await Promise.all([
     getSuppliers(),
     getProcesses(),
+    getPageBySlug("fornecedores-catalogos").then((page) => page ?? getPageBySlug("fornecedores")),
   ]);
 
   const hasCmsContent = cmsPage && cmsPage.sections.length > 0;

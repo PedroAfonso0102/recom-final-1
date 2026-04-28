@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
 import { revalidateCmsPaths } from "@/lib/revalidation/cms";
 import { getComponentDefinition } from "@/cms/component-registry";
+import { assertSectionAllowedForPage } from "@/cms/section-governance";
 import { cmsCreatePageSchema, cmsUpdatePageSchema } from "@/cms/schemas/page.schema";
 import { cmsCreateSectionSchema, cmsPublishPageSchema, cmsReorderSectionsSchema, cmsUpdateSectionSchema } from "@/cms/schemas/section.schema";
 import type { ActionResult, CmsPageRow, CmsRevisionRow, CmsSectionRow } from "@/cms/types";
@@ -162,6 +163,25 @@ export async function createSection(input: unknown): Promise<ActionResult<CmsSec
   }
 
   const supabase = createAdminClient();
+  const pageResult = await supabase
+    .from("pages")
+    .select("id, slug, template_key")
+    .eq("id", parsed.data.pageId)
+    .maybeSingle();
+
+  if (pageResult.error || !pageResult.data) {
+    return { success: false, formError: pageResult.error?.message ?? "PÃ¡gina nÃ£o encontrada." };
+  }
+
+  const governance = assertSectionAllowedForPage({
+    page: pageResult.data,
+    componentType: parsed.data.componentType,
+  });
+
+  if (!governance.success) {
+    return { success: false, formError: governance.message };
+  }
+
   const payload = {
     page_id: parsed.data.pageId,
     component_type: parsed.data.componentType,
@@ -180,9 +200,8 @@ export async function createSection(input: unknown): Promise<ActionResult<CmsSec
     return { success: false, formError: error?.message ?? "Não foi possível criar a seção." };
   }
 
-  const page = await supabase.from("pages").select("slug").eq("id", parsed.data.pageId).maybeSingle();
-  if (page.data?.slug) {
-    revalidateCmsPaths(page.data.slug, parsed.data.pageId);
+  if (pageResult.data.slug) {
+    revalidateCmsPaths(pageResult.data.slug, parsed.data.pageId);
   }
 
   return { success: true, data: data as CmsSectionRow, message: "Seção criada." };
@@ -203,6 +222,25 @@ export async function updateSection(input: unknown): Promise<ActionResult<CmsSec
   }
 
   const supabase = createAdminClient();
+  const pageResult = await supabase
+    .from("pages")
+    .select("id, slug, template_key")
+    .eq("id", parsed.data.pageId)
+    .maybeSingle();
+
+  if (pageResult.error || !pageResult.data) {
+    return { success: false, formError: pageResult.error?.message ?? "PÃ¡gina nÃ£o encontrada." };
+  }
+
+  const governance = assertSectionAllowedForPage({
+    page: pageResult.data,
+    componentType: parsed.data.componentType,
+  });
+
+  if (!governance.success) {
+    return { success: false, formError: governance.message };
+  }
+
   const payload = {
     page_id: parsed.data.pageId,
     component_type: parsed.data.componentType,
@@ -225,9 +263,8 @@ export async function updateSection(input: unknown): Promise<ActionResult<CmsSec
     return { success: false, formError: error?.message ?? "Não foi possível atualizar a seção." };
   }
 
-  const page = await supabase.from("pages").select("slug").eq("id", parsed.data.pageId).maybeSingle();
-  if (page.data?.slug) {
-    revalidateCmsPaths(page.data.slug, parsed.data.pageId);
+  if (pageResult.data.slug) {
+    revalidateCmsPaths(pageResult.data.slug, parsed.data.pageId);
   }
 
   return { success: true, data: data as CmsSectionRow, message: "Seção atualizada." };
@@ -286,6 +323,15 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
   }
 
   for (const section of sections) {
+    const governance = assertSectionAllowedForPage({
+      page,
+      componentType: section.component_type,
+    });
+
+    if (!governance.success) {
+      return { success: false, formError: governance.message };
+    }
+
     const definition = normalizeSectionProps(section.component_type, (section.props ?? {}) as Record<string, unknown>);
 
     if (!definition.success) {
@@ -523,5 +569,4 @@ export async function restoreRevision(revisionId: string): Promise<ActionResult>
     return { success: false, formError: error instanceof Error ? error.message : "Unknown error" };
   }
 }
-
 
