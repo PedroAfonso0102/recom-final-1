@@ -24,17 +24,17 @@ export default async function FornecedoresPage() {
   const [suppliers, processes, cmsPage] = await Promise.all([
     getSuppliers(),
     getProcesses(),
-    getPageBySlug("fornecedores")
   ]);
 
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
   const getProcessNames = (ids: string[] = []) =>
     ids.map((id) => processes.find((process) => process.id === id)?.name).filter(Boolean) as string[];
 
   return (
     <div className="flex flex-col">
-      {cmsPage && <RenderPage pageData={cmsPage} context={{ suppliers, processes }} />}
+      {hasCmsContent && <RenderPage pageData={cmsPage} context={{ suppliers, processes }} />}
       
-      {!cmsPage && (
+      {!hasCmsContent && (
         <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
           <div className="container-recom space-y-4">
             <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Fornecedores & Catálogos" }]} />

@@ -50,11 +50,13 @@ export default async function PromocoesPage() {
     return 0;
   });
 
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
+
   return (
     <div className="flex flex-col">
-      {cmsPage && <RenderPage pageData={cmsPage} context={{ promotions, suppliers }} />}
+      {hasCmsContent && <RenderPage pageData={cmsPage} context={{ promotions, suppliers }} />}
 
-      {!cmsPage && (
+      {!hasCmsContent && (
         <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
           <div className="container-recom space-y-4">
             <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Promoções" }]} />

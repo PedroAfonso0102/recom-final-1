@@ -20,13 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SobrePage() {
   const [settings, cmsPage] = await Promise.all([getSiteSettings(), getPageBySlug("sobre")]);
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
   const config = settings || siteConfig;
 
   return (
     <div className="flex flex-col">
-      {cmsPage && <RenderPage pageData={cmsPage} />}
+      {hasCmsContent && <RenderPage pageData={cmsPage} />}
 
-      {!cmsPage && (
+      {!hasCmsContent && (
         <>
           <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
             <div className="container-recom space-y-4">

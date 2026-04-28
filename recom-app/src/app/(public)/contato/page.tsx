@@ -28,9 +28,11 @@ export default async function ContatoPage() {
   ]);
   const config = settings || siteConfig;
 
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
+
   return (
     <div className="flex flex-col">
-      {cmsPage ? (
+      {hasCmsContent ? (
         <RenderPage pageData={cmsPage} context={{ settings: config, suppliers, processes }} />
       ) : (
         <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
