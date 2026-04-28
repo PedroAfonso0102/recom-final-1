@@ -7,10 +7,10 @@ const SUPPLIERS = [
   {
     name: "Mitsubishi Materials",
     slug: "mitsubishi",
-    logo_url: "/assets/images/mitsubishi-logo.png",
+    logo_url: "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg",
     catalog_url: "https://www.mmc-carbide.com/br/download/catalog-1",
-    short_description: "Fornecedor global de ferramentas de metal duro para usinagem de precisão.",
-    long_description: "A Mitsubishi Materials produz materiais e revestimentos de alta durabilidade. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial.",
+    short_description: "A Mitsubishi Materials é referência mundial em metal duro. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial.",
+    long_description: "A Mitsubishi Materials é referência mundial em metal duro. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial em aços, inox e ferro fundido.\n\nA RECOM atende clientes que buscam produtos na linha original Mitsubishi. Nossa equipe técnica orienta na escolha da ferramenta mais adequada à sua aplicação.",
     status: "active",
     sort_order: 1,
     settings: { show_menu: true, show_promotions: true, show_processes: true, featured: true },

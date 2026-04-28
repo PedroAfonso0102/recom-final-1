@@ -39,8 +39,21 @@ import {
   FileText,
   XCircle,
   PieChart,
-  Loader2
+  Loader2,
+  Copy,
+  Check,
+  ZapOff,
+  UserCheck,
+  TrendingDown,
+  X
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Table,
   TableBody,
@@ -155,6 +168,21 @@ const statusOptions = [
   { value: 'lost', label: 'Perdido', icon: XCircle, className: 'bg-rose-50 text-rose-700 border-rose-200' },
 ];
 
+const CopyButton = ({ value, label }: { value: string; label: string }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+    toast({ title: `${label} copiado` });
+  };
+  return (
+    <button onClick={e => { e.stopPropagation(); handleCopy(); }} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-primary active:scale-90">
+      {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+    </button>
+  );
+};
+
 export function LeadsManager({ initialLeads, config: initialConfig, processes, initialSalesReps, suppliers }: LeadsManagerProps) {
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [salesReps, setSalesReps] = useState<SalesRep[]>(initialSalesReps);
@@ -170,6 +198,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
 
   const [newRep, setNewRep] = useState({ name: '', email: '', phone: '' });
   const [isAddingRep, setIsAddingRep] = useState(false);
+  const [isSavingConfig, setIsSavingConfig] = useState(false);
 
   const [config, setConfig] = useState<LeadNotificationsConfig>(initialConfig || {
     enabled: false,
@@ -207,8 +236,15 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
 
   const stats = useMemo(() => {
     const totalRevenue = leads.reduce((acc, curr) => acc + (Number(curr.revenue_value) || 0), 0);
-    const conversionRate = leads.length > 0 ? (leads.filter(l => l.status === 'qualified').length / leads.length) * 100 : 0;
-    return { totalRevenue, conversionRate };
+    const qualifiedLeads = leads.filter(l => l.status === 'qualified');
+    const conversionRate = leads.length > 0 ? (qualifiedLeads.length / leads.length) * 100 : 0;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const leadsToday = leads.filter(l => l.created_at.startsWith(today)).length;
+    
+    const avgRevenue = qualifiedLeads.length > 0 ? totalRevenue / qualifiedLeads.length : 0;
+    
+    return { totalRevenue, conversionRate, leadsToday, totalLeads: leads.length, avgRevenue };
   }, [leads]);
 
   const nextRep = useMemo(() => {
@@ -342,6 +378,34 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
   };
 
 
+  const handleSaveConfig = async () => {
+    setIsSavingConfig(true);
+    try {
+      const result = await updateAdminConfig('lead_notifications', config);
+      if (result.success) {
+        toast({ 
+          title: "Configurações salvas", 
+          description: "O motor de automação foi atualizado com sucesso." 
+        });
+      } else {
+        toast({ 
+          variant: "destructive", 
+          title: "Erro ao salvar", 
+          description: result.error 
+        });
+      }
+    } catch (e) {
+      toast({ 
+        variant: "destructive", 
+        title: "Erro técnico", 
+        description: "Não foi possível conectar ao servidor." 
+      });
+    } finally {
+      setIsSavingConfig(false);
+    }
+  };
+
+
   const toggleSelectAll = () => {
     if (selectedIds.length === filteredLeads.length) {
       setSelectedIds([]);
@@ -378,33 +442,76 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
   };
 
   return (
-    <Tabs defaultValue="pipeline" className="w-full">
+    <TooltipProvider>
+      <Tabs defaultValue="pipeline" className="w-full">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <TabsList className="bg-slate-100/50 p-1 rounded-xl h-auto self-start border border-slate-200/50">
-          <TabsTrigger value="pipeline" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900">
+          <TabsTrigger value="pipeline" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900 transition-all">
             <LayoutDashboard className="h-4 w-4" /> Pipeline
           </TabsTrigger>
-          <TabsTrigger value="reps" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900">
+          <TabsTrigger value="reps" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900 transition-all">
             <User className="h-4 w-4" /> Time de Vendas
           </TabsTrigger>
-          <TabsTrigger value="settings" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900">
+          <TabsTrigger value="settings" className="px-6 py-2.5 rounded-lg text-xs font-semibold tracking-tight gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-slate-900 transition-all">
             <BellRing className="h-4 w-4" /> Notificações
           </TabsTrigger>
         </TabsList>
 
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Receita Gerada</p>
-            <p className="text-base font-bold text-emerald-600">R$ {stats.totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Receita Total</p>
+            <p className="text-base font-bold text-slate-900">R$ {stats.totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
           </div>
           <div className="h-10 w-px bg-slate-200 hidden sm:block"></div>
-          <Badge variant="outline" className="h-10 px-4 bg-slate-50 text-slate-700 border-slate-200 text-[10px] font-bold uppercase tracking-wider gap-2 rounded-full shadow-sm">
-            <PieChart className="h-3.5 w-3.5 text-slate-400" /> Conversão: {stats.conversionRate.toFixed(1)}%
+          <Badge variant="outline" className="h-10 px-4 bg-white text-slate-700 border-slate-200 text-[10px] font-bold uppercase tracking-wider gap-2 rounded-full shadow-sm hover:bg-slate-50 transition-colors">
+            <PieChart className="h-3.5 w-3.5 text-primary" /> Conversão: {stats.conversionRate.toFixed(1)}%
           </Badge>
         </div>
       </div>
 
       <TabsContent value="pipeline" className="mt-0 space-y-6">
+        {/* Dashboard Header */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <RecomCard className="p-6 bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                <Target className="h-4 w-4" />
+              </div>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total de Leads</span>
+            </div>
+            <p className="text-2xl font-black text-slate-900 tracking-tight">{stats.totalLeads}</p>
+          </RecomCard>
+          
+          <RecomCard className="p-6 bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <Plus className="h-4 w-4" />
+              </div>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Leads Hoje</span>
+            </div>
+            <p className="text-2xl font-black text-emerald-600 tracking-tight">+{stats.leadsToday}</p>
+          </RecomCard>
+
+          <RecomCard className="p-6 bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-8 w-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+                <RefreshCw className="h-4 w-4" />
+              </div>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ticket Médio</span>
+            </div>
+            <p className="text-2xl font-black text-slate-900 tracking-tight">R$ {stats.avgRevenue.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}</p>
+          </RecomCard>
+
+          <RecomCard className="p-6 bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Potencial</span>
+            </div>
+            <p className="text-2xl font-black text-slate-900 tracking-tight">R$ {(stats.avgRevenue * stats.totalLeads).toLocaleString('pt-BR', { maximumFractionDigits: 0 })}</p>
+          </RecomCard>
+        </div>
         {selectedIds.length > 0 && (
           <div className="flex items-center justify-between bg-primary p-4 rounded-xl shadow-2xl animate-in slide-in-from-bottom-2">
             <div className="flex items-center gap-4 text-white">
@@ -425,21 +532,38 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
         )}
 
         <div className="space-y-4">
-          <div className="relative w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Pesquisar por lead, empresa ou processo..." className="pl-12 h-14 bg-white border-border shadow-sm rounded-xl focus:ring-2 focus:ring-primary/20" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <div className="relative w-full group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+            <Input 
+              placeholder="Pesquisar por lead, empresa ou processo..." 
+              className="pl-14 h-16 bg-white border-slate-200 shadow-sm rounded-[20px] focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all text-sm font-medium" 
+              value={search} 
+              onChange={(e) => setSearch(e.target.value)} 
+            />
           </div>
-          <div className="flex flex-wrap gap-2">
-            <div className="flex items-center gap-2 mr-4 border-r border-slate-200 pr-4">
-              <Filter className="h-4 w-4 text-slate-400" />
-              <select className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer" value={processFilter} onChange={(e) => setProcessFilter(e.target.value)}>
-                <option value="all">Todos os Processos</option>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 bg-slate-100/80 px-4 py-2 rounded-xl border border-slate-200/50">
+              <Filter className="h-3.5 w-3.5 text-slate-500" />
+              <select className="bg-transparent text-[11px] font-bold text-slate-600 outline-none cursor-pointer" value={processFilter} onChange={(e) => setProcessFilter(e.target.value)}>
+                <option value="all">Processos: Todos</option>
                 {processes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
             </div>
+            
+            <div className="h-6 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+            
             {['all', ...statusOptions.map(o => o.value)].map((val) => (
-              <button key={val} onClick={() => setStatusFilter(val)} className={cn("px-4 py-2 rounded-lg text-xs font-semibold tracking-tight border transition-all", statusFilter === val ? "bg-slate-900 text-white border-slate-900 shadow-sm" : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50")}>
-                {val === 'all' ? 'Todos' : statusOptions.find(o => o.value === val)?.label}
+              <button 
+                key={val} 
+                onClick={() => setStatusFilter(val)} 
+                className={cn(
+                  "px-4 py-2 rounded-xl text-[11px] font-bold tracking-tight transition-all border shadow-sm active:scale-95", 
+                  statusFilter === val 
+                    ? "bg-slate-900 text-white border-slate-900" 
+                    : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                )}
+              >
+                {val === 'all' ? 'Tudo' : statusOptions.find(o => o.value === val)?.label}
               </button>
             ))}
           </div>
@@ -458,7 +582,24 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredLeads.map((lead) => {
+              {filteredLeads.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="h-96 text-center">
+                    <div className="flex flex-col items-center justify-center space-y-4 opacity-40">
+                      <div className="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center">
+                        <ZapOff className="h-8 w-8 text-slate-400" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm font-black uppercase tracking-widest text-slate-900">Nenhum Lead Encontrado</p>
+                        <p className="text-xs font-medium text-slate-500">Tente ajustar seus filtros ou termos de pesquisa.</p>
+                      </div>
+                      <RecomButton intent="outline" onClick={() => { setSearch(''); setStatusFilter('all'); setProcessFilter('all'); }} className="mt-4 text-[11px] font-bold h-10 px-6 rounded-xl">
+                        Limpar Todos os Filtros
+                      </RecomButton>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : filteredLeads.map((lead) => {
                 const isExpanded = expandedId === lead.id;
                 const isSelected = selectedIds.includes(lead.id);
                 const currentStatus = statusOptions.find(o => o.value === lead.status) || statusOptions[0];
@@ -481,93 +622,118 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
 
                 return (
                   <React.Fragment key={lead.id}>
-                    <TableRow className={cn("border-border cursor-pointer transition-colors", isExpanded ? "bg-slate-50/80" : "hover:bg-slate-50/30", isSelected && "bg-primary/5")} onClick={() => setExpandedId(isExpanded ? null : lead.id)}>
+                    <TableRow className={cn("border-border cursor-pointer transition-colors", isExpanded ? "bg-slate-50/50" : "hover:bg-slate-50/30", isSelected && "bg-primary/5")} onClick={() => setExpandedId(isExpanded ? null : lead.id)}>
                       <TableCell className="text-center" onClick={e => e.stopPropagation()}><Checkbox checked={isSelected} onCheckedChange={() => toggleSelect(lead.id)} /></TableCell>
-                      <TableCell>{isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</TableCell>
-                      <TableCell className="py-5">
+                      <TableCell>{isExpanded ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />}</TableCell>
+                      <TableCell className="py-4">
                         <div className="flex flex-col">
-                          <span className="font-bold text-sm text-slate-900 tracking-tight">{lead.name}</span>
-                          <span className="text-[11px] font-medium text-slate-400">{lead.company || 'Pessoa Física'}</span>
+                          <span className="font-bold text-[13px] text-slate-900 tracking-tight">{lead.name}</span>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{lead.company || 'Empresa não informada'}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex flex-col gap-1">
-                          {linkedProcess ? (
-                            <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 text-[10px] font-bold py-0.5 w-fit rounded-full">{linkedProcess.name}</Badge>
-                          ) : suggestedProcess ? (
-                            <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 text-[10px] font-bold py-0.5 w-fit animate-pulse rounded-full">Sugerido: {suggestedProcess.name}</Badge>
-                          ) : <span className="text-[11px] font-medium text-slate-300">A definir</span>}
-                        </div>
+                        <span className="text-[12px] font-medium text-slate-400">
+                          {linkedProcess ? linkedProcess.name : suggestedProcess ? `Sugerido: ${suggestedProcess.name}` : 'A definir'}
+                        </span>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge variant="outline" className={cn("px-2.5 py-0.5 text-[10px] font-bold border-none rounded-full", priority.color)}>{priority.label}</Badge>
+                        <Badge variant="outline" className={cn("px-3 py-1 text-[10px] font-bold border-none rounded-full bg-slate-100 text-slate-600", priority.color === 'bg-rose-50 text-rose-700' ? 'bg-rose-50 text-rose-600' : priority.color === 'bg-amber-50 text-amber-700' ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500')}>
+                          {priority.label}
+                        </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className={cn("inline-flex px-3 py-1 rounded-full text-[10px] font-bold tracking-tight", currentStatus.className)}>
-                          {lead.status === 'qualified' && <DollarSign className="h-3 w-3 mr-1.5" />}
+                        <Badge className={cn("text-[10px] font-bold tracking-tight px-3 py-1 rounded-full border-none", lead.status === 'qualified' ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600")}>
                           {currentStatus.label}
-                        </div>
+                        </Badge>
                       </TableCell>
                     </TableRow>
-                    {isExpanded && (
-                      <TableRow className="bg-slate-50/80 border-none no-hover">
-                        <TableCell colSpan={6} className="p-0">
-                          <div className="px-16 py-10 flex flex-col gap-10 animate-in fade-in slide-in-from-top-2">
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <TableRow className="bg-slate-50/30 border-none no-hover">
+                          <TableCell colSpan={6} className="p-0">
+                            <motion.div 
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: 'easeInOut' }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-10 py-8 flex flex-col gap-8">
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                              <div className="lg:col-span-2 space-y-6">
-                                <div className="flex items-center justify-between">
-                                  <h4 className="text-xs font-bold text-slate-900 flex items-center gap-2"><Zap className="h-4 w-4 text-amber-500" /> Dossiê Técnico de Handoff</h4>
+                              <div className="lg:col-span-2 space-y-4">
+                                <div className="flex items-center justify-between px-2">
+                                  <h4 className="text-[11px] font-black text-slate-900 flex items-center gap-2 tracking-widest uppercase">
+                                    <Zap className="h-3.5 w-3.5 text-amber-500 fill-amber-500" /> Dossiê Técnico de Handoff
+                                  </h4>
                                   {lead.source_page && (
-                                    <Badge variant="outline" className="text-[10px] font-bold bg-white gap-1.5 border-slate-200 rounded-full px-3">
-                                      <ExternalLink className="h-3 w-3 text-slate-400" /> Origem: {lead.source_page.split('/').pop() || 'Home'}
+                                    <Badge variant="outline" className="text-[10px] font-bold bg-white text-slate-500 gap-1.5 border-slate-200 rounded-full px-3 py-1">
+                                      <ExternalLink className="h-3 w-3" /> Origem: {lead.source_page.split('/').pop() || 'Home'}
                                     </Badge>
                                   )}
                                 </div>
-                                <div className="p-6 bg-white border border-slate-200 rounded-2xl space-y-6 shadow-sm">
-                                  <div className="space-y-2">
+                                
+                                <div className="p-8 bg-white border border-slate-200/60 rounded-[32px] space-y-8 shadow-sm">
+                                  <div className="space-y-3">
                                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Mensagem do Cliente:</span>
-                                    <p className="text-sm italic text-slate-600 leading-relaxed font-medium">&quot;{lead.message || 'Sem descrição técnica adicional.'}&quot;</p>
+                                    <p className="text-[13px] italic text-slate-600 leading-relaxed font-medium bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                                      &quot;{lead.message || 'Sem descrição técnica adicional.'}&quot;
+                                    </p>
                                   </div>
                                   
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                     <div className="space-y-1">
+                                  <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
+                                    <div className="space-y-2 flex-1 w-full">
                                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Processo Vinculado:</label>
-                                      <select className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all" value={lead.process_id || ''} onChange={(e) => handleProcessAssign(lead.id, e.target.value || null)}>
+                                      <select className="w-full h-12 bg-slate-50/50 border border-slate-200 rounded-2xl px-5 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all" value={lead.process_id || ''} onChange={(e) => handleProcessAssign(lead.id, e.target.value || null)}>
                                         <option value="">Nenhum Processo</option>
                                         {processes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                                       </select>
                                     </div>
-                                    <div className="space-y-1">
+                                    <div className="space-y-2 flex-1 w-full">
                                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Canais de Contato:</label>
-                                      <div className="flex gap-2">
-                                        <RecomButton asChild intent="outline" className="flex-1 h-11 text-xs font-bold tracking-tight border-slate-200"><a href={`mailto:${lead.email}`}><Mail className="h-4 w-4 mr-2 text-slate-400" /> Email</a></RecomButton>
-                                        {lead.phone && <RecomButton asChild intent="outline" className="flex-1 h-11 text-xs font-bold tracking-tight border-emerald-100 text-emerald-700 hover:bg-emerald-50"><a href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`} target="_blank"><Phone className="h-4 w-4 mr-2" /> WhatsApp</a></RecomButton>}
+                                      <div className="flex gap-3">
+                                        <div className="flex-1 flex items-center bg-white border border-slate-200 rounded-2xl pr-2">
+                                          <RecomButton asChild intent="outline" className="flex-1 h-12 text-[11px] font-bold tracking-tight border-none bg-transparent hover:bg-slate-50">
+                                            <a href={`mailto:${lead.email}`}><Mail className="h-4 w-4 mr-2 text-slate-400" /> Email</a>
+                                          </RecomButton>
+                                          <CopyButton value={lead.email} label="E-mail" />
+                                        </div>
+                                        {lead.phone && (
+                                          <div className="flex-1 flex items-center bg-white border border-slate-200 rounded-2xl pr-2 group/wa hover:border-emerald-200 hover:bg-emerald-50/30 transition-all">
+                                            <RecomButton asChild intent="outline" className="flex-1 h-12 text-[11px] font-bold tracking-tight border-none bg-transparent hover:bg-transparent">
+                                              <a href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`} target="_blank"><Phone className="h-4 w-4 mr-2 text-emerald-500" /> WhatsApp</a>
+                                            </RecomButton>
+                                            <CopyButton value={lead.phone} label="WhatsApp" />
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
 
                                   {allCatalogs.length > 0 && (
                                     <div className="pt-6 border-t border-slate-100">
-                                      <p className="text-[10px] font-bold uppercase text-slate-400 mb-3 tracking-wider">Links de Apoio Técnico:</p>
+                                      <p className="text-[10px] font-bold uppercase text-slate-400 mb-4 tracking-wider">Links de Apoio Técnico:</p>
                                       <div className="flex flex-wrap gap-2">
                                         {allCatalogs.slice(0, 4).map((cat, i) => (
-                                          <a key={i} href={cat.url} target="_blank" className="flex items-center gap-2 px-3.5 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[11px] font-bold tracking-tight transition-colors">
+                                          <a key={i} href={cat.url} target="_blank" className="flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[11px] font-bold tracking-tight transition-colors">
                                             <FileText className="h-4 w-4 text-slate-400" /> {cat.label || 'Catálogo'}
                                           </a>
                                         ))}
                                       </div>
                                     </div>
                                   )}
-
                                 </div>
                               </div>
                               
-                              <div className="space-y-6">
-                                <h4 className="text-xs font-bold text-slate-900 flex items-center gap-2"><TrendingUp className="h-4 w-4 text-emerald-500" /> Ciclo de Fechamento</h4>
-                                <div className="p-6 bg-slate-50 border border-slate-100 rounded-2xl space-y-4 shadow-sm">
+                              <div className="space-y-4">
+                                <div className="px-2">
+                                  <h4 className="text-[11px] font-black text-slate-900 flex items-center gap-2 tracking-widest uppercase">
+                                    <TrendingUp className="h-3.5 w-3.5 text-emerald-500" /> Ciclo de Fechamento
+                                  </h4>
+                                </div>
+                                <div className="p-8 bg-white border border-slate-200/60 rounded-[32px] space-y-6 shadow-sm">
                                   <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Alterar Estágio</label>
-                                    <select className="w-full h-11 bg-white border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all" value={lead.status} onChange={(e) => handleStatusChange(lead.id, e.target.value)}>
+                                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Alterar Estágio</label>
+                                    <select className="w-full h-12 bg-slate-50/50 border border-slate-200 rounded-2xl px-5 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all" value={lead.status} onChange={(e) => handleStatusChange(lead.id, e.target.value)}>
                                       {statusOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                                     </select>
                                   </div>
@@ -577,7 +743,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
                                       <label className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Valor da Venda (BRL)</label>
                                       <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">R$</span>
-                                        <Input type="number" value={feedbackData.revenue ?? (lead.revenue_value || '')} onChange={e => setFeedbackData(prev => ({ ...prev, revenue: Number(e.target.value) }))} className="h-11 pl-10 bg-white text-xs font-bold border-emerald-100 rounded-xl focus:ring-emerald-500/20" placeholder="0,00" />
+                                        <Input type="number" value={feedbackData.revenue ?? (lead.revenue_value || '')} onChange={e => setFeedbackData(prev => ({ ...prev, revenue: Number(e.target.value) }))} className="h-12 pl-10 bg-white text-xs font-bold border-emerald-100 rounded-2xl focus:ring-emerald-500/20" placeholder="0,00" />
                                       </div>
                                     </div>
                                   )}
@@ -585,7 +751,7 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
                                   {lead.status === 'lost' && (
                                     <div className="space-y-2 animate-in fade-in zoom-in-95 duration-200">
                                       <label className="text-[10px] font-bold uppercase tracking-wider text-rose-600">Motivo da Perda</label>
-                                      <select className="w-full h-11 bg-white border border-rose-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-rose-500/10 transition-all" value={feedbackData.loss_reason ?? (lead.loss_reason || '')} onChange={e => setFeedbackData(prev => ({ ...prev, loss_reason: e.target.value }))}>
+                                      <select className="w-full h-12 bg-white border border-rose-200 rounded-2xl px-5 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-rose-500/10 transition-all" value={feedbackData.loss_reason ?? (lead.loss_reason || '')} onChange={e => setFeedbackData(prev => ({ ...prev, loss_reason: e.target.value }))}>
                                         <option value="">Selecione um motivo...</option>
                                         <option value="price">Preço Elevado</option>
                                         <option value="deadline">Prazo de Entrega</option>
@@ -596,7 +762,11 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
                                     </div>
                                   )}
 
-                                  <RecomButton onClick={() => handleSaveFeedback(lead.id)} disabled={isSavingFeedback} className="w-full h-12 text-xs font-bold tracking-tight gap-2 shadow-sm mt-2">
+                                  <RecomButton 
+                                    onClick={() => handleSaveFeedback(lead.id)} 
+                                    disabled={isSavingFeedback} 
+                                    className="w-full h-14 bg-slate-900 text-white hover:bg-slate-800 text-xs font-bold tracking-tight gap-2 shadow-lg mt-2 rounded-2xl"
+                                  >
                                     {isSavingFeedback ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                                     Salvar Resultados
                                   </RecomButton>
@@ -604,9 +774,11 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
                               </div>
                             </div>
                           </div>
-                        </TableCell>
-                      </TableRow>
-                    )}
+                            </motion.div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </AnimatePresence>
                   </React.Fragment>
                 );
               })}
@@ -721,7 +893,17 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
             <div className="space-y-6">
               <div className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-2xl">
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-slate-900">Habilitar Rodízio (Round Robin)</h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-xs font-bold text-slate-900">Habilitar Rodízio (Round Robin)</h4>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <AlertCircle className="h-3.5 w-3.5 text-slate-300 cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-900 text-white border-none p-3 rounded-xl max-w-[200px]">
+                        <p className="text-[10px] leading-tight">Distribui leads novos automaticamente entre todos os vendedores marcados como <strong>Ativos</strong>.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
                   <p className="text-[11px] text-slate-400 font-medium">Distribui leads equitativamente entre os vendedores ativos.</p>
                 </div>
                 <Checkbox checked={config.round_robin_enabled} onCheckedChange={checked => setConfig(prev => ({ ...prev, round_robin_enabled: !!checked }))} />
@@ -729,7 +911,17 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
 
               <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold text-slate-900">Auto-Status Handoff</h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-xs font-bold text-slate-900">Auto-Status Handoff</h4>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <AlertCircle className="h-3.5 w-3.5 text-slate-300 cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-900 text-white border-none p-3 rounded-xl max-w-[200px]">
+                        <p className="text-[10px] leading-tight">Muda o status do lead automaticamente para o estágio selecionado após o primeiro contato ou encaminhamento.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
                   <Checkbox checked={config.auto_status_update.enabled} onCheckedChange={checked => setConfig(prev => ({ ...prev, auto_status_update: { ...prev.auto_status_update, enabled: !!checked } }))} />
                 </div>
                 {config.auto_status_update.enabled && (
@@ -743,27 +935,79 @@ export function LeadsManager({ initialLeads, config: initialConfig, processes, i
             <div className="space-y-6">
               <div className="space-y-4">
                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-2 block">Emails de Cópia Geral</label>
-                <div className="space-y-2">
-                  {config.emails.map((email, idx) => (
-                    <div key={idx} className="flex gap-2">
-                      <Input value={email} onChange={e => { const news = [...config.emails]; news[idx] = e.target.value; setConfig(prev => ({ ...prev, emails: news })); }} className="h-11 text-xs font-bold border-slate-200 rounded-xl" />
-                      <button onClick={() => setConfig(prev => ({ ...prev, emails: prev.emails.filter((_, i) => i !== idx) }))} className="text-slate-300 hover:text-rose-500 transition-colors p-2"><Trash2 className="h-4 w-4" /></button>
-                    </div>
-                  ))}
-                  <button onClick={() => setConfig(prev => ({ ...prev, emails: [...prev.emails, ''] }))} className="text-xs font-bold text-slate-900 pt-2 flex items-center gap-2 hover:opacity-70 transition-opacity"><Plus className="h-4 w-4" /> Adicionar e-mail</button>
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                    {config.emails.map((email, idx) => (
+                      <Badge key={idx} className="bg-slate-900 text-white pl-3 pr-1 py-1 rounded-full text-[10px] font-bold gap-1 animate-in zoom-in-95">
+                        {email}
+                        <button 
+                          onClick={() => setConfig(prev => ({ ...prev, emails: prev.emails.filter((_, i) => i !== idx) }))} 
+                          className="hover:bg-white/20 rounded-full p-1 transition-colors"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="relative group">
+                    <Input 
+                      placeholder="Adicionar e-mail (aperte Enter)..." 
+                      className="h-12 text-xs font-bold border-slate-200 rounded-xl focus:ring-primary/20 transition-all pr-10"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          const val = e.currentTarget.value.trim();
+                          if (val && !config.emails.includes(val)) {
+                            setConfig(prev => ({ ...prev, emails: [...prev.emails, val] }));
+                            e.currentTarget.value = '';
+                          }
+                        }
+                      }}
+                    />
+                    <Plus className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="pt-6 border-t border-slate-100 flex justify-end gap-3">
-            <RecomButton intent="outline" onClick={() => setConfig(initialConfig || config)} className="h-12 px-8 text-xs font-bold tracking-tight">Descartar</RecomButton>
-            <RecomButton onClick={() => updateAdminConfig('lead_notifications', config)} className="h-12 px-10 gap-2 shadow-sm text-xs font-bold tracking-tight">
-              <ShieldCheck className="h-4 w-4" /> Salvar Configurações
+            <RecomButton 
+              intent="outline" 
+              onClick={() => setConfig(initialConfig || {
+                enabled: false,
+                emails: [],
+                frequency: 'daily',
+                round_robin_enabled: true,
+                auto_status_update: {
+                  enabled: true,
+                  target_status: 'contacted'
+                },
+                working_hours: {
+                  start: '08:00',
+                  end: '18:00',
+                  enabled: true
+                },
+                email_template: {
+                  subject_prefix: '[RECOM LEAD]',
+                  include_summary: true
+                }
+              })} 
+              className="h-12 px-8 text-xs font-bold tracking-tight"
+            >
+              Descartar
+            </RecomButton>
+            <RecomButton 
+              onClick={handleSaveConfig} 
+              disabled={isSavingConfig}
+              className="h-12 px-10 gap-2 shadow-sm text-xs font-bold tracking-tight"
+            >
+              {isSavingConfig ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
+              Salvar Configurações
             </RecomButton>
           </div>
         </RecomCard>
       </TabsContent>
     </Tabs>
+    </TooltipProvider>
   );
 }

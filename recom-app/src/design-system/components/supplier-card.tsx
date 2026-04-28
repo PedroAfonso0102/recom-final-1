@@ -22,6 +22,7 @@ interface SupplierCardProps {
   externalCatalogLink?: string;
   catalogAvailable?: boolean;
   className?: string;
+  isAuthorized?: boolean;
 }
 
 export function SupplierCard({
@@ -33,6 +34,7 @@ export function SupplierCard({
   externalCatalogLink,
   catalogAvailable = true,
   className,
+  isAuthorized = false,
 }: SupplierCardProps) {
   return (
     <RecomCard
@@ -40,6 +42,13 @@ export function SupplierCard({
       className={cn("group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom", className)}
     >
       <RecomCardHeader className="gap-4 pb-4">
+        {isAuthorized && (
+          <div className="mb-[-12px] flex items-center px-0.5">
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-recom-graphite/40">
+              Agente autorizado
+            </span>
+          </div>
+        )}
         <div className="flex h-18 w-full items-center justify-center rounded-lg border border-recom-border/60 bg-recom-gray-50 p-4 transition-colors group-hover:bg-white">
           {logoUrl && logoUrl.trim() !== "" ? (
             <div className="relative h-full w-full">
@@ -60,7 +69,7 @@ export function SupplierCard({
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-recom-blue">
-            Fornecedor parceiro
+            {isAuthorized ? "Agente autorizado" : "Fornecedor parceiro"}
           </span>
           <RecomCardTitle>{name}</RecomCardTitle>
         </div>

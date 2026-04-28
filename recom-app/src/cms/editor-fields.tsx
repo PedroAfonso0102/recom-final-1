@@ -18,76 +18,93 @@ export function CmsFieldRenderer({ field, defaultValue }: FieldRendererProps) {
   const baseClassName =
     "mt-1 w-full rounded-md border border-border bg-white px-3 py-2 text-sm shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20";
 
-  if (field.type === "textarea") {
-    return (
-      <textarea
-        name={field.name}
-        defaultValue={defaultValue}
-        rows={field.rows ?? 4}
-        placeholder={field.placeholder}
-        className={cn(baseClassName, "min-h-[120px]")}
-      />
-    );
-  }
+  const labelElement = (
+    <span className="block text-xs font-semibold text-slate-500 px-0.5">
+      {field.label}
+      {field.required && <span className="text-destructive ml-1">*</span>}
+    </span>
+  );
 
-  if (field.type === "select") {
-    return (
-      <select name={field.name} defaultValue={defaultValue ?? ""} className={baseClassName}>
-        <option value="">Selecione</option>
-        {field.options?.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    );
-  }
-
-  if (field.type === "checkbox") {
-    return (
-      <div className="flex items-center space-x-2 py-2">
-        <input
-          type="checkbox"
+  const renderInput = () => {
+    if (field.type === "textarea") {
+      return (
+        <textarea
           name={field.name}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          defaultChecked={defaultValue === "true" || (defaultValue as any) === true}
-          className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          defaultValue={defaultValue}
+          rows={field.rows ?? 4}
+          placeholder={field.placeholder}
+          className={cn(baseClassName, "min-h-[120px]")}
         />
-        <span className="text-sm text-muted-foreground">{field.description || field.label}</span>
-      </div>
-    );
-  }
+      );
+    }
 
-  if (field.type === "list") {
-    return (
-      <CmsListField field={field} defaultValue={defaultValue} />
-    );
-  }
+    if (field.type === "select") {
+      return (
+        <select name={field.name} defaultValue={defaultValue ?? ""} className={baseClassName}>
+          <option value="">Selecione</option>
+          {field.options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
 
-  if (field.type === "number") {
+    if (field.type === "checkbox") {
+      return (
+        <div className="flex items-center space-x-2 py-2">
+          <input
+            type="checkbox"
+            name={field.name}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            defaultChecked={defaultValue === "true" || (defaultValue as any) === true}
+            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          <span className="text-sm text-muted-foreground">{field.description || field.label}</span>
+        </div>
+      );
+    }
+
+    if (field.type === "list") {
+      return <CmsListField field={field} defaultValue={defaultValue} />;
+    }
+
+    if (field.type === "number") {
+      return (
+        <input
+          name={field.name}
+          defaultValue={defaultValue}
+          placeholder={field.placeholder}
+          type="number"
+          className={baseClassName}
+        />
+      );
+    }
+
+    if (field.type === "media") {
+      return <CmsMediaField field={field} defaultValue={defaultValue} />;
+    }
+
     return (
       <input
         name={field.name}
         defaultValue={defaultValue}
         placeholder={field.placeholder}
-        type="number"
+        type="text"
         className={baseClassName}
       />
     );
-  }
-
-  if (field.type === "media") {
-    return <CmsMediaField field={field} defaultValue={defaultValue} />;
-  }
+  };
 
   return (
-    <input
-      name={field.name}
-      defaultValue={defaultValue}
-      placeholder={field.placeholder}
-      type="text"
-      className={baseClassName}
-    />
+    <div className={cn("space-y-1.5", field.type === "textarea" || field.type === "media" || field.type === "list" ? "md:col-span-2" : "")}>
+      {field.type !== "checkbox" && labelElement}
+      {renderInput()}
+      {field.description && field.type !== "checkbox" && field.type !== "media" && (
+        <p className="text-[10px] text-muted-foreground px-0.5">{field.description}</p>
+      )}
+    </div>
   );
 }
 

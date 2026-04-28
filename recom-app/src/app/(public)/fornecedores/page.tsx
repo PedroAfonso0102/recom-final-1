@@ -68,18 +68,26 @@ export default async function FornecedoresPage() {
               className="md:col-span-2 xl:col-span-3"
             />
           ) : (
-            suppliers.map((supplier) => (
-              <SupplierCard
-                key={supplier.id ?? supplier.slug}
-                name={supplier.name}
-                description={supplier.shortDescription || ""}
-                logoUrl={supplier.logoUrl || ""}
-                internalLink={`/fornecedores/${supplier.slug}`}
-                externalCatalogLink={supplier.catalogUrl || undefined}
-                catalogAvailable={!!supplier.catalogUrl}
-                processes={getProcessNames(supplier.relatedProcesses)}
-              />
-            ))
+            suppliers.map((supplier) => {
+              const isMitsubishi = supplier.slug === "mitsubishi";
+              const logoUrl = isMitsubishi 
+                ? "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg" 
+                : (supplier.logoUrl || "");
+
+              return (
+                <SupplierCard
+                  key={supplier.id ?? supplier.slug}
+                  name={supplier.name}
+                  description={supplier.shortDescription || ""}
+                  logoUrl={logoUrl}
+                  isAuthorized={isMitsubishi}
+                  internalLink={`/fornecedores/${supplier.slug}`}
+                  externalCatalogLink={supplier.catalogUrl || undefined}
+                  catalogAvailable={!!supplier.catalogUrl}
+                  processes={getProcessNames(supplier.relatedProcesses)}
+                />
+              );
+            })
           )}
         </div>
       </RecomSection>

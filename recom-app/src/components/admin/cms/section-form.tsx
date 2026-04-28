@@ -12,6 +12,7 @@ import { createSection, updateSection } from "@/server/actions/cms-pages";
 import { useBeforeUnload } from "@/hooks/use-before-unload";
 import { useAutosave } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
+import { extractPropsFromFormData } from "@/cms/utils";
 import { useRef } from "react";
 
 
@@ -41,25 +42,7 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
     if (formRef.current) {
       const formData = new FormData(formRef.current);
       const activeDefinition = componentRegistry[componentType];
-      const props = Object.fromEntries(
-        activeDefinition.fields.map((field) => {
-          const value = formData.get(field.name);
-          if (field.type === "list") {
-            try {
-              return [field.name, JSON.parse(String(value ?? "[]"))];
-            } catch {
-              return [field.name, []];
-            }
-          }
-          if (field.type === "checkbox") {
-            return [field.name, value === "on"];
-          }
-          if (field.type === "number") {
-            return [field.name, value ? Number(value) : (field.required ? 0 : null)];
-          }
-          return [field.name, String(value ?? "")];
-        })
-      );
+      const props = extractPropsFromFormData(formData, activeDefinition.fields);
 
       const payload = {
         id: section.id,
@@ -93,25 +76,7 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
     setSaving(true);
 
     const formData = new FormData(event.currentTarget);
-    const props = Object.fromEntries(
-      definition.fields.map((field) => {
-        const value = formData.get(field.name);
-        if (field.type === "list") {
-          try {
-            return [field.name, JSON.parse(String(value ?? "[]"))];
-          } catch {
-            return [field.name, []];
-          }
-        }
-        if (field.type === "checkbox") {
-          return [field.name, value === "on"];
-        }
-        if (field.type === "number") {
-          return [field.name, value ? Number(value) : (field.required ? 0 : null)];
-        }
-        return [field.name, String(value ?? "")];
-      })
-    );
+    const props = extractPropsFromFormData(formData, definition.fields);
 
     const payload = {
       ...(section ? { id: section.id } : {}),
@@ -185,12 +150,11 @@ export function CmsSectionForm({ pageId, section, sortOrder }: SectionFormProps)
           </div>
           <div className="grid gap-x-6 gap-y-5 md:grid-cols-2">
             {definition.fields.map((field) => (
-              <div key={field.name} className={cn("space-y-1.5", field.type === "textarea" ? "md:col-span-2" : "")}>
-                <span className="block text-xs font-semibold text-slate-500 px-0.5">
-                  {field.label}
-                </span>
-                <CmsFieldRenderer field={field} defaultValue={String(defaults[field.name] ?? "")} />
-              </div>
+              <CmsFieldRenderer 
+                key={field.name} 
+                field={field} 
+                defaultValue={String(defaults[field.name] ?? "")} 
+              />
             ))}
           </div>
         </div>

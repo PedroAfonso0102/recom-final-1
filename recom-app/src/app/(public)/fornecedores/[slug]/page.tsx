@@ -74,7 +74,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
             ) : supplier.slug === "mitsubishi" || supplier.slug === "mitsubishi-materials" ? (
               <div className="relative h-24 w-full">
                 <Image
-                  src="/assets/images/mitsubishi-logo.png"
+                  src="/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg"
                   alt={supplier.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 280px"
@@ -93,7 +93,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
           <div className="flex-1 space-y-6">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-                Distribuidor autorizado
+                {supplier.slug === "mitsubishi" ? "Agente autorizado" : "Distribuidor autorizado"}
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-foreground uppercase leading-tight md:text-4xl lg:text-5xl">
                 {supplier.name}

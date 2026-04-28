@@ -276,11 +276,16 @@ export function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppli
           </p>
         )}
         <div className={cn("flex flex-wrap items-center justify-center gap-12 transition-all duration-700 md:gap-20", grayscale && "opacity-45 grayscale hover:opacity-100 hover:grayscale-0")}>
-          {suppliers.map((supplier) => 
-            supplier.logoUrl ? (
+          {suppliers.map((supplier) => {
+            const isMitsubishi = supplier.slug === "mitsubishi";
+            const logoUrl = isMitsubishi 
+              ? "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg" 
+              : supplier.logoUrl;
+
+            return logoUrl ? (
               <div key={supplier.id} className="relative h-7 w-28 md:h-8 md:w-32">
                 <Image
-                  src={supplier.logoUrl}
+                  src={logoUrl}
                   alt={supplier.name}
                   fill
                   sizes="(max-width: 768px) 112px, 128px"
@@ -295,8 +300,8 @@ export function TrustLogosBlock({ title, supplierIds, showAll, grayscale, suppli
                 <Factory className="h-3.5 w-3.5" />
                 {supplier.name}
               </div>
-            )
-          )}
+            );
+          })}
         </div>
       </div>
     </section>
