@@ -14,11 +14,11 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 ## Supabase local
 
 - [ ] Docker em execucao.
-- [ ] `supabase start`
-- [ ] `supabase migration up --local`
+- [x] `supabase start` ou stack local ativa. Validado por `supabase status` em 2026-04-28 antes do Docker ser parado.
+- [x] `supabase migration up --local`. Retornou "Local database is up to date" em 2026-04-28.
 - [ ] `supabase db reset` com seed aplicavel.
 - [ ] Tipos regenerados com `npm run db:types`.
-- [ ] RLS habilitada nas tabelas publicas.
+- [ ] RLS habilitada nas tabelas publicas. Consulta SQL pendente porque Docker foi parado.
 - [ ] Anon le apenas conteudo publicado/ativo.
 - [ ] Anon cria lead.
 - [ ] Anon nao le leads, audit log, revisoes ou drafts.
@@ -31,13 +31,13 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Home renderiza CMS publicado quando existe.
 - [ ] Home fallback nao aparece se CMS publicado estiver valido.
 - [ ] A RECOM em `/a-recom` tem H1 unico, breadcrumbs e CTA.
-- [ ] `/sobre` tem politica definida: redirect, canonical ou legado nao indexavel.
+- [x] `/sobre` tem politica definida: redirect permanente para `/a-recom`.
 - [ ] Fornecedores hub em `/fornecedores-catalogos`.
-- [ ] `/fornecedores` tem politica definida: redirect, canonical ou legado nao indexavel.
+- [x] `/fornecedores` tem politica definida: redirect permanente para `/fornecedores-catalogos`.
 - [ ] Fornecedor individual publicado aparece em `/fornecedores-catalogos/[slug]`.
 - [ ] Fornecedor draft/archived nao aparece no publico.
 - [ ] Solucoes hub em `/solucoes`.
-- [ ] `/processos` tem politica definida: redirect, canonical ou legado nao indexavel.
+- [x] `/processos` tem politica definida: redirect permanente para `/solucoes`.
 - [ ] Processo individual publicado aparece em `/solucoes/[slug]`.
 - [ ] Processo draft/archived nao aparece no publico.
 - [ ] Promocoes mostram apenas ativas/publicaveis.

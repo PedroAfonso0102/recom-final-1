@@ -13,6 +13,35 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/sobre",
+        destination: "/a-recom",
+        permanent: true,
+      },
+      {
+        source: "/fornecedores",
+        destination: "/fornecedores-catalogos",
+        permanent: true,
+      },
+      {
+        source: "/fornecedores/:slug",
+        destination: "/fornecedores-catalogos/:slug",
+        permanent: true,
+      },
+      {
+        source: "/processos",
+        destination: "/solucoes",
+        permanent: true,
+      },
+      {
+        source: "/processos/:slug",
+        destination: "/solucoes/:slug",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -17,12 +17,12 @@ Data: 2026-04-28
 | --- | --- | --- | --- |
 | Home | `/` | `getHomePage()` + fallback hardcoded + suppliers/promotions | Ja tenta CMS primeiro, mas fallback ainda tem muitos blocos fixos. |
 | A RECOM | `/a-recom` | reexporta `sobre` | Rota correta existe, mas conteudo real fica em `sobre`. |
-| Sobre legado | `/sobre` | `getPageBySlug("sobre")` + fallback hardcoded | Duplica intencao de A RECOM. Deve virar alias/redirect ou pagina arquivada. |
+| Sobre legado | `/sobre` | redirect permanente para `/a-recom` via `next.config.ts` | Canonizado no batch de consolidacao; arquivo legado fica como base da rota reexportada por `/a-recom`. |
 | Fornecedores hub | `/fornecedores-catalogos` | reexporta `fornecedores` | Rota desejada existe. |
-| Fornecedores legado | `/fornecedores` | `getPageBySlug("fornecedores")` + Supabase + fallback | Slug CMS diverge da rota desejada `fornecedores-catalogos`. |
+| Fornecedores legado | `/fornecedores` | redirect permanente para `/fornecedores-catalogos` | Canonizado no batch de consolidacao. |
 | Fornecedor detalhe | `/fornecedores-catalogos/[slug]` e `/fornecedores/[slug]` | Supabase | Precisa garantir relacao via `supplier_processes` em vez de apenas arrays. |
 | Solucoes hub | `/solucoes` | reexporta `processos` | Rota desejada existe. |
-| Processos legado | `/processos` | Supabase + fallback | Slug/rota ainda duplicados. |
+| Processos legado | `/processos` | redirect permanente para `/solucoes` | Canonizado no batch de consolidacao. |
 | Processo detalhe | `/solucoes/[slug]` e `/processos/[slug]` | Supabase | Deve consolidar rota canonica em `/solucoes/[slug]`. |
 | Promocoes | `/promocoes` | `getPageBySlug("promocoes")` + Supabase | Ja filtra ativos na query, mas copy/CTA ainda estao fixos no fallback. |
 | Contato | `/contato` | `getPageBySlug("contato")` + `site_settings` + suppliers/processes + formulario | Batch 2026-04-28: deixou de reexportar `sobre`; agora tem jornada propria de contato/orcamento. |
@@ -75,8 +75,7 @@ Data: 2026-04-28
 1. `page_sections` cumpre papel de blocos, mas o vocabulário ainda e generico e nao expressa os blocos B2B alvo.
 2. `cmsPageTypeSchema` ainda aceita apenas `static | dynamic_template | landing`, diferente dos tipos de pagina de negocio.
 3. Preview publico por query `?preview=true` agora passa por `resolveCmsPreviewRequest`; anônimo cai para conteudo publicado e apenas `admin`/`editor` usam leitura admin.
-4. `contato` ja nao reexporta `sobre`, mas `sobre` ainda contem uma secao completa de formulario que deve ser reavaliada para virar CTA institucional.
-5. Rotas legadas (`/sobre`, `/fornecedores`, `/processos`) convivem com canonicas sem politica clara de redirect/canonical.
+4. `contato` ja nao reexporta `sobre`; `/a-recom` agora fica institucional e termina com CTA para contato.
 6. Home ainda contem fallback hardcoded extenso e `HeroCarousel`, contrariando a meta de blocos estruturados simples.
 7. Eventos existiam em `design-system/hooks`, mas com nomes incompletos e um evento antigo `generate_lead_form_submit`.
 8. Links de contato e e-mail ainda aparecem fixos em alguns blocos, por exemplo `mailto:contato@recom.com.br`, em vez de `site_settings`.
@@ -89,7 +88,7 @@ Data: 2026-04-28
 | --- | --- | --- |
 | P0 | Validar Supabase local, migrations, seeds e RLS | Sem isso, nao ha garantia de fonte unica de verdade. |
 | P0 | Validar preview com sessao real e bloquear compartilhamento anonimo | Helper aplicado; falta smoke com auth real. |
-| P0 | Converter contato duplicado em `/sobre` para CTA institucional | `/contato` ja tem pagina propria; falta reduzir duplicacao em `sobre`. |
+| P0 | Converter contato duplicado em `/sobre` para CTA institucional | Concluido no batch de consolidacao. |
 | P1 | Mapear `page_sections` para contratos de blocos de negocio | Permite CMS seguro sem page builder livre. |
 | P1 | Consolidar page types e regras de publicacao | Bloqueia publicacao incompleta. |
 | P1 | Remover duplicacao de rotas ou definir redirects/canonicals | Melhora SEO e reduz manutencao. |
@@ -111,3 +110,10 @@ Data: 2026-04-28
 - `src/app/(admin)/admin/preview/[...slug]/page.tsx`: exige `requireAdmin()` antes de renderizar preview admin.
 - `src/app/(public)/contato/page.tsx`: rota propria de Contato / Orcamento com canais diretos, formulario e contexto de fornecedores/processos.
 - `src/components/public/ContactForm.tsx`: canais do formulario podem vir de `site_settings`.
+
+## Progresso do batch de consolidacao
+
+- `next.config.ts`: redirects permanentes para `/sobre -> /a-recom`, `/fornecedores -> /fornecedores-catalogos`, `/fornecedores/:slug -> /fornecedores-catalogos/:slug`, `/processos -> /solucoes`, `/processos/:slug -> /solucoes/:slug`.
+- `src/app/(public)/sobre/page.tsx`: removeu formulario duplicado e contatos extensos; pagina institucional agora fecha com CTA para `/contato`.
+- Supabase local: `supabase status` confirmou API, DB, Studio e Storage rodando enquanto Docker estava ativo; `supabase migration list --local` mostrou todas as 15 migrations aplicadas; `supabase migration up --local` retornou "Local database is up to date".
+- RLS comportamental: pendente, porque Docker foi parado antes das consultas SQL de policies e testes como anon/authenticated.
