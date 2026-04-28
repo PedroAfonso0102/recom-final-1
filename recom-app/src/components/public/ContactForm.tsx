@@ -26,6 +26,11 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 interface ContactFormProps {
   suppliers?: Supplier[];
   processes?: Process[];
+  contact?: {
+    phone: string;
+    email: string;
+    whatsapp: string;
+  };
 }
 
 function ContactField({
@@ -60,7 +65,7 @@ function ContactField({
   );
 }
 
-export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps) {
+export function ContactForm({ suppliers = [], processes = [], contact = siteConfig.contact }: ContactFormProps) {
   const { trackEvent } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
@@ -147,7 +152,7 @@ export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps
             Enviar outra mensagem
           </RecomButton>
           <RecomButton asChild intent="primary" className="h-11 px-6">
-            <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
               Falar no WhatsApp
             </a>
           </RecomButton>
@@ -338,14 +343,14 @@ export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps
 
         <div className="grid gap-3 text-[12px] text-slate-500 sm:grid-cols-3">
           <a
-            href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+            href={`tel:${contact.phone.replace(/\D/g, "")}`}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Phone className="h-4 w-4 text-recom-blue" />
             Ligar
           </a>
           <a
-            href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+            href={`https://wa.me/${contact.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
@@ -354,7 +359,7 @@ export function ContactForm({ suppliers = [], processes = [] }: ContactFormProps
             WhatsApp
           </a>
           <a
-            href={`mailto:${siteConfig.contact.email}`}
+            href={`mailto:${contact.email}`}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Mail className="h-4 w-4 text-recom-blue" />

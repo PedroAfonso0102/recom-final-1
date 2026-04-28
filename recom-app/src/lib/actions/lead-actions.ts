@@ -19,7 +19,7 @@ export async function submitContactForm(formData: FormData) {
   const company = String(formData.get("company") || "");
   const email = String(formData.get("email") || "");
   const phone = String(formData.get("phone") || "");
-  const sourcePage = String(formData.get("sourcePage") || "/sobre");
+  const sourcePage = String(formData.get("sourcePage") || "/contato");
 
   const result = await createLead({
     name,

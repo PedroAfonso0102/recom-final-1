@@ -1,27 +1,26 @@
+export {
+  ANALYTICS_EVENT_NAMES,
+  analyticsEvents,
+  getAnalyticsEvent,
+  type AnalyticsEventContract,
+  type AnalyticsEventName,
+  type AnalyticsEventParams,
+} from "@/design-system/events/analytics-events";
+
 export const AnalyticsEvents = {
-  leadFormSubmit: "generate_lead_form_submit",
-  formError: "form_error",
+  leadFormSubmit: "lead_form_submit",
+  formError: "lead_form_error",
   phoneClick: "contact_phone_click",
   emailClick: "contact_email_click",
   whatsappClick: "whatsapp_click",
   supplierCardClick: "supplier_card_click",
+  supplierDetailClick: "supplier_detail_click",
   supplierCatalogClick: "supplier_catalog_click",
+  supplierCatalogUnavailableClick: "supplier_catalog_unavailable_click",
   processCardClick: "process_card_click",
+  processSupplierClick: "process_supplier_click",
   promotionClick: "promotion_click",
+  promotionContactClick: "promotion_contact_click",
+  externalLinkClick: "external_link_click",
   fileDownload: "file_download",
-  externalCatalogUnavailableClick: "external_catalog_unavailable_click",
 } as const;
-
-export type AnalyticsEventName = (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
-
-export type AnalyticsEventParams = {
-  page_location?: string;
-  placement?: string;
-  entity_type?: "supplier" | "process" | "promotion" | "page";
-  entity_slug?: string;
-  cta_label?: string;
-  outbound_url?: string;
-  form_name?: string;
-  field_name?: string;
-  error_type?: string;
-};

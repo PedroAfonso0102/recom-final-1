@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LivePreviewClient } from "@/cms/live-preview-client";
 import { getAdminCmsPageBySlug } from "@/server/queries/cms-pages";
 import { HOME_CMS_SLUG } from "@/cms/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { cn } from "@/lib/utils";
 
 type PageProps = {
@@ -13,6 +14,8 @@ type PageProps = {
 };
 
 export default async function AdminPreviewPage({ params, searchParams }: PageProps) {
+  await requireAdmin();
+
   const { slug: slugArray } = await params;
   const { minimal } = await searchParams;
   const isMinimal = minimal === "true";
