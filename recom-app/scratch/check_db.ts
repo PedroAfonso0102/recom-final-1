@@ -10,7 +10,7 @@ async function checkData() {
   console.log('--- PAGES ---')
   const { data: pages, error: pagesError } = await supabase.from('pages').select('*')
   if (pagesError) console.error('Error fetching pages:', pagesError)
-  else console.table(pages.map(p => ({ id: p.id, slug: p.slug, title: p.title, status: p.status })))
+  else console.table(pages.map(p => ({ id: p.id, slug: p.slug, title: p.title, status: p.status, type: p.page_type })))
 
   console.log('\n--- SECTIONS ---')
   const { data: sections, error: sectionsError } = await supabase.from('page_sections').select('*')
@@ -21,6 +21,7 @@ async function checkData() {
       page_id: s.page_id, 
       type: s.type, 
       status: s.status, 
+      visibility: s.visibility,
       sort_order: s.sort_order 
     })))
   }
