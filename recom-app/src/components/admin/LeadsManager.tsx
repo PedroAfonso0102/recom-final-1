@@ -7,7 +7,7 @@ import { DataTable, EmptyState, EntityDrawer, FilterBar, StatusBadge, Toolbar } 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { updateLeadStatus, assignProcessToLead } from "@/server/actions/leads";
+import { updateLeadStatus, assignProcessToLead, updateLeadNotes } from "@/server/actions/leads";
 import { assignLeadToRep } from "@/server/actions/sales-reps";
 
 interface Process {
@@ -48,6 +48,7 @@ interface Lead {
   process_id: string | null;
   source_page?: string | null;
   assigned_rep_id?: string | null;
+  notes?: string | null;
 }
 
 export interface LeadNotificationsConfig {
@@ -123,6 +124,7 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
   const [period, setPeriod] = useState("all");
   const [activeLeadId, setActiveLeadId] = useState<string | null>(null);
   const [note, setNote] = useState("");
+  const [isSavingNote, setIsSavingNote] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const reps = initialSalesReps.filter((rep) => rep.status === "active");
@@ -172,6 +174,25 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
       if (!result.success) setLeads(previous);
     });
   }
+
+  function saveNote() {
+    if (!activeLead) return;
+    setIsSavingNote(true);
+    startTransition(async () => {
+      const result = await updateLeadNotes(activeLead.id, note);
+      if (result.success) {
+        setLeads((current) => current.map((item) => (item.id === activeLead.id ? { ...item, notes: note } : item)));
+      }
+      setIsSavingNote(false);
+    });
+  }
+
+  // Update note local state when active lead changes
+  useMemo(() => {
+    if (activeLead) {
+      setNote(activeLead.notes || "");
+    }
+  }, [activeLead?.id, activeLead?.notes]);
 
   return (
     <div className="space-y-4">
@@ -293,10 +314,20 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
               </label>
             </section>
 
-            <section className="border border-slate-200 p-4">
+            <section className="border border-slate-200 p-4 rounded-xl">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-950"><MessageSquare className="h-4 w-4" /> Notas internas</h3>
-              <textarea value={note} onChange={(event) => setNote(event.target.value)} className="mt-3 min-h-24 w-full rounded-md border border-slate-300 p-3 text-sm" placeholder="Registrar contexto da conversa sem perder os dados do lead." />
-              <p className="mt-2 text-xs text-slate-500">Nota local de apoio para atendimento; o historico auditavel fica nas acoes de status e atribuicao.</p>
+              <textarea 
+                value={note} 
+                onChange={(event) => setNote(event.target.value)} 
+                className="mt-3 min-h-24 w-full rounded-md border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" 
+                placeholder="Registrar contexto da conversa sem perder os dados do lead..." 
+              />
+              <div className="mt-3 flex justify-end">
+                <Button size="sm" onClick={saveNote} disabled={isSavingNote || isPending || note === (activeLead.notes || "")}>
+                  {isSavingNote ? "Salvando..." : "Salvar nota"}
+                </Button>
+              </div>
+              <p className="mt-2 text-[10px] text-slate-400 font-medium">As notas são salvas no banco de dados para consulta futura de qualquer administrador.</p>
             </section>
 
             <section className="border border-slate-200 p-4">

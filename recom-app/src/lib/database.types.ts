@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -75,17 +75,17 @@ export type Database = {
           contact_address: string | null
           contact_email: string | null
           contact_phone: string | null
-          created_at: string | null
+          created_at: string
           id: number
-          key: string
+          key: string | null
           seo_description_default: string | null
           seo_keywords_default: string | null
           seo_title_default: string | null
           social_instagram: string | null
           social_linkedin: string | null
           social_youtube: string | null
-          updated_at: string | null
-          value: Json
+          updated_at: string
+          value: Json | null
         }
         Insert: {
           company_description?: string | null
@@ -94,17 +94,17 @@ export type Database = {
           contact_address?: string | null
           contact_email?: string | null
           contact_phone?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: number
-          key: string
+          key?: string | null
           seo_description_default?: string | null
           seo_keywords_default?: string | null
           seo_title_default?: string | null
           social_instagram?: string | null
           social_linkedin?: string | null
           social_youtube?: string | null
-          updated_at?: string | null
-          value: Json
+          updated_at?: string
+          value?: Json | null
         }
         Update: {
           company_description?: string | null
@@ -113,17 +113,17 @@ export type Database = {
           contact_address?: string | null
           contact_email?: string | null
           contact_phone?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: number
-          key?: string
+          key?: string | null
           seo_description_default?: string | null
           seo_keywords_default?: string | null
           seo_title_default?: string | null
           social_instagram?: string | null
           social_linkedin?: string | null
           social_youtube?: string | null
-          updated_at?: string | null
-          value?: Json
+          updated_at?: string
+          value?: Json | null
         }
         Relationships: []
       }

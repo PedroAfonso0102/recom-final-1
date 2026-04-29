@@ -9,22 +9,31 @@ import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { getProcesses, getStaticSupplierSlugs, getSupplierBySlug } from "@/lib/services/supabase-data";
 
+import { buildSeoMetadata } from "@/lib/seo";
+import { getSiteSettings } from "@/cms/queries";
+
 interface SupplierDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: SupplierDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const supplier = await getSupplierBySlug(slug);
+  const [supplier, settings] = await Promise.all([
+    getSupplierBySlug(slug),
+    getSiteSettings()
+  ]);
 
   if (!supplier) {
-    return { title: "Fornecedor não encontrado | RECOM" };
+    return buildSeoMetadata({ title: "Fornecedor não encontrado", noIndex: true, siteSettings: settings });
   }
 
-  return {
+  return buildSeoMetadata({
     title: supplier.seoTitle || `${supplier.name} | RECOM Metal Duro`,
     description: supplier.seoDescription || supplier.shortDescription,
-  };
+    slug: `fornecedores-catalogos/${slug}`,
+    image: supplier.logoUrl,
+    siteSettings: settings
+  });
 }
 
 export async function generateStaticParams() {

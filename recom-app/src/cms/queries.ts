@@ -87,6 +87,23 @@ export async function listCmsPages(): Promise<CmsPageRow[]> {
 }
 
 /**
+ * Busca apenas os slugs de páginas publicadas (para sitemap/SEO).
+ */
+export async function getPublishedPageSlugs(): Promise<{ slug: string }[]> {
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("pages")
+    .select("slug")
+    .eq("status", "published");
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data as { slug: string }[];
+}
+
+/**
  * Busca as configurações globais do site com fallback.
  */
 export async function getSiteSettings(): Promise<SiteSettings> {

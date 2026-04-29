@@ -17,17 +17,30 @@ import { siteConfig } from "@/lib/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cmsPage = await getHomePage();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recom.com.br";
 
   if (!cmsPage) {
     return {
-      title: "RECOM",
-      description: "Distribuidor de ferramentas de corte em Campinas.",
+      title: "RECOM | Metal Duro e Ferramentas de Corte",
+      description: "Distribuidor de ferramentas de corte em Campinas desde 1990.",
+      alternates: {
+        canonical: baseUrl,
+      },
     };
   }
 
   return {
     title: cmsPage.page.seo_title || cmsPage.page.title,
     description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
+    alternates: {
+      canonical: baseUrl,
+    },
+    openGraph: {
+      title: cmsPage.page.seo_title || cmsPage.page.title,
+      description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
+      url: baseUrl,
+      type: "website",
+    },
   };
 }
 

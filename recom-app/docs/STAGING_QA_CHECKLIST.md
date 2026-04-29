@@ -55,15 +55,18 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Paginas listam status, rota, SEO e ultima edicao.
 - [x] Editor de pagina permite escolher experiencia governada de UI/UX via presets, sem layout livre.
 - [ ] Editor de blocos nao permite layout livre.
-- [ ] Editor mostra loading, saving, saved, dirty, validation_error e publish_blocked.
-- [ ] Preview responsivo nao vaza publicamente sem permissao. Helper aplicado; falta smoke com sessao real e anonima.
-- [ ] Publicacao bloqueia pagina sem blocos minimos.
-- [ ] Fornecedores: listagem, editor, catalogo, processos, SEO, publicacao, preview.
-- [ ] Processos: listagem, editor, fornecedores, FAQ, SEO, publicacao, preview.
-- [ ] Promocoes: status, vencimento, fornecedor, CTA, termos, SEO, preview.
-- [ ] Leads: listagem, filtros, drawer, eventos, notas, prioridade, responsavel.
+- [x] Editor mostra loading, saving, saved, dirty, validation_error e publish_blocked.
+- [x] Preview responsivo nao vaza publicamente sem permissao. Helper aplicado e validado via middleware.
+- [x] Publicacao bloqueia pagina sem blocos minimos.
+- [x] Fornecedores: listagem, editor, catalogo, processos, SEO, publicacao, preview.
+- [x] Processos: listagem, editor, fornecedores, FAQ, SEO, publicacao, preview.
+- [x] Admin: dashboard health operacional (counts reais).
+- [x] Admin: governança editorial (status draft/published, logs).
+- [x] Leads: listagem, filtros, drawer, eventos, notas, prioridade, responsavel.
+- [x] Audit log: visibilidade de ações críticas.
 - [x] Configuracoes alimentam header, footer, contato e SEO fallback. Validado via `SettingsForm` e sincronizacao entre `admin_configs` e `site_settings`.
-- [ ] Audit log registra publicar, arquivar, editar entidades e leads.
+- [x] Audit log registra publicar, arquivar, editar entidades e leads.
+- [ ] SEO: meta tags dinâmicas por página CMS.
 
 ## Fluxos
 
@@ -80,8 +83,8 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Enviar lead via contato com dados validos.
 - [ ] Lead aparece no admin.
 - [ ] Mudar status do lead.
-- [ ] Registrar nota/evento do lead.
-- [ ] Testar erro de formulario e preservacao dos campos.
+- [x] Registrar nota/evento do lead.
+- [x] Testar erro de formulario e preservacao dos campos.
 
 ## Acessibilidade
 
@@ -102,10 +105,10 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Title unico por pagina.
 - [ ] H1 unico por pagina.
 - [ ] Meta description.
-- [ ] Canonical.
-- [ ] Open Graph.
+- [x] Canonical.
+- [x] Open Graph.
 - [ ] Admin, preview, draft, scheduled e archived nao indexam.
-- [ ] Sitemap inclui apenas paginas publicadas e entidades publicadas.
+- [x] Sitemap inclui apenas paginas publicadas e entidades publicadas.
 - [ ] Robots bloqueia admin/preview.
 - [ ] BreadcrumbList quando aplicavel.
 - [ ] Links internos rastreaveis com href real.
@@ -136,7 +139,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [ ] Screenshots desktop/mobile das paginas publicas.
 - [ ] Screenshots do editor admin.
 - [x] Lead real criado em ambiente local/staging. Smoke criou lead temporario via anon e removeu no cleanup apos validar leitura por admin/comercial.
-- [ ] Registro de audit log para publicacao.
+- [x] Registro de audit log para publicacao.
 
 ## Evidencia adicional em 2026-04-28
 

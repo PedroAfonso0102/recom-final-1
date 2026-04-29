@@ -193,6 +193,37 @@ export async function updateLeadFeedback(id: string, feedback: {
   return { success: true };
 }
 
+export async function updateLeadNotes(id: string, notes: string): Promise<ActionState> {
+  const auth = await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ notes })
+    .eq('id', id);
+
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+
+  revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'update_lead_notes',
+      entity_type: 'leads',
+      entity_id: id,
+      user_id: auth.id,
+      details: { notes_length: notes.length }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
+  return { success: true };
+}
+
 export async function getLeadTechnicalDossier(leadId: string) {
   await requireAdmin();
   const supabase = await createClient();

@@ -8,22 +8,31 @@ import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { getProcessBySlug, getStaticProcessSlugs, getSuppliers } from "@/lib/services/supabase-data";
 
+import { buildSeoMetadata } from "@/lib/seo";
+import { getSiteSettings } from "@/cms/queries";
+
 interface ProcessPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: ProcessPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const process = await getProcessBySlug(slug);
+  const [process, settings] = await Promise.all([
+    getProcessBySlug(slug),
+    getSiteSettings()
+  ]);
 
   if (!process) {
-    return { title: "Processo não encontrado | RECOM" };
+    return buildSeoMetadata({ title: "Processo não encontrado", noIndex: true, siteSettings: settings });
   }
 
-  return {
+  return buildSeoMetadata({
     title: process.seoTitle || `${process.name} | RECOM Metal Duro`,
     description: process.seoDescription || process.shortDescription,
-  };
+    slug: `solucoes/${slug}`,
+    image: process.imageUrl,
+    siteSettings: settings
+  });
 }
 
 export async function generateStaticParams() {

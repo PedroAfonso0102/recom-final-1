@@ -22,9 +22,6 @@ export const metadata: Metadata = {
     template: "%s | RECOM Metal Duro",
   },
   description: siteConfig.company.subtitle,
-  alternates: {
-    canonical: "/",
-  },
   robots: {
     index: true,
     follow: true,

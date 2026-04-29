@@ -105,6 +105,16 @@ export async function createPage(input: unknown): Promise<ActionResult<CmsPageRo
   }
 
   revalidateCmsPaths(data.slug, data.id);
+
+  // Log action
+  await createAuditLog({
+    action: "create_page",
+    entity_type: "page",
+    entity_id: data.id,
+    details: { slug: data.slug, title: data.title },
+    user_id: auth.id
+  });
+
   return { success: true, data: data as CmsPageRow, message: "Página criada." };
 }
 
@@ -145,6 +155,16 @@ export async function updatePage(input: unknown): Promise<ActionResult<CmsPageRo
   }
 
   revalidateCmsPaths(data.slug, data.id);
+
+  // Log action
+  await createAuditLog({
+    action: "update_page",
+    entity_type: "page",
+    entity_id: data.id,
+    details: { slug: data.slug, title: data.title },
+    user_id: auth.id
+  });
+
   return { success: true, data: data as CmsPageRow, message: "Página atualizada." };
 }
 
@@ -396,6 +416,16 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
   }
 
   revalidateCmsPaths(page.slug, page.id);
+
+  // Log action
+  await createAuditLog({
+    action: "publish_page",
+    entity_type: "page",
+    entity_id: page.id,
+    details: { slug: page.slug, title: page.title, version: nextVersion },
+    user_id: auth.id
+  });
+
   return { success: true, data: true, message: "Página publicada." };
 }
 export async function archivePage(id: string): Promise<ActionResult<true>> {

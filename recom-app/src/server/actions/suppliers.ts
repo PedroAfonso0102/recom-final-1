@@ -15,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createSupplier(data: Supplier): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
@@ -32,11 +32,21 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
   }
 
   revalidateSupplierCatalog(payload.slug);
+
+  // Log action
+  await createAuditLog({
+    action: "create_supplier",
+    entity_type: "supplier",
+    entity_id: payload.slug,
+    details: { name: payload.name },
+    user_id: auth.id
+  });
+
   redirect('/admin/fornecedores');
 }
 
 export async function updateSupplier(id: string, data: Supplier): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   console.log(`[Action: updateSupplier] ID: ${id}, Slug: ${data.slug}`);
   const supabase = createAdminClient();
   
@@ -92,6 +102,16 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
   revalidateSupplierCatalog();
   
   console.log(`[Action: updateSupplier] Revalidation complete. Redirecting to admin list...`);
+
+  // Log action
+  await createAuditLog({
+    action: "update_supplier",
+    entity_type: "supplier",
+    entity_id: id,
+    details: { name: payload.name, slug: payload.slug },
+    user_id: auth.id
+  });
+
   redirect('/admin/fornecedores');
 }
 
