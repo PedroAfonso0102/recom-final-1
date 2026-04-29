@@ -18,7 +18,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [x] `supabase migration up --local`. Retornou "Local database is up to date" em 2026-04-28.
 - [x] Aplicar `supabase/migrations/20260428000005_seed_editorial_cms_pages.sql`. Aplicada em 2026-04-28; validacao anon confirmou paginas publicadas e secoes visiveis.
 - [x] Aplicar `supabase/migrations/20260428000006_visual_media_presets.sql`. Aplicada em 2026-04-28; validacao anon confirmou presets e imagens em blocos CMS.
-- [ ] `supabase db reset` com seed aplicavel.
+- [x] `supabase db reset` com seed aplicavel. Administrador dev@recom.local (ID 0...1) agora persistente via seed.sql.
 - [x] Tipos regenerados com `npm run db:types`.
 - [x] RLS habilitada nas tabelas publicas. Validado: `admin_configs` agora tem RLS via migracao hardening.
 - [x] Anon le apenas conteudo publicado/ativo. Validado via `check_db.ts`.
@@ -37,7 +37,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 - [x] Fornecedores hub em `/fornecedores-catalogos`.
 - [x] `/fornecedores` tem politica definida: redirect permanente para `/fornecedores-catalogos`.
 - [ ] Fornecedor individual publicado aparece em `/fornecedores-catalogos/[slug]`.
-- [ ] Fornecedor draft/archived nao aparece no publico.
+- [x] Fornecedor draft/archived nao aparece no publico. Validado via limpeza de seed estatico em GridSection e enforcement de RLS (status=active/published).
 - [x] Solucoes hub em `/solucoes`.
 - [x] `/processos` tem politica definida: redirect permanente para `/solucoes`.
 - [ ] Processo individual publicado aparece em `/solucoes/[slug]`.
@@ -130,7 +130,7 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 
 - [ ] Log do build.
 - [ ] Log de migrations.
-- [ ] Resultado de testes RLS.
+- [x] Resultado de testes RLS. Validado via scratch/test_anon_rls.ts: status filtering funciona como esperado.
 - [ ] Screenshots desktop/mobile das paginas publicas.
 - [ ] Screenshots do editor admin.
 - [ ] Lead real criado em ambiente local/staging.

@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { formatDatabaseError } from '@/lib/database/errors';
+import { createAuditLog } from '@/lib/audit';
 
 const LeadStatusSchema = z.enum(['new', 'contacted', 'qualified', 'lost']);
 
@@ -14,7 +15,7 @@ export type ActionState = {
 };
 
 export async function updateLeadStatus(id: string, status: string): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   const parsed = LeadStatusSchema.safeParse(status);
 
@@ -32,11 +33,25 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
   }
 
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'update_lead_status',
+      entity_type: 'leads',
+      entity_id: id,
+      user_id: auth.id,
+      details: { status: parsed.data }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
 export async function deleteLead(id: string): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from('leads').delete().eq('id', id);
 
@@ -45,6 +60,19 @@ export async function deleteLead(id: string): Promise<ActionState> {
   }
 
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'delete_lead',
+      entity_type: 'leads',
+      entity_id: id,
+      user_id: auth.id,
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
@@ -62,7 +90,7 @@ export async function updateAdminConfig(key: string, value: unknown): Promise<Ac
 }
 
 export async function processLeadBatch(ids: string[], targetStatus: string): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -78,11 +106,25 @@ export async function processLeadBatch(ids: string[], targetStatus: string): Pro
   }
   
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'process_lead_batch',
+      entity_type: 'leads',
+      entity_id: 'batch',
+      user_id: auth.id,
+      details: { ids, targetStatus }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
 export async function assignProcessToLead(leadId: string, processId: string | null): Promise<ActionState> {
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -95,6 +137,20 @@ export async function assignProcessToLead(leadId: string, processId: string | nu
   }
   
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'assign_process_to_lead',
+      entity_type: 'leads',
+      entity_id: leadId,
+      user_id: auth.id,
+      details: { processId }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
@@ -106,7 +162,7 @@ export async function updateLeadFeedback(id: string, feedback: {
   closed_at?: string 
 }): Promise<ActionState> {
 
-  await requireAdmin();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   
   const { error } = await supabase
@@ -119,6 +175,20 @@ export async function updateLeadFeedback(id: string, feedback: {
   }
   
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'update_lead_feedback',
+      entity_type: 'leads',
+      entity_id: id,
+      user_id: auth.id,
+      details: feedback as any
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
@@ -156,4 +226,3 @@ export async function getLeadTechnicalDossier(leadId: string) {
     })) || []
   };
 }
-

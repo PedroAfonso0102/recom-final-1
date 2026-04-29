@@ -1,5 +1,27 @@
--- Clear existing suppliers to avoid duplicates (optional, but good for a clean seed)
 DELETE FROM suppliers;
+
+-- Seed mock admin for local development
+-- This ensures RLS works for the mock user 00000000-0000-0000-0000-000000000001
+-- 1. Insert into auth.users (Supabase managed schema)
+INSERT INTO auth.users (id, email, encrypted_password, email_confirmed_at, role, raw_app_meta_data)
+VALUES (
+  '00000000-0000-0000-0000-000000000001', 
+  'dev@recom.local', 
+  crypt('password123', gen_salt('bf')), 
+  now(), 
+  'authenticated',
+  '{"role": "admin"}'
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. Insert into our public profile tables
+INSERT INTO public.admin_profiles (id, role, display_name)
+VALUES ('00000000-0000-0000-0000-000000000001', 'admin', 'Dev Admin')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.profiles (id, role, display_name)
+VALUES ('00000000-0000-0000-0000-000000000001', 'admin', 'Dev Admin')
+ON CONFLICT (id) DO NOTHING;
 
 -- Insert Suppliers with Official 2026 Data
 INSERT INTO suppliers (name, slug, logo_url, catalog_url, e_catalog_url, short_description, long_description, status, sort_order)

@@ -234,8 +234,7 @@ values
       'items', jsonb_build_array(
         jsonb_build_object('title', 'Mitsubishi Materials', 'description', 'Fornecedor prioritario no historico da RECOM, com catalogos e linhas para torneamento, fresamento e furacao.', 'icon', 'factory', 'linkLabel', 'Ver fornecedor', 'linkHref', '/fornecedores-catalogos/mitsubishi'),
         jsonb_build_object('title', '7Leaders', 'description', 'Linha associada a fresas e ferramentas rotativas.', 'icon', 'factory', 'linkLabel', 'Falar sobre a marca', 'linkHref', '/contato?fornecedor=7leaders'),
-        jsonb_build_object('title', 'BT Fixo', 'description', 'Acessorios, cones, porta-ferramentas e sistemas de fixacao para maquinas-ferramenta.', 'icon', 'package', 'linkLabel', 'Falar sobre a marca', 'linkHref', '/contato?fornecedor=bt-fixo'),
-        jsonb_build_object('title', 'Kifix', 'description', 'Grampos e dispositivos de fixacao industrial identificados no legado.', 'icon', 'package', 'linkLabel', 'Falar sobre a marca', 'linkHref', '/contato?fornecedor=kifix')
+        jsonb_build_object('title', 'BT Fixo', 'description', 'Acessorios, cones, porta-ferramentas e sistemas de fixacao para maquinas-ferramenta.', 'icon', 'package', 'linkLabel', 'Falar sobre a marca', 'linkHref', '/contato?fornecedor=bt-fixo')
       )
     )
   ),
