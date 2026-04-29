@@ -32,7 +32,7 @@ export async function createPromotion(data: Promotion): Promise<ActionState> {
   }
 
   await createAuditLog({
-    action: "create_promotion",
+    action: "promotion.created",
     entity_type: "promotion",
     entity_id: payload.slug,
     details: { title: payload.title },
@@ -61,7 +61,7 @@ export async function updatePromotion(id: string, data: Promotion): Promise<Acti
   }
 
   await createAuditLog({
-    action: "update_promotion",
+    action: "promotion.updated",
     entity_type: "promotion",
     entity_id: id,
     details: { title: payload.title, slug: payload.slug },
@@ -88,7 +88,7 @@ export async function deletePromotion(id: string): Promise<ActionState> {
   }
 
   await createAuditLog({
-    action: "delete_promotion",
+    action: "promotion.deleted",
     entity_type: "promotion",
     entity_id: id,
     details: { title: current?.title, slug: current?.slug },

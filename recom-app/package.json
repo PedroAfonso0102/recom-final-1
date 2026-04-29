@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run build",
+    "qa:staging": "npm run check",
     "db:types": "npx supabase gen types typescript --local > src/lib/database.types.ts",
     "db:reset": "npx supabase db reset",
     "prepare": "husky"

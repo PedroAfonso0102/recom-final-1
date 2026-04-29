@@ -35,7 +35,7 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
 
   // Log action
   await createAuditLog({
-    action: "create_supplier",
+    action: "supplier.created",
     entity_type: "supplier",
     entity_id: payload.slug,
     details: { name: payload.name },
@@ -105,7 +105,7 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
 
   // Log action
   await createAuditLog({
-    action: "update_supplier",
+    action: "supplier.updated",
     entity_type: "supplier",
     entity_id: id,
     details: { name: payload.name, slug: payload.slug },
@@ -137,7 +137,7 @@ export async function archiveSupplier(id: string): Promise<ActionState> {
 
   // Log action
   await createAuditLog({
-    action: "archive_supplier",
+    action: "supplier.archived",
     entity_type: "supplier",
     entity_id: id,
     details: { name: current?.name },
@@ -171,7 +171,7 @@ export async function deleteSupplier(id: string): Promise<ActionState> {
 
   // Log action
   await createAuditLog({
-    action: "delete_supplier_draft",
+    action: "supplier.deleted",
     entity_type: "supplier",
     entity_id: id,
     user_id: auth.id

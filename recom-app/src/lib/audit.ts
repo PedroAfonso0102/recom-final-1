@@ -4,43 +4,59 @@ import type { Json } from "@/lib/database.types";
 export type AuditLogEntry = {
   action: string;
   entity_type: string;
-  entity_id: string;
+  entity_id: string | null;
   details?: Record<string, Json | undefined>;
   user_id: string;
 };
 
-/**
- * Registra uma ação administrativa na trilha de auditoria.
- * Uso: await createAuditLog({ action: "archive_supplier", entity_type: "supplier", entity_id: id, user_id: auth.id })
- */
-export async function createAuditLog(log: AuditLogEntry) {
-  const supabase = createAdminClient();
-  
-  // If it's the mock dev user, we might need to skip the FK constraint if the user doesn't exist
-  // For local development simplicity, we'll try to insert and if it fails due to FK, we'll try without user_id
-  const { error } = await supabase.from("audit_logs").insert({
-    ...log,
+export type ActivityLogEntry = {
+  action: string;
+  entity_type: string;
+  entity_id: string | null;
+  metadata?: Record<string, Json | undefined>;
+  actor_id: string;
+};
+
+export function toAuditLogInsert(log: AuditLogEntry | ActivityLogEntry) {
+  const isActivityLog = "actor_id" in log;
+
+  return {
+    action: log.action,
+    entity_type: log.entity_type,
+    entity_id: log.entity_id,
+    user_id: isActivityLog ? log.actor_id : log.user_id,
+    details: isActivityLog ? log.metadata ?? {} : log.details ?? {},
     created_at: new Date().toISOString(),
-  });
-  
-  if (error && error.code === '23503') { // Foreign key violation
-    console.warn("[AuditLog] FK violation for user_id, retrying without user_id context:", log.user_id);
+  };
+}
+
+/**
+ * Registra uma acao administrativa na trilha de auditoria.
+ * Tambem aceita o vocabulario activity-log: actor_id e metadata.
+ */
+export async function createAuditLog(log: AuditLogEntry | ActivityLogEntry) {
+  const supabase = createAdminClient();
+  const insert = toAuditLogInsert(log);
+
+  // Audit logging must not block the main operation. Mock dev users can miss
+  // the auth.users FK locally, so retry with a null user_id when needed.
+  const { error } = await supabase.from("audit_logs").insert(insert);
+
+  if (error && error.code === "23503") {
+    console.warn("[AuditLog] FK violation for user_id, retrying without user_id context:", insert.user_id);
     await supabase.from("audit_logs").insert({
-      ...log,
-      user_id: undefined, // Let it be null
-      created_at: new Date().toISOString(),
+      ...insert,
+      user_id: undefined,
       details: {
-        ...(log.details ?? {}),
-        original_user_id: log.user_id,
-        note: "User ID omitted due to FK violation (likely mock user)"
-      }
+        ...(insert.details ?? {}),
+        original_user_id: insert.user_id,
+        note: "User ID omitted due to FK violation (likely mock user)",
+      },
     });
     return;
   }
 
   if (error) {
-    // Audit log failure should never break the main operation.
-    // Log it, don't throw.
     console.error("[AuditLog] Failed to write audit entry:", error.message, log);
   }
 }

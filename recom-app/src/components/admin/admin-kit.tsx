@@ -171,6 +171,62 @@ export function ErrorSummary({ title = "Revise os campos destacados", errors }: 
   );
 }
 
+export function LoadingState({ title = "Carregando", description = "Buscando os dados mais recentes." }: { title?: string; description?: string }) {
+  return (
+    <div className="flex min-h-48 flex-col items-center justify-center border border-slate-200 bg-white p-8 text-center" role="status">
+      <Loader2 className="mb-3 h-7 w-7 animate-spin text-slate-400" />
+      <h3 className="text-sm font-semibold text-slate-950">{title}</h3>
+      <p className="mt-1 max-w-md text-sm leading-6 text-slate-600">{description}</p>
+    </div>
+  );
+}
+
+export function SuccessState({ title, description, action }: { title: string; description: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex min-h-48 flex-col items-center justify-center border border-emerald-200 bg-emerald-50 p-8 text-center">
+      <CheckCircle2 className="mb-3 h-7 w-7 text-emerald-600" />
+      <h3 className="text-sm font-semibold text-emerald-950">{title}</h3>
+      <p className="mt-1 max-w-md text-sm leading-6 text-emerald-800">{description}</p>
+      {action ? <div className="mt-4">{action}</div> : null}
+    </div>
+  );
+}
+
+export function SkeletonTable({
+  columns = 5,
+  rows = 6,
+}: {
+  columns?: number;
+  rows?: number;
+}) {
+  return (
+    <div className="overflow-hidden border border-slate-200 bg-white" role="status" aria-label="Carregando tabela">
+      <Table>
+        <TableHeader className="bg-slate-50">
+          <TableRow className="border-slate-200 hover:bg-slate-50">
+            {Array.from({ length: columns }).map((_, index) => (
+              <TableHead key={index} className="h-10">
+                <Skeleton className="h-4 w-24" />
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.from({ length: rows }).map((_, rowIndex) => (
+            <TableRow key={rowIndex} className="border-slate-100 hover:bg-transparent">
+              {Array.from({ length: columns }).map((_, columnIndex) => (
+                <TableCell key={columnIndex}>
+                  <Skeleton className={cn("h-5", columnIndex === 0 ? "w-40" : "w-24")} />
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
 export function FormSection({ title, description, children }: { title: string; description?: string; children: React.ReactNode }) {
   return (
     <section className="border border-slate-200 bg-white p-5">

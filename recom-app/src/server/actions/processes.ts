@@ -32,7 +32,7 @@ export async function createProcess(data: Process): Promise<ActionState> {
   }
 
   await createAuditLog({
-    action: "create_process",
+    action: "process.created",
     entity_type: "process",
     entity_id: payload.slug,
     details: { name: payload.name },
@@ -61,7 +61,7 @@ export async function updateProcess(id: string, data: Process): Promise<ActionSt
   }
 
   await createAuditLog({
-    action: "update_process",
+    action: "process.updated",
     entity_type: "process",
     entity_id: id,
     details: { name: payload.name, slug: payload.slug },
@@ -88,7 +88,7 @@ export async function deleteProcess(id: string): Promise<ActionState> {
   }
 
   await createAuditLog({
-    action: "delete_process",
+    action: "process.deleted",
     entity_type: "process",
     entity_id: id,
     details: { name: current?.name, slug: current?.slug },

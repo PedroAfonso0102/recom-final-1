@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { createAuditLog } from '@/lib/audit';
 
 export type AuthContext = {
   id: string;
@@ -55,6 +56,13 @@ export async function requireAdmin() {
   const authContext = await requireAuth();
 
   if (authContext.role !== "admin") {
+    await createAuditLog({
+      action: "auth.denied",
+      entity_type: "auth",
+      entity_id: authContext.id,
+      actor_id: authContext.id,
+      metadata: { role: authContext.role },
+    });
     redirect('/unauthorized'); // Ou lance um erro apropriado para Server Actions
   }
 

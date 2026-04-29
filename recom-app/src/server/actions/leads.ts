@@ -38,8 +38,8 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'update_lead_status',
-      entity_type: 'leads',
+      action: 'lead.status_changed',
+      entity_type: 'lead',
       entity_id: id,
       user_id: auth.id,
       details: { status: parsed.data }
@@ -65,8 +65,8 @@ export async function deleteLead(id: string): Promise<ActionState> {
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'delete_lead',
-      entity_type: 'leads',
+      action: 'lead.deleted',
+      entity_type: 'lead',
       entity_id: id,
       user_id: auth.id,
     });
@@ -111,8 +111,8 @@ export async function processLeadBatch(ids: string[], targetStatus: string): Pro
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'process_lead_batch',
-      entity_type: 'leads',
+      action: 'lead.batch_processed',
+      entity_type: 'lead',
       entity_id: 'batch',
       user_id: auth.id,
       details: { ids, targetStatus }
@@ -142,8 +142,8 @@ export async function assignProcessToLead(leadId: string, processId: string | nu
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'assign_process_to_lead',
-      entity_type: 'leads',
+      action: 'lead.process_assigned',
+      entity_type: 'lead',
       entity_id: leadId,
       user_id: auth.id,
       details: { processId }
@@ -180,8 +180,8 @@ export async function updateLeadFeedback(id: string, feedback: {
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'update_lead_feedback',
-      entity_type: 'leads',
+      action: 'lead.feedback_updated',
+      entity_type: 'lead',
       entity_id: id,
       user_id: auth.id,
       details: feedback as unknown as Record<string, Json | undefined>
@@ -211,8 +211,8 @@ export async function updateLeadNotes(id: string, notes: string): Promise<Action
   // Log audit entry
   try {
     await createAuditLog({
-      action: 'update_lead_notes',
-      entity_type: 'leads',
+      action: 'lead.notes_updated',
+      entity_type: 'lead',
       entity_id: id,
       user_id: auth.id,
       details: { notes_length: notes.length }

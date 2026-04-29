@@ -1,17 +1,18 @@
-import React from 'react';
-import { getAuditLogs } from '@/server/actions/audit';
-import { History, User, Database, Clock } from 'lucide-react';
+import { Database, History, User } from "lucide-react";
 
-export const dynamic = 'force-dynamic';
+import { EmptyState, PageHeader, StatusBadge } from "@/components/admin/admin-kit";
+import { getAuditLogs } from "@/server/actions/audit";
+
+export const dynamic = "force-dynamic";
 
 interface AuditLog {
   id: string;
   action: string;
   entity_type: string;
-  entity_id: string;
-  user_id: string;
+  entity_id: string | null;
+  user_id: string | null;
   created_at: string;
-  details?: Record<string, unknown>;
+  details?: Record<string, unknown> | null;
 }
 
 function formatRelativeTime(dateValue: string) {
@@ -20,102 +21,82 @@ function formatRelativeTime(dateValue: string) {
   const diffMinutes = Math.max(1, Math.floor(diffMs / (1000 * 60)));
 
   if (diffMinutes < 60) {
-    return `há ${diffMinutes} minuto${diffMinutes === 1 ? '' : 's'}`;
+    return `ha ${diffMinutes} minuto${diffMinutes === 1 ? "" : "s"}`;
   }
 
   const diffHours = Math.floor(diffMinutes / 60);
   if (diffHours < 24) {
-    return `há ${diffHours} hora${diffHours === 1 ? '' : 's'}`;
+    return `ha ${diffHours} hora${diffHours === 1 ? "" : "s"}`;
   }
 
   const diffDays = Math.floor(diffHours / 24);
   if (diffDays < 7) {
-    return `há ${diffDays} dia${diffDays === 1 ? '' : 's'}`;
+    return `ha ${diffDays} dia${diffDays === 1 ? "" : "s"}`;
   }
 
-  return date.toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 }
 
+function formatAction(action: string) {
+  return action.replace(/[._]/g, " ");
+}
+
 export default async function AuditPage() {
-  const logs = await getAuditLogs() as AuditLog[];
+  const logs = (await getAuditLogs()) as AuditLog[];
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-slate-400">
-          <History className="h-4 w-4" />
-          <span className="text-[10px] font-semibold uppercase tracking-wider">Trilha de Auditoria</span>
-        </div>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900">
-          Histórico de <span className="text-slate-400">Alterações</span>
-        </h1>
-        <p className="text-sm text-slate-500 max-w-2xl font-medium">
-          Rastreabilidade completa de todas as ações administrativas críticas realizadas no sistema.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Trilha de auditoria"
+        title="Historico de alteracoes"
+        description="Rastreabilidade das acoes administrativas criticas realizadas no CMS e no admin comercial."
+      />
 
-      <div className="grid gap-4">
-        {logs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 bg-white border border-dashed border-slate-200 rounded-3xl">
-            <History className="h-12 w-12 mb-4 text-slate-200" />
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Nenhuma atividade registrada ainda</p>
-          </div>
-        ) : (
-          logs.map((log: AuditLog) => (
-            <div key={log.id} className="group relative bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="flex items-start gap-5">
-                  <div className="mt-1 h-10 w-10 flex items-center justify-center bg-slate-100 rounded-xl text-slate-500 group-hover:bg-primary group-hover:text-white transition-colors">
-                    <Database className="h-5 w-5" />
+      {logs.length === 0 ? (
+        <EmptyState
+          icon={History}
+          title="Nenhuma atividade registrada"
+          description="Quando uma acao sensivel for executada, ela aparecera aqui com usuario, entidade e metadados."
+        />
+      ) : (
+        <div className="space-y-3">
+          {logs.map((log) => (
+            <article key={log.id} className="border border-slate-200 bg-white p-4">
+              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div className="flex min-w-0 gap-3">
+                  <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center border border-slate-200 bg-slate-50 text-slate-500">
+                    <Database className="h-4 w-4" />
                   </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 px-2 py-0.5 bg-slate-100 rounded-full border border-slate-200">
-                        {log.action.replace(/_/g, ' ')}
-                      </span>
-                      <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {formatRelativeTime(log.created_at)}
-                      </span>
+                  <div className="min-w-0 space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <StatusBadge status="success" label={formatAction(log.action)} />
+                      <span className="text-xs font-medium text-slate-500">{formatRelativeTime(log.created_at)}</span>
                     </div>
-                    <h3 className="text-sm font-semibold text-slate-900">
-                      Alterou {log.entity_type} <span className="font-mono text-[10px] text-slate-400">({log.entity_id.substring(0, 8)}...)</span>
-                    </h3>
-                    {log.details && (
-                      <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                        <pre className="text-[10px] font-mono text-slate-500 overflow-auto max-h-32">
-                          {JSON.stringify(log.details, null, 2)}
-                        </pre>
-                      </div>
-                    )}
+                    <p className="text-sm font-semibold text-slate-950">
+                      {log.entity_type}
+                      {log.entity_id ? <span className="ml-2 font-mono text-xs font-normal text-slate-500">{log.entity_id.slice(0, 8)}</span> : null}
+                    </p>
+                    {log.details && Object.keys(log.details).length > 0 ? (
+                      <pre className="max-h-32 overflow-auto border border-slate-100 bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+                        {JSON.stringify(log.details, null, 2)}
+                      </pre>
+                    ) : null}
                   </div>
                 </div>
-                
-                <div className="flex flex-col items-end gap-1">
-                  <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-                    <User className="h-3 w-3" />
-                    Usuário: {log.user_id?.substring(0, 8)}...
-                  </div>
-                  <div className="text-[9px] font-mono text-slate-300">
-                    {new Date(log.created_at).toLocaleString('pt-BR')}
-                  </div>
+
+                <div className="flex shrink-0 items-center gap-2 text-xs font-medium text-slate-500">
+                  <User className="h-3.5 w-3.5" />
+                  {log.user_id ? log.user_id.slice(0, 8) : "sistema"}
                 </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      <div className="flex justify-center pt-8">
-        <div className="text-[9px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          Logs monitorados em tempo real
+            </article>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }
