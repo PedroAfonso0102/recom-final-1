@@ -16,6 +16,7 @@ export const pagesResource: ResourceConfig = {
       update: "page.updated",
       delete: "page.deleted",
       publish: "page.published",
+      archive: "page.archived",
     },
   },
   access: {
@@ -42,6 +43,38 @@ export const pagesResource: ResourceConfig = {
       },
     },
     {
+      name: "routePattern",
+      label: "Padrao de rota",
+      type: "text",
+      admin: {
+        description: "Use apenas quando a rota publica for diferente do slug.",
+      },
+    },
+    {
+      name: "pageType",
+      label: "Tipo de pagina",
+      type: "select",
+      required: true,
+      options: [
+        { label: "Estatica", value: "static" },
+        { label: "Template dinamico", value: "dynamic_template" },
+        { label: "Landing page", value: "landing" },
+      ],
+    },
+    {
+      name: "templateKey",
+      label: "Experiencia da pagina",
+      type: "select",
+      admin: {
+        description: "Controla diferencas de UI/UX sem liberar layout livre.",
+      },
+    },
+    {
+      name: "description",
+      label: "Descricao interna",
+      type: "textarea",
+    },
+    {
       name: "status",
       label: "Status",
       type: "select",
@@ -56,7 +89,7 @@ export const pagesResource: ResourceConfig = {
       },
     },
     {
-      name: "seo_title",
+      name: "seoTitle",
       label: "Titulo SEO",
       type: "text",
       admin: {
@@ -64,10 +97,20 @@ export const pagesResource: ResourceConfig = {
       },
     },
     {
-      name: "seo_description",
+      name: "seoDescription",
       label: "Descricao SEO",
       type: "textarea",
       admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "ogImageUrl",
+      label: "Imagem social / OG",
+      type: "upload",
+      relationTo: "media_assets",
+      admin: {
+        description: "Escolha uma imagem da biblioteca ou cole uma URL publica.",
         position: "sidebar",
       },
     },

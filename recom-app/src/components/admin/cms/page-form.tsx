@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CmsFieldRenderer } from "@/cms/editor-fields";
 import { createPage, updatePage, createRevision } from "@/server/actions/cms-pages";
 import type { CmsPageRow } from "@/cms/types";
-import type { CmsFieldDefinition } from "@/cms/types";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, Lock, Loader2, Check, Cloud, Save } from "lucide-react";
 import { useBeforeUnload } from "@/hooks/use-before-unload";
@@ -17,49 +16,7 @@ import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import { cmsPageFormSchema } from "@/cms/schemas/page.schema";
 import { RevisionHistory } from "./revision-history";
-import { PAGE_EXPERIENCE_PRESETS } from "@/design-system/contracts/page-experience-presets";
-
-const pageExperienceOptions = Object.values(PAGE_EXPERIENCE_PRESETS).map((preset) => ({
-  label: preset.label,
-  value: preset.key,
-}));
-
-const pageFields: CmsFieldDefinition[] = [
-  { name: "title", label: "Título", type: "text", required: true },
-  { name: "slug", label: "Slug", type: "text", required: true, placeholder: "home" },
-  { name: "routePattern", label: "Padrão de Rota", type: "text", placeholder: "/exemplo/[slug]" },
-  {
-    name: "pageType",
-    label: "Tipo de Página",
-    type: "select",
-    options: [
-      { label: "Estática", value: "static" },
-      { label: "Template Dinâmico", value: "dynamic_template" },
-      { label: "Landing Page", value: "landing" },
-    ],
-  },
-  {
-    name: "templateKey",
-    label: "ExperiÃªncia da pÃ¡gina",
-    type: "select",
-    description: "Controla diferenÃ§as de UI/UX sem liberar layout livre.",
-    options: pageExperienceOptions,
-  },
-  { name: "description", label: "Descrição Interna", type: "textarea", rows: 2 },
-  { name: "seoTitle", label: "SEO title", type: "text" },
-  { name: "seoDescription", label: "SEO description", type: "textarea", rows: 3 },
-  { name: "ogImageUrl", label: "Imagem social / OG", type: "media", description: "Escolha uma imagem da biblioteca ou cole uma URL pública." },
-  {
-    name: "status",
-    label: "Status",
-    type: "select",
-    options: [
-      { label: "Rascunho", value: "draft" },
-      { label: "Publicado", value: "published" },
-      { label: "Arquivado", value: "archived" },
-    ],
-  },
-];
+import { pageFields } from "@/cms/resources";
 
 type PageFormProps = {
   page?: CmsPageRow;
@@ -174,13 +131,13 @@ export function CmsPageForm({ page, mode, onLiveUpdate }: PageFormProps) {
 
     if (!result.success) {
       setFieldErrors(result.fieldErrors ?? {});
-      setError(result.formError ?? "Erro técnico: Verifique os campos e tente novamente.");
+      setError(result.formError ?? "Erro tecnico: Verifique os campos e tente novamente.");
       setSaving(false);
       return;
     }
 
     if (mode === "edit" && page) {
-      await createRevision(page.id, data, "Edição manual");
+      await createRevision(page.id, data, "Edicao manual");
     }
 
     setSaveSuccess(true);
@@ -212,7 +169,7 @@ export function CmsPageForm({ page, mode, onLiveUpdate }: PageFormProps) {
       <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-4 sticky top-0 z-10 bg-white/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
           <div className="space-y-1">
-            <CardTitle className="text-sm font-bold text-slate-900">Configurações da Página</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-900">Configuracoes da Pagina</CardTitle>
             <div className="flex items-center gap-2">
               {saving ? (
                 <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground animate-pulse">
@@ -280,7 +237,7 @@ export function CmsPageForm({ page, mode, onLiveUpdate }: PageFormProps) {
           {isSystem && (
             <div className="flex items-center gap-3 rounded-lg border border-blue-100 bg-blue-50/30 p-4 text-[11px] text-blue-700 font-medium">
               <AlertCircle className="h-4 w-4 shrink-0" />
-              Campos protegidos: Alguns valores não podem ser alterados para garantir a integridade do sistema.
+              Campos protegidos: Alguns valores nao podem ser alterados para garantir a integridade do sistema.
             </div>
           )}
 

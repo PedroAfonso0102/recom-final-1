@@ -5,12 +5,41 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/utils";
 import { createAuditLog } from "@/lib/audit";
+import { pagesResource } from "@/features/pages/pages.resource";
+import { createAuditResourceHooks } from "@/lib/resources/hooks";
 import { revalidateCmsPaths } from "@/lib/revalidation/cms";
 import { getComponentDefinition } from "@/cms/component-registry";
 import { assertSectionAllowedForPage } from "@/cms/section-governance";
 import { cmsCreatePageSchema, cmsUpdatePageSchema } from "@/cms/schemas/page.schema";
 import { cmsCreateSectionSchema, cmsPublishPageSchema, cmsReorderSectionsSchema, cmsUpdateSectionSchema } from "@/cms/schemas/section.schema";
 import type { ActionResult, CmsPageRow, CmsRevisionRow, CmsSectionRow } from "@/cms/types";
+
+const pageAuditHooks = createAuditResourceHooks<CmsPageRow | { id: string }>();
+
+async function writePageResourceAudit({
+  operation,
+  actorId,
+  doc,
+  previousDoc,
+  metadata,
+}: {
+  operation: "create" | "update" | "delete" | "publish" | "archive";
+  actorId: string;
+  doc?: CmsPageRow | { id: string } | null;
+  previousDoc?: CmsPageRow | { id: string } | null;
+  metadata?: Record<string, string | number | boolean | null | undefined>;
+}) {
+  const hook = operation === "delete" ? pageAuditHooks.afterDelete : pageAuditHooks.afterChange;
+
+  await hook?.({
+    resource: pagesResource,
+    operation,
+    actorId,
+    doc,
+    previousDoc,
+    metadata,
+  });
+}
 
 function toFieldErrors(error: z.ZodError) {
   const fieldErrors: Record<string, string[]> = {};
@@ -106,13 +135,11 @@ export async function createPage(input: unknown): Promise<ActionResult<CmsPageRo
 
   revalidateCmsPaths(data.slug, data.id);
 
-  // Log action
-  await createAuditLog({
-    action: "page.created",
-    entity_type: "page",
-    entity_id: data.id,
-    details: { slug: data.slug, title: data.title },
-    user_id: auth.id
+  await writePageResourceAudit({
+    operation: "create",
+    actorId: auth.id,
+    doc: data as CmsPageRow,
+    metadata: { slug: data.slug, title: data.title },
   });
 
   return { success: true, data: data as CmsPageRow, message: "PÃ¡gina criada." };
@@ -156,13 +183,11 @@ export async function updatePage(input: unknown): Promise<ActionResult<CmsPageRo
 
   revalidateCmsPaths(data.slug, data.id);
 
-  // Log action
-  await createAuditLog({
-    action: "page.updated",
-    entity_type: "page",
-    entity_id: data.id,
-    details: { slug: data.slug, title: data.title },
-    user_id: auth.id
+  await writePageResourceAudit({
+    operation: "update",
+    actorId: auth.id,
+    doc: data as CmsPageRow,
+    metadata: { slug: data.slug, title: data.title },
   });
 
   return { success: true, data: data as CmsPageRow, message: "PÃ¡gina atualizada." };
@@ -444,13 +469,11 @@ export async function publishPage(input: unknown): Promise<ActionResult<true>> {
 
   revalidateCmsPaths(page.slug, page.id);
 
-  // Log action
-  await createAuditLog({
-    action: "page.published",
-    entity_type: "page",
-    entity_id: page.id,
-    details: { slug: page.slug, title: page.title, version: nextVersion },
-    user_id: auth.id
+  await writePageResourceAudit({
+    operation: "publish",
+    actorId: auth.id,
+    doc: page as CmsPageRow,
+    metadata: { slug: page.slug, title: page.title, version: nextVersion },
   });
 
   return { success: true, data: true, message: "PÃ¡gina publicada." };
@@ -482,13 +505,11 @@ export async function archivePage(id: string): Promise<ActionResult<true>> {
     revalidateCmsPaths(page.slug, id);
   }
 
-  // Log action
-  await createAuditLog({
-    action: "page.archived",
-    entity_type: "page",
-    entity_id: id,
-    details: { slug: page?.slug },
-    user_id: auth.id
+  await writePageResourceAudit({
+    operation: "archive",
+    actorId: auth.id,
+    doc: { id },
+    metadata: { slug: page?.slug ?? null },
   });
 
   return { success: true, data: true, message: "PÃ¡gina arquivada." };
@@ -516,12 +537,10 @@ export async function deletePage(id: string): Promise<ActionResult<true>> {
     return { success: false, formError: error.message };
   }
 
-  // Log action
-  await createAuditLog({
-    action: "page.deleted",
-    entity_type: "page",
-    entity_id: id,
-    user_id: auth.id
+  await writePageResourceAudit({
+    operation: "delete",
+    actorId: auth.id,
+    previousDoc: { id },
   });
 
   return { success: true, data: true, message: "Rascunho excluÃ­do." };

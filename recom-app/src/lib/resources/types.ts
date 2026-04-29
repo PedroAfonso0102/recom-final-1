@@ -1,6 +1,6 @@
 import type { Json } from "@/lib/database.types";
 
-export type ResourceOperation = "create" | "read" | "update" | "delete" | "publish";
+export type ResourceOperation = "create" | "read" | "update" | "delete" | "publish" | "archive";
 
 export type ResourceFieldType =
   | "text"
