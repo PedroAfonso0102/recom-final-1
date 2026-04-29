@@ -14,18 +14,20 @@ export type ActivityLogEntry = {
   entity_type: string;
   entity_id: string | null;
   metadata?: Record<string, Json | undefined>;
-  actor_id: string;
+  actor_id?: string | null;
 };
 
 export function toAuditLogInsert(log: AuditLogEntry | ActivityLogEntry) {
   const isActivityLog = "actor_id" in log;
+  const auditLog = log as AuditLogEntry;
+  const activityLog = log as ActivityLogEntry;
 
   return {
     action: log.action,
     entity_type: log.entity_type,
     entity_id: log.entity_id,
-    user_id: isActivityLog ? log.actor_id : log.user_id,
-    details: isActivityLog ? log.metadata ?? {} : log.details ?? {},
+    user_id: isActivityLog ? activityLog.actor_id ?? null : auditLog.user_id,
+    details: isActivityLog ? activityLog.metadata ?? {} : auditLog.details ?? {},
     created_at: new Date().toISOString(),
   };
 }
