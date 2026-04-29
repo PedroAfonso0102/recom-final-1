@@ -134,3 +134,27 @@ FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER update_leads_updated_at
 BEFORE UPDATE ON leads
 FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+-- Legacy configurations table
+CREATE TABLE admin_configs (
+  id SERIAL PRIMARY KEY,
+  key TEXT UNIQUE,
+  value JSONB DEFAULT '{}'::jsonb,
+  company_name TEXT,
+  company_short_name TEXT,
+  company_description TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  contact_address TEXT,
+  social_instagram TEXT,
+  social_linkedin TEXT,
+  social_youtube TEXT,
+  seo_title_default TEXT,
+  seo_description_default TEXT,
+  seo_keywords_default TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE admin_configs ENABLE ROW LEVEL SECURITY;
+

@@ -1,5 +1,6 @@
 import type { CmsPageWithSections } from "./types";
 import { RenderSection } from "./render-section";
+import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { getPageExperienceFromPage } from "@/design-system/contracts/page-experience-presets";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,16 @@ export function RenderPage({ pageData, preview = false, context }: RenderPagePro
       data-page-experience={experience.key}
       data-page-intent={experience.primaryIntent}
     >
+      {page.slug !== "/" && page.slug !== "home" && page.slug !== "" && (
+        <div className="container-recom pt-8">
+          <Breadcrumb 
+            items={[
+              { label: "Início", href: "/" },
+              { label: page.title }
+            ]} 
+          />
+        </div>
+      )}
       {sections.map((section) => (
         <RenderSection key={section.id} section={section} preview={preview} context={context} />
       ))}

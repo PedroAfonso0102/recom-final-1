@@ -1,19 +1,68 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAuth, requireAdmin } from "@/lib/auth/utils";
 import { siteSettingsSchema, type SiteSettings } from "./schemas/site-settings.schema";
 import { revalidatePath } from "next/cache";
+import { createAuditLog } from "@/lib/audit";
 
 const SITE_SETTINGS_KEY = "site_settings";
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   const supabase = createAdminClient();
+  
+  // Try site_settings table first (new schema)
+  const { data: siteSettingsRow } = await supabase
+    .from("site_settings")
+    .select("*")
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (siteSettingsRow) {
+    const row = siteSettingsRow as any;
+    // Map database columns to Zod schema
+    const mapped: SiteSettings = {
+      company: {
+        name: row.company_name,
+        fullName: row.company_full_name || row.company_name,
+        subtitle: row.company_subtitle || "Distribuidor de ferramentas de corte",
+        since: row.company_since || "1990",
+        cnpj: row.company_cnpj,
+        description: row.company_description,
+        shortName: row.company_short_name || row.company_name,
+      },
+      contact: {
+        phone: row.phone,
+        email: row.email,
+        whatsapp: row.whatsapp || "",
+        address: row.address,
+        cep: row.cep || "13000-000",
+      },
+      links: row.social_links || {
+        instagram: row.social_instagram,
+        linkedin: row.social_linkedin,
+        youtube: row.social_youtube,
+      },
+      seo: {
+        defaultTitle: row.default_seo_title || row.seo_title,
+        defaultDescription: row.default_seo_description || row.seo_description,
+        titleTemplate: row.title_template || "%s | RECOM",
+        keywords: row.seo_keywords || "",
+      },
+    };
+
+    const parsed = siteSettingsSchema.safeParse(mapped);
+    if (parsed.success) return parsed.data;
+    console.error("Schema validation failed for site settings:", parsed.error);
+  }
+
+  // Fallback to legacy admin_configs (JSON value)
   const { data, error } = await supabase
     .from("admin_configs")
     .select("value")
     .eq("key", SITE_SETTINGS_KEY)
-    .single();
+    .maybeSingle();
 
   if (error || !data) {
     return null;
@@ -23,26 +72,92 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   return parsed.success ? parsed.data : null;
 }
 
-export async function updateSiteSettings(input: unknown) {
-  await requireAuth();
-  const parsed = siteSettingsSchema.safeParse(input);
+export async function updateSiteSettings(settings: SiteSettings) {
+  try {
+    const auth = await requireAdmin();
+    const supabase = createAdminClient();
 
-  if (!parsed.success) {
-    return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
+    // 1. Update legacy admin_configs for backward compatibility
+    const legacyData = {
+      company_name: settings.company.name,
+      company_short_name: settings.company.shortName,
+      company_description: settings.company.description,
+      contact_email: settings.contact.email,
+      contact_phone: settings.contact.phone,
+      contact_address: settings.contact.address,
+      social_instagram: settings.links.instagram,
+      social_linkedin: settings.links.linkedin,
+      social_youtube: settings.links.facebook, // Mapping facebook to youtube legacy or just use links
+      seo_title_default: settings.seo.defaultTitle,
+      seo_description_default: settings.seo.defaultDescription,
+      seo_keywords_default: settings.seo.keywords,
+      updated_at: new Date().toISOString(),
+    };
+
+    await supabase
+      .from("admin_configs")
+      .upsert({ id: 1, ...legacyData }, { onConflict: 'id' });
+
+    // 2. Update new site_settings table
+    const { data: existing } = await supabase
+      .from("site_settings")
+      .select("id")
+      .limit(1)
+      .maybeSingle();
+
+    const siteSettingsData = {
+      company_name: settings.company.name,
+      company_short_name: settings.company.shortName,
+      company_full_name: settings.company.fullName,
+      company_description: settings.company.description,
+      company_subtitle: settings.company.subtitle,
+      company_since: settings.company.since,
+      company_cnpj: settings.company.cnpj,
+      email: settings.contact.email,
+      phone: settings.contact.phone,
+      whatsapp: settings.contact.whatsapp,
+      address: settings.contact.address,
+      cep: settings.contact.cep,
+      social_links: settings.links,
+      default_seo_title: settings.seo.defaultTitle,
+      default_seo_description: settings.seo.defaultDescription,
+      seo_keywords: settings.seo.keywords,
+      title_template: settings.seo.titleTemplate,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { error: newError } = await supabase
+      .from("site_settings")
+      .upsert(
+        existing ? { id: existing.id, ...siteSettingsData } : siteSettingsData,
+        { onConflict: 'id' }
+      );
+
+    if (newError) {
+      console.error("Error updating site_settings:", newError);
+      return { ok: false, formError: newError.message };
+    }
+
+    // 3. Log audit entry
+    try {
+      await createAuditLog({
+        action: "update_site_settings",
+        entity_type: "site_settings",
+        entity_id: existing?.id || "global",
+        user_id: auth.id,
+        details: {
+          new_settings: settings as any,
+        },
+      });
+    } catch (auditError) {
+      console.error("Failed to create audit log:", auditError);
+    }
+
+    revalidatePath("/admin/configuracoes");
+    revalidatePath("/", "layout");
+    return { ok: true, message: "Configurações atualizadas com sucesso." };
+  } catch (error: any) {
+    console.error("Critical error in updateSiteSettings:", error);
+    return { ok: false, formError: error.message || "Erro interno no servidor" };
   }
-
-  const supabase = createAdminClient();
-  const { error } = await supabase
-    .from("admin_configs")
-    .upsert({
-      key: SITE_SETTINGS_KEY,
-      value: parsed.data,
-    }, { onConflict: 'key' });
-
-  if (error) {
-    return { ok: false, formError: error.message };
-  }
-
-  revalidatePath("/", "layout");
-  return { ok: true, message: "Configurações atualizadas com sucesso." };
 }

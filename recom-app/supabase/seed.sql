@@ -87,7 +87,7 @@ VALUES
 (
   'Kit Fresamento Mitsubishi', 
   'kit-fresamento-mitsubishi', 
-  '0eb92b70-1998-4568-a983-c8d83a70e374', 
+  (SELECT id FROM suppliers WHERE slug = 'mitsubishi' LIMIT 1), 
   'Na compra de 10 insertos da linha MP, ganhe o corpo da fresa compatível.',
   '2024-01-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
@@ -98,7 +98,7 @@ VALUES
 (
   'Lote Especial Metal Duro', 
   'lote-especial-metal-duro', 
-  '0eb92b70-1998-4568-a983-c8d83a70e374', 
+  (SELECT id FROM suppliers WHERE slug = 'mitsubishi' LIMIT 1), 
   'Preços diferenciados para pedidos acima de 50 unidades de insertos para aço inox.',
   '2024-05-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
@@ -109,7 +109,7 @@ VALUES
 (
   'Testes em sua produção 7Leaders', 
   'testes-pratica-7leaders', 
-  '503750e9-9b48-4d98-b2da-de68ce02b654', 
+  (SELECT id FROM suppliers WHERE slug = '7leaders' LIMIT 1), 
   'Peça uma amostra para teste em sua produção e comprove o rendimento das fresas rotativas.',
   '2024-05-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
