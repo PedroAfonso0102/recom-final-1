@@ -110,8 +110,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const fallback: SiteSettings = {
     company: {
       name: "RECOM",
+      shortName: "RECOM",
       fullName: "RECOM Comercio de Ferramentas LTDA",
       subtitle: "Distribuidor de ferramentas de corte",
+      description: "Distribuidor B2B de ferramentas de corte, catálogos oficiais e orientação comercial para usinagem.",
       since: "1990",
     },
     contact: {
@@ -136,9 +138,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     const parsed = siteSettingsSchema.safeParse({
       company: {
         name: String(row.company_name || fallback.company.name),
-        fullName: String(row.company_name || fallback.company.fullName),
-        subtitle: "Distribuidor de ferramentas de corte",
-        since: fallback.company.since,
+        shortName: String(row.company_short_name || fallback.company.shortName),
+        fullName: String(row.company_full_name || row.company_name || fallback.company.fullName),
+        subtitle: String(row.company_subtitle || fallback.company.subtitle),
+        description: String(row.company_description || fallback.company.description),
+        since: String(row.company_since || fallback.company.since),
+        cnpj: typeof row.company_cnpj === "string" ? row.company_cnpj : null,
       },
       contact: {
         phone: String(row.phone || fallback.contact.phone),
@@ -151,7 +156,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       seo: {
         defaultTitle: String(row.default_seo_title || fallback.seo.defaultTitle),
         defaultDescription: String(row.default_seo_description || fallback.seo.defaultDescription),
-        titleTemplate: fallback.seo.titleTemplate,
+        titleTemplate: String(row.title_template || fallback.seo.titleTemplate),
+        keywords: typeof row.seo_keywords === "string" ? row.seo_keywords : "",
       },
     });
 

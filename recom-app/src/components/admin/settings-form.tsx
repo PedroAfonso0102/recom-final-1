@@ -43,7 +43,7 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
       } else {
         toast.error(result.formError || "Erro ao salvar configurações.");
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("Ocorreu um erro inesperado.");
     } finally {
       setIsSaving(false);

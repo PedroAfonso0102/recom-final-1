@@ -18,6 +18,19 @@ export type SalesRep = {
 
 type SalesRepInsert = Database["public"]["Tables"]["sales_reps"]["Insert"];
 type SalesRepUpdate = Database["public"]["Tables"]["sales_reps"]["Update"];
+type SalesRepRow = Database["public"]["Tables"]["sales_reps"]["Row"];
+
+function mapSalesRep(row: SalesRepRow): SalesRep {
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    phone: row.phone,
+    status: row.status === "inactive" ? "inactive" : "active",
+    last_assigned_at: row.last_assigned_at,
+    assignment_count: row.assignment_count ?? 0,
+  };
+}
 
 export async function getSalesReps() {
   await requireAdmin();
@@ -28,7 +41,7 @@ export async function getSalesReps() {
     .order('name');
   
   if (error) return [];
-  return data as SalesRep[];
+  return (data ?? []).map(mapSalesRep);
 }
 
 export async function createSalesRep(data: SalesRepInsert) {
@@ -51,7 +64,7 @@ export async function updateSalesRep(id: string, data: SalesRepUpdate) {
   return { ok: true };
 }
 
-export async function toggleSalesRepStatus(id: string, currentStatus: string) {
+export async function toggleSalesRepStatus(id: string, currentStatus: SalesRep["status"]) {
   const auth = await requireAdmin();
   const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
   const supabase = createAdminClient();
@@ -82,7 +95,7 @@ export async function deleteSalesRep(id: string) {
   // Check if rep has assignments (we might want to archive instead if so)
   const { data: rep } = await supabase.from('sales_reps').select('assignment_count').eq('id', id).single();
   
-  if (rep && rep.assignment_count > 0) {
+  if (rep && (rep.assignment_count ?? 0) > 0) {
     return { ok: false, error: "Este vendedor possui atendimentos registrados e não pode ser excluído. Pause-o no rodízio." };
   }
 
@@ -119,7 +132,7 @@ export async function getNextRepForAssignment(): Promise<SalesRep | null> {
     
   if (error || !data || data.length === 0) return null;
   
-  return data[0] as SalesRep;
+  return mapSalesRep(data[0]);
 }
 
 /**
@@ -152,7 +165,7 @@ export async function assignLeadToRep(leadId: string, repId: string) {
     const { data: rep } = await supabase.from('sales_reps').select('assignment_count').eq('id', repId).single();
     await supabase.from('sales_reps').update({
       last_assigned_at: now,
-      assignment_count: (rep?.assignment_count || 0) + 1
+      assignment_count: (rep?.assignment_count ?? 0) + 1
     }).eq('id', repId);
   }
   

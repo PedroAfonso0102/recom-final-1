@@ -1,12 +1,25 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { requireAuth, requireAdmin } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 import { siteSettingsSchema, type SiteSettings } from "./schemas/site-settings.schema";
 import { revalidatePath } from "next/cache";
 import { createAuditLog } from "@/lib/audit";
+import type { Json } from "@/lib/database.types";
 
 const SITE_SETTINGS_KEY = "site_settings";
+
+function asSocialLinks(value: Json): SiteSettings["links"] {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return { instagram: "", linkedin: "", facebook: "" };
+  }
+
+  return {
+    instagram: typeof value.instagram === "string" ? value.instagram : "",
+    linkedin: typeof value.linkedin === "string" ? value.linkedin : "",
+    facebook: typeof value.facebook === "string" ? value.facebook : "",
+  };
+}
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   const supabase = createAdminClient();
@@ -20,33 +33,29 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     .maybeSingle();
 
   if (siteSettingsRow) {
-    const row = siteSettingsRow as any;
+    const row = siteSettingsRow;
     // Map database columns to Zod schema
     const mapped: SiteSettings = {
       company: {
-        name: row.company_name,
+        name: row.company_name || "RECOM",
         fullName: row.company_full_name || row.company_name,
         subtitle: row.company_subtitle || "Distribuidor de ferramentas de corte",
         since: row.company_since || "1990",
         cnpj: row.company_cnpj,
-        description: row.company_description,
+        description: row.company_description || "Distribuidor B2B de ferramentas de corte, catálogos oficiais e orientação comercial para usinagem.",
         shortName: row.company_short_name || row.company_name,
       },
       contact: {
-        phone: row.phone,
-        email: row.email,
+        phone: row.phone || "+55 (19) 3256-4235",
+        email: row.email || "vendas@recom-carbide.com.br",
         whatsapp: row.whatsapp || "",
-        address: row.address,
+        address: row.address || "R. Carolina Florence, 1077 - Vila Nova, Campinas - SP",
         cep: row.cep || "13000-000",
       },
-      links: row.social_links || {
-        instagram: row.social_instagram,
-        linkedin: row.social_linkedin,
-        facebook: row.social_youtube,
-      },
+      links: asSocialLinks(row.social_links),
       seo: {
-        defaultTitle: row.default_seo_title || row.seo_title,
-        defaultDescription: row.default_seo_description || row.seo_description,
+        defaultTitle: row.default_seo_title || "RECOM | Metal Duro e Ferramentas de Corte",
+        defaultDescription: row.default_seo_description || "Distribuidor B2B de ferramentas de corte, catálogos oficiais e orientação comercial para usinagem.",
         titleTemplate: row.title_template || "%s | RECOM",
         keywords: row.seo_keywords || "",
       },
@@ -96,7 +105,14 @@ export async function updateSiteSettings(settings: SiteSettings) {
 
     await supabase
       .from("admin_configs")
-      .upsert({ id: 1, ...legacyData }, { onConflict: 'id' });
+      .upsert(
+        {
+          key: SITE_SETTINGS_KEY,
+          value: settings as unknown as Json,
+          ...legacyData,
+        },
+        { onConflict: "key" }
+      );
 
     // 2. Update new site_settings table
     const { data: existing } = await supabase
@@ -146,7 +162,7 @@ export async function updateSiteSettings(settings: SiteSettings) {
         entity_id: existing?.id || "global",
         user_id: auth.id,
         details: {
-          new_settings: settings as any,
+          new_settings: settings as unknown as Json,
         },
       });
     } catch (auditError) {
@@ -156,8 +172,8 @@ export async function updateSiteSettings(settings: SiteSettings) {
     revalidatePath("/admin/configuracoes");
     revalidatePath("/", "layout");
     return { ok: true, message: "Configurações atualizadas com sucesso." };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Critical error in updateSiteSettings:", error);
-    return { ok: false, formError: error.message || "Erro interno no servidor" };
+    return { ok: false, formError: error instanceof Error ? error.message : "Erro interno no servidor" };
   }
 }

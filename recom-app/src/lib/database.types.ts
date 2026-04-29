@@ -1,4 +1,4 @@
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -69,20 +69,59 @@ export type Database = {
       }
       admin_configs: {
         Row: {
+          company_description: string | null
+          company_name: string | null
+          company_short_name: string | null
+          contact_address: string | null
+          contact_email: string | null
+          contact_phone: string | null
           created_at: string | null
+          id: number
           key: string
+          seo_description_default: string | null
+          seo_keywords_default: string | null
+          seo_title_default: string | null
+          social_instagram: string | null
+          social_linkedin: string | null
+          social_youtube: string | null
           updated_at: string | null
           value: Json
         }
         Insert: {
+          company_description?: string | null
+          company_name?: string | null
+          company_short_name?: string | null
+          contact_address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           created_at?: string | null
+          id?: number
           key: string
+          seo_description_default?: string | null
+          seo_keywords_default?: string | null
+          seo_title_default?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_youtube?: string | null
           updated_at?: string | null
           value: Json
         }
         Update: {
+          company_description?: string | null
+          company_name?: string | null
+          company_short_name?: string | null
+          contact_address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           created_at?: string | null
+          id?: number
           key?: string
+          seo_description_default?: string | null
+          seo_keywords_default?: string | null
+          seo_title_default?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_youtube?: string | null
           updated_at?: string | null
           value?: Json
         }
@@ -750,31 +789,37 @@ export type Database = {
       }
       sales_reps: {
         Row: {
-          active: boolean | null
-          created_at: string | null
+          assignment_count: number | null
+          created_at: string
           email: string
           id: string
           last_assigned_at: string | null
           name: string
           phone: string | null
+          status: string
+          updated_at: string
         }
         Insert: {
-          active?: boolean | null
-          created_at?: string | null
+          assignment_count?: number | null
+          created_at?: string
           email: string
           id?: string
           last_assigned_at?: string | null
           name: string
           phone?: string | null
+          status?: string
+          updated_at?: string
         }
         Update: {
-          active?: boolean | null
-          created_at?: string | null
+          assignment_count?: number | null
+          created_at?: string
           email?: string
           id?: string
           last_assigned_at?: string | null
           name?: string
           phone?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -782,42 +827,69 @@ export type Database = {
         Row: {
           address: string | null
           business_hours: string | null
+          cep: string | null
+          company_cnpj: string | null
+          company_description: string | null
+          company_full_name: string | null
           company_name: string
+          company_short_name: string | null
+          company_since: string | null
+          company_subtitle: string | null
           default_seo_description: string | null
           default_seo_title: string | null
           email: string | null
           google_maps_url: string | null
           id: string
           phone: string | null
+          seo_keywords: string | null
           social_links: Json
+          title_template: string | null
           updated_at: string
           whatsapp: string | null
         }
         Insert: {
           address?: string | null
           business_hours?: string | null
+          cep?: string | null
+          company_cnpj?: string | null
+          company_description?: string | null
+          company_full_name?: string | null
           company_name?: string
+          company_short_name?: string | null
+          company_since?: string | null
+          company_subtitle?: string | null
           default_seo_description?: string | null
           default_seo_title?: string | null
           email?: string | null
           google_maps_url?: string | null
           id?: string
           phone?: string | null
+          seo_keywords?: string | null
           social_links?: Json
+          title_template?: string | null
           updated_at?: string
           whatsapp?: string | null
         }
         Update: {
           address?: string | null
           business_hours?: string | null
+          cep?: string | null
+          company_cnpj?: string | null
+          company_description?: string | null
+          company_full_name?: string | null
           company_name?: string
+          company_short_name?: string | null
+          company_since?: string | null
+          company_subtitle?: string | null
           default_seo_description?: string | null
           default_seo_title?: string | null
           email?: string | null
           google_maps_url?: string | null
           id?: string
           phone?: string | null
+          seo_keywords?: string | null
           social_links?: Json
+          title_template?: string | null
           updated_at?: string
           whatsapp?: string | null
         }

@@ -30,7 +30,7 @@ export async function createAuditLog(log: AuditLogEntry) {
       user_id: undefined, // Let it be null
       created_at: new Date().toISOString(),
       details: {
-        ...(log.details as any),
+        ...(log.details ?? {}),
         original_user_id: log.user_id,
         note: "User ID omitted due to FK violation (likely mock user)"
       }

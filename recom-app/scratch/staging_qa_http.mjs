@@ -97,19 +97,21 @@ try {
   const editor = await createRoleUser("editor");
   const comercial = await createRoleUser("comercial");
 
+  const leadEmail = `qa-${Date.now()}@recom.local`;
   const leadInsert = await anon.from("leads").insert({
     name: "QA Checklist",
     company: "RECOM QA",
-    email: `qa-${Date.now()}@recom.local`,
+    email: leadEmail,
     phone: "11999999999",
     message: "Lead criado por smoke test do checklist.",
     source_page: "/contato",
     source_type: "qa",
-  }).select("id").single();
-  record("anon cria lead", !leadInsert.error && Boolean(leadInsert.data?.id), leadInsert.error?.message);
-  if (leadInsert.data?.id) cleanup.push(async () => service.from("leads").delete().eq("id", leadInsert.data.id));
-
-  const leadId = leadInsert.data?.id;
+  });
+  record("anon cria lead", !leadInsert.error, leadInsert.error?.message);
+  const leadLookup = await service.from("leads").select("id").eq("email", leadEmail).single();
+  const leadId = leadLookup.data?.id;
+  record("service localiza lead criado por anon", !leadLookup.error && Boolean(leadId), leadLookup.error?.message);
+  if (leadId) cleanup.push(async () => service.from("leads").delete().eq("id", leadId));
   const adminLead = leadId ? await admin.client.from("leads").select("id").eq("id", leadId) : { data: [], error: null };
   record("admin le lead", !adminLead.error && adminLead.data?.length === 1, adminLead.error?.message);
 

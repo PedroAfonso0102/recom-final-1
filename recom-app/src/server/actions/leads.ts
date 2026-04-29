@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { formatDatabaseError } from '@/lib/database/errors';
 import { createAuditLog } from '@/lib/audit';
+import type { Json } from '@/lib/database.types';
 
 const LeadStatusSchema = z.enum(['new', 'contacted', 'qualified', 'lost']);
 
@@ -183,7 +184,7 @@ export async function updateLeadFeedback(id: string, feedback: {
       entity_type: 'leads',
       entity_id: id,
       user_id: auth.id,
-      details: feedback as any
+      details: feedback as unknown as Record<string, Json | undefined>
     });
   } catch (err) {
     console.error('[Leads] Audit log failed:', err);
