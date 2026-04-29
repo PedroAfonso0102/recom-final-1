@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { Mail, MessageSquare, Phone, Send, UserCheck } from "lucide-react";
 
 import { DataTable, EmptyState, EntityDrawer, FilterBar, StatusBadge, Toolbar } from "@/components/admin/admin-kit";
@@ -130,6 +130,11 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
   const reps = initialSalesReps.filter((rep) => rep.status === "active");
   const activeLead = leads.find((lead) => lead.id === activeLeadId) ?? null;
 
+  function openLead(lead: Lead) {
+    setActiveLeadId(lead.id);
+    setNote(lead.notes || "");
+  }
+
   const filtered = useMemo(() => {
     return leads.filter((lead) => {
       const haystack = `${lead.name} ${lead.email} ${lead.company ?? ""} ${lead.message ?? ""}`.toLowerCase();
@@ -187,13 +192,6 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
     });
   }
 
-  // Update note local state when active lead changes
-  useEffect(() => {
-    if (activeLead) {
-      setNote(activeLead.notes || "");
-    }
-  }, [activeLead]);
-
   return (
     <div className="space-y-4">
       <Toolbar>
@@ -236,7 +234,7 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
             return (
               <TableRow key={lead.id} className="border-slate-100 hover:bg-slate-50">
                 <TableCell>
-                  <button className="text-left" onClick={() => setActiveLeadId(lead.id)}>
+                  <button className="text-left" onClick={() => openLead(lead)}>
                     <span className="block font-semibold text-slate-950">{lead.name}</span>
                     <span className="block text-xs text-slate-600">{lead.company || lead.email}</span>
                   </button>
@@ -248,7 +246,7 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
                 <TableCell className="text-sm text-slate-600">{new Date(lead.created_at).toLocaleString("pt-BR")}</TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="outline" onClick={() => setActiveLeadId(lead.id)}>Abrir detalhe</Button>
+                    <Button size="sm" variant="outline" onClick={() => openLead(lead)}>Abrir detalhe</Button>
                     <Button size="sm" onClick={() => setLeadStatus(lead.id, "contacted")} disabled={isPending}>Marcar respondido</Button>
                   </div>
                 </TableCell>
