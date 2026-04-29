@@ -1,10 +1,12 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { formatDatabaseError } from '@/lib/database/errors';
+import { createAuditLog } from '@/lib/audit';
+import type { Json } from '@/lib/database.types';
 
 const LeadStatusSchema = z.enum(['new', 'contacted', 'qualified', 'lost']);
 
@@ -14,7 +16,7 @@ export type ActionState = {
 };
 
 export async function updateLeadStatus(id: string, status: string): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   const parsed = LeadStatusSchema.safeParse(status);
 
@@ -32,11 +34,25 @@ export async function updateLeadStatus(id: string, status: string): Promise<Acti
   }
 
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.status_changed',
+      entity_type: 'lead',
+      entity_id: id,
+      user_id: auth.id,
+      details: { status: parsed.data }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
 }
 
 export async function deleteLead(id: string): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from('leads').delete().eq('id', id);
 
@@ -45,5 +61,200 @@ export async function deleteLead(id: string): Promise<ActionState> {
   }
 
   revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.deleted',
+      entity_type: 'lead',
+      entity_id: id,
+      user_id: auth.id,
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
   return { success: true };
+}
+
+export async function updateAdminConfig(key: string, value: unknown): Promise<ActionState> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from('admin_configs').upsert({ key, value });
+  
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+  
+  revalidatePath('/admin/leads');
+  return { success: true };
+}
+
+export async function processLeadBatch(ids: string[], targetStatus: string): Promise<ActionState> {
+  const auth = await requireAdmin();
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from('leads')
+    .update({ 
+      status: targetStatus,
+      notified_at: new Date().toISOString()
+    })
+    .in('id', ids);
+    
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+  
+  revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.batch_processed',
+      entity_type: 'lead',
+      entity_id: 'batch',
+      user_id: auth.id,
+      details: { ids, targetStatus }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
+  return { success: true };
+}
+
+export async function assignProcessToLead(leadId: string, processId: string | null): Promise<ActionState> {
+  const auth = await requireAdmin();
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from('leads')
+    .update({ process_id: processId })
+    .eq('id', leadId);
+    
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+  
+  revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.process_assigned',
+      entity_type: 'lead',
+      entity_id: leadId,
+      user_id: auth.id,
+      details: { processId }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
+  return { success: true };
+}
+
+
+export async function updateLeadFeedback(id: string, feedback: { 
+  revenue_value?: number, 
+  loss_reason?: string,
+  status?: string,
+  closed_at?: string 
+}): Promise<ActionState> {
+
+  const auth = await requireAdmin();
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from('leads')
+    .update(feedback)
+    .eq('id', id);
+    
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+  
+  revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.feedback_updated',
+      entity_type: 'lead',
+      entity_id: id,
+      user_id: auth.id,
+      details: feedback as unknown as Record<string, Json | undefined>
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
+  return { success: true };
+}
+
+export async function updateLeadNotes(id: string, notes: string): Promise<ActionState> {
+  const auth = await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ notes })
+    .eq('id', id);
+
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+
+  revalidatePath('/admin/leads');
+
+  // Log audit entry
+  try {
+    await createAuditLog({
+      action: 'lead.notes_updated',
+      entity_type: 'lead',
+      entity_id: id,
+      user_id: auth.id,
+      details: { notes_length: notes.length }
+    });
+  } catch (err) {
+    console.error('[Leads] Audit log failed:', err);
+  }
+
+  return { success: true };
+}
+
+export async function getLeadTechnicalDossier(leadId: string) {
+  await requireAdmin();
+  const supabase = await createClient();
+  
+  // 1. Fetch Lead data
+  const { data: lead, error: leadError } = await supabase
+    .from('leads')
+    .select('*, processes(id, name, slug)')
+    .eq('id', leadId)
+    .single();
+    
+  if (leadError || !lead) return null;
+  
+  // 2. Fetch Suppliers related to this process
+  // Note: We'll look for suppliers that have this process ID in their related_processes array
+  const { data: suppliers, error: suppliersError } = await supabase
+    .from('suppliers')
+    .select('name, catalog_url, catalogs')
+    .contains('related_processes', [lead.process_id]);
+    
+  if (suppliersError) {
+    console.error("Error fetching suppliers:", suppliersError);
+  }
+    
+  return {
+    lead,
+    suppliers: suppliers || [],
+    suggested_catalogs: suppliers?.map((s: Record<string, unknown>) => ({
+      supplier: s.name,
+      main_catalog: s.catalog_url,
+      extra_catalogs: s.catalogs
+    })) || []
+  };
 }

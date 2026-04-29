@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { SupplierForm } from "@/components/admin/SupplierForm";
-import { getSupplierBySlug } from "@/lib/services/supabase-data";
+import { getSupplierBySlug, getProcesses } from "@/lib/services/supabase-data";
 
 interface SupplierEditPageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +25,16 @@ export async function generateMetadata({ params }: SupplierEditPageProps): Promi
 
 export default async function EditSupplierPage({ params }: SupplierEditPageProps) {
   const { slug } = await params;
-  const supplier = await getSupplierBySlug(slug, { allowFallback: false });
+  const [supplier, processes] = await Promise.all([
+    getSupplierBySlug(slug, { allowFallback: false }),
+    getProcesses({ allowFallback: false })
+  ]);
+  const selectableProcesses = processes
+    .filter((process): process is typeof process & { id: string } => Boolean(process.id))
+    .map((process) => ({
+      id: process.id,
+      name: process.name,
+    }));
 
   if (!supplier) {
     notFound();
@@ -42,7 +51,7 @@ export default async function EditSupplierPage({ params }: SupplierEditPageProps
         <p className="text-slate-500">Atualize a marca, o catálogo oficial e a descrição institucional.</p>
       </div>
 
-      <SupplierForm initialData={supplier} />
+      <SupplierForm initialData={supplier} processes={selectableProcesses} />
     </div>
   );
 }

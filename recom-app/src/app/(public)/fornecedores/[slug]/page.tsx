@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowRight, ExternalLink, Factory } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
@@ -8,22 +9,32 @@ import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { getProcesses, getStaticSupplierSlugs, getSupplierBySlug } from "@/lib/services/supabase-data";
 
+import { buildSeoMetadata, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { getSiteSettings } from "@/cms/queries";
+import { TrackClick } from "@/components/public/analytics/TrackClick";
+
 interface SupplierDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: SupplierDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const supplier = await getSupplierBySlug(slug);
+  const [supplier, settings] = await Promise.all([
+    getSupplierBySlug(slug),
+    getSiteSettings()
+  ]);
 
   if (!supplier) {
-    return { title: "Fornecedor não encontrado | RECOM" };
+    return buildSeoMetadata({ title: "Fornecedor não encontrado", noIndex: true, siteSettings: settings });
   }
 
-  return {
+  return buildSeoMetadata({
     title: supplier.seoTitle || `${supplier.name} | RECOM Metal Duro`,
     description: supplier.seoDescription || supplier.shortDescription,
-  };
+    slug: `fornecedores-catalogos/${slug}`,
+    image: supplier.logoUrl,
+    siteSettings: settings
+  });
 }
 
 export async function generateStaticParams() {
@@ -38,18 +49,30 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
     notFound();
   }
 
+  const jsonLd = buildBreadcrumbJsonLd([
+    { name: "Início", item: "/" },
+    { name: "Fornecedores", item: "/fornecedores-catalogos" },
+    { name: supplier.name, item: `/fornecedores-catalogos/${slug}` },
+  ]);
+
   const relatedProcesses = supplier.relatedProcesses
-    .map((processId) => processes.find((process) => process.id === processId)?.name)
-    .filter(Boolean) as string[];
+    .map((processId) => processes.find((process) => process.id === processId))
+    .filter((process): process is (typeof processes)[number] => Boolean(process));
+  const contactHref = `/contato?fornecedor=${encodeURIComponent(supplier.slug)}&marca=${encodeURIComponent(supplier.name)}`;
 
   return (
-    <div className="flex flex-col pb-24">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="flex flex-col">
       <div className="border-b border-recom-border bg-recom-gray-50 py-4 md:py-5">
         <div className="container-recom">
           <Breadcrumb
             items={[
               { label: "Início", href: "/" },
-              { label: "Fornecedores & Catálogos", href: "/fornecedores" },
+              { label: "Fornecedores & Catálogos", href: "/fornecedores-catalogos" },
               { label: supplier.name },
             ]}
           />
@@ -60,9 +83,16 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
           <div className="flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-white p-8 shadow-recom-card lg:w-[280px]">
             {supplier.logoUrl && supplier.logoUrl.trim() !== "" ? (
-              <img src={supplier.logoUrl} alt={supplier.name} className="h-full w-full object-contain" />
-            ) : supplier.slug === "mitsubishi" || supplier.slug === "mitsubishi-materials" ? (
-              <img src="/assets/images/mitsubishi-logo.png" alt={supplier.name} className="h-full w-full object-contain" />
+              <div className="relative h-24 w-full">
+                <Image
+                  src={supplier.logoUrl}
+                  alt={supplier.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 280px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
             ) : (
               <div className="flex flex-col items-center gap-4 text-muted-foreground/35">
                 <Factory className="h-12 w-12" />
@@ -74,7 +104,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
           <div className="flex-1 space-y-6">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-                Distribuidor autorizado
+                {supplier.slug === "mitsubishi" ? "Agente autorizado" : "Distribuidor autorizado"}
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-foreground uppercase leading-tight md:text-4xl lg:text-5xl">
                 {supplier.name}
@@ -98,12 +128,13 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {relatedProcesses.map((process) => (
-                    <span
-                      key={process}
-                      className="inline-flex items-center rounded-md border border-recom-border/40 bg-recom-gray-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75"
+                    <Link
+                      key={process.id}
+                      href={`/solucoes/${process.slug}`}
+                      className="inline-flex items-center rounded-md border border-recom-border/40 bg-recom-gray-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/75 transition-colors hover:border-recom-blue/25 hover:text-recom-blue"
                     >
-                      {process}
-                    </span>
+                      {process.name}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -111,18 +142,43 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
 
             <div className="flex flex-wrap gap-4 pt-4">
               <RecomButton asChild size="lg" intent="primary" className="h-12 px-8">
-                <Link href="/sobre#contato">
+                <Link href={contactHref}>
                   Solicitar cotação
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </RecomButton>
-              {supplier.catalogUrl && (
+              {supplier.catalogUrl ? (
+                <TrackClick eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "main" }}>
+                  <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
+                    <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
+                      Acessar catálogo oficial
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </a>
+                  </RecomButton>
+                </TrackClick>
+              ) : (
                 <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
-                  <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                    Acessar catálogo oficial
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
+                  <Link href={contactHref}>Falar com a RECOM sobre esta marca</Link>
                 </RecomButton>
+              )}
+              {supplier.catalogs && supplier.catalogs.length > 0 && (
+                <div className="w-full pt-4">
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/55">
+                    Catálogos adicionais
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {supplier.catalogs.map((cat, idx) => (
+                      <TrackClick key={idx} eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "additional", label: cat.label }}>
+                        <RecomButton asChild size="sm" intent="outline" className="h-10 px-4 text-xs">
+                          <a href={cat.url} target="_blank" rel="noopener noreferrer">
+                            {cat.label}
+                            <ExternalLink className="ml-2 h-3 w-3" />
+                          </a>
+                        </RecomButton>
+                      </TrackClick>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -143,13 +199,13 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
           </p>
           <div className="flex flex-wrap gap-3">
             <RecomButton asChild intent="outline" className="h-11 px-6">
-              <Link href="/fornecedores">
+              <Link href="/fornecedores-catalogos">
                 Ver todos os fornecedores
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
             <RecomButton asChild intent="ghost" className="h-11 px-6">
-              <Link href="/processos">Explorar processos</Link>
+              <Link href="/solucoes">Explorar processos</Link>
             </RecomButton>
           </div>
         </div>
@@ -160,10 +216,11 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         eyebrow="Atendimento técnico comercial"
         title="Precisa de uma cotação ou de uma orientação técnica?"
         description="Atendimento direto de nossa sede em Campinas para indicar ferramentas de metal duro e catálogos técnicos para sua usinagem."
-        primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Voltar para fornecedores", href: "/fornecedores" }}
+        primaryCta={{ label: "Falar com a RECOM", href: contactHref }}
+        secondaryCta={{ label: "Voltar para fornecedores", href: "/fornecedores-catalogos" }}
         note="Compra assistida, catalogação oficial e contato humano na mesma jornada."
       />
     </div>
+    </>
   );
 }

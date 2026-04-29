@@ -13,18 +13,32 @@ export type CmsSectionUpdate = Database["public"]["Tables"]["page_sections"]["Up
 export type CmsPageVersionRow = Database["public"]["Tables"]["page_versions"]["Row"];
 export type CmsPageVersionInsert = Database["public"]["Tables"]["page_versions"]["Insert"];
 
+export type CmsRevisionRow = {
+  id: string;
+  page_id: string;
+  snapshot: unknown;
+  created_by: string | null;
+  created_at: string;
+  is_autosave: boolean;
+  label: string | null;
+};
+
 export type CmsPageStatus = "draft" | "published" | "archived";
 export type CmsSectionStatus = "draft" | "published" | "hidden" | "archived";
 export type CmsSectionVisibility = "visible" | "hidden";
 
-export type ActionResult<T = unknown> =
-  | { ok: true; data?: T; message?: string }
-  | { ok: false; fieldErrors?: Record<string, string[]>; formError?: string };
+export type ActionResult<T = unknown> = {
+  success: boolean;
+  message?: string;
+  fieldErrors?: Record<string, string[]>;
+  formError?: string;
+  data?: T;
+};
 
 export type CmsFieldDefinition = {
   name: string;
   label: string;
-  type: "text" | "textarea" | "url" | "select" | "switch" | "checkbox" | "list";
+  type: "text" | "textarea" | "url" | "select" | "switch" | "checkbox" | "list" | "media" | "number";
   placeholder?: string;
   description?: string;
   required?: boolean;
@@ -40,9 +54,15 @@ export type EditableComponentDefinition = {
   category: "layout" | "content" | "commerce" | "trust" | "navigation" | "media" | "cta";
   component: ComponentType<never>;
   schema: z.ZodTypeAny;
-  defaultProps: Record<string, unknown>;
+  defaults: Record<string, unknown>;
   fields: CmsFieldDefinition[];
   allowedVariants?: string[];
+  previewConfig?: {
+    layout: "full" | "contained" | "split";
+    backgroundColor?: string;
+  };
+  permissions?: string[];
+  revisionStrategy?: "snapshot" | "incremental";
 };
 
 export type CmsPageWithSections = {

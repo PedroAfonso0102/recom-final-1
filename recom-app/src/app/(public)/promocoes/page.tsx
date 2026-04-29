@@ -6,15 +6,25 @@ import { EmptyState } from "@/design-system/components/empty-state";
 import { PromotionCard } from "@/design-system/components/promotion-card";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
+import { RenderPage } from "@/cms/render-page";
 import { getPromotions, getSuppliers } from "@/lib/services/supabase-data";
+import { getPageBySlug } from "@/cms/queries";
 
-export const metadata: Metadata = {
-  title: "Promoções e Itens em Destaque | RECOM",
-  description: "Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = await getPageBySlug("promocoes");
+  
+  return {
+    title: cmsPage?.page.seo_title || "Promoções e Itens em Destaque | RECOM",
+    description: cmsPage?.page.seo_description || "Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem.",
+  };
+}
 
 export default async function PromocoesPage() {
-  const [promotions, suppliers] = await Promise.all([getPromotions(), getSuppliers()]);
+  const [promotions, suppliers, cmsPage] = await Promise.all([
+    getPromotions(),
+    getSuppliers(),
+    getPageBySlug("promocoes")
+  ]);
 
   const getSupplierName = (id?: string | null) => {
     if (!id) {
@@ -24,30 +34,46 @@ export default async function PromocoesPage() {
     return suppliers.find((supplier) => supplier.id === id)?.name;
   };
 
+  const getCardStatus = (promotion: (typeof promotions)[number]) => {
+    const status = String(promotion.status);
+    const isVisible = status === "active" || status === "published";
+    if (!isVisible) return "archived" as const;
+    return "active" as const;
+  };
+
   const sortedPromotions = [...promotions].sort((a, b) => {
-    if (a.status === "active" && b.status !== "active") return -1;
-    if (a.status !== "active" && b.status === "active") return 1;
+    const aStatus = getCardStatus(a);
+    const bStatus = getCardStatus(b);
+
+    if (aStatus === "active" && bStatus !== "active") return -1;
+    if (aStatus !== "active" && bStatus === "active") return 1;
     return 0;
   });
 
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
+
   return (
     <div className="flex flex-col">
-      <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
-        <div className="container-recom space-y-4">
-          <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Promoções" }]} />
-          <div className="max-w-4xl">
-            <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
-              Oportunidades industriais
-            </span>
-            <h1 className="text-recom-graphite">
-              Promoções e <span className="text-recom-blue">itens em destaque</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
-              Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem. Fale com a equipe comercial para confirmar validade e estoque disponível.
-            </p>
+      {hasCmsContent && <RenderPage pageData={cmsPage} context={{ promotions, suppliers }} />}
+
+      {!hasCmsContent && (
+        <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
+          <div className="container-recom space-y-4">
+            <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Promoções" }]} />
+            <div className="max-w-4xl">
+              <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
+                Oportunidades industriais
+              </span>
+              <h1 className="text-recom-graphite">
+                Promoções e <span className="text-recom-blue">itens em destaque</span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
+                Acompanhe as ofertas vigentes e itens promocionais para o setor de usinagem. Fale com a equipe comercial para confirmar validade e estoque disponível.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <RecomSection
         data-hook="public.promotions.hub"
@@ -63,10 +89,10 @@ export default async function PromocoesPage() {
                 title={promo.title}
                 description={promo.description}
                 endsAt={promo.endsAt}
-                status={promo.status as "active" | "archived"}
+                status={getCardStatus(promo)}
                 supplierName={getSupplierName(promo.supplierId)}
                 ctaLabel={promo.ctaLabel || undefined}
-                ctaLink={promo.ctaUrl}
+                ctaLink={promo.ctaUrl || undefined}
               />
             ))}
           </div>
@@ -75,7 +101,7 @@ export default async function PromocoesPage() {
             <EmptyState
               title="Sem ofertas ativas no momento"
               description="Assine nossa lista prioritária para ser avisado sobre novos lotes técnicos e condições comerciais."
-              primaryCta={{ label: "Quero receber avisos", href: "/sobre#contato" }}
+              primaryCta={{ label: "Quero receber avisos", href: "/contato" }}
             />
           </div>
         )}
@@ -97,7 +123,7 @@ export default async function PromocoesPage() {
             </p>
             <div className="flex justify-center">
               <RecomButton asChild size="lg" intent="accent" className="h-12 px-12">
-                <Link href="/sobre#contato">Quero receber avisos</Link>
+                <Link href="/contato">Quero receber avisos</Link>
               </RecomButton>
             </div>
           </div>

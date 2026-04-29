@@ -8,23 +8,29 @@ import { AlertCircle, CheckCircle2, Loader2, Mail, MessageCircle, Phone } from "
 import { RecomButton } from "@/design-system/components/recom-button";
 import { submitContactForm } from "@/lib/actions/lead-actions";
 import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
+import { LeadSchema } from "@/cms/schemas/lead.schema";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { siteConfig } from "@/lib/config";
+import type { Supplier } from "@/cms/schemas/supplier.schema";
+import type { Process } from "@/cms/schemas/process.schema";
 
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Informe seu nome."),
-  company: z.string().min(2, "Informe a empresa."),
-  email: z.string().email("Informe um e-mail válido."),
-  phone: z.string().min(10, "Informe um telefone ou WhatsApp."),
-  supplierInterest: z.string().optional(),
-  processInterest: z.string().optional(),
-  itemCode: z.string().optional(),
-  message: z.string().min(10, "Conte um pouco mais sobre a sua necessidade."),
+const contactFormSchema = LeadSchema.extend({
   consent: z
     .boolean()
     .refine((value) => value, { message: "Confirme a política de privacidade para continuar." }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+interface ContactFormProps {
+  suppliers?: Supplier[];
+  processes?: Process[];
+  contact?: {
+    phone: string;
+    email: string;
+    whatsapp: string;
+  };
+}
 
 function ContactField({
   label,
@@ -58,7 +64,14 @@ function ContactField({
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ suppliers = [], processes = [], contact = siteConfig.contact }: ContactFormProps) {
+  const { 
+    leadFormSubmit, 
+    leadFormError, 
+    contactPhoneClick, 
+    contactEmailClick, 
+    whatsappClick 
+  } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
 
@@ -100,18 +113,21 @@ export function ContactForm() {
     formData.set("processInterest", values.processInterest || "");
     formData.set("itemCode", values.itemCode || "");
     formData.set("message", values.message);
-    formData.set("sourcePage", typeof window !== "undefined" ? window.location.pathname : "/sobre");
+    formData.set("sourcePage", typeof window !== "undefined" ? window.location.pathname : "/contato");
+    formData.set("sourceType", "contact");
 
     const result = await submitContactForm(formData);
 
     if (result.success) {
       setStatus("success");
+      leadFormSubmit("contact_request");
       reset();
       return;
     }
 
     setStatus("error");
     setSubmitError(result.error || "Ocorreu um erro ao enviar sua mensagem.");
+    leadFormError("contact_request", result.error || "server_error");
   }
 
   if (status === "success") {
@@ -134,7 +150,7 @@ export function ContactForm() {
             Enviar outra mensagem
           </RecomButton>
           <RecomButton asChild intent="primary" className="h-11 px-6">
-            <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
               Falar no WhatsApp
             </a>
           </RecomButton>
@@ -198,34 +214,44 @@ export function ContactForm() {
           label="Fornecedor de interesse"
           name="supplierInterest"
           error={errors.supplierInterest?.message}
-          helper="Se já souber a marca, informe aqui. Ex.: Mitsubishi Materials."
+          helper="Selecione a marca ou fabricante."
         >
-          <input
+          <select
             id="supplierInterest"
-            type="text"
-            placeholder="Ex.: Mitsubishi Materials"
-            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors placeholder:text-muted-foreground/45 focus:border-recom-blue focus:bg-white"
+            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors focus:border-recom-blue focus:bg-white disabled:opacity-50"
             aria-invalid={!!errors.supplierInterest}
             disabled={status === "loading"}
             {...register("supplierInterest")}
-          />
+          >
+            <option value="">Não sei / Outro</option>
+            {suppliers.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
         </ContactField>
-
+ 
         <ContactField
           label="Processo / aplicação"
           name="processInterest"
           error={errors.processInterest?.message}
-          helper="Ex.: torneamento, fresamento, furação ou uma aplicação específica."
+          helper="Selecione o processo de usinagem principal."
         >
-          <input
+          <select
             id="processInterest"
-            type="text"
-            placeholder="Ex.: Torneamento"
-            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors placeholder:text-muted-foreground/45 focus:border-recom-blue focus:bg-white"
+            className="flex h-12 w-full rounded-md border border-recom-border bg-recom-gray-50/60 px-4 py-2 text-[15px] outline-none transition-colors focus:border-recom-blue focus:bg-white disabled:opacity-50"
             aria-invalid={!!errors.processInterest}
             disabled={status === "loading"}
             {...register("processInterest")}
-          />
+          >
+            <option value="">Outro / Geral</option>
+            {processes.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
         </ContactField>
 
         <ContactField
@@ -315,23 +341,26 @@ export function ContactForm() {
 
         <div className="grid gap-3 text-[12px] text-slate-500 sm:grid-cols-3">
           <a
-            href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
+            href={`tel:${contact.phone.replace(/\D/g, "")}`}
+            onClick={() => contactPhoneClick(contact.phone)}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Phone className="h-4 w-4 text-recom-blue" />
             Ligar
           </a>
           <a
-            href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+            href={`https://wa.me/${contact.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => whatsappClick("contact_form")}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <MessageCircle className="h-4 w-4 text-recom-blue" />
             WhatsApp
           </a>
           <a
-            href={`mailto:${siteConfig.contact.email}`}
+            href={`mailto:${contact.email}`}
+            onClick={() => contactEmailClick(contact.email)}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Mail className="h-4 w-4 text-recom-blue" />

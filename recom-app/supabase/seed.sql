@@ -1,5 +1,27 @@
--- Clear existing suppliers to avoid duplicates (optional, but good for a clean seed)
 DELETE FROM suppliers;
+
+-- Seed mock admin for local development
+-- This ensures RLS works for the mock user 00000000-0000-0000-0000-000000000001
+-- 1. Insert into auth.users (Supabase managed schema)
+INSERT INTO auth.users (id, email, encrypted_password, email_confirmed_at, role, raw_app_meta_data)
+VALUES (
+  '00000000-0000-0000-0000-000000000001', 
+  'dev@recom.local', 
+  crypt('password123', gen_salt('bf')), 
+  now(), 
+  'authenticated',
+  '{"role": "admin"}'
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. Insert into our public profile tables
+INSERT INTO public.admin_profiles (id, role, display_name)
+VALUES ('00000000-0000-0000-0000-000000000001', 'admin', 'Dev Admin')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.profiles (id, role, display_name)
+VALUES ('00000000-0000-0000-0000-000000000001', 'admin', 'Dev Admin')
+ON CONFLICT (id) DO NOTHING;
 
 -- Insert Suppliers with Official 2026 Data
 INSERT INTO suppliers (name, slug, logo_url, catalog_url, e_catalog_url, short_description, long_description, status, sort_order)
@@ -10,8 +32,8 @@ VALUES
   '/assets/images/mitsubishi-logo.png', 
   'https://www.mmc-carbide.com/br/download/catalog-1', 
   'https://www.mitsubishicarbide.net/mht/pt/', 
-  'Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.', 
-  'A Mitsubishi Materials é reconhecida mundialmente pela inovação em materiais e revestimentos. Sua linha completa abrange torneamento, fresamento e furação com tecnologia de ponta para máxima produtividade industrial.', 
+  'Líder em ferramentas de corte e metal duro para usinagem de precisão.', 
+  'A Mitsubishi Materials é referência mundial em inovação de materiais e revestimentos. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial e confiabilidade.', 
   'active', 
   1
 ),
@@ -21,8 +43,8 @@ VALUES
   '/assets/images/logo-7leaders.svg', 
   'https://www.7leaders.com/e-catalog', 
   'https://www.7leaders.com/e-catalog', 
-  'Especialista em fresas de metal duro de alto desempenho e ferramentas rotativas.', 
-  'A 7Leaders foca em ferramentas rotativas premium, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento superior.', 
+  'Fresas de metal duro 7Leaders e ferramentas rotativas de alto rendimento.', 
+  'A 7Leaders foca em ferramentas rotativas, com destaque para fresas de topo e brocas integrais. Seus produtos atendem operações em moldes, matrizes e componentes que exigem qualidade de acabamento.', 
   'active', 
   2
 ),
@@ -32,8 +54,8 @@ VALUES
   '/assets/images/logo_btfixo.png', 
   'https://www.btfixo.com.br/catalogos', 
   NULL, 
-  'Referência nacional em sistemas de fixação, acessórios e periféricos para máquinas-ferramenta.', 
-  'A BT Fixo oferece uma linha completa de acessórios para máquinas CNC, incluindo cones, pinças, morsas e sistemas de fixação que garantem a estabilidade necessária para processos de usinagem exigentes.', 
+  'Acessórios para máquinas-ferramenta, mandris e fixação de precisão.', 
+  'A BT Fixo fornece acessórios para máquinas CNC, incluindo cones, pinças, morsas e sistemas de fixação que garantem estabilidade para processos de usinagem.', 
   'active', 
   3
 ),
@@ -43,8 +65,8 @@ VALUES
   '/assets/images/logo-kifix.png', 
   'https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05&utm_source=chatgpt.com', 
   NULL, 
-  'Especialista em grampos rápidos e dispositivos de fixação manual e pneumática.', 
-  'A Kifix é líder em dispositivos de fixação rápida (toggle clamps). Seus produtos são essenciais para montagens, soldagens e processos de usinagem leve onde a agilidade e segurança na fixação são cruciais.', 
+  'Grampos rápidos e dispositivos de fixação manual e pneumática.', 
+  'A Kifix fornece dispositivos de fixação rápida (toggle clamps). Seus produtos são usados em montagens, soldagens e processos de usinagem leve onde a agilidade na fixação é necessária.', 
   'active', 
   4
 );
@@ -55,8 +77,8 @@ VALUES
 (
   'Torneamento', 
   'torneamento', 
-  'Remoção de material em peças rotativas com máxima precisão e controle de cavaco.', 
-  'Soluções completas para operações de revolução. A RECOM oferece suporte técnico para a escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.',
+  'Remoção de material em peças rotativas com controle de cavaco.', 
+  'Linha completa para operações de revolução. A RECOM oferece apoio na escolha da combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.',
   'active',
   1,
   '/assets/images/optimized/koudoe.jpg'
@@ -64,8 +86,8 @@ VALUES
 (
   'Fresamento', 
   'fresamento', 
-  'Usinagem de superfícies complexas com ferramentas rotativas de alta velocidade.', 
-  'Soluções de fresamento para alta remoção de material e acabamento superior. A RECOM provê as ferramentas ideais para faceamento, esquadrejamento e fresamento de cópia.',
+  'Usinagem de superfícies com ferramentas rotativas.', 
+  'Ferramentas de fresamento para remoção de material e acabamento. A RECOM provê as ferramentas para faceamento, esquadrejamento e fresamento de cópia.',
   'active',
   2,
   '/assets/images/optimized/fresamento-bg.jpg'
@@ -73,8 +95,8 @@ VALUES
 (
   'Furação', 
   'furacao', 
-  'Criação de furos precisos com sistemas de alta estabilidade e refrigeração.', 
-  'Sistemas de furação de alta performance para furos curtos e profundos. Foco em estabilidade, precisão dimensional e excelente acabamento superficial.',
+  'Furação com sistemas de estabilidade e refrigeração.', 
+  'Sistemas de furação para furos curtos e profundos. Foco em estabilidade e precisão dimensional em diversos materiais.',
   'active',
   3,
   '/assets/images/optimized/furacao-bg.jpg'
@@ -87,7 +109,7 @@ VALUES
 (
   'Kit Fresamento Mitsubishi', 
   'kit-fresamento-mitsubishi', 
-  '0eb92b70-1998-4568-a983-c8d83a70e374', 
+  (SELECT id FROM suppliers WHERE slug = 'mitsubishi' LIMIT 1), 
   'Na compra de 10 insertos da linha MP, ganhe o corpo da fresa compatível.',
   '2024-01-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
@@ -98,7 +120,7 @@ VALUES
 (
   'Lote Especial Metal Duro', 
   'lote-especial-metal-duro', 
-  '0eb92b70-1998-4568-a983-c8d83a70e374', 
+  (SELECT id FROM suppliers WHERE slug = 'mitsubishi' LIMIT 1), 
   'Preços diferenciados para pedidos acima de 50 unidades de insertos para aço inox.',
   '2024-05-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
@@ -107,10 +129,10 @@ VALUES
   '/sobre#contato'
 ),
 (
-  'Testes Técnicos 7Leaders', 
-  'testes-tecnicos-7leaders', 
-  '503750e9-9b48-4d98-b2da-de68ce02b654', 
-  'Solicite uma amostra para teste em sua produção e comprove o rendimento das novas fresas rotativas.',
+  'Testes em sua produção 7Leaders', 
+  'testes-pratica-7leaders', 
+  (SELECT id FROM suppliers WHERE slug = '7leaders' LIMIT 1), 
+  'Peça uma amostra para teste em sua produção e comprove o rendimento das fresas rotativas.',
   '2024-05-01 00:00:00+00',
   '2026-12-31 23:59:59+00',
   'active',

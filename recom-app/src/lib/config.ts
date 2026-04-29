@@ -7,11 +7,12 @@ export const siteConfig = {
     cnpj: "61.350.534/0001-38",
   },
   contact: {
-    phone: "(19) 3256-4235",
-    email: "vendas@recom.com.br",
-    whatsapp: "551932564235",
-    address: "R. Carolina Florence, 1077 - Vila Nova, Campinas - SP",
-    cep: "13073-225",
+    phone: "(19) 3233-2224",
+    fax: "(19) 3232-6935",
+    email: "vendas.recom@montelione.com.br",
+    whatsapp: "551932332224",
+    address: "Rua Alferes João José, 350 - Jardim Chapadão, Campinas - SP",
+    cep: "13070-188",
   },
   links: {
     facebook: "https://facebook.com/recom",

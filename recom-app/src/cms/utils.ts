@@ -17,3 +17,29 @@ export function normalizeCmsSlug(value: string) {
 export function isBlank(value: string | null | undefined) {
   return typeof value !== "string" || value.trim().length === 0;
 }
+
+export function extractPropsFromFormData(formData: FormData, fields: { name: string; type: string; required?: boolean }[]) {
+  return Object.fromEntries(
+    fields.map((field) => {
+      const value = formData.get(field.name);
+      
+      if (field.type === "list") {
+        try {
+          return [field.name, JSON.parse(String(value ?? "[]"))];
+        } catch {
+          return [field.name, []];
+        }
+      }
+      
+      if (field.type === "checkbox") {
+        return [field.name, value === "on"];
+      }
+      
+      if (field.type === "number") {
+        return [field.name, value ? Number(value) : (field.required ? 0 : null)];
+      }
+      
+      return [field.name, String(value ?? "")];
+    })
+  );
+}

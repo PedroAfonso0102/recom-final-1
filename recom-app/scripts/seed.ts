@@ -16,52 +16,63 @@ const suppliers = [
     slug: 'mitsubishi-materials',
     logo_url: '/assets/images/Mitsubishi.png',
     catalog_url: 'https://www.mmc-hardmetal.com/',
-    short_description: 'Excelência japonesa em metal duro para torneamento, fresamento e furação de alta performance.',
-    long_description: `A Mitsubishi Materials Corporation é uma das maiores fabricantes mundiais de ferramentas de corte em metal duro. Com mais de 100 anos de experiência, a empresa desenvolve tecnologias avançadas de cobertura (como o revestimento Miracle) e geometrias de quebra-cavaco para maximizar a vida útil e a performance em usinagem de aços, inox, ferro fundido e superligas.
+    short_description: 'Ferramentas Mitsubishi Materials: insertos, fresas e brocas originais com entrega ágil.',
+    long_description: `A Mitsubishi Materials é referência mundial em metal duro. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial em aços, inox e ferro fundido.
 
-A RECOM atende clientes que buscam produtos da Mitsubishi Materials para aplicações em torneamento, fresamento e furação. Nossa equipe comercial orienta na escolha do inserto, classe e quebra-cavaco ideais para cada material e condição de corte.`,
+A RECOM atende clientes que buscam produtos Mitsubishi originais. Nossa equipe comercial orienta na escolha do inserto e quebra-cavaco ideais para o seu material e máquina.`,
     sort_order: 1,
-    seo_title: 'Mitsubishi Materials | Ferramentas de Corte em Metal Duro - RECOM',
-    seo_description: 'Distribuidor oficial Mitsubishi Materials em Campinas. Insertos, fresas e brocas com suporte técnico especializado.',
+    seo_title: 'Mitsubishi Materials | Ferramentas de Corte em Campinas - RECOM',
+    seo_description: 'Distribuidor Mitsubishi Materials em Campinas. Insertos, fresas e brocas com atendimento direto e pronta entrega.',
   },
   {
     name: '7Leaders',
     slug: '7leaders',
     logo_url: '/assets/images/logo-7leaders.svg',
     catalog_url: 'https://7leaders.com.br/',
-    short_description: 'Especialista em fresas de metal duro de alto rendimento e ferramentas rotativas precisas.',
-    long_description: `A 7Leaders é uma empresa brasileira focada no desenvolvimento e fabricação de ferramentas rotativas de metal duro de alta performance. Suas fresas inteiriças se destacam pelo custo-benefício competitivo e pela qualidade dos revestimentos aplicados.
+    short_description: 'Fresas de metal duro 7Leaders: alto rendimento para moldes e matrizes.',
+    long_description: `A 7Leaders foca no desenvolvimento de ferramentas rotativas de metal duro. Suas fresas inteiriças oferecem ótimo custo-benefício e qualidade para operações que exigem acabamento fino.
 
-A RECOM distribui a linha completa 7Leaders, com foco em fresas de topo, fresas de canto reto, fresas de alto avanço e ferramentas especiais. Suporte técnico local para seleção de parâmetros de corte e geometrias.`,
+A RECOM distribui a linha completa 7Leaders, com foco em fresas de topo e ferramentas para usinagem de alta velocidade. Atendimento local para seleção de parâmetros de corte.`,
     sort_order: 2,
-    seo_title: '7Leaders | Fresas de Metal Duro - RECOM Campinas',
-    seo_description: 'Distribuidor 7Leaders em Campinas. Fresas inteiriças de metal duro com suporte técnico e pronta entrega.',
+    seo_title: '7Leaders | Fresas de Metal Duro em Campinas - RECOM',
+    seo_description: 'Distribuidor 7Leaders em Campinas. Fresas inteiriças de metal duro com atendimento comercial e pronta entrega.',
   },
   {
     name: 'BT-Fixo',
     slug: 'bt-fixo',
     logo_url: '/assets/images/logo_btfixo.png',
     catalog_url: 'https://www.btfixo.com.br/',
-    short_description: 'Soluções em acessórios de máquinas-ferramenta, mandris e sistemas de fixação de precisão.',
-    long_description: `A BT-Fixo é referência nacional em acessórios para máquinas-ferramenta CNC. Sua linha inclui mandris hidráulicos, portaferramentas térmicos, buchas de precisão, divisores e sistemas de fixação para tornos e centros de usinagem.
+    short_description: 'Acessórios BT-Fixo: mandris, pinças e fixação para máquinas CNC.',
+    long_description: `A BT-Fixo fornece acessórios essenciais para máquinas CNC. Sua linha inclui mandris, portaferramentas, pinças e sistemas de fixação que garantem estabilidade para o seu processo.
 
-Com a BT-Fixo, a RECOM oferece soluções completas de setup e fixação, reduzindo o tempo de troca de ferramentas e aumentando a rigidez do sistema porta-ferramenta.`,
+Com a BT-Fixo, a RECOM oferece itens de setup e fixação que reduzem o tempo de máquina parada e aumentam a segurança da operação.`,
     sort_order: 3,
-    seo_title: 'BT-Fixo | Fixação e Acessórios para CNC - RECOM',
-    seo_description: 'Distribuidor BT-Fixo em Campinas. Mandris, portaferramentas e sistemas de fixação para tornos e centros de usinagem.',
+    seo_title: 'BT-Fixo | Acessórios para CNC em Campinas - RECOM',
+    seo_description: 'Distribuidor BT-Fixo em Campinas. Mandris, portaferramentas e sistemas de fixação originais.',
   },
   {
     name: 'Kifix',
     slug: 'kifix',
     logo_url: null,
     catalog_url: null,
-    short_description: 'Ferramentas de fixação e sistemas de aperto de alta confiabilidade para usinagem industrial.',
-    long_description: `A Kifix desenvolve sistemas de fixação especializados para uso em ambientes industriais de alta exigência. Seus produtos incluem prendedores, braçadeiras e sistemas de aperto rápido que garantem a repetibilidade e a segurança no processo produtivo.
+    short_description: 'Fixação industrial Kifix: grampos e dispositivos de aperto rápido.',
+    long_description: `A Kifix desenvolve sistemas de fixação para uso industrial. Seus produtos incluem grampos e dispositivos de aperto rápido que garantem segurança e agilidade na montagem e usinagem.
 
-A RECOM oferece a linha Kifix como complemento às soluções de fixação BT-Fixo, cobrindo necessidades específicas de gabaritos, fixtures e dispositivos de fixação customizados.`,
+A RECOM oferece a linha Kifix para atender necessidades de gabaritos e dispositivos de fixação em células de produção.`,
     sort_order: 4,
-    seo_title: 'Kifix | Sistemas de Fixação Industrial - RECOM',
-    seo_description: 'Distribuidor Kifix em Campinas. Sistemas de fixação e aperto rápido para usinagem industrial.',
+    seo_title: 'Kifix | Fixação Industrial em Campinas - RECOM',
+    seo_description: 'Distribuidor Kifix em Campinas. Sistemas de aperto rápido para montagem e usinagem.',
+  },
+  {
+    name: 'PEDRO AFONSO TESTE',
+    slug: 'pedro-afonso-teste',
+    logo_url: null,
+    catalog_url: null,
+    short_description: 'Fornecedor de teste para validação do sistema.',
+    long_description: 'Este é um fornecedor de teste criado para validar a listagem e o gerenciamento de fornecedores no CMS.',
+    sort_order: 5,
+    seo_title: 'Pedro Afonso Teste | Fornecedor de Teste - RECOM',
+    seo_description: 'Fornecedor de teste para validação de sistemas.',
   },
 ];
 
@@ -70,43 +81,37 @@ const processes = [
     name: 'Torneamento',
     slug: 'torneamento',
     image_url: '/assets/images/optimized/koudoe.jpg',
-    short_description: 'Remoção de material em peças rotativas com máxima precisão e controle de cavaco.',
-    long_description: `O torneamento é um dos processos de usinagem mais fundamentais da indústria metalomecânica. Nele, a peça gira enquanto a ferramenta de corte avança, removendo material de forma controlada para gerar geometrias de revolução.
+    short_description: 'Ferramentas para torneamento: insertos e suportes com controle de cavaco.',
+    long_description: `O torneamento é a base da usinagem industrial. A RECOM fornece ferramentas para gerar geometrias de revolução com controle e previsibilidade.
 
-A RECOM oferece suporte técnico completo para otimizar operações de torneamento externo, interno, radial (facear), rosqueamento e mandrilamento. Trabalhamos com as melhores classes de insertos e quebra-cavacos para cada material e condição de corte.
-
-Por que investir em ferramentas de qualidade para torneamento? Insertos de alta performance reduzem o tempo de ciclo, aumentam a vida útil da ferramenta e garantem melhor controle dimensional e de acabamento superficial.`,
+Oferecemos apoio comercial para otimizar operações de torneamento externo, interno, rosqueamento e mandrilamento. Trabalhamos com insertos e suportes para cada tipo de material e máquina.`,
     sort_order: 1,
-    seo_title: 'Torneamento | Ferramentas de Corte para Tornos CNC - RECOM',
-    seo_description: 'Soluções completas para torneamento: insertos, suportes e quebra-cavacos Mitsubishi Materials. Suporte técnico RECOM em Campinas.',
+    seo_title: 'Torneamento | Ferramentas para Torno CNC em Campinas - RECOM',
+    seo_description: 'Linha completa para torneamento: insertos e suportes Mitsubishi Materials. Atendimento direto RECOM em Campinas.',
   },
   {
     name: 'Fresamento',
     slug: 'fresamento',
     image_url: '/assets/images/optimized/fresamento-bg.jpg',
-    short_description: 'Usinagem de superfícies complexas com ferramentas rotativas de alta velocidade.',
-    long_description: `O fresamento é o processo de usinagem mais versátil, utilizado para gerar superfícies planas, contornadas, perfis complexos e detalhes de moldes e matrizes. Diferente do torneamento, no fresamento a ferramenta rotaciona enquanto a peça avança.
+    short_description: 'Fresas e cabeçotes para remoção de material e acabamento.',
+    long_description: `Ferramentas para gerar superfícies planas, contornos e detalhes em moldes. A RECOM atende demandas de fresamento de faceamento, esquadrejamento e cópia 3D.
 
-A RECOM atende demandas de fresamento de faceamento, esquadrejamento, cópia 3D, fresagem de alto avanço (High Feed Milling) e fresagem inteiriça. Contamos com a linha completa Mitsubishi Materials e 7Leaders para cobrir desde operações de desbaste até acabamento fino.
-
-Fresagem de Alto Avanço (HFM): utiliza pequenas profundidades de corte axial com altíssimos avanços por dente, resultando em forças direcionadas axialmente ao eixo, reduzindo vibrações e maximizando a taxa de remoção de material.`,
+Contamos com a linha Mitsubishi Materials e 7Leaders para desbaste pesado e acabamento fino em diversos materiais.`,
     sort_order: 2,
-    seo_title: 'Fresamento | Fresas e Cabeçotes de Alta Performance - RECOM',
-    seo_description: 'Ferramentas para fresamento CNC: cabeçotes intercambiáveis, fresas inteiriças e insertos Mitsubishi e 7Leaders. RECOM Campinas.',
+    seo_title: 'Fresamento | Fresas e Cabeçotes em Campinas - RECOM',
+    seo_description: 'Ferramentas para fresamento CNC: cabeçotes, fresas inteiriças e insertos Mitsubishi e 7Leaders. RECOM Campinas.',
   },
   {
     name: 'Furação',
     slug: 'furacao',
     image_url: '/assets/images/optimized/furacao-bg.jpg',
-    short_description: 'Criação de furos precisos com sistemas de alta estabilidade e refrigeração.',
-    long_description: `A furação é um processo crítico em qualquer célula de usinagem. A precisão dimensional, a retilineidade e o acabamento interno do furo dependem diretamente da qualidade da ferramenta e dos parâmetros de corte utilizados.
+    short_description: 'Brocas e sistemas de furação para furos precisos e estáveis.',
+    long_description: `A furação exige ferramentas que garantam a retilineidade e o acabamento do furo. A RECOM oferece brocas de metal duro inteiriço, pontas intercambiáveis e brocas de insertos.
 
-A RECOM oferece soluções para furação com metal duro inteiriço (para diâmetros menores com alta precisão), brocas de pontas intercambiáveis (para versatilidade em lotes maiores) e brocas de insertos (para grandes diâmetros e máxima remoção de material).
-
-Refrigeração interna: para furos com profundidade acima de 3×D, a refrigeração interna é essencial. Ela garante a evacuação eficiente dos cavacos, controla a temperatura na aresta de corte e aumenta a vida útil da ferramenta.`,
+Trabalhamos com itens que possuem refrigeração interna para maior vida útil e evacuação eficiente de cavacos em furos profundos.`,
     sort_order: 3,
-    seo_title: 'Furação | Brocas de Metal Duro e Sistemas de Alta Performance - RECOM',
-    seo_description: 'Soluções de furação: brocas inteiriças, pontas intercambiáveis e insertos Mitsubishi Materials. RECOM Campinas.',
+    seo_title: 'Furação | Brocas de Metal Duro em Campinas - RECOM',
+    seo_description: 'Brocas inteiriças, pontas intercambiáveis e insertos Mitsubishi Materials. RECOM Campinas.',
   },
 ];
 

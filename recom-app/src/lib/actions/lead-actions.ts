@@ -5,13 +5,9 @@ import { createLead } from "../services/lead-service";
 
 function composeLeadMessage(formData: FormData) {
   const message = (formData.get("message") as string) || "";
-  const supplierInterest = (formData.get("supplierInterest") as string) || "";
-  const processInterest = (formData.get("processInterest") as string) || "";
   const itemCode = (formData.get("itemCode") as string) || "";
 
   const contextLines = [
-    supplierInterest ? `Fornecedor de interesse: ${supplierInterest}` : "",
-    processInterest ? `Processo / aplicação: ${processInterest}` : "",
     itemCode ? `Código / item desejado: ${itemCode}` : "",
   ].filter(Boolean);
 
@@ -23,15 +19,19 @@ export async function submitContactForm(formData: FormData) {
   const company = String(formData.get("company") || "");
   const email = String(formData.get("email") || "");
   const phone = String(formData.get("phone") || "");
-  const sourcePage = String(formData.get("sourcePage") || "/sobre");
+  const sourcePage = String(formData.get("sourcePage") || "/contato");
 
   const result = await createLead({
     name,
     company,
     email,
     phone,
+    supplierInterest: (formData.get("supplierInterest") as string) || undefined,
+    processInterest: (formData.get("processInterest") as string) || undefined,
+    itemCode: (formData.get("itemCode") as string) || undefined,
     message: composeLeadMessage(formData),
     sourcePage,
+    sourceType: (formData.get("sourceType") as "contact" | "supplier" | "process" | "promotion" | "general") || "contact",
   });
 
   if (result.success) {

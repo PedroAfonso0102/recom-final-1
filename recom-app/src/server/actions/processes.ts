@@ -1,9 +1,10 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
+import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { ProcessSchema, Process } from '@/design-system/schemas/process.schema';
+import { ProcessSchema, Process } from '@/cms/schemas/process.schema';
 import { revalidateProcessCatalog } from '@/lib/revalidation/catalog';
 import { mapProcessToInsert, mapProcessToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';
@@ -14,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createProcess(data: Process): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -30,12 +31,20 @@ export async function createProcess(data: Process): Promise<ActionState> {
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "process.created",
+    entity_type: "process",
+    entity_id: payload.slug,
+    details: { name: payload.name },
+    user_id: auth.id
+  });
+
   revalidateProcessCatalog(payload.slug);
   redirect('/admin/processos');
 }
 
 export async function updateProcess(id: string, data: Process): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = ProcessSchema.safeParse(data);
 
@@ -51,14 +60,22 @@ export async function updateProcess(id: string, data: Process): Promise<ActionSt
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "process.updated",
+    entity_type: "process",
+    entity_id: id,
+    details: { name: payload.name, slug: payload.slug },
+    user_id: auth.id
+  });
+
   revalidateProcessCatalog(payload.slug ?? '');
   redirect('/admin/processos');
 }
 
 export async function deleteProcess(id: string): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
-  const { data: current, error: fetchError } = await supabase.from('processes').select('slug').eq('id', id).maybeSingle();
+  const { data: current, error: fetchError } = await supabase.from('processes').select('name, slug').eq('id', id).maybeSingle();
 
   if (fetchError) {
     return { success: false, error: fetchError.message };
@@ -70,6 +87,15 @@ export async function deleteProcess(id: string): Promise<ActionState> {
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "process.deleted",
+    entity_type: "process",
+    entity_id: id,
+    details: { name: current?.name, slug: current?.slug },
+    user_id: auth.id
+  });
+
   revalidateProcessCatalog(current?.slug ?? undefined);
   return { success: true };
 }
+

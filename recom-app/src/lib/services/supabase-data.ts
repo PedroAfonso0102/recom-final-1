@@ -3,9 +3,9 @@ import { createClient } from "../supabase/server";
 import { createStaticClient } from "../supabase/static";
 import { createAdminClient } from "../supabase/admin";
 import { unstable_noStore as noStore } from "next/cache";
-import { Supplier, SupplierSchema } from "../../design-system/schemas/supplier.schema";
-import { Process, ProcessSchema } from "../../design-system/schemas/process.schema";
-import { Promotion, PromotionSchema } from "../../design-system/schemas/promotion.schema";
+import { Supplier, SupplierSchema } from "@/cms/schemas/supplier.schema";
+import { Process, ProcessSchema } from "@/cms/schemas/process.schema";
+import { Promotion, PromotionSchema } from "@/cms/schemas/promotion.schema";
 
 type DataOptions = {
   allowFallback?: boolean;
@@ -15,6 +15,13 @@ async function getDataClient(allowFallback: boolean) {
   return allowFallback ? await createClient() : createAdminClient();
 }
 
+function isActivePromotionStatus(status: string | null | undefined, endsAt?: string | null) {
+  const isVisibleStatus = status === "active" || status === "published";
+  if (!isVisibleStatus) return false;
+  if (!endsAt) return true;
+  return new Date(endsAt).getTime() >= Date.now();
+}
+
 const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
@@ -22,9 +29,9 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
     slug: "mitsubishi", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/mitsubishi-logo.png",
     catalogUrl: "https://www.mmc-carbide.com/br/download/catalog-1",
-    shortDescription: "Líder global em ferramentas de corte e soluções de metal duro para usinagem de alta precisão.",
+    shortDescription: "Distribuição de ferramentas de corte e insertos de metal duro para usinagem.",
     longDescription:
-      "A Mitsubishi Materials é reconhecida mundialmente pela inovação em materiais e revestimentos. Sua linha completa abrange torneamento, fresamento e furação com tecnologia de ponta para máxima produtividade industrial.",
+      "A Mitsubishi Materials produz materiais e revestimentos de alta durabilidade. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial.",
     status: "active",
     sortOrder: 1,
     relatedProcesses: ["00000000-0000-0000-0000-000000000010", "00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
@@ -37,9 +44,9 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
     slug: "7leaders", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
     logoUrl: "/assets/images/logo-7leaders.svg",
     catalogUrl: "https://www.7leaders.com/e-catalog",
-    shortDescription: "Especialista em fresas de metal duro de alto desempenho e ferramentas rotativas.",
+    shortDescription: "Fabricante de fresas de metal duro e ferramentas rotativas.",
     longDescription:
-      "A 7Leaders foca em ferramentas rotativas premium, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento superior.",
+      "A 7Leaders foca em ferramentas rotativas, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento de qualidade.",
     status: "active",
     sortOrder: 2,
     relatedProcesses: ["00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
@@ -84,9 +91,9 @@ const FALLBACK_PROCESSES: Process[] = [
     name: "Torneamento",
     slug: "torneamento",
     imageUrl: "/assets/images/optimized/koudoe.jpg",
-    shortDescription: "Remoção de material em peças rotativas com máxima precisão e controle de cavaco.",
+    shortDescription: "Remoção de material em peças rotativas com controle de cavaco.",
     longDescription:
-      "Soluções completas para operações de revolução. A RECOM oferece suporte técnico para a escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.",
+      "Soluções para operações de revolução. A RECOM oferece apoio na escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.",
     status: "active",
     sortOrder: 1,
     createdAt: new Date().toISOString(),
@@ -97,9 +104,9 @@ const FALLBACK_PROCESSES: Process[] = [
     name: "Fresamento",
     slug: "fresamento",
     imageUrl: "/assets/images/optimized/fresamento-bg.jpg",
-    shortDescription: "Usinagem de superfícies complexas com ferramentas rotativas de alta velocidade.",
+    shortDescription: "Usinagem de superfícies com ferramentas rotativas.",
     longDescription:
-      "Soluções de fresamento para alta remoção de material e acabamento superior. A RECOM provê as ferramentas ideais para faceamento, esquadrejamento e fresamento de cópia.",
+      "Soluções de fresamento para remoção de material e acabamento. A RECOM provê as ferramentas para faceamento, esquadrejamento e fresamento de cópia.",
     status: "active",
     sortOrder: 2,
     createdAt: new Date().toISOString(),
@@ -110,9 +117,9 @@ const FALLBACK_PROCESSES: Process[] = [
     name: "Furação",
     slug: "furacao",
     imageUrl: "/assets/images/optimized/furacao-bg.jpg",
-    shortDescription: "Criação de furos precisos com sistemas de alta estabilidade e refrigeração.",
+    shortDescription: "Criação de furos com sistemas de estabilidade e refrigeração.",
     longDescription:
-      "Sistemas de furação de alta performance para furos curtos e profundos. Foco em estabilidade, precisão dimensional e excelente acabamento superficial.",
+      "Sistemas de furação para furos curtos e profundos. Foco em estabilidade, precisão dimensional e bom acabamento superficial.",
     status: "active",
     sortOrder: 3,
     createdAt: new Date().toISOString(),
@@ -151,7 +158,7 @@ const FALLBACK_PROMOTIONS: Promotion[] = [
   },
   {
     id: "00000000-0000-0000-0000-000000000022",
-    title: "Testes técnicos 7Leaders",
+    title: "Testes na prática 7Leaders",
     slug: "testes-tecnicos-7leaders",
     description: "Solicite uma amostra para teste em sua produção e comprove o rendimento das novas fresas rotativas.",
     startsAt: "2024-05-01T00:00:00Z",
@@ -174,7 +181,7 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("suppliers").select("*").order("sort_order", { ascending: true });
 
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_SUPPLIERS : [];
@@ -222,7 +229,7 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("suppliers").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
@@ -267,7 +274,7 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("processes").select("*").order("sort_order", { ascending: true });
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_PROCESSES : [];
@@ -296,7 +303,7 @@ export async function getProcessBySlug(slug: string, options: DataOptions = {}):
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("processes").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_PROCESSES.find((process) => process.slug === slug) || null : null;
@@ -323,13 +330,13 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("promotions").select("*").order("starts_at", { ascending: false });
-  const { data, error } = allowFallback ? await query.eq("status", "active") : await query;
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
     return allowFallback ? FALLBACK_PROMOTIONS : [];
   }
 
-  return data.map((item: Record<string, any>) =>
+  return data.filter((item: Record<string, any>) => !allowFallback || isActivePromotionStatus(item.status, item.ends_at)).map((item: Record<string, any>) =>
     PromotionSchema.parse({
       ...item,
       supplierId: item.supplier_id ?? undefined,
@@ -353,7 +360,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
 
   const supabaseClient = await getDataClient(allowFallback);
   const query = supabaseClient.from("promotions").select("*").eq("slug", slug);
-  const { data, error } = allowFallback ? await query.eq("status", "active").single() : await query.maybeSingle();
+  const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
     return allowFallback ? FALLBACK_PROMOTIONS.find((promotion) => promotion.slug === slug) || null : null;
@@ -375,7 +382,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
 
 export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
-  const { data, error } = await supabase.from("suppliers").select("slug").eq("status", "active");
+  const { data, error } = await supabase.from("suppliers").select("slug").in("status", ["active", "published"]);
 
   if (error || !data) {
     return FALLBACK_SUPPLIERS.map((supplier) => ({ slug: supplier.slug }));
@@ -386,7 +393,7 @@ export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
 
 export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
-  const { data, error } = await supabase.from("processes").select("slug").eq("status", "active");
+  const { data, error } = await supabase.from("processes").select("slug").in("status", ["active", "published"]);
 
   if (error || !data) {
     return FALLBACK_PROCESSES.map((process) => ({ slug: process.slug }));

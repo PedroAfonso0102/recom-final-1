@@ -5,7 +5,7 @@
 export const SeoContracts = {
     home: {
         title: "RECOM Metal Duro | Distribuidor B2B de ferramentas de corte",
-        description: "Distribuidor especializado em ferramentas de corte, fresamento, torneamento e furação.",
+        description: "Distribuição de ferramentas para usinagem, fresamento, torneamento e furação.",
         canonical: "/",
     },
     suppliers: {
@@ -15,7 +15,7 @@ export const SeoContracts = {
     },
     processes: {
         title: "Soluções e Processos Industriais | RECOM",
-        description: "Soluções técnicas para usinagem, torneamento e furação de alta performance.",
+        description: "Suporte comercial para usinagem, torneamento e furação industrial.",
         canonical: "/processos.html",
     },
 };

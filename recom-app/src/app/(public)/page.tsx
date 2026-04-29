@@ -1,40 +1,57 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, CheckCircle2, Factory, MapPin, ShieldCheck, Wrench } from "lucide-react";
-import { HOME_CMS_SLUG } from "@/cms/utils";
+import { getHomePage } from "@/cms/queries";
 import { RenderPage } from "@/cms/render-page";
-import { getPublicCmsPageBySlug } from "@/server/queries/cms-pages";
 import { getSuppliers } from "@/lib/services/supabase-data";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomHero } from "@/design-system/components/recom-hero";
 import { RecomSection } from "@/design-system/components/recom-section";
+import { getPromotions } from "@/lib/services/supabase-data";
+import { PromotionCard } from "@/design-system/components/promotion-card";
+import { getSiteSettings } from "@/cms/queries";
+import { siteConfig } from "@/lib/config";
+
+import { buildSeoMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+  const [cmsPage, settings] = await Promise.all([
+    getHomePage(),
+    getSiteSettings()
+  ]);
 
   if (!cmsPage) {
-    return {
-      title: "RECOM",
-      description: "Distribuidor de ferramentas de corte em Campinas.",
-    };
+    return buildSeoMetadata({
+      title: "RECOM | Metal Duro e Ferramentas de Corte",
+      description: "Distribuidor de ferramentas de corte em Campinas desde 1990.",
+      siteSettings: settings
+    });
   }
 
-  return {
+  return buildSeoMetadata({
     title: cmsPage.page.seo_title || cmsPage.page.title,
-    description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
-  };
+    description: cmsPage.page.seo_description || cmsPage.page.description,
+    slug: "/",
+    siteSettings: settings
+  });
 }
 
 export default async function Home() {
-  const cmsPage = await getPublicCmsPageBySlug(HOME_CMS_SLUG);
+  const [cmsPage, suppliers, promotions, settings] = await Promise.all([
+    getHomePage(),
+    getSuppliers(),
+    getPromotions(),
+    getSiteSettings()
+  ]);
 
   if (cmsPage) {
-    return <RenderPage pageData={cmsPage} />;
+    return <RenderPage pageData={cmsPage} context={{ suppliers, promotions, settings }} />;
   }
 
-  const suppliers = await getSuppliers();
+  const activePromotions = promotions.filter(p => p.status === 'active');
 
   return (
     <div className="flex flex-col">
@@ -44,12 +61,12 @@ export default async function Home() {
         title={
           <>
             Ferramentas para usinagem <br className="hidden md:block" />
-            <span className="text-recom-red">industrial de precisão</span>
+            industrial de qualidade
           </>
         }
-        description="A RECOM atende clientes industriais com fornecedores reconhecidos, catálogos oficiais e contato comercial direto para orçamento e orientação técnica."
-        primaryCta={{ label: "Solicitar orçamento", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores" }}
+        description="A RECOM atende a indústria com marcas reconhecidas, catálogos oficiais e apoio comercial direto para orçamentos."
+        primaryCta={{ label: "Solicitar orçamento", href: "/contato" }}
+        secondaryCta={{ label: "Ver fornecedores", href: "/fornecedores-catalogos" }}
         image={
           <div className="relative h-full w-full">
             <HeroCarousel />
@@ -65,14 +82,25 @@ export default async function Home() {
           <div className="flex flex-wrap items-center justify-center gap-12 opacity-45 grayscale transition-all duration-700 hover:opacity-100 hover:grayscale-0 md:gap-20">
             {suppliers.map((supplier) => 
               supplier.logoUrl ? (
-                <img
+                <div key={supplier.id || supplier.slug} className="relative h-7 w-28 md:h-8 md:w-32">
+                  <Image
+                    src={supplier.logoUrl}
+                    alt={supplier.name}
+                    fill
+                    sizes="(max-width: 768px) 112px, 128px"
+                    className="object-contain"
+                    data-tooltip={supplier.name}
+                  />
+                </div>
+              ) : (
+                <div
                   key={supplier.id || supplier.slug}
-                  src={supplier.logoUrl}
-                  alt={supplier.name}
-                  className="h-6 w-auto object-contain md:h-7"
-                  data-tooltip={supplier.name}
-                />
-              ) : null
+                  className="inline-flex items-center gap-2 rounded-full border border-recom-border bg-recom-gray-50 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-recom-graphite/55"
+                >
+                  <Factory className="h-3.5 w-3.5" />
+                  {supplier.name}
+                </div>
+              )
             )}
           </div>
         </div>
@@ -80,8 +108,8 @@ export default async function Home() {
 
       <RecomSection
         data-hook="public.home.trust-section"
-        title="Distribuidor de ferramentas de corte desde 1990"
-        description="Atendimento comercial especializado para a indústria metal-mecânica em Campinas e região."
+        title="Distribuidor industrial desde 1990"
+        description="Atendimento comercial para a indústria metal-mecânica em Campinas e região."
         className="bg-recom-gray-50 py-16 md:py-20"
       >
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -95,7 +123,7 @@ export default async function Home() {
             <div>
               <h3 className="mb-2 text-recom-graphite">Garantia de procedência</h3>
               <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade, suporte técnico oficial e segurança para sua produção.
+                Produtos originais faturados diretamente dos fabricantes, garantindo total rastreabilidade, suporte direto da fábrica e segurança para sua produção.
               </p>
             </div>
           </div>
@@ -103,19 +131,52 @@ export default async function Home() {
           <div className="group flex gap-6 rounded-xl border border-recom-border bg-white p-8 transition-all duration-300 hover:border-recom-blue/20 hover:shadow-recom-card">
             <div
               className="shrink-0 rounded-md border border-recom-border/50 bg-recom-gray-50 p-4 transition-all duration-500 group-hover:bg-recom-blue group-hover:text-white"
-              data-tooltip="Experiência técnica"
+              data-tooltip="Experiência prática"
             >
               <CheckCircle2 className="h-7 w-7" />
             </div>
             <div>
               <h3 className="mb-2 text-recom-graphite">Suporte de engenharia</h3>
               <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Nossa equipe técnica atua diretamente na otimização de processos, auxiliando na escolha da melhor geometria e classe para maximizar sua produtividade.
+                Nossa equipe atua diretamente na otimização de processos, auxiliando na escolha da ferramenta certa para sua produção.
               </p>
             </div>
           </div>
         </div>
       </RecomSection>
+
+      {activePromotions.length > 0 && (
+        <RecomSection
+          data-hook="public.home.promotions-section"
+          eyebrow="Oportunidades"
+          title="Promoções e itens em destaque"
+          description="Aproveite condições especiais em ferramentas de corte selecionadas."
+          className="bg-recom-gray-50 py-16 md:py-20"
+        >
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {activePromotions.map((promo) => (
+              <PromotionCard
+                key={promo.id}
+                title={promo.title}
+                description={promo.description}
+                endsAt={promo.endsAt}
+                status={promo.status as "active" | "archived"}
+                supplierName={suppliers.find(s => s.id === promo.supplierId)?.name}
+                ctaLabel={promo.ctaLabel || undefined}
+                ctaLink={promo.ctaUrl || undefined}
+              />
+            ))}
+          </div>
+          <div className="mt-12 flex justify-center">
+            <RecomButton asChild intent="outline">
+              <Link href="/promocoes">
+                Ver todas as promoções
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </RecomButton>
+          </div>
+        </RecomSection>
+      )}
 
       <RecomSection
         data-hook="public.home.processes-section"
@@ -137,7 +198,7 @@ export default async function Home() {
               Acesso direto aos principais fabricantes globais como Mitsubishi Materials e 7Leaders. Consulte especificações técnicas e manuais oficiais.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/fornecedores">
+              <Link href="/fornecedores-catalogos">
                 Explorar catálogos
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -147,17 +208,17 @@ export default async function Home() {
           <div className="group flex h-full flex-col rounded-xl border border-recom-border bg-white p-8 transition-all hover:border-recom-blue/20 hover:shadow-recom-card">
             <div
               className="mb-6 flex h-12 w-12 items-center justify-center rounded-md border border-recom-border/50 bg-recom-gray-50 text-recom-blue transition-all duration-500 group-hover:bg-recom-blue group-hover:text-white"
-              data-tooltip="Soluções completas"
+              data-tooltip="Ferramentas de usinagem"
             >
               <Wrench className="h-6 w-6" />
             </div>
             <h3 className="mb-3">Processos de usinagem</h3>
             <p className="mb-8 flex-grow text-[15px] leading-relaxed text-muted-foreground">
-              Soluções completas para torneamento, fresamento, furação e fixação. Orientação técnica personalizada para cada desafio de usinagem.
+              Ferramentas para torneamento, fresamento, furação e fixação. Apoio direto para cada desafio de usinagem.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/processos">
-                Ver soluções por processo
+              <Link href="/solucoes">
+                Ver ferramentas por processo
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
@@ -175,8 +236,8 @@ export default async function Home() {
               Presença constante nos principais polos industriais paulistas. Entrega ágil e visitas técnicas para setup de máquinas e testes in loco.
             </p>
             <RecomButton asChild intent="outline" className="h-11 w-full justify-center border-recom-border">
-              <Link href="/sobre#contato">
-                Agendar visita técnica
+              <Link href="/contato">
+                Solicitar visita comercial
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </RecomButton>
@@ -189,9 +250,9 @@ export default async function Home() {
         eyebrow="Atendimento comercial"
         title="Solicite orçamento com a equipe RECOM"
         description="Envie sua solicitação informando a marca, o processo de usinagem ou o código do item para agilizar o retorno comercial."
-        primaryCta={{ label: "Enviar solicitação", href: "/sobre#contato" }}
-        secondaryCta={{ label: "Ligar agora", href: "tel:+551932564235" }}
-        note="Retorno comercial em horário útil e com orientação humana."
+        primaryCta={{ label: "Enviar solicitação", href: "/contato" }}
+        secondaryCta={{ label: "Ligar agora", href: `tel:${(settings || siteConfig).contact.phone.replace(/\D/g, "")}` }}
+        note="Retorno comercial rápido e direto."
       />
     </div>
   );

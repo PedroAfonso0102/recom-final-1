@@ -1,13 +1,9 @@
 import React from "react";
 import { ArrowRight, Calendar, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  RecomCard,
-  RecomCardContent,
-  RecomCardFooter,
-  RecomCardHeader,
-  RecomCardTitle,
-} from "./recom-card";
+import { CardSurface, CardSurfaceActions, CardSurfaceBody, MediaFrame } from "@/components/public/visual";
+import type { CardDensity, CardMediaMode, CardVariant, CtaStyle, MediaObjectPosition } from "@/components/public/visual";
+import { RecomCardTitle } from "./recom-card";
 import { RecomButton } from "./recom-button";
 import Link from "next/link";
 
@@ -15,12 +11,18 @@ interface PromotionCardProps {
   title: string;
   description: string;
   endsAt: string;
-  status: "active" | "archived";
+  status: "active" | "expired" | "archived";
   ctaLabel?: string;
   ctaLink?: string;
   supplierName?: string;
   imageUrl?: string;
   className?: string;
+  imageAlt?: string;
+  mediaMode?: CardMediaMode;
+  imagePosition?: MediaObjectPosition;
+  cardVariant?: CardVariant;
+  cardDensity?: CardDensity;
+  ctaStyle?: CtaStyle;
 }
 
 export function PromotionCard({
@@ -29,29 +31,43 @@ export function PromotionCard({
   endsAt,
   status,
   ctaLabel = "Consultar disponibilidade",
-  ctaLink = "/sobre#contato",
+  ctaLink = "/contato",
   supplierName,
   imageUrl,
   className,
+  imageAlt,
+  mediaMode = "cover",
+  imagePosition = "center",
+  cardVariant = "promotion",
+  cardDensity = "normal",
+  ctaStyle = "primary",
 }: PromotionCardProps) {
   const isActive = status === "active";
-  const validityLabel = isActive ? "Válido até" : "Encerrado em";
+  const isExpired = status === "expired";
+  const validityLabel = isActive ? "Valido ate" : isExpired ? "Encerrado em" : "Sob consulta";
 
   return (
-    <RecomCard
+    <CardSurface
       data-hook="public.promotions.card"
+      variant={cardVariant}
+      density={cardDensity}
       className={cn(
-        "group flex h-full flex-col overflow-hidden border-recom-border transition-all duration-300 hover:-translate-y-0.5 hover:border-recom-blue/25 hover:shadow-recom",
         !isActive && "opacity-90",
         className
       )}
     >
       <div className="relative aspect-[4/3] overflow-hidden border-b border-recom-border/60 bg-recom-gray-50">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        {mediaMode !== "none" ? (
+          <MediaFrame
+            imageUrl={imageUrl}
+            alt={imageAlt || title}
+            aspectRatio="4 / 3"
+            objectFit={mediaMode === "logo" ? "contain" : "cover"}
+            objectPosition={imagePosition}
+            rounded="none"
+            bleed
+            overlay={mediaMode === "background" ? "soft" : "none"}
+            fallbackLabel="Oportunidade B2B"
           />
         ) : (
           <div className="flex h-full items-center justify-center p-6">
@@ -65,23 +81,21 @@ export function PromotionCard({
         <div
           className={cn(
             "absolute left-4 top-4 rounded-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white shadow-sm",
-            isActive ? "bg-recom-red" : "bg-recom-graphite"
+            isActive ? "bg-recom-red" : isExpired ? "bg-slate-500" : "bg-recom-graphite"
           )}
         >
-          {isActive ? "Oferta ativa" : "Sob consulta"}
+          {isActive ? "Oferta ativa" : isExpired ? "Oferta expirada" : "Sob consulta"}
         </div>
       </div>
 
-      <RecomCardHeader className="pb-4">
+      <CardSurfaceBody density={cardDensity}>
         {supplierName && (
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-recom-blue">
             {supplierName}
           </span>
         )}
         <RecomCardTitle>{title}</RecomCardTitle>
-      </RecomCardHeader>
 
-      <RecomCardContent className="flex-grow">
         <p className="mb-5 text-[15px] leading-relaxed text-recom-graphite/72">
           {description}
         </p>
@@ -91,16 +105,16 @@ export function PromotionCard({
             {validityLabel}: {new Date(endsAt).toLocaleDateString("pt-BR")}
           </span>
         </div>
-      </RecomCardContent>
 
-      <RecomCardFooter className="pt-2">
-        <RecomButton asChild intent={isActive ? "primary" : "outline"} className="h-11 w-full justify-center">
+      <CardSurfaceActions>
+        <RecomButton asChild intent={isActive && ctaStyle !== "quiet" ? "primary" : "outline"} className="h-11 w-full justify-center">
           <Link href={ctaLink}>
             {ctaLabel}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </RecomButton>
-      </RecomCardFooter>
-    </RecomCard>
+      </CardSurfaceActions>
+      </CardSurfaceBody>
+    </CardSurface>
   );
 }

@@ -1,6 +1,7 @@
-import { createAdminClient } from "../supabase/admin";
-import { Lead, LeadSchema } from '../../design-system/schemas/lead.schema';
+import { createClient } from "../supabase/server";
+import { Lead, LeadSchema } from '../../cms/schemas/lead.schema';
 import { mapLeadToInsert } from "../database/mappings";
+import { createAuditLog } from "../audit";
 
 export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'>): Promise<{ success: boolean; error?: string }> {
   try {
@@ -16,7 +17,7 @@ export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'upda
       };
     }
 
-    const supabase = createAdminClient();
+    const supabase = await createClient();
     const payload = mapLeadToInsert(parsed.data);
     
     const { error } = await supabase
@@ -27,6 +28,18 @@ export async function createLead(leadData: Omit<Lead, 'id' | 'createdAt' | 'upda
       console.error('Error inserting lead:', error);
       return { success: false, error: error.message };
     }
+
+    await createAuditLog({
+      action: 'lead.created',
+      entity_type: 'lead',
+      entity_id: null,
+      actor_id: '00000000-0000-0000-0000-000000000000',
+      metadata: {
+        source_page: payload.source_page,
+        source_type: payload.source_type,
+        email: payload.email,
+      },
+    });
 
     return { success: true };
   } catch (err) {

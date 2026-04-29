@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { RecomButton } from "./recom-button";
 import { cn } from "@/lib/utils";
 
@@ -32,10 +33,13 @@ export function RecomHero({
       )}
     >
       <div className="absolute inset-0 z-0 opacity-35">
-        <img
+        <Image
           src="/assets/images/hero-industrial.png"
           alt="Usinagem industrial"
-          className="h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-industrial-overlay" />
       </div>

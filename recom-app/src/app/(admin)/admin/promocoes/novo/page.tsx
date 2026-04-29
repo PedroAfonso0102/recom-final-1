@@ -1,7 +1,16 @@
 import React from 'react';
 import { PromotionForm } from '@/components/admin/PromotionForm';
+import { getSuppliers } from '@/lib/services/supabase-data';
 
-export default function NewPromotionPage() {
+export default async function NewPromotionPage() {
+  const suppliers = await getSuppliers({ allowFallback: false });
+  const selectableSuppliers = suppliers
+    .filter((supplier): supplier is typeof supplier & { id: string } => Boolean(supplier.id))
+    .map((supplier) => ({
+      id: supplier.id,
+      name: supplier.name,
+    }));
+
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
       <div className="flex flex-col gap-2">
@@ -9,7 +18,7 @@ export default function NewPromotionPage() {
         <p className="text-slate-500">Crie uma nova campanha promocional.</p>
       </div>
 
-      <PromotionForm />
+      <PromotionForm suppliers={selectableSuppliers} />
     </div>
   );
 }

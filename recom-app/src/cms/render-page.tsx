@@ -1,13 +1,19 @@
 import type { CmsPageWithSections } from "./types";
 import { RenderSection } from "./render-section";
+import { Breadcrumb } from "@/design-system/components/breadcrumb";
+import { getPageExperienceFromPage } from "@/design-system/contracts/page-experience-presets";
+import { cn } from "@/lib/utils";
+import { buildBreadcrumbJsonLd } from "@/lib/seo";
 
 type RenderPageProps = {
   pageData: CmsPageWithSections;
   preview?: boolean;
+  context?: Record<string, unknown>;
 };
 
-export function RenderPage({ pageData, preview = false }: RenderPageProps) {
-  const { sections } = pageData;
+export function RenderPage({ pageData, preview = false, context }: RenderPageProps) {
+  const { page, sections } = pageData;
+  const experience = getPageExperienceFromPage(page);
 
   if (preview && sections.length === 0) {
     return (
@@ -17,12 +23,40 @@ export function RenderPage({ pageData, preview = false }: RenderPageProps) {
     );
   }
 
+  const jsonLd = page.slug !== "/" && page.slug !== "home" && page.slug !== "" 
+    ? buildBreadcrumbJsonLd([
+        { name: "Início", item: "/" },
+        { name: page.title, item: `/${page.slug}` },
+      ])
+    : null;
+
   return (
-    <div className="flex flex-col">
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <div
+        className={cn("flex flex-col", experience.className)}
+        data-page-experience={experience.key}
+        data-page-intent={experience.primaryIntent}
+      >
+      {page.slug !== "/" && page.slug !== "home" && page.slug !== "" && (
+        <div className="container-recom pt-8">
+          <Breadcrumb 
+            items={[
+              { label: "Início", href: "/" },
+              { label: page.title }
+            ]} 
+          />
+        </div>
+      )}
       {sections.map((section) => (
-        <RenderSection key={section.id} section={section} preview={preview} />
+        <RenderSection key={section.id} section={section} preview={preview} context={context} />
       ))}
     </div>
+    </>
   );
 }
-

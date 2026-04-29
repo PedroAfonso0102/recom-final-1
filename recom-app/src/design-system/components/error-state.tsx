@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { TriangleAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RecomButton } from "./recom-button";
@@ -6,6 +7,7 @@ import { RecomButton } from "./recom-button";
 interface ErrorStateProps {
   title: string;
   description: string;
+  children?: ReactNode;
   primaryCta?: {
     label: string;
     href: string;
@@ -23,6 +25,7 @@ interface ErrorStateProps {
 export function ErrorState({
   title,
   description,
+  children,
   primaryCta,
   secondaryCta,
   retryLabel = "Tentar novamente",
@@ -45,6 +48,7 @@ export function ErrorState({
       <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
         {description}
       </p>
+      {children}
       {(primaryCta || secondaryCta || onRetry) && (
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           {primaryCta && (

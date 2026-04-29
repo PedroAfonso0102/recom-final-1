@@ -3,12 +3,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
+import { PromotionSchema, Promotion } from '@/cms/schemas/promotion.schema';
 import { createPromotion, updatePromotion } from '@/server/actions/promotions';
 import { RecomButton } from '@/design-system/components/recom-button';
 import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
 import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
+import { MediaPickerDialog } from '@/components/admin/MediaPickerDialog';
+import type { MediaAsset } from '@/server/actions/media';
 
 import {
   Form,
@@ -19,9 +21,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Image as ImageIcon, X } from 'lucide-react';
 
 interface PromotionFormProps {
   initialData?: Partial<Promotion> & { id?: string };
+  suppliers?: Array<{ id: string; name: string }>;
 }
 
 // Helper to format ISO string to datetime-local format
@@ -30,10 +34,13 @@ function toDatetimeLocal(iso?: string) {
   return iso.slice(0, 16); // "YYYY-MM-DDTHH:mm"
 }
 
-export function PromotionForm({ initialData }: PromotionFormProps) {
+export function PromotionForm({ initialData, suppliers = [] }: PromotionFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(initialData?.imageUrl || '');
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState<MediaAsset | null>(null);
   const isEditing = !!initialData?.id;
 
   const form = useForm<Promotion>({
@@ -193,13 +200,88 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
               />
               <FormField
                 control={form.control}
-                name="imageUrl"
+                name="supplierId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={labelStyles}>Imagem de Capa (URL)</FormLabel>
+                    <FormLabel className={labelStyles}>Fornecedor Parceiro</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
+                      <select
+                        className={cn(inputStyles, "w-full appearance-none px-3 cursor-pointer")}
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value || undefined)}
+                      >
+                        <option value="">NENHUM (GERAL)</option>
+                        {suppliers.map(s => (
+                          <option key={s.id} value={s.id}>{s.name.toUpperCase()}</option>
+                        ))}
+                      </select>
                     </FormControl>
+                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem className="md:col-span-2">
+                    <FormLabel className={labelStyles}>Imagem de Capa</FormLabel>
+                    <div className="grid gap-4 rounded-2xl border border-border bg-slate-50/60 p-4 md:grid-cols-[180px_minmax(0,1fr)]">
+                      <div className="overflow-hidden rounded-xl border border-border bg-white">
+                        <div className="aspect-[4/3] bg-slate-100">
+                          {imageUrl ? (
+                            <img src={imageUrl} alt="Preview da promoção" className="h-full w-full object-cover" />
+                          ) : (
+                            <div className="flex h-full items-center justify-center text-muted-foreground">
+                              <ImageIcon className="h-10 w-10" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                          Arte da campanha
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <RecomButton type="button" intent="outline" className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2" onClick={() => setPickerOpen(true)}>
+                            <ImageIcon className="h-3.5 w-3.5" />
+                            Selecionar mídia
+                          </RecomButton>
+                          <RecomButton
+                            type="button"
+                            intent="outline"
+                            className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2"
+                            onClick={() => {
+                              setImageUrl('');
+                              setSelectedMedia(null);
+                              field.onChange('');
+                              form.setValue('imageUrl', '', { shouldDirty: true, shouldValidate: true });
+                            }}
+                            disabled={!imageUrl}
+                          >
+                            <X className="h-3.5 w-3.5" />
+                            Limpar
+                          </RecomButton>
+                        </div>
+                        <Input
+                          placeholder="https://..."
+                          className={inputStyles}
+                          value={imageUrl}
+                          onChange={(event) => {
+                            const nextValue = event.target.value;
+                            setImageUrl(nextValue);
+                            setSelectedMedia(null);
+                            field.onChange(nextValue);
+                            form.setValue('imageUrl', nextValue, { shouldDirty: true, shouldValidate: true });
+                          }}
+                        />
+                        <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
+                          {selectedMedia ? `Selecionada: ${selectedMedia.file_name}` : 'Use a biblioteca ou cole uma URL pública.'}
+                        </p>
+                      </div>
+                    </div>
                     <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
                   </FormItem>
                 )}
@@ -256,6 +338,15 @@ export function PromotionForm({ initialData }: PromotionFormProps) {
           </RecomButton>
         </div>
       </form>
+      <MediaPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        onSelect={(asset) => {
+          setSelectedMedia(asset);
+          setImageUrl(asset.public_url);
+          form.setValue('imageUrl', asset.public_url, { shouldDirty: true, shouldValidate: true });
+        }}
+      />
     </Form>
   );
 }

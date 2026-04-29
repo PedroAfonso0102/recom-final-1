@@ -6,37 +6,53 @@ import { EmptyState } from "@/design-system/components/empty-state";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { SupplierCard } from "@/design-system/components/supplier-card";
+import { RenderPage } from "@/cms/render-page";
 import { getProcesses, getSuppliers } from "@/lib/services/supabase-data";
 
-export const metadata: Metadata = {
-  title: "Fornecedores e Marcas Parceiras | RECOM Metal Duro",
-  description: "Distribuidor oficial Mitsubishi Materials, 7Leaders, BT Fixo e Kifix em Campinas. Catálogos técnicos e suporte oficial.",
-};
+import { getPageBySlug } from "@/cms/queries";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsPage = (await getPageBySlug("fornecedores-catalogos")) ?? (await getPageBySlug("fornecedores"));
+  
+  return {
+    title: cmsPage?.page.seo_title || "Fornecedores e Marcas Parceiras | RECOM Metal Duro",
+    description: cmsPage?.page.seo_description || "Distribuidor oficial Mitsubishi Materials, 7Leaders, BT Fixo e Kifix em Campinas. Catálogos técnicos e suporte oficial.",
+  };
+}
 
 export default async function FornecedoresPage() {
-  const [suppliers, processes] = await Promise.all([getSuppliers(), getProcesses()]);
+  const [suppliers, processes, cmsPage] = await Promise.all([
+    getSuppliers(),
+    getProcesses(),
+    getPageBySlug("fornecedores-catalogos").then((page) => page ?? getPageBySlug("fornecedores")),
+  ]);
 
+  const hasCmsContent = cmsPage && cmsPage.sections.length > 0;
   const getProcessNames = (ids: string[] = []) =>
     ids.map((id) => processes.find((process) => process.id === id)?.name).filter(Boolean) as string[];
 
   return (
     <div className="flex flex-col">
-      <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
-        <div className="container-recom space-y-4">
-          <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Fornecedores & Catálogos" }]} />
-          <div className="max-w-3xl">
-            <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
-              Parceiros globais
-            </span>
-            <h1 className="text-recom-graphite">
-              Fornecedores e <span className="text-recom-blue">catálogos para usinagem</span>
-            </h1>
-            <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
-              Consulte os fornecedores atendidos pela RECOM e acesse os catálogos oficiais de cada marca. Fale com a equipe comercial para confirmar disponibilidade e orientar sua cotação.
-            </p>
+      {hasCmsContent && <RenderPage pageData={cmsPage} context={{ suppliers, processes }} />}
+      
+      {!hasCmsContent && (
+        <section className="border-b border-recom-border bg-recom-gray-50 py-8 md:py-10">
+          <div className="container-recom space-y-4">
+            <Breadcrumb items={[{ label: "Início", href: "/" }, { label: "Fornecedores & Catálogos" }]} />
+            <div className="max-w-3xl">
+              <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.3em] text-recom-red">
+                Parceiros globais
+              </span>
+              <h1 className="text-recom-graphite">
+                Fornecedores e <span className="text-recom-blue">catálogos para usinagem</span>
+              </h1>
+              <p className="mt-6 text-[17px] leading-relaxed text-muted-foreground">
+                Consulte os fornecedores atendidos pela RECOM e acesse os catálogos oficiais de cada marca. Fale com a equipe comercial para confirmar disponibilidade e orientar sua cotação.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <RecomSection
         data-hook="public.suppliers.hub"
@@ -49,22 +65,32 @@ export default async function FornecedoresPage() {
             <EmptyState
               title="Nenhum fornecedor cadastrado"
               description="Não encontramos fornecedores ativos agora. Você ainda pode falar com a equipe RECOM para solicitar suporte comercial."
-              primaryCta={{ label: "Falar com a RECOM", href: "/sobre#contato" }}
+              primaryCta={{ label: "Falar com a RECOM", href: "/contato" }}
               className="md:col-span-2 xl:col-span-3"
             />
           ) : (
-            suppliers.map((supplier) => (
+            suppliers.map((supplier) => {
+              const isMitsubishi = supplier.slug === "mitsubishi";
+              const logoUrl = isMitsubishi 
+                ? "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg" 
+                : (supplier.logoUrl || "");
+
+              return (
               <SupplierCard
-                key={supplier.id ?? supplier.slug}
-                name={supplier.name}
-                description={supplier.shortDescription || ""}
-                logoUrl={supplier.logoUrl || ""}
-                internalLink={`/fornecedores/${supplier.slug}`}
-                externalCatalogLink={supplier.catalogUrl || undefined}
-                catalogAvailable={!!supplier.catalogUrl}
-                processes={getProcessNames(supplier.relatedProcesses)}
-              />
-            ))
+                  key={supplier.id ?? supplier.slug}
+                  name={supplier.name}
+                  description={supplier.shortDescription || ""}
+                  logoUrl={logoUrl}
+                  isAuthorized={isMitsubishi}
+                  internalLink={`/fornecedores-catalogos/${supplier.slug}`}
+                  externalCatalogLink={supplier.catalogUrl || undefined}
+                  catalogAvailable={!!supplier.catalogUrl}
+                  contactLink={`/contato?fornecedor=${encodeURIComponent(supplier.slug)}&marca=${encodeURIComponent(supplier.name)}`}
+                  contactLabel="Falar com a RECOM sobre esta marca"
+                  processes={getProcessNames(supplier.relatedProcesses)}
+                />
+              );
+            })
           )}
         </div>
       </RecomSection>
@@ -108,7 +134,7 @@ export default async function FornecedoresPage() {
         eyebrow="Orientação comercial"
         title="Precisa confirmar uma linha ou aplicação específica?"
         description="Nossa equipe pode enviar a documentação técnica oficial para a sua necessidade e orientar a cotação com rapidez."
-        primaryCta={{ label: "Falar com consultor", href: "/sobre#contato" }}
+        primaryCta={{ label: "Falar com consultor", href: "/contato" }}
         secondaryCta={{ label: "Solicitar catálogo", href: "mailto:contato@recom.com.br" }}
         note="Atendimento comercial e técnico em uma única jornada."
       />

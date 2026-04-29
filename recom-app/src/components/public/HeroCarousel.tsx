@@ -1,14 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const images = [
-  {
-    url: "/assets/images/koudoe.jpg",
-    alt: "Usinagem de Precisão - Torneamento",
-  },
   {
     url: "/assets/images/recom-editorial-1.jpg",
     alt: "Suporte Técnico RECOM",
@@ -40,18 +37,22 @@ export function HeroCarousel() {
   }, [next]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden group">
+    <div className="relative h-full w-full overflow-hidden group">
       {/* Images */}
-      <div 
-        className="flex transition-transform duration-700 ease-in-out h-full"
+      <div
+        className="flex h-full transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((image, index) => (
-          <div key={index} className="min-w-full h-full relative">
-            <img
+          <div key={index} className="relative min-w-full h-full">
+            <Image
               src={image.url}
               alt={image.alt}
-              className="object-cover w-full h-full"
+              fill
+              priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent pointer-events-none" />
           </div>
@@ -61,21 +62,21 @@ export function HeroCarousel() {
       {/* Controls */}
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/90 backdrop-blur-sm border border-border text-foreground opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110 shadow-lg"
+        className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-border bg-white/92 p-2.5 text-foreground shadow-lg backdrop-blur-sm transition-all hover:scale-110 hover:bg-white opacity-100 sm:left-4 sm:p-3 sm:opacity-0 sm:group-hover:opacity-100"
         aria-label="Previous image"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/90 backdrop-blur-sm border border-border text-foreground opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110 shadow-lg"
+        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-border bg-white/92 p-2.5 text-foreground shadow-lg backdrop-blur-sm transition-all hover:scale-110 hover:bg-white opacity-100 sm:right-4 sm:p-3 sm:opacity-0 sm:group-hover:opacity-100"
         aria-label="Next image"
       >
         <ChevronRight className="w-5 h-5" />
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2 backdrop-blur-md sm:bottom-6 sm:gap-3 sm:px-4">
         {images.map((_, index) => (
           <button
             key={index}

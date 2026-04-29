@@ -1,9 +1,10 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
+import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { PromotionSchema, Promotion } from '@/design-system/schemas/promotion.schema';
+import { PromotionSchema, Promotion } from '@/cms/schemas/promotion.schema';
 import { revalidatePromotionCatalog } from '@/lib/revalidation/catalog';
 import { mapPromotionToInsert, mapPromotionToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';
@@ -14,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createPromotion(data: Promotion): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
@@ -30,12 +31,20 @@ export async function createPromotion(data: Promotion): Promise<ActionState> {
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "promotion.created",
+    entity_type: "promotion",
+    entity_id: payload.slug,
+    details: { title: payload.title },
+    user_id: auth.id
+  });
+
   revalidatePromotionCatalog(payload.slug);
   redirect('/admin/promocoes');
 }
 
 export async function updatePromotion(id: string, data: Promotion): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = PromotionSchema.safeParse(data);
 
@@ -51,14 +60,22 @@ export async function updatePromotion(id: string, data: Promotion): Promise<Acti
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "promotion.updated",
+    entity_type: "promotion",
+    entity_id: id,
+    details: { title: payload.title, slug: payload.slug },
+    user_id: auth.id
+  });
+
   revalidatePromotionCatalog(payload.slug ?? '');
   redirect('/admin/promocoes');
 }
 
 export async function deletePromotion(id: string): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
-  const { data: current, error: fetchError } = await supabase.from('promotions').select('slug').eq('id', id).maybeSingle();
+  const { data: current, error: fetchError } = await supabase.from('promotions').select('title, slug').eq('id', id).maybeSingle();
 
   if (fetchError) {
     return { success: false, error: fetchError.message };
@@ -70,6 +87,15 @@ export async function deletePromotion(id: string): Promise<ActionState> {
     return { success: false, error: formatDatabaseError(error) };
   }
 
+  await createAuditLog({
+    action: "promotion.deleted",
+    entity_type: "promotion",
+    entity_id: id,
+    details: { title: current?.title, slug: current?.slug },
+    user_id: auth.id
+  });
+
   revalidatePromotionCatalog(current?.slug ?? undefined);
   return { success: true };
 }
+

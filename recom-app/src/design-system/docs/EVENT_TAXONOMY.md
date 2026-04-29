@@ -1,22 +1,27 @@
-# Event Taxonomy — RECOM
+# Event Taxonomy
 
-Taxonomia oficial para eventos de Analytics (GA4/GTM).
+Eventos oficiais ficam centralizados em `src/design-system/hooks/analytics-events.ts`.
 
-## 🚀 Eventos Comerciais
+## Eventos
 
-| Evento | Trigger | Propriedades Sugeridas |
-| :--- | :--- | :--- |
-| `generate_lead_form_submit` | Sucesso no envio do form de contato | `form_id`, `supplier_interest` |
-| `form_error` | Erro na validação ou envio | `field_name`, `error_type` |
-| `contact_phone_click` | Clique no link de telefone | `phone_number`, `placement` |
-| `contact_email_click` | Clique no link de e-mail | `email_address`, `placement` |
-| `whatsapp_click` | Clique no botão de WhatsApp | `placement` |
-| `supplier_card_click` | Clique no card do fornecedor | `supplier_name`, `slug` |
-| `supplier_catalog_click` | Clique no link de catálogo (PDF/Site) | `supplier_name`, `catalog_type` |
-| `process_card_click` | Clique no card de processo | `process_name`, `slug` |
-| `promotion_click` | Clique em banner de promoção | `promotion_title`, `id` |
+| Evento | Quando dispara | Parametros obrigatorios |
+|---|---|---|
+| `generate_lead_form_submit` | tentativa de envio bem-sucedida do formulario | `page_location`, `form_name` |
+| `form_error` | erro de validacao ou envio | `page_location`, `form_name`, `error_type`, `field_name` quando existir |
+| `contact_phone_click` | clique em telefone | `page_location`, `placement`, `cta_label` |
+| `contact_email_click` | clique em email | `page_location`, `placement`, `cta_label` |
+| `whatsapp_click` | clique em WhatsApp | `page_location`, `placement`, `cta_label` |
+| `supplier_card_click` | clique em card de fornecedor | `page_location`, `placement`, `entity_type`, `entity_slug` |
+| `supplier_catalog_click` | clique em catalogo oficial | `page_location`, `placement`, `entity_slug`, `outbound_url` |
+| `process_card_click` | clique em processo | `page_location`, `placement`, `entity_type`, `entity_slug` |
+| `promotion_click` | clique em promocao | `page_location`, `placement`, `entity_type`, `entity_slug` |
+| `file_download` | download de arquivo quando houver | `page_location`, `placement`, `outbound_url` |
+| `external_catalog_unavailable_click` | usuario pede ajuda quando catalogo nao existe | `page_location`, `placement`, `entity_slug` |
 
----
+## Regras
 
-## 🛠️ Atributos HTML
-Utilize o atributo `data-event` nos elementos interativos conforme definido em `analytics-events.js`.
+- Nao espalhar strings soltas em componentes.
+- Nao duplicar evento no card e no link interno ao mesmo tempo.
+- `outbound_url` deve ser enviado apenas para link externo.
+- `entity_type` usa valores: `supplier`, `process`, `promotion`, `page`.
+- `placement` descreve area: `header`, `footer`, `hero`, `card`, `detail`, `final_cta`, `contact_form`.

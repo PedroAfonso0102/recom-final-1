@@ -1,9 +1,10 @@
 'use server';
-import { requireAuth } from "@/lib/auth/utils";
+import { requireAdmin } from "@/lib/auth/utils";
+import { createAuditLog } from "@/lib/audit";
 
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { SupplierSchema, Supplier } from '@/design-system/schemas/supplier.schema';
+import { SupplierSchema, Supplier } from '@/cms/schemas/supplier.schema';
 import { revalidateSupplierCatalog } from '@/lib/revalidation/catalog';
 import { mapSupplierToInsert, mapSupplierToUpdate } from '@/lib/database/mappings';
 import { formatDatabaseError } from '@/lib/database/errors';
@@ -14,7 +15,7 @@ export type ActionState = {
 };
 
 export async function createSupplier(data: Supplier): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
   const parsed = SupplierSchema.safeParse(data);
 
@@ -31,11 +32,21 @@ export async function createSupplier(data: Supplier): Promise<ActionState> {
   }
 
   revalidateSupplierCatalog(payload.slug);
+
+  // Log action
+  await createAuditLog({
+    action: "supplier.created",
+    entity_type: "supplier",
+    entity_id: payload.slug,
+    details: { name: payload.name },
+    user_id: auth.id
+  });
+
   redirect('/admin/fornecedores');
 }
 
 export async function updateSupplier(id: string, data: Supplier): Promise<ActionState> {
-  await requireAuth();
+  const auth = await requireAdmin();
   console.log(`[Action: updateSupplier] ID: ${id}, Slug: ${data.slug}`);
   const supabase = createAdminClient();
   
@@ -91,16 +102,63 @@ export async function updateSupplier(id: string, data: Supplier): Promise<Action
   revalidateSupplierCatalog();
   
   console.log(`[Action: updateSupplier] Revalidation complete. Redirecting to admin list...`);
+
+  // Log action
+  await createAuditLog({
+    action: "supplier.updated",
+    entity_type: "supplier",
+    entity_id: id,
+    details: { name: payload.name, slug: payload.slug },
+    user_id: auth.id
+  });
+
   redirect('/admin/fornecedores');
 }
 
-export async function deleteSupplier(id: string): Promise<ActionState> {
-  await requireAuth();
+export async function archiveSupplier(id: string): Promise<ActionState> {
+  const auth = await requireAdmin();
   const supabase = createAdminClient();
-  const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug').eq('id', id).maybeSingle();
+  const { data: current, error: fetchError } = await supabase.from('suppliers').select('name, slug').eq('id', id).maybeSingle();
 
   if (fetchError) {
     return { success: false, error: fetchError.message };
+  }
+
+  const { error } = await supabase
+    .from('suppliers')
+    .update({ status: 'archived' })
+    .eq('id', id);
+
+  if (error) {
+    return { success: false, error: formatDatabaseError(error) };
+  }
+
+  revalidateSupplierCatalog(current?.slug ?? undefined);
+
+  // Log action
+  await createAuditLog({
+    action: "supplier.archived",
+    entity_type: "supplier",
+    entity_id: id,
+    details: { name: current?.name },
+    user_id: auth.id
+  });
+
+  return { success: true };
+}
+
+export async function deleteSupplier(id: string): Promise<ActionState> {
+  const auth = await requireAdmin();
+  const supabase = createAdminClient();
+  const { data: current, error: fetchError } = await supabase.from('suppliers').select('slug, status').eq('id', id).maybeSingle();
+
+  if (fetchError) {
+    return { success: false, error: fetchError.message };
+  }
+
+  // Only allow deleting drafts
+  if (current?.status !== 'draft') {
+    return { success: false, error: "Apenas rascunhos podem ser excluídos permanentemente. Arquive fornecedores ativos." };
   }
 
   const { error } = await supabase.from('suppliers').delete().eq('id', id);
@@ -110,5 +168,15 @@ export async function deleteSupplier(id: string): Promise<ActionState> {
   }
 
   revalidateSupplierCatalog(current?.slug ?? undefined);
+
+  // Log action
+  await createAuditLog({
+    action: "supplier.deleted",
+    entity_type: "supplier",
+    entity_id: id,
+    user_id: auth.id
+  });
+
   return { success: true };
 }
+

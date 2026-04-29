@@ -1,42 +1,65 @@
-# ✅ Checklist de QA - RECOM Metal Duro (Fase Wireframe)
+# QA Checklist
 
-Este documento serve para validar a integridade técnica do esqueleto antes da aplicação de estética avançada.
+## Build
 
-## 1. Estrutura e Semântica
-- [x] Cada página possui exatamente um `<h1>`.
-- [x] A hierarquia de headings (H2, H3) é lógica e consistente.
-- [x] O arquivo `wireframe.css` é o único CSS carregado (via `@import` dos módulos).
-- [x] Não existem estilos inline (`style="..."`) nos arquivos HTML. (Limpeza profunda concluída).
+- [ ] `npm run build`
+- [ ] `npm run lint`
+- [ ] `npm run typecheck` quando existir script
+- [ ] testes disponiveis do projeto
 
-## 2. Componentes Dinâmicos (`js/components.js`)
-- [x] Header e Footer carregam corretamente em todas as páginas.
-- [x] A variável `{{ROOT}}` é substituída corretamente em subdiretórios.
-- [x] Atributos `data-component` e `data-hook` estão presentes conforme o `COMPONENT_CONTRACT.md`.
+## Vitrine
 
-## 3. Conversão e Formulários
-- [x] O formulário de contato possui labels visíveis.
-- [x] O feedback de "Enviando" aparece ao clicar no botão.
-- [x] A mensagem de sucesso é exibida e o formulário é limpo após o envio simulado.
-- [x] Links de WhatsApp e E-mail estão funcionando (href correto).
+- [ ] Home renderiza.
+- [ ] `/fornecedores-catalogos` renderiza dados publicados.
+- [ ] Fornecedor individual renderiza.
+- [ ] `/solucoes` renderiza processos publicados.
+- [ ] Processo individual renderiza.
+- [ ] Promocoes vencidas nao aparecem como ativas.
+- [ ] Contato cria lead.
+- [ ] 404 recupera usuario.
 
-## 4. Responsividade e Acessibilidade
-- [x] O site é navegável em telas de 360px sem quebras críticas.
-- [x] O header se adapta para mobile (uso de `stack-mobile`).
-- [x] Todos os links e botões possuem `:focus-visible` claro.
-- [x] Imagens informativas possuem atributo `alt` preenchido.
+## Links
 
-## 5. SEO e Metadados
-- [x] `<title>` é único por página e condiz com o conteúdo.
-- [x] `<meta name="description">` é única e persuasiva.
-- [x] Links para catálogos externos possuem `rel="noopener noreferrer"`.
+- [ ] Menus globais funcionam.
+- [ ] Breadcrumbs funcionam.
+- [ ] CTAs usam `Link` ou `<a href>`.
+- [ ] Links externos tem rotulo claro.
+- [ ] Nenhuma pagina importante termina sem proximo passo.
 
-## 6. Dados e Manutenibilidade
-- [x] O Design System está centralizado em `/src/design-system/`.
-- [x] O arquivo `/src/design-system/index.js` é carregado como módulo em todas as páginas.
-- [x] As configurações globais residem em `js/config.js`.
-- [x] O código segue o guia de estilo `regra.md`.
-- [x] **Declutter**: Não existem arquivos JS ou MD redundantes na raiz do projeto.
+## Admin
 
----
-*QA executado por Antigravity em 26/04/2026.*
-*Status Final: 100% PRONTO PARA ESTÉTICA.*
+- [ ] Criar/editar/publicar fornecedor.
+- [ ] Criar/editar/publicar processo.
+- [ ] Criar/editar/publicar promocao.
+- [ ] Editar site settings.
+- [ ] Visualizar lead.
+- [ ] Registrar evento/nota.
+- [ ] Ver audit log.
+
+## Supabase
+
+- [ ] RLS habilitada nas tabelas expostas.
+- [ ] Publico so le publicado/ativo.
+- [ ] Publico cria lead sem listar leads.
+- [ ] Editor nao acessa leads se nao autorizado.
+- [ ] Comercial nao edita conteudo se nao autorizado.
+- [ ] Service role nao esta no client.
+
+## SEO
+
+- [ ] Titles unicos.
+- [ ] H1 unico por pagina.
+- [ ] Meta description com fallback.
+- [ ] Canonical.
+- [ ] Sitemap.
+- [ ] Robots.
+- [ ] Structured data quando aplicavel.
+
+## Acessibilidade
+
+- [ ] Navegacao por teclado.
+- [ ] Foco visivel.
+- [ ] Labels permanentes.
+- [ ] Erros junto ao campo.
+- [ ] Alvos clicaveis adequados.
+- [ ] Menu mobile acessivel.
