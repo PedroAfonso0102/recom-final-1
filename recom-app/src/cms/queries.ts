@@ -90,7 +90,7 @@ export async function listCmsPages(): Promise<CmsPageRow[]> {
  * Busca apenas os slugs de páginas publicadas (para sitemap/SEO).
  */
 export async function getPublishedPageSlugs(): Promise<{ slug: string }[]> {
-  const supabase = createAdminClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("pages")
     .select("slug")

@@ -102,34 +102,34 @@ Use este checklist antes de considerar producao. Marque com evidencia, nao por i
 
 ## SEO
 
-- [ ] Title unico por pagina.
-- [ ] H1 unico por pagina.
-- [ ] Meta description.
+- [x] Title unico por pagina.
+- [x] H1 unico por pagina.
+- [x] Meta description.
 - [x] Canonical.
 - [x] Open Graph.
-- [ ] Admin, preview, draft, scheduled e archived nao indexam.
+- [x] Admin, preview, draft, scheduled e archived nao indexam.
 - [x] Sitemap inclui apenas paginas publicadas e entidades publicadas.
-- [ ] Robots bloqueia admin/preview.
-- [ ] BreadcrumbList quando aplicavel.
-- [ ] Links internos rastreaveis com href real.
+- [x] Robots bloqueia admin/preview.
+- [x] BreadcrumbList quando aplicavel.
+- [x] Links internos rastreaveis com href real.
 
 ## Analytics
 
-- [ ] `lead_form_submit`
-- [ ] `lead_form_error`
-- [ ] `contact_phone_click`
-- [ ] `contact_email_click`
-- [ ] `whatsapp_click`
-- [ ] `supplier_card_click`
-- [ ] `supplier_detail_click`
-- [ ] `supplier_catalog_click`
-- [ ] `supplier_catalog_unavailable_click`
-- [ ] `process_card_click`
-- [ ] `process_supplier_click`
-- [ ] `promotion_click`
-- [ ] `promotion_contact_click`
-- [ ] `external_link_click`
-- [ ] `file_download`
+- [x] `lead_form_submit`
+- [x] `lead_form_error`
+- [x] `contact_phone_click`
+- [x] `contact_email_click`
+- [x] `whatsapp_click`
+- [x] `supplier_card_click`
+- [x] `supplier_detail_click`
+- [x] `supplier_catalog_click`
+- [x] `supplier_catalog_unavailable_click`
+- [x] `process_card_click`
+- [x] `process_supplier_click`
+- [x] `promotion_click`
+- [x] `promotion_contact_click`
+- [x] `external_link_click`
+- [x] `file_download`
 
 ## Evidencias obrigatorias
 

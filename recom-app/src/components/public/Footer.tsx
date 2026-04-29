@@ -4,6 +4,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { getSiteSettings } from "@/cms/queries";
+import { TrackClick } from "@/components/public/analytics/TrackClick";
 
 export async function Footer() {
   const settings = await getSiteSettings();
@@ -65,12 +66,14 @@ export async function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Telefone</span>
-                  <a
-                    href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
-                    className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
-                  >
-                    {config.contact.phone}
-                  </a>
+                  <TrackClick eventName="contact_phone_click" params={{ phone: config.contact.phone }}>
+                    <a
+                      href={`tel:${config.contact.phone.replace(/\D/g, "")}`}
+                      className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
+                    >
+                      {config.contact.phone}
+                    </a>
+                  </TrackClick>
                 </div>
               </div>
 
@@ -80,12 +83,14 @@ export async function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">E-mail comercial</span>
-                  <a
-                    href={`mailto:${config.contact.email}`}
-                    className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
-                  >
-                    {config.contact.email}
-                  </a>
+                  <TrackClick eventName="contact_email_click" params={{ email: config.contact.email }}>
+                    <a
+                      href={`mailto:${config.contact.email}`}
+                      className="text-[15px] font-bold text-white transition-colors hover:text-recom-red"
+                    >
+                      {config.contact.email}
+                    </a>
+                  </TrackClick>
                 </div>
               </div>
             </div>

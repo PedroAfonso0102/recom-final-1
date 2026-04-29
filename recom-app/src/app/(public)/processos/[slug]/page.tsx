@@ -8,7 +8,7 @@ import { CTASection } from "@/design-system/components/cta-section";
 import { RecomButton } from "@/design-system/components/recom-button";
 import { getProcessBySlug, getStaticProcessSlugs, getSuppliers } from "@/lib/services/supabase-data";
 
-import { buildSeoMetadata } from "@/lib/seo";
+import { buildSeoMetadata, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { getSiteSettings } from "@/cms/queries";
 
 interface ProcessPageProps {
@@ -47,13 +47,24 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
     notFound();
   }
 
+  const jsonLd = buildBreadcrumbJsonLd([
+    { name: "Início", item: "/" },
+    { name: "Soluções", item: "/solucoes" },
+    { name: process.name, item: `/solucoes/${slug}` },
+  ]);
+
   const relatedSuppliers = suppliers.filter((supplier) => supplier.relatedProcesses.includes(process.id || ""));
   const paragraphs = process.longDescription.split("\n").filter((paragraph) => paragraph.trim().length > 0);
   const visualImage = process.imageUrl && process.imageUrl.trim() !== "" ? process.imageUrl : null;
   const contactHref = `/contato?processo=${encodeURIComponent(process.slug)}&solucao=${encodeURIComponent(process.name)}`;
 
   return (
-    <div className="flex flex-col pb-16">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="flex flex-col">
       <div className="border-b border-recom-border bg-recom-gray-50 py-4 md:py-5">
         <div className="container-recom">
           <Breadcrumb
@@ -236,5 +247,6 @@ export default async function ProcessDetailPage({ params }: ProcessPageProps) {
         note="Foco em produtividade, precisão e suporte humano."
       />
     </div>
+    </>
   );
 }

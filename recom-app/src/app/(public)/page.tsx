@@ -15,33 +15,28 @@ import { PromotionCard } from "@/design-system/components/promotion-card";
 import { getSiteSettings } from "@/cms/queries";
 import { siteConfig } from "@/lib/config";
 
+import { buildSeoMetadata } from "@/lib/seo";
+
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsPage = await getHomePage();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recom.com.br";
+  const [cmsPage, settings] = await Promise.all([
+    getHomePage(),
+    getSiteSettings()
+  ]);
 
   if (!cmsPage) {
-    return {
+    return buildSeoMetadata({
       title: "RECOM | Metal Duro e Ferramentas de Corte",
       description: "Distribuidor de ferramentas de corte em Campinas desde 1990.",
-      alternates: {
-        canonical: baseUrl,
-      },
-    };
+      siteSettings: settings
+    });
   }
 
-  return {
+  return buildSeoMetadata({
     title: cmsPage.page.seo_title || cmsPage.page.title,
-    description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
-    alternates: {
-      canonical: baseUrl,
-    },
-    openGraph: {
-      title: cmsPage.page.seo_title || cmsPage.page.title,
-      description: cmsPage.page.seo_description || cmsPage.page.description || undefined,
-      url: baseUrl,
-      type: "website",
-    },
-  };
+    description: cmsPage.page.seo_description || cmsPage.page.description,
+    slug: "/",
+    siteSettings: settings
+  });
 }
 
 export default async function Home() {

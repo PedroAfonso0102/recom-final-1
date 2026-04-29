@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RenderPage } from "@/cms/render-page";
-import { getPageBySlug } from "@/cms/queries";
+import { getPageBySlug, getSiteSettings } from "@/cms/queries";
 import { resolveCmsPreviewRequest } from "@/cms/preview";
 import { getCurrentAuthContext } from "@/lib/auth/utils";
 import { getCurrentAuthContext as getAuth } from "@/lib/auth/utils";
-import { buildSeoMetadata } from "@/lib/seo";
+import { buildSeoMetadata, buildBreadcrumbJsonLd } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;

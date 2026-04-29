@@ -7,6 +7,7 @@ interface SeoOptions {
   slug?: string;
   image?: string | null;
   noIndex?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   siteSettings?: any; // SiteSettings type from schemas
 }
 
@@ -24,7 +25,7 @@ export function buildSeoMetadata(options: SeoOptions): Metadata {
   const finalTitle = title ? `${title} | ${settings.company?.shortName || "RECOM"}` : siteTitle;
 
   // Resolvendo Description
-  const finalDescription = description || settings.seo?.defaultDescription || siteConfig.company.description;
+  const finalDescription = description || settings.seo?.defaultDescription || siteConfig.company.subtitle;
 
   // Resolvendo Canonical
   const canonicalPath = slug ? (slug.startsWith("/") ? slug : `/${slug}`) : "";
@@ -64,7 +65,8 @@ export function buildSeoMetadata(options: SeoOptions): Metadata {
 export function buildBreadcrumbJsonLd(items: { name: string; item: string }[]) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recom.com.br";
   
-  return {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jsonLd: any = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": items.map((item, index) => ({
@@ -74,4 +76,6 @@ export function buildBreadcrumbJsonLd(items: { name: string; item: string }[]) {
       "item": item.item.startsWith("http") ? item.item : `${baseUrl}${item.item.startsWith("/") ? item.item : `/${item.item}`}`,
     })),
   };
+
+  return jsonLd;
 }

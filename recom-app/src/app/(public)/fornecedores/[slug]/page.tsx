@@ -9,8 +9,9 @@ import { RecomButton } from "@/design-system/components/recom-button";
 import { RecomSection } from "@/design-system/components/recom-section";
 import { getProcesses, getStaticSupplierSlugs, getSupplierBySlug } from "@/lib/services/supabase-data";
 
-import { buildSeoMetadata } from "@/lib/seo";
+import { buildSeoMetadata, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { getSiteSettings } from "@/cms/queries";
+import { TrackClick } from "@/components/public/analytics/TrackClick";
 
 interface SupplierDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -48,13 +49,24 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
     notFound();
   }
 
+  const jsonLd = buildBreadcrumbJsonLd([
+    { name: "Início", item: "/" },
+    { name: "Fornecedores", item: "/fornecedores-catalogos" },
+    { name: supplier.name, item: `/fornecedores-catalogos/${slug}` },
+  ]);
+
   const relatedProcesses = supplier.relatedProcesses
     .map((processId) => processes.find((process) => process.id === processId))
     .filter((process): process is (typeof processes)[number] => Boolean(process));
   const contactHref = `/contato?fornecedor=${encodeURIComponent(supplier.slug)}&marca=${encodeURIComponent(supplier.name)}`;
 
   return (
-    <div className="flex flex-col pb-24">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="flex flex-col">
       <div className="border-b border-recom-border bg-recom-gray-50 py-4 md:py-5">
         <div className="container-recom">
           <Breadcrumb
@@ -136,12 +148,14 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
                 </Link>
               </RecomButton>
               {supplier.catalogUrl ? (
-                <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
-                  <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                    Acessar catálogo oficial
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
-                </RecomButton>
+                <TrackClick eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "main" }}>
+                  <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
+                    <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
+                      Acessar catálogo oficial
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </a>
+                  </RecomButton>
+                </TrackClick>
               ) : (
                 <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
                   <Link href={contactHref}>Falar com a RECOM sobre esta marca</Link>
@@ -154,12 +168,14 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
                   </p>
                   <div className="flex flex-wrap gap-3">
                     {supplier.catalogs.map((cat, idx) => (
-                      <RecomButton key={idx} asChild size="sm" intent="outline" className="h-10 px-4 text-xs">
-                        <a href={cat.url} target="_blank" rel="noopener noreferrer">
-                          {cat.label}
-                          <ExternalLink className="ml-2 h-3 w-3" />
-                        </a>
-                      </RecomButton>
+                      <TrackClick key={idx} eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "additional", label: cat.label }}>
+                        <RecomButton asChild size="sm" intent="outline" className="h-10 px-4 text-xs">
+                          <a href={cat.url} target="_blank" rel="noopener noreferrer">
+                            {cat.label}
+                            <ExternalLink className="ml-2 h-3 w-3" />
+                          </a>
+                        </RecomButton>
+                      </TrackClick>
                     ))}
                   </div>
                 </div>
@@ -205,5 +221,6 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
         note="Compra assistida, catalogação oficial e contato humano na mesma jornada."
       />
     </div>
+    </>
   );
 }

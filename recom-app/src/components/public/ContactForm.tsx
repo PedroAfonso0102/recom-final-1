@@ -10,7 +10,6 @@ import { submitContactForm } from "@/lib/actions/lead-actions";
 import { safeZodResolver } from "@/lib/forms/safe-zod-resolver";
 import { LeadSchema } from "@/cms/schemas/lead.schema";
 import { useAnalytics } from "@/hooks/use-analytics";
-import { AnalyticsEvents } from "@/design-system/hooks/analytics-events";
 import { siteConfig } from "@/lib/config";
 import type { Supplier } from "@/cms/schemas/supplier.schema";
 import type { Process } from "@/cms/schemas/process.schema";
@@ -66,7 +65,13 @@ function ContactField({
 }
 
 export function ContactForm({ suppliers = [], processes = [], contact = siteConfig.contact }: ContactFormProps) {
-  const { trackEvent } = useAnalytics();
+  const { 
+    leadFormSubmit, 
+    leadFormError, 
+    contactPhoneClick, 
+    contactEmailClick, 
+    whatsappClick 
+  } = useAnalytics();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
 
@@ -115,21 +120,14 @@ export function ContactForm({ suppliers = [], processes = [], contact = siteConf
 
     if (result.success) {
       setStatus("success");
-      trackEvent(AnalyticsEvents.leadFormSubmit, {
-        page_location: typeof window !== "undefined" ? window.location.pathname : "/contato",
-        form_name: "contact_request",
-      });
+      leadFormSubmit("contact_request");
       reset();
       return;
     }
 
     setStatus("error");
     setSubmitError(result.error || "Ocorreu um erro ao enviar sua mensagem.");
-    trackEvent(AnalyticsEvents.formError, {
-      page_location: typeof window !== "undefined" ? window.location.pathname : "/contato",
-      form_name: "contact_request",
-      error_type: result.error || "server_error",
-    });
+    leadFormError("contact_request", result.error || "server_error");
   }
 
   if (status === "success") {
@@ -344,6 +342,7 @@ export function ContactForm({ suppliers = [], processes = [], contact = siteConf
         <div className="grid gap-3 text-[12px] text-slate-500 sm:grid-cols-3">
           <a
             href={`tel:${contact.phone.replace(/\D/g, "")}`}
+            onClick={() => contactPhoneClick(contact.phone)}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Phone className="h-4 w-4 text-recom-blue" />
@@ -353,6 +352,7 @@ export function ContactForm({ suppliers = [], processes = [], contact = siteConf
             href={`https://wa.me/${contact.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => whatsappClick("contact_form")}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <MessageCircle className="h-4 w-4 text-recom-blue" />
@@ -360,6 +360,7 @@ export function ContactForm({ suppliers = [], processes = [], contact = siteConf
           </a>
           <a
             href={`mailto:${contact.email}`}
+            onClick={() => contactEmailClick(contact.email)}
             className="flex items-center gap-2 rounded-lg border border-recom-border bg-white px-4 py-3 font-bold uppercase tracking-[0.12em] transition-colors hover:border-recom-blue/20 hover:text-recom-blue"
           >
             <Mail className="h-4 w-4 text-recom-blue" />

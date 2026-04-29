@@ -1,65 +1,50 @@
 "use client";
 
 import { useCallback } from "react";
-import type { AnalyticsEventName, AnalyticsEventParams } from "@/design-system/hooks/analytics-events";
-
-type EventParams = AnalyticsEventParams & Record<string, string | number | boolean | undefined | null>;
 
 /**
  * Hook para disparar eventos de analytics e rastreamento.
- * Centraliza a lógica de integração com GTM (dataLayer) ou outros serviços.
+ * Centraliza a lógica de integração com GTM (dataLayer) e GA4 (gtag).
  */
 export function useAnalytics() {
   /**
    * Dispara um evento personalizado.
-   * Se houver um dataLayer (GTM), envia para lá. Caso contrário, apenas loga em desenvolvimento.
    */
-  const trackEvent = useCallback((eventName: AnalyticsEventName | "cta_click" | "section_view", params?: EventParams) => {
+  const trackEvent = useCallback((eventName: string, params?: Record<string, string | number | boolean | undefined | null>) => {
     // Log básico em desenvolvimento
     if (process.env.NODE_ENV === "development") {
       console.log(`[Analytics] Event: ${eventName}`, params);
     }
 
-    // Integração com dataLayer (GTM/GA4)
-    const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
-    if (typeof window !== "undefined" && win.dataLayer) {
+    if (typeof window === "undefined") return;
+
+    // GA4 (gtag)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const gtag = (window as any).gtag;
+    if (typeof gtag === "function") {
+      gtag("event", eventName, params);
+    }
+
+    // GTM (dataLayer)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any;
+    if (win.dataLayer) {
       win.dataLayer.push({
         event: eventName,
         ...params,
-      } as Record<string, unknown>);
+      });
     }
   }, []);
 
-  /**
-   * Atalho para rastreamento de cliques em CTAs.
-   */
-  const trackCtaClick = useCallback(
-    (label: string, href: string, section?: string) => {
-      trackEvent("cta_click", {
-        cta_label: label,
-        cta_href: href,
-        section_name: section,
-      });
-    },
-    [trackEvent]
-  );
-
-  /**
-   * Atalho para rastreamento de visualização de seções (impressions).
-   */
-  const trackSectionView = useCallback(
-    (sectionName: string, componentType: string) => {
-      trackEvent("section_view", {
-        section_name: sectionName,
-        component_type: componentType,
-      });
-    },
-    [trackEvent]
-  );
-
   return {
     trackEvent,
-    trackCtaClick,
-    trackSectionView,
+    // Atalhos específicos solicitados
+    leadFormSubmit: (source: string) => trackEvent("lead_form_submit", { source }),
+    leadFormError: (source: string, error: string) => trackEvent("lead_form_error", { source, error_msg: error }),
+    contactPhoneClick: (phone: string) => trackEvent("contact_phone_click", { phone }),
+    contactEmailClick: (email: string) => trackEvent("contact_email_click", { email }),
+    whatsappClick: (location: string) => trackEvent("whatsapp_click", { location }),
+    supplierCatalogClick: (supplierName: string) => trackEvent("supplier_catalog_click", { supplier_name: supplierName }),
+    externalLinkClick: (url: string, context: string) => trackEvent("external_link_click", { url, context }),
   };
 }
