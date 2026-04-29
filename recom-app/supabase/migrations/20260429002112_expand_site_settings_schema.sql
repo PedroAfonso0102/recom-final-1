@@ -1,5 +1,6 @@
 -- Expand site_settings schema to include all necessary fields for RECOM CMS
 ALTER TABLE public.site_settings 
+ADD COLUMN IF NOT EXISTS company_short_name text,
 ADD COLUMN IF NOT EXISTS company_full_name text,
 ADD COLUMN IF NOT EXISTS company_since text,
 ADD COLUMN IF NOT EXISTS company_cnpj text,

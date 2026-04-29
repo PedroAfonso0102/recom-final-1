@@ -42,7 +42,7 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
       links: row.social_links || {
         instagram: row.social_instagram,
         linkedin: row.social_linkedin,
-        youtube: row.social_youtube,
+        facebook: row.social_youtube,
       },
       seo: {
         defaultTitle: row.default_seo_title || row.seo_title,
