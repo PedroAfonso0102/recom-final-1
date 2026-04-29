@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { Mail, MessageSquare, Phone, Send, UserCheck } from "lucide-react";
 
 import { DataTable, EmptyState, EntityDrawer, FilterBar, StatusBadge, Toolbar } from "@/components/admin/admin-kit";
@@ -188,11 +188,11 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
   }
 
   // Update note local state when active lead changes
-  useMemo(() => {
+  useEffect(() => {
     if (activeLead) {
       setNote(activeLead.notes || "");
     }
-  }, [activeLead?.id, activeLead?.notes]);
+  }, [activeLead]);
 
   return (
     <div className="space-y-4">

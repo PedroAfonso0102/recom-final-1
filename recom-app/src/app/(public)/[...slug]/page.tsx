@@ -5,7 +5,7 @@ import { getPageBySlug, getSiteSettings } from "@/cms/queries";
 import { resolveCmsPreviewRequest } from "@/cms/preview";
 import { getCurrentAuthContext } from "@/lib/auth/utils";
 import { getCurrentAuthContext as getAuth } from "@/lib/auth/utils";
-import { buildSeoMetadata, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { buildSeoMetadata } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
@@ -53,4 +53,3 @@ export default async function CmsPublicPage({ params, searchParams }: PageProps)
 
   return <RenderPage pageData={pageData} preview={previewRequest.usePreview} />;
 }
-
