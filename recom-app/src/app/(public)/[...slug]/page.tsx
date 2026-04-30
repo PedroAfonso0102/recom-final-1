@@ -6,6 +6,7 @@ import { resolveCmsPreviewRequest } from "@/cms/preview";
 import { getCurrentAuthContext } from "@/lib/auth/utils";
 import { getCurrentAuthContext as getAuth } from "@/lib/auth/utils";
 import { buildSeoMetadata } from "@/lib/seo";
+import { ThemeProvider } from "@/components/public/ThemeProvider";
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
@@ -45,11 +46,18 @@ export default async function CmsPublicPage({ params, searchParams }: PageProps)
   const path = slug.join("/");
   const auth = await getCurrentAuthContext();
   const previewRequest = resolveCmsPreviewRequest({ requestedPreview: preview === "true", auth });
-  const pageData = await getPageBySlug(path, { preview: previewRequest.usePreview });
+  const [pageData, settings] = await Promise.all([
+    getPageBySlug(path, { preview: previewRequest.usePreview }),
+    getSiteSettings()
+  ]);
 
   if (!pageData) {
     notFound();
   }
 
-  return <RenderPage pageData={pageData} preview={previewRequest.usePreview} />;
+  return (
+    <ThemeProvider settings={settings} page={pageData.page}>
+      <RenderPage pageData={pageData} preview={previewRequest.usePreview} />
+    </ThemeProvider>
+  );
 }

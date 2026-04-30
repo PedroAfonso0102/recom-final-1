@@ -28,6 +28,19 @@ export const siteSettingsSchema = z.object({
     titleTemplate: z.string().trim().min(2, "Template de título inválido (ex: %s | RECOM)."),
     keywords: z.string().trim().optional().or(z.string().length(0)).nullable(),
   }),
+  theme: z.object({
+    primaryColor: z.string().trim().optional().nullable(),
+    secondaryColor: z.string().trim().optional().nullable(),
+    backgroundColor: z.string().trim().optional().nullable(),
+    textColor: z.string().trim().optional().nullable(),
+    buttonColor: z.string().trim().optional().nullable(),
+    buttonHoverColor: z.string().trim().optional().nullable(),
+    headingFont: z.string().trim().optional().nullable(),
+    bodyFont: z.string().trim().optional().nullable(),
+    fontWeight: z.string().trim().optional().nullable(),
+    headingSize: z.string().trim().optional().nullable(),
+    bodySize: z.string().trim().optional().nullable(),
+  }).optional(),
 });
 
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;

@@ -90,6 +90,10 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
               <Globe className="mr-2 h-4 w-4" />
               SEO Global
             </TabsTrigger>
+            <TabsTrigger value="theme">
+              <Globe className="mr-2 h-4 w-4" />
+              Tema Visual
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="company">
@@ -400,6 +404,76 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="theme">
+            <Card>
+              <CardHeader>
+                <CardTitle>Tema Global</CardTitle>
+                <CardDescription>
+                  Configurações visuais (Cores e Fontes) padrão aplicadas ao site.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="theme.primaryColor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cor Primária</FormLabel>
+                        <FormControl>
+                          <Input type="color" className="h-12 w-full p-1 cursor-pointer" {...field} value={field.value || "#0047AB"} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="theme.secondaryColor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cor Secundária</FormLabel>
+                        <FormControl>
+                          <Input type="color" className="h-12 w-full p-1 cursor-pointer" {...field} value={field.value || "#E63946"} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="theme.backgroundColor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cor de Fundo (Background)</FormLabel>
+                        <FormControl>
+                          <Input type="color" className="h-12 w-full p-1 cursor-pointer" {...field} value={field.value || "#ffffff"} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="theme.textColor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cor do Texto</FormLabel>
+                        <FormControl>
+                          <Input type="color" className="h-12 w-full p-1 cursor-pointer" {...field} value={field.value || "#1A1A1A"} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
         </Tabs>
       </form>
     </Form>

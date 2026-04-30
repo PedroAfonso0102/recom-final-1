@@ -17,6 +17,19 @@ export const cmsPageFormSchema = z.object({
   seoDescription: z.string().trim().max(160, "Descrição SEO muito longa.").optional().nullable().or(z.string().length(0)),
   ogImageUrl: z.string().trim().url("URL de imagem OG inválida.").optional().nullable().or(z.string().length(0)),
   status: cmsPageStatusSchema.default("draft"),
+  themeOverride: z.object({
+    primaryColor: z.string().trim().optional().nullable(),
+    secondaryColor: z.string().trim().optional().nullable(),
+    backgroundColor: z.string().trim().optional().nullable(),
+    textColor: z.string().trim().optional().nullable(),
+    buttonColor: z.string().trim().optional().nullable(),
+    buttonHoverColor: z.string().trim().optional().nullable(),
+    headingFont: z.string().trim().optional().nullable(),
+    bodyFont: z.string().trim().optional().nullable(),
+    fontWeight: z.string().trim().optional().nullable(),
+    headingSize: z.string().trim().optional().nullable(),
+    bodySize: z.string().trim().optional().nullable(),
+  }).optional(),
 });
 
 export const cmsCreatePageSchema = cmsPageFormSchema;
