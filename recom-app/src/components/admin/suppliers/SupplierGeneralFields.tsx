@@ -110,7 +110,7 @@ export function SupplierGeneralFields({ data, processes, onChange }: SupplierGen
         <label className={labelStyles}>Status</label>
         <select
           value={data.status}
-          onChange={e => onChange('status', e.target.value as any)}
+          onChange={e => onChange('status', e.target.value as Supplier['status'])}
           className="flex h-12 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 outline-none transition focus:ring-4 focus:ring-primary/5 focus:border-primary"
         >
           <option value="draft">Rascunho</option>

@@ -67,7 +67,7 @@ export function SupplierCatalogListEditor({ value, productLines, onChange }: Sup
             <p className="text-xs font-bold uppercase tracking-widest">Nenhum catálogo cadastrado</p>
           </div>
         )}
-        {value.map((catalog, index) => (
+        {value.map((catalog, _index) => (
           <div 
             key={catalog.id}
             className={cn(
@@ -160,7 +160,7 @@ export function SupplierCatalogListEditor({ value, productLines, onChange }: Sup
                     <Label className="text-[10px] font-bold uppercase text-slate-500">Status</Label>
                     <select
                       value={editingCatalog.status}
-                      onChange={e => updateCatalog(editingCatalog.id, { status: e.target.value as any })}
+                      onChange={e => updateCatalog(editingCatalog.id, { status: e.target.value as SupplierCatalog['status'] })}
                       className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
                     >
                       <option value="draft">Rascunho</option>

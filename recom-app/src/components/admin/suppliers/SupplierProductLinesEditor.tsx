@@ -59,7 +59,7 @@ export function SupplierProductLinesEditor({ value, onChange }: SupplierProductL
             <p className="text-xs font-bold uppercase tracking-widest">Nenhuma linha cadastrada</p>
           </div>
         )}
-        {value.map((line, index) => (
+        {value.map((line, _index) => (
           <div 
             key={line.id}
             className={cn(

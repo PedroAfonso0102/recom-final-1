@@ -70,7 +70,7 @@ export function SupplierMediaEditor({ value, onChange }: SupplierMediaEditorProp
             <p className="text-xs font-bold uppercase tracking-widest">Nenhuma mídia cadastrada</p>
           </div>
         )}
-        {value.map((media, index) => (
+        {value.map((media, _index) => (
           <div 
             key={media.id}
             className={cn(
@@ -139,7 +139,8 @@ export function SupplierMediaEditor({ value, onChange }: SupplierMediaEditorProp
                     <Label className="text-[10px] font-bold uppercase text-slate-500">Tipo</Label>
                     <select
                       value={editingMedia.type}
-                      onChange={e => updateMedia(editingMedia.id, { type: e.target.value as any })}
+                      value={editingMedia.type}
+                      onChange={e => updateMedia(editingMedia.id, { type: e.target.value as SupplierMediaItem['type'] })}
                       className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
                     >
                       <option value="image">Imagem</option>
