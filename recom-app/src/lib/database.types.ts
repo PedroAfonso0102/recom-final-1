@@ -570,6 +570,7 @@ export type Database = {
           slug: string
           status: string
           template_key: string | null
+          theme_override: Json | null
           title: string
           updated_at: string
           updated_by: string | null
@@ -592,6 +593,7 @@ export type Database = {
           slug: string
           status?: string
           template_key?: string | null
+          theme_override?: Json | null
           title: string
           updated_at?: string
           updated_by?: string | null
@@ -614,6 +616,7 @@ export type Database = {
           slug?: string
           status?: string
           template_key?: string | null
+          theme_override?: Json | null
           title?: string
           updated_at?: string
           updated_by?: string | null
@@ -844,6 +847,17 @@ export type Database = {
           seo_keywords: string | null
           social_links: Json
           title_template: string | null
+          theme_primary_color: string | null
+          theme_secondary_color: string | null
+          theme_background_color: string | null
+          theme_text_color: string | null
+          theme_button_color: string | null
+          theme_button_hover_color: string | null
+          theme_heading_font: string | null
+          theme_body_font: string | null
+          theme_font_weight: string | null
+          theme_heading_size: string | null
+          theme_body_size: string | null
           updated_at: string
           whatsapp: string | null
         }
@@ -867,6 +881,17 @@ export type Database = {
           seo_keywords?: string | null
           social_links?: Json
           title_template?: string | null
+          theme_primary_color?: string | null
+          theme_secondary_color?: string | null
+          theme_background_color?: string | null
+          theme_text_color?: string | null
+          theme_button_color?: string | null
+          theme_button_hover_color?: string | null
+          theme_heading_font?: string | null
+          theme_body_font?: string | null
+          theme_font_weight?: string | null
+          theme_heading_size?: string | null
+          theme_body_size?: string | null
           updated_at?: string
           whatsapp?: string | null
         }
@@ -890,6 +915,17 @@ export type Database = {
           seo_keywords?: string | null
           social_links?: Json
           title_template?: string | null
+          theme_primary_color?: string | null
+          theme_secondary_color?: string | null
+          theme_background_color?: string | null
+          theme_text_color?: string | null
+          theme_button_color?: string | null
+          theme_button_hover_color?: string | null
+          theme_heading_font?: string | null
+          theme_body_font?: string | null
+          theme_font_weight?: string | null
+          theme_heading_size?: string | null
+          theme_body_size?: string | null
           updated_at?: string
           whatsapp?: string | null
         }

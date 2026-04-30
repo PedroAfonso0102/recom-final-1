@@ -59,6 +59,19 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
         titleTemplate: row.title_template || "%s | RECOM",
         keywords: row.seo_keywords || "",
       },
+      theme: {
+        primaryColor: row.theme_primary_color,
+        secondaryColor: row.theme_secondary_color,
+        backgroundColor: row.theme_background_color,
+        textColor: row.theme_text_color,
+        buttonColor: row.theme_button_color,
+        buttonHoverColor: row.theme_button_hover_color,
+        headingFont: row.theme_heading_font,
+        bodyFont: row.theme_body_font,
+        fontWeight: row.theme_font_weight,
+        headingSize: row.theme_heading_size,
+        bodySize: row.theme_body_size,
+      }
     };
 
     const parsed = siteSettingsSchema.safeParse(mapped);
@@ -139,6 +152,17 @@ export async function updateSiteSettings(settings: SiteSettings) {
       default_seo_description: settings.seo.defaultDescription,
       seo_keywords: settings.seo.keywords,
       title_template: settings.seo.titleTemplate,
+      theme_primary_color: settings.theme?.primaryColor,
+      theme_secondary_color: settings.theme?.secondaryColor,
+      theme_background_color: settings.theme?.backgroundColor,
+      theme_text_color: settings.theme?.textColor,
+      theme_button_color: settings.theme?.buttonColor,
+      theme_button_hover_color: settings.theme?.buttonHoverColor,
+      theme_heading_font: settings.theme?.headingFont,
+      theme_body_font: settings.theme?.bodyFont,
+      theme_font_weight: settings.theme?.fontWeight,
+      theme_heading_size: settings.theme?.headingSize,
+      theme_body_size: settings.theme?.bodySize,
       updated_at: new Date().toISOString(),
     };
 

@@ -176,6 +176,19 @@ export async function getSiteSettings(): Promise<SiteSettings> {
         titleTemplate: String(row.title_template || fallback.seo.titleTemplate),
         keywords: typeof row.seo_keywords === "string" ? row.seo_keywords : "",
       },
+      theme: {
+        primaryColor: typeof row.theme_primary_color === "string" ? row.theme_primary_color : undefined,
+        secondaryColor: typeof row.theme_secondary_color === "string" ? row.theme_secondary_color : undefined,
+        backgroundColor: typeof row.theme_background_color === "string" ? row.theme_background_color : undefined,
+        textColor: typeof row.theme_text_color === "string" ? row.theme_text_color : undefined,
+        buttonColor: typeof row.theme_button_color === "string" ? row.theme_button_color : undefined,
+        buttonHoverColor: typeof row.theme_button_hover_color === "string" ? row.theme_button_hover_color : undefined,
+        headingFont: typeof row.theme_heading_font === "string" ? row.theme_heading_font : undefined,
+        bodyFont: typeof row.theme_body_font === "string" ? row.theme_body_font : undefined,
+        fontWeight: typeof row.theme_font_weight === "string" ? row.theme_font_weight : undefined,
+        headingSize: typeof row.theme_heading_size === "string" ? row.theme_heading_size : undefined,
+        bodySize: typeof row.theme_body_size === "string" ? row.theme_body_size : undefined,
+      }
     });
 
     if (parsed.success) {
