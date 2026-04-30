@@ -29,8 +29,8 @@ export default async function AdminDashboard() {
     const days = daysUntil(promotion.endsAt);
     return days !== null && days >= 0 && days <= 30;
   });
-  const fornecedoresSemCatalogo = suppliers.filter((supplier) => !supplier.catalogUrl && !supplier.eCatalogUrl && supplier.catalogs.length === 0);
-  const fornecedoresSemSeo = suppliers.filter((supplier) => !supplier.seoTitle || !supplier.seoDescription);
+  const fornecedoresSemCatalogo = suppliers.filter((supplier) => supplier.catalogs.length === 0);
+  const fornecedoresSemSeo = suppliers.filter((supplier) => !supplier.seo?.title || !supplier.seo?.description);
   const paginasComRascunho = pages.filter((page) => page.status === "draft");
 
   const workItems = [

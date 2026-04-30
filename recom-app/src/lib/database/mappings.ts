@@ -1,4 +1,4 @@
-import { Database } from "../database.types";
+import { Database, Json } from "../database.types";
 import { Supplier, SupplierSchema } from "@/cms/schemas/supplier.schema";
 import { Promotion, PromotionSchema } from "@/cms/schemas/promotion.schema";
 import { Process, ProcessSchema } from "@/cms/schemas/process.schema";
@@ -36,49 +36,53 @@ function normalizeLegacyStatus(status: string): "draft" | "active" | "archived" 
 }
 
 export function mapSupplierToInsert(data: Supplier): SupplierInsert {
+  const settings = (data as unknown as { settings?: { featured?: boolean } }).settings;
+  
   return {
     name: data.name,
     slug: data.slug || data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
     short_description: data.shortDescription,
-    long_description: data.longDescription,
+    long_description: data.description,
     status: normalizeLegacyStatus(data.status),
     sort_order: data.sortOrder,
     logo_url: normalize(data.logoUrl),
-    catalog_url: normalize(data.catalogUrl),
-    e_catalog_url: normalize(data.eCatalogUrl),
-    catalogs: data.catalogs,
+    catalog_url: normalize(data.websiteUrl), 
+    e_catalog_url: normalize(data.contactEmail),
+    catalogs: data.catalogs as unknown as Json,
     settings: {
-      show_menu: data.settings.showMenu,
-      show_promotions: data.settings.showPromotions,
-      show_processes: data.settings.showProcesses,
-      featured: data.settings.featured,
-    },
-    seo_title: normalize(data.seoTitle),
-    seo_description: normalize(data.seoDescription),
+      ...data.layout,
+      featured: settings?.featured ?? false,
+      media: data.media,
+      productLines: data.productLines,
+    } as unknown as Json,
+    seo_title: data.seo?.title || null,
+    seo_description: data.seo?.description || null,
     related_processes: (data.relatedProcesses && data.relatedProcesses.length > 0) ? data.relatedProcesses : null,
   } satisfies SupplierInsert;
 }
 
 export function mapSupplierToUpdate(data: Supplier): SupplierUpdate {
+  const settings = (data as unknown as { settings?: { featured?: boolean } }).settings;
+
   return {
     name: data.name,
     slug: data.slug,
     short_description: data.shortDescription,
-    long_description: data.longDescription,
+    long_description: data.description,
     status: normalizeLegacyStatus(data.status),
     sort_order: data.sortOrder,
     logo_url: normalize(data.logoUrl),
-    catalog_url: normalize(data.catalogUrl),
-    e_catalog_url: normalize(data.eCatalogUrl),
-    catalogs: data.catalogs,
+    catalog_url: normalize(data.websiteUrl),
+    e_catalog_url: normalize(data.contactEmail),
+    catalogs: data.catalogs as unknown as Json,
     settings: {
-      show_menu: data.settings.showMenu,
-      show_promotions: data.settings.showPromotions,
-      show_processes: data.settings.showProcesses,
-      featured: data.settings.featured,
-    },
-    seo_title: normalize(data.seoTitle),
-    seo_description: normalize(data.seoDescription),
+      ...data.layout,
+      featured: settings?.featured ?? false,
+      media: data.media,
+      productLines: data.productLines,
+    } as unknown as Json,
+    seo_title: data.seo?.title || null,
+    seo_description: data.seo?.description || null,
     related_processes: (data.relatedProcesses && data.relatedProcesses.length > 0) ? data.relatedProcesses : null,
     updated_at: new Date().toISOString(),
   } satisfies SupplierUpdate;

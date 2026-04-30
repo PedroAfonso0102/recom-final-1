@@ -29,8 +29,8 @@ export async function generateMetadata({ params }: SupplierDetailPageProps): Pro
   }
 
   return buildSeoMetadata({
-    title: supplier.seoTitle || `${supplier.name} | RECOM Metal Duro`,
-    description: supplier.seoDescription || supplier.shortDescription,
+    title: supplier.seo?.title || `${supplier.name} | RECOM Metal Duro`,
+    description: supplier.seo?.description || supplier.shortDescription,
     slug: `fornecedores-catalogos/${slug}`,
     image: supplier.logoUrl,
     siteSettings: settings
@@ -117,7 +117,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
 
             <div className="border-l-2 border-primary/20 pl-6">
               <p className="text-base leading-relaxed text-muted-foreground whitespace-pre-line md:text-lg">
-                {supplier.longDescription}
+                {supplier.description}
               </p>
             </div>
 
@@ -147,31 +147,34 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </RecomButton>
-              {supplier.catalogUrl ? (
-                <TrackClick eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "main" }}>
+              {(() => {
+                const primaryCatalog = supplier.catalogs?.find(c => c.featured) || supplier.catalogs?.[0];
+                return primaryCatalog ? (
+                  <TrackClick eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "main" }}>
+                    <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
+                      <a href={primaryCatalog.fileUrl} target="_blank" rel="noopener noreferrer">
+                        Acessar catálogo oficial
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                      </a>
+                    </RecomButton>
+                  </TrackClick>
+                ) : (
                   <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
-                    <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                      Acessar catálogo oficial
-                      <ExternalLink className="ml-2 h-4 w-4" />
-                    </a>
+                    <Link href={contactHref}>Falar com a RECOM sobre esta marca</Link>
                   </RecomButton>
-                </TrackClick>
-              ) : (
-                <RecomButton asChild size="lg" intent="outline" className="h-12 px-8">
-                  <Link href={contactHref}>Falar com a RECOM sobre esta marca</Link>
-                </RecomButton>
-              )}
+                );
+              })()}
               {supplier.catalogs && supplier.catalogs.length > 0 && (
                 <div className="w-full pt-4">
                   <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/55">
                     Catálogos adicionais
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    {supplier.catalogs.map((cat, idx) => (
-                      <TrackClick key={idx} eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "additional", label: cat.label }}>
+                    {supplier.catalogs.filter(c => c.status === "published").map((cat, idx) => (
+                      <TrackClick key={idx} eventName="supplier_catalog_click" params={{ supplier_name: supplier.name, type: "additional", label: cat.title }}>
                         <RecomButton asChild size="sm" intent="outline" className="h-10 px-4 text-xs">
-                          <a href={cat.url} target="_blank" rel="noopener noreferrer">
-                            {cat.label}
+                          <a href={cat.fileUrl} target="_blank" rel="noopener noreferrer">
+                            {cat.title}
                             <ExternalLink className="ml-2 h-3 w-3" />
                           </a>
                         </RecomButton>
@@ -195,7 +198,7 @@ export default async function SupplierDetailPage({ params }: SupplierDetailPageP
       >
         <div className="space-y-6">
           <p className="text-[16px] leading-relaxed text-muted-foreground whitespace-pre-line">
-            {supplier.longDescription}
+            {supplier.description}
           </p>
           <div className="flex flex-wrap gap-3">
             <RecomButton asChild intent="outline" className="h-11 px-6">

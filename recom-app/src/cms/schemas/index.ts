@@ -6,6 +6,7 @@ export * from "./page.schema";
 export * from "./process.schema";
 export * from "./promotion.schema";
 export * from "./section.schema";
+export * from "./seo.schema";
 export * from "./site-settings.schema";
 export * from "./supplier.schema";
 export * from "./text-section.schema";

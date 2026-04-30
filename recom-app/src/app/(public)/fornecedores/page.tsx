@@ -75,6 +75,10 @@ export default async function FornecedoresPage() {
                 ? "/assets/images/MITSUBISHI_MATERIALS_BRASIL_Colour_RGB.svg" 
                 : (supplier.logoUrl || "");
 
+              // Get primary catalog URL from nested catalogs
+              const primaryCatalog = supplier.catalogs?.find(c => c.featured) || supplier.catalogs?.[0];
+              const catalogUrl = primaryCatalog?.fileUrl;
+
               return (
               <SupplierCard
                   key={supplier.id ?? supplier.slug}
@@ -83,8 +87,8 @@ export default async function FornecedoresPage() {
                   logoUrl={logoUrl}
                   isAuthorized={isMitsubishi}
                   internalLink={`/fornecedores-catalogos/${supplier.slug}`}
-                  externalCatalogLink={supplier.catalogUrl || undefined}
-                  catalogAvailable={!!supplier.catalogUrl}
+                  externalCatalogLink={catalogUrl || undefined}
+                  catalogAvailable={!!catalogUrl}
                   contactLink={`/contato?fornecedor=${encodeURIComponent(supplier.slug)}&marca=${encodeURIComponent(supplier.name)}`}
                   contactLabel="Falar com a RECOM sobre esta marca"
                   processes={getProcessNames(supplier.relatedProcesses)}
@@ -111,13 +115,15 @@ export default async function FornecedoresPage() {
                 {supplier.name}
               </h4>
               <div className="flex flex-col gap-2">
-                {supplier.catalogUrl ? (
-                  <RecomButton asChild intent="link" className="h-auto justify-start px-0 text-[11px] font-bold uppercase tracking-[0.1em] text-recom-blue">
-                    <a href={supplier.catalogUrl} target="_blank" rel="noopener noreferrer">
-                      Download PDF
-                      <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                    </a>
-                  </RecomButton>
+                {supplier.catalogs && supplier.catalogs.length > 0 ? (
+                  supplier.catalogs.filter(c => c.status === "published").slice(0, 2).map((catalog) => (
+                    <RecomButton key={catalog.id} asChild intent="link" className="h-auto justify-start px-0 text-[11px] font-bold uppercase tracking-[0.1em] text-recom-blue">
+                      <a href={catalog.fileUrl} target="_blank" rel="noopener noreferrer">
+                        {catalog.title || "Download PDF"}
+                        <ExternalLink className="ml-2 h-3.5 w-3.5" />
+                      </a>
+                    </RecomButton>
+                  ))
                 ) : (
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     PDF sob consulta

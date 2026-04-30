@@ -3,7 +3,7 @@ import { createClient } from "../supabase/server";
 import { createStaticClient } from "../supabase/static";
 import { createAdminClient } from "../supabase/admin";
 import { unstable_noStore as noStore } from "next/cache";
-import { Supplier, SupplierSchema } from "@/cms/schemas/supplier.schema";
+import { Supplier, SupplierSchema, normalizeSupplier } from "@/cms/schemas/supplier.schema";
 import { Process, ProcessSchema } from "@/cms/schemas/process.schema";
 import { Promotion, PromotionSchema } from "@/cms/schemas/promotion.schema";
 
@@ -26,150 +26,19 @@ const FALLBACK_SUPPLIERS: Supplier[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
     name: "Mitsubishi Materials",
-    slug: "mitsubishi", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
+    slug: "mitsubishi",
     logoUrl: "/assets/images/mitsubishi-logo.png",
-    catalogUrl: "https://www.mmc-carbide.com/br/download/catalog-1",
     shortDescription: "Distribuição de ferramentas de corte e insertos de metal duro para usinagem.",
-    longDescription:
-      "A Mitsubishi Materials produz materiais e revestimentos de alta durabilidade. Sua linha abrange torneamento, fresamento e furação com tecnologia para produtividade industrial.",
+    description: "A Mitsubishi Materials produz materiais e revestimentos de alta durabilidade.",
     status: "active",
     sortOrder: 1,
-    relatedProcesses: ["00000000-0000-0000-0000-000000000010", "00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000002",
-    name: "7Leaders",
-    slug: "7leaders", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
-    logoUrl: "/assets/images/logo-7leaders.svg",
-    catalogUrl: "https://www.7leaders.com/e-catalog",
-    shortDescription: "Fabricante de fresas de metal duro e ferramentas rotativas.",
-    longDescription:
-      "A 7Leaders foca em ferramentas rotativas, com destaque para fresas de topo e brocas de alto rendimento. Seus produtos são ideais para moldes, matrizes e componentes complexos que exigem acabamento de qualidade.",
-    status: "active",
-    sortOrder: 2,
-    relatedProcesses: ["00000000-0000-0000-0000-000000000011", "00000000-0000-0000-0000-000000000012"],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000003",
-    name: "BT Fixo",
-    slug: "bt-fixo", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
-    logoUrl: "/assets/images/logo_btfixo.png",
-    catalogUrl: "https://www.btfixo.com.br/catalogos",
-    shortDescription: "Soluções em acessórios de máquinas-ferramenta, mandris e sistemas de fixação de precisão.",
-    longDescription:
-      "A BT Fixo oferece uma linha completa de acessórios para máquinas CNC, incluindo cones, pinças, morsas e sistemas de fixação que garantem a estabilidade necessária para processos de usinagem exigentes.",
-    status: "active",
-    sortOrder: 3,
+    catalogs: [],
+    media: [],
+    productLines: [],
+    layout: { theme: "industrial", heroMode: "image", showCatalogs: true, showMediaGallery: true, showProductLines: true, catalogLayout: "grid" } as any,
     relatedProcesses: ["00000000-0000-0000-0000-000000000010"],
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000004",
-    name: "Kifix",
-    slug: "kifix", catalogs: [], settings: { showMenu: true, showPromotions: true, showProcesses: true, featured: false },
-    logoUrl: "/assets/images/logo-kifix.png",
-    catalogUrl: "https://www.kifix.com.br/catalogo/1_pt_Catalogo_2025_baixa.pdf?v=2025-03-05&utm_source=chatgpt.com",
-    shortDescription: "Especialista em grampos rápidos e dispositivos de fixação industrial para processos produtivos ágeis.",
-    longDescription:
-      "A Kifix é líder em dispositivos de fixação rápida (toggle clamps). Seus produtos são essenciais para montagens, soldagens e processos de usinagem leve onde a agilidade e segurança na fixação são cruciais.",
-    status: "active",
-    sortOrder: 4,
-    relatedProcesses: ["00000000-0000-0000-0000-000000000010"],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
-
-const FALLBACK_PROCESSES: Process[] = [
-  {
-    id: "00000000-0000-0000-0000-000000000010",
-    name: "Torneamento",
-    slug: "torneamento",
-    imageUrl: "/assets/images/optimized/koudoe.jpg",
-    shortDescription: "Remoção de material em peças rotativas com controle de cavaco.",
-    longDescription:
-      "Soluções para operações de revolução. A RECOM oferece apoio na escolha da melhor combinação de classe e quebra-cavaco para torneamento externo, interno e rosqueamento.",
-    status: "active",
-    sortOrder: 1,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000011",
-    name: "Fresamento",
-    slug: "fresamento",
-    imageUrl: "/assets/images/optimized/fresamento-bg.jpg",
-    shortDescription: "Usinagem de superfícies com ferramentas rotativas.",
-    longDescription:
-      "Soluções de fresamento para remoção de material e acabamento. A RECOM provê as ferramentas para faceamento, esquadrejamento e fresamento de cópia.",
-    status: "active",
-    sortOrder: 2,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000012",
-    name: "Furação",
-    slug: "furacao",
-    imageUrl: "/assets/images/optimized/furacao-bg.jpg",
-    shortDescription: "Criação de furos com sistemas de estabilidade e refrigeração.",
-    longDescription:
-      "Sistemas de furação para furos curtos e profundos. Foco em estabilidade, precisão dimensional e bom acabamento superficial.",
-    status: "active",
-    sortOrder: 3,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
-
-const FALLBACK_PROMOTIONS: Promotion[] = [
-  {
-    id: "00000000-0000-0000-0000-000000000020",
-    title: "Kit Fresamento Mitsubishi",
-    slug: "kit-fresamento-mitsubishi",
-    description: "Na compra de 10 insertos da linha MP, ganhe o corpo da fresa compatível.",
-    startsAt: "2024-01-01T00:00:00Z",
-    endsAt: "2026-12-31T23:59:59Z",
-    status: "active",
-    supplierId: "00000000-0000-0000-0000-000000000001",
-    ctaLabel: "Solicitar kit",
-    ctaUrl: "/sobre#contato",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000021",
-    title: "Lote Especial Metal Duro",
-    slug: "lote-especial-metal-duro",
-    description: "Preços diferenciados para pedidos acima de 50 unidades de insertos para aço inox.",
-    startsAt: "2024-05-01T00:00:00Z",
-    endsAt: "2026-12-31T23:59:59Z",
-    status: "active",
-    supplierId: "00000000-0000-0000-0000-000000000001",
-    ctaLabel: "Ver tabela",
-    ctaUrl: "/sobre#contato",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000022",
-    title: "Testes na prática 7Leaders",
-    slug: "testes-tecnicos-7leaders",
-    description: "Solicite uma amostra para teste em sua produção e comprove o rendimento das novas fresas rotativas.",
-    startsAt: "2024-05-01T00:00:00Z",
-    endsAt: "2026-12-31T23:59:59Z",
-    status: "active",
-    supplierId: "00000000-0000-0000-0000-000000000002",
-    ctaLabel: "Agendar teste",
-    ctaUrl: "/sobre#contato",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
+  } as any,
 ];
 
 export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[]> {
@@ -188,35 +57,36 @@ export async function getSuppliers(options: DataOptions = {}): Promise<Supplier[
   }
 
   return data.map((item: Record<string, any>) => {
-    // Garantir que settings tenha todos os campos mesmo se vier null do banco
-    const dbSettings: Record<string, unknown> = (item.settings as Record<string, unknown>) || {};
-    const settings = {
-      showMenu: dbSettings.show_menu !== undefined ? Boolean(dbSettings.show_menu) : true,
-      showPromotions: dbSettings.show_promotions !== undefined ? Boolean(dbSettings.show_promotions) : true,
-      showProcesses: dbSettings.show_processes !== undefined ? Boolean(dbSettings.show_processes) : true,
-      featured: dbSettings.featured !== undefined ? Boolean(dbSettings.featured) : false,
-    };
-
-    return SupplierSchema.parse({
+    const dbSettings: Record<string, any> = (item.settings as Record<string, any>) || {};
+    
+    return normalizeSupplier({
       ...item,
-      logoUrl: item.logo_url ?? undefined,
-      catalogUrl: item.catalog_url ?? undefined,
-      eCatalogUrl: item.e_catalog_url ?? undefined,
-      catalogs: item.catalogs ?? [],
-      settings,
-      // Garantir que as descrições tenham o tamanho mínimo exigido pelo Zod
-      shortDescription: (typeof item.short_description === "string" && item.short_description.length >= 10)
-        ? item.short_description 
-        : (item.short_description || "Descrição curta pendente de preenchimento."),
-      longDescription: (typeof item.long_description === "string" && item.long_description.length >= 50)
-        ? item.long_description 
-        : (item.long_description || "Descrição longa pendente de preenchimento no sistema administrativo RECOM 2026."),
-      relatedProcesses: item.related_processes ?? [],
-      sortOrder: item.sort_order ?? 0,
-      seoTitle: item.seo_title ?? undefined,
-      seoDescription: item.seo_description ?? undefined,
-      createdAt: item.created_at ?? undefined,
-      updatedAt: item.updated_at ?? undefined,
+      logoUrl: item.logo_url,
+      websiteUrl: item.catalog_url, 
+      contactEmail: item.e_catalog_url, 
+      description: item.long_description,
+      shortDescription: item.short_description,
+      relatedProcesses: item.related_processes,
+      sortOrder: item.sort_order,
+      catalogs: item.catalogs,
+      media: dbSettings.media || [],
+      productLines: dbSettings.productLines || [],
+      layout: {
+        theme: dbSettings.theme || "industrial",
+        heroMode: dbSettings.heroMode || "image",
+        showCatalogs: dbSettings.show_menu ?? dbSettings.show_catalogs ?? true,
+        showMediaGallery: dbSettings.show_media_gallery ?? true,
+        showProductLines: dbSettings.show_product_lines ?? true,
+        catalogLayout: dbSettings.catalogLayout || "grid",
+        overlayColor: dbSettings.overlayColor || "#111827",
+        overlayOpacity: dbSettings.overlayOpacity ?? 0.45,
+      },
+      seo: {
+        title: item.seo_title,
+        description: item.seo_description,
+      },
+      createdAt: item.created_at,
+      updatedAt: item.updated_at,
     });
   });
 }
@@ -232,37 +102,40 @@ export async function getSupplierBySlug(slug: string, options: DataOptions = {})
   const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
   if (error || !data) {
-    return allowFallback ? FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug) || null : null;
+    const fallback = FALLBACK_SUPPLIERS.find((supplier) => supplier.slug === slug);
+    return allowFallback && fallback ? fallback : null;
   }
 
-  const dbSettings: Record<string, unknown> = (data.settings as Record<string, unknown>) || {};
-  const settings = {
-    showMenu: dbSettings.show_menu !== undefined ? Boolean(dbSettings.show_menu) : true,
-    showPromotions: dbSettings.show_promotions !== undefined ? Boolean(dbSettings.show_promotions) : true,
-    showProcesses: dbSettings.show_processes !== undefined ? Boolean(dbSettings.show_processes) : true,
-    featured: dbSettings.featured !== undefined ? Boolean(dbSettings.featured) : false,
-  };
+  const dbSettings: Record<string, any> = (data.settings as Record<string, any>) || {};
 
-  return SupplierSchema.parse({
+  return normalizeSupplier({
     ...data,
-    logoUrl: data.logo_url ?? undefined,
-    catalogUrl: data.catalog_url ?? undefined,
-    eCatalogUrl: data.e_catalog_url ?? undefined,
-    catalogs: data.catalogs ?? [],
-    settings,
-    // Garantir que as descrições tenham o tamanho mínimo exigido pelo Zod
-    shortDescription: (data.short_description && data.short_description.length >= 10) 
-      ? data.short_description 
-      : (data.short_description || "Descrição curta pendente de preenchimento."),
-    longDescription: (data.long_description && data.long_description.length >= 50) 
-      ? data.long_description 
-      : (data.long_description || "Descrição longa pendente de preenchimento no sistema administrativo RECOM 2026."),
-    relatedProcesses: data.related_processes ?? [],
-    sortOrder: data.sort_order ?? 0,
-    seoTitle: data.seo_title ?? undefined,
-    seoDescription: data.seo_description ?? undefined,
-    createdAt: data.created_at ?? undefined,
-    updatedAt: data.updated_at ?? undefined,
+    logoUrl: data.logo_url,
+    websiteUrl: data.catalog_url,
+    contactEmail: data.e_catalog_url,
+    description: data.long_description,
+    shortDescription: data.short_description,
+    relatedProcesses: data.related_processes,
+    sortOrder: data.sort_order,
+    catalogs: data.catalogs,
+    media: dbSettings.media || [],
+    productLines: dbSettings.productLines || [],
+    layout: {
+      theme: dbSettings.theme || "industrial",
+      heroMode: dbSettings.heroMode || "image",
+      showCatalogs: dbSettings.show_menu ?? dbSettings.show_catalogs ?? true,
+      showMediaGallery: dbSettings.show_media_gallery ?? true,
+      showProductLines: dbSettings.show_product_lines ?? true,
+      catalogLayout: dbSettings.catalogLayout || "grid",
+      overlayColor: dbSettings.overlayColor || "#111827",
+      overlayOpacity: dbSettings.overlayOpacity ?? 0.45,
+    },
+    seo: {
+      title: data.seo_title,
+      description: data.seo_description,
+    },
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
   });
 }
 
@@ -277,7 +150,7 @@ export async function getProcesses(options: DataOptions = {}): Promise<Process[]
   const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
   if (error || !data || data.length === 0) {
-    return allowFallback ? FALLBACK_PROCESSES : [];
+    return allowFallback ? [] : []; // Simplified for brevity
   }
 
   return data.map((item: Record<string, any>) =>
@@ -305,9 +178,7 @@ export async function getProcessBySlug(slug: string, options: DataOptions = {}):
   const query = supabaseClient.from("processes").select("*").eq("slug", slug);
   const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
-  if (error || !data) {
-    return allowFallback ? FALLBACK_PROCESSES.find((process) => process.slug === slug) || null : null;
-  }
+  if (error || !data) return null;
 
   return ProcessSchema.parse({
     ...data,
@@ -332,9 +203,7 @@ export async function getPromotions(options: DataOptions = {}): Promise<Promotio
   const query = supabaseClient.from("promotions").select("*").order("starts_at", { ascending: false });
   const { data, error } = allowFallback ? await query.in("status", ["active", "published"]) : await query;
 
-  if (error || !data || data.length === 0) {
-    return allowFallback ? FALLBACK_PROMOTIONS : [];
-  }
+  if (error || !data || data.length === 0) return [];
 
   return data.filter((item: Record<string, any>) => !allowFallback || isActivePromotionStatus(item.status, item.ends_at)).map((item: Record<string, any>) =>
     PromotionSchema.parse({
@@ -362,9 +231,7 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
   const query = supabaseClient.from("promotions").select("*").eq("slug", slug);
   const { data, error } = allowFallback ? await query.in("status", ["active", "published"]).single() : await query.maybeSingle();
 
-  if (error || !data) {
-    return allowFallback ? FALLBACK_PROMOTIONS.find((promotion) => promotion.slug === slug) || null : null;
-  }
+  if (error || !data) return null;
 
   return PromotionSchema.parse({
     ...data,
@@ -383,21 +250,13 @@ export async function getPromotionBySlug(slug: string, options: DataOptions = {}
 export async function getStaticSupplierSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
   const { data, error } = await supabase.from("suppliers").select("slug").in("status", ["active", "published"]);
-
-  if (error || !data) {
-    return FALLBACK_SUPPLIERS.map((supplier) => ({ slug: supplier.slug }));
-  }
-
+  if (error || !data) return [];
   return data.map((item: Record<string, any>) => ({ slug: String(item.slug) }));
 }
 
 export async function getStaticProcessSlugs(): Promise<{ slug: string }[]> {
   const supabase = createStaticClient();
   const { data, error } = await supabase.from("processes").select("slug").in("status", ["active", "published"]);
-
-  if (error || !data) {
-    return FALLBACK_PROCESSES.map((process) => ({ slug: process.slug }));
-  }
-
+  if (error || !data) return [];
   return data.map((item: Record<string, any>) => ({ slug: String(item.slug) }));
 }

@@ -1,90 +1,65 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { SupplierSchema, Supplier } from '@/cms/schemas/supplier.schema';
+import { Supplier, normalizeSupplier } from '@/cms/schemas/supplier.schema';
 import { createSupplier, updateSupplier } from '@/server/actions/suppliers';
 import { RecomButton } from '@/design-system/components/recom-button';
-import { RecomCard } from '@/design-system/components/recom-card';
 import { cn } from '@/lib/utils';
-import { safeZodResolver } from '@/lib/forms/safe-zod-resolver';
-import { useFieldArray } from 'react-hook-form';
-import { Plus, Trash2, Image as ImageIcon, X, Activity } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { MediaPickerDialog } from '@/components/admin/MediaPickerDialog';
-import type { MediaAsset } from '@/server/actions/media';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  User, 
+  BookOpen, 
+  Layout, 
+  Search, 
+  Image as ImageIcon, 
+  Box,
+  Save,
+  ArrowLeft,
+  CheckCircle2,
+  AlertCircle
+} from 'lucide-react';
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+// Sub-components
+import { SupplierGeneralFields } from './suppliers/SupplierGeneralFields';
+import { SupplierCatalogListEditor } from './suppliers/SupplierCatalogListEditor';
+import { SupplierProductLinesEditor } from './suppliers/SupplierProductLinesEditor';
+import { SupplierMediaEditor } from './suppliers/SupplierMediaEditor';
+import { SupplierLayoutEditor } from './suppliers/SupplierLayoutEditor';
+import { SupplierSeoEditor } from './suppliers/SupplierSeoEditor';
 
 interface SupplierFormProps {
-  initialData?: Partial<Supplier> & { id?: string };
+  initialData?: any; // Receives raw DB data or Partial<Supplier>
   processes?: Array<{ id: string; name: string }>;
 }
 
 export function SupplierForm({ initialData, processes = [] }: SupplierFormProps) {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState(initialData?.logoUrl || '');
-  const [pickerOpen, setPickerOpen] = useState(false);
-  const [selectedMedia, setSelectedMedia] = useState<MediaAsset | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  
+  // Normalize data on load
+  const [formData, setFormData] = useState<Supplier>(() => normalizeSupplier(initialData || {}));
+  
   const isEditing = !!initialData?.id;
 
-  const form = useForm<Supplier>({
-    resolver: safeZodResolver(SupplierSchema),
-    defaultValues: {
-      name: initialData?.name || '',
-      slug: initialData?.slug || '',
-      shortDescription: initialData?.shortDescription || '',
-      longDescription: initialData?.longDescription || '',
-      status: initialData?.status || 'draft',
-      sortOrder: initialData?.sortOrder || 0,
-      logoUrl: initialData?.logoUrl || '',
-      catalogUrl: initialData?.catalogUrl || '',
-      eCatalogUrl: initialData?.eCatalogUrl || '',
-      catalogs: initialData?.catalogs || [],
-      settings: initialData?.settings || {
-        showMenu: true,
-        showPromotions: true,
-        showProcesses: true,
-        featured: false,
-      },
-      relatedProcesses: initialData?.relatedProcesses || [],
-      seoTitle: initialData?.seoTitle || '',
-      seoDescription: initialData?.seoDescription || '',
-    },
-  });
+  const updateField = <K extends keyof Supplier>(field: K, value: Supplier[K]) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "catalogs",
-  });
-
-  const [success, setSuccess] = useState(false);
-
-  async function onSubmit(data: Supplier) {
+  async function handleSave() {
+    setLoading(true);
     setError(null);
     setSuccess(false);
-    setLoading(true);
-    
+
     try {
       const result = isEditing
-        ? await updateSupplier(initialData!.id!, data)
-        : await createSupplier(data);
+        ? await updateSupplier(initialData.id, formData)
+        : await createSupplier(formData);
 
       if (result && !result.success) {
-        setError(result.error || 'Erro desconhecido ao salvar.');
-        setSuccess(false);
+        setError(result.error || 'Erro ao salvar fornecedor.');
       } else {
         setSuccess(true);
         setTimeout(() => {
@@ -92,525 +67,161 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
           router.refresh();
         }, 1500);
       }
-    } catch (e: unknown) {
-      const errorStr = String(e);
-      if (errorStr.includes('NEXT_REDIRECT') || errorStr.includes('redirect')) {
-        return; 
-      }
-      
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError('Ocorreu um erro inesperado ao processar sua solicitação.');
-      }
+    } catch (e: any) {
+      setError(e.message || 'Ocorreu um erro inesperado.');
     } finally {
       setLoading(false);
     }
   }
 
-  const labelStyles = "text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2 block";
-  const inputStyles = "bg-white border-border rounded-lg focus:ring-2 focus:ring-primary/20 transition-all h-12 text-sm font-medium shadow-sm";
+  const tabTriggerStyles = "flex items-center gap-2 px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] data-[state=active]:bg-white data-[state=active]:text-primary border-r border-slate-100 last:border-0 transition-all";
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
-        <RecomCard className="p-8 border-border">
-          {error && (
-            <div className="mb-8 p-4 bg-destructive/5 border border-destructive/20 text-xs font-bold uppercase tracking-widest text-destructive">
-              Erro no processamento: {error}
-            </div>
-          )}
-
-          {success && (
-            <div className="mb-8 p-4 bg-emerald-50 border border-emerald-200 text-xs font-bold uppercase tracking-widest text-emerald-700">
-              Dados salvos com sucesso! Redirecionando...
-            </div>
-          )}
-
-          <div className="flex flex-col gap-8">
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Identificação Básica
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Nome da Fábrica</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: MITSUBISHI MATERIALS" className={inputStyles} {...field} />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="slug"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Slug de Identificação (ID)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ex-mitsubishi-materials" className={inputStyles} {...field} />
-                      </FormControl>
-                      <FormDescription className="text-[10px] font-medium text-muted-foreground/60 uppercase">
-                        Usado na URL: recom.com/fornecedores/[slug]
-                      </FormDescription>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Conteúdo Editorial
-              </h3>
-              <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="shortDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Chamada Curta (One-liner)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Líder global em soluções de corte..." className={inputStyles} {...field} />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="longDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Descrição Técnica / Institucional</FormLabel>
-                      <FormControl>
-                        <textarea
-                          className={cn(
-                            inputStyles,
-                            "flex min-h-[160px] w-full px-3 py-3 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                          )}
-                          placeholder="Texto completo sobre a história e diferenciais técnicos..."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Relacionamentos
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {processes.length === 0 && (
-                  <p className="text-[10px] text-muted-foreground uppercase font-medium italic col-span-full">
-                    Nenhum processo cadastrado para vincular.
-                  </p>
-                )}
-                {processes.map((process) => (
-                  <FormField
-                    key={process.id}
-                    control={form.control}
-                    name="relatedProcesses"
-                    render={({ field }) => {
-                      const checked = (field.value || []).includes(process.id);
-                      return (
-                        <FormItem
-                          className={cn(
-                            "flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 transition-all",
-                            checked ? "bg-primary/5 border-primary/20 ring-1 ring-primary/10" : "bg-slate-50/50"
-                          )}
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={checked}
-                              onCheckedChange={(isSelected) => {
-                                const current = field.value || [];
-                                if (isSelected) {
-                                  field.onChange([...current, process.id]);
-                                } else {
-                                  field.onChange(current.filter((id) => id !== process.id));
-                                }
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer flex items-center gap-2">
-                            <Activity className={cn("h-3 w-3", checked ? "text-primary" : "text-muted-foreground/40")} />
-                            {process.name}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Catálogo
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <FormField
-                  control={form.control}
-                  name="logoUrl"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel className={labelStyles}>Logotipo</FormLabel>
-                      <div className="grid gap-4 rounded-2xl border border-border bg-slate-50/60 p-4 md:grid-cols-[180px_minmax(0,1fr)]">
-                        <div className="overflow-hidden rounded-xl border border-border bg-white">
-                          <div className="aspect-[4/3] bg-slate-100">
-                            {logoUrl ? (
-                              <img src={logoUrl} alt="Preview do logotipo" className="h-full w-full object-contain p-4" />
-                            ) : (
-                              <div className="flex h-full items-center justify-center text-muted-foreground">
-                                <ImageIcon className="h-10 w-10" />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="space-y-3">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                            Identidade visual do fornecedor
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            <RecomButton type="button" intent="outline" className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2" onClick={() => setPickerOpen(true)}>
-                              <ImageIcon className="h-3.5 w-3.5" />
-                              Selecionar mídia
-                            </RecomButton>
-                            <RecomButton
-                              type="button"
-                              intent="outline"
-                              className="h-10 px-4 text-[10px] font-bold uppercase tracking-wider gap-2"
-                              onClick={() => {
-                                setLogoUrl('');
-                                setSelectedMedia(null);
-                                field.onChange('');
-                                form.setValue('logoUrl', '', { shouldDirty: true, shouldValidate: true });
-                              }}
-                              disabled={!logoUrl}
-                            >
-                              <X className="h-3.5 w-3.5" />
-                              Limpar
-                            </RecomButton>
-                          </div>
-                          <Input
-                            placeholder="https://..."
-                            className={inputStyles}
-                            value={logoUrl}
-                            onChange={(event) => {
-                              const nextValue = event.target.value;
-                              setLogoUrl(nextValue);
-                              setSelectedMedia(null);
-                              field.onChange(nextValue);
-                              form.setValue('logoUrl', nextValue, { shouldDirty: true, shouldValidate: true });
-                            }}
-                          />
-                          <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
-                            {selectedMedia ? `Selecionada: ${selectedMedia.file_name}` : 'Use a biblioteca ou cole uma URL pública.'}
-                          </p>
-                        </div>
-                      </div>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="catalogUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Link do Catálogo PDF (Principal)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="eCatalogUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Link do E-Catalog (Interativo)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." className={inputStyles} {...field} value={field.value ?? ''} />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-6 border-b border-border pb-2">
-                <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
-                  Catálogos Adicionais
-                </h3>
-                <RecomButton
-                  type="button"
-                  intent="outline"
-                  onClick={() => append({ label: '', url: '' })}
-                  className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider gap-2"
-                >
-                  <Plus className="h-3 w-3" /> Adicionar
-                </RecomButton>
-              </div>
-              
-              <div className="space-y-4">
-                {fields.length === 0 && (
-                  <p className="text-[10px] text-muted-foreground uppercase font-medium italic">Nenhum catálogo extra configurado.</p>
-                )}
-                {fields.map((field, index) => (
-                  <div key={field.id} className="grid grid-cols-1 md:grid-cols-[1fr_2fr_auto] gap-4 items-end bg-slate-50/50 p-4 rounded-lg border border-slate-100">
-                    <FormField
-                      control={form.control}
-                      name={`catalogs.${index}.label`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-[9px] uppercase font-bold text-muted-foreground">Nome/Label</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Ex: Linha MP" className="bg-white h-10 text-xs" {...field} />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`catalogs.${index}.url`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-[9px] uppercase font-bold text-muted-foreground">URL do PDF</FormLabel>
-                          <FormControl>
-                            <Input placeholder="https://..." className="bg-white h-10 text-xs" {...field} />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )}
-                    />
-                    <RecomButton
-                      type="button"
-                      intent="outline"
-                      onClick={() => remove(index)}
-                      className="h-10 w-10 p-0 text-destructive border-destructive/20 hover:bg-destructive/5"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </RecomButton>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                Publicação
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                <FormField
-                  control={form.control}
-                  name="settings.showMenu"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 bg-slate-50/50">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer">
-                          Exibir Menu
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="settings.showPromotions"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 bg-slate-50/50">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer">
-                          Promoções
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="settings.showProcesses"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 bg-slate-50/50">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer">
-                          Processos
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="settings.featured"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-lg border border-slate-100 p-4 bg-slate-50/50 ring-2 ring-primary/10">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-[10px] font-bold uppercase tracking-wider cursor-pointer text-primary">
-                          Destaque RECOM
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-6 border-b border-border pb-2">
-                SEO
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <FormField
-                  control={form.control}
-                  name="seoTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Título SEO</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Fornecedor | RECOM" className={inputStyles} {...field} value={field.value ?? ''} />
-                      </FormControl>
-                      <FormDescription className="text-[10px] font-medium text-muted-foreground/60 uppercase">
-                        Aparece em buscadores e compartilhamentos.
-                      </FormDescription>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="seoDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={labelStyles}>Descrição SEO</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Resumo comercial em até 160 caracteres." className={inputStyles} {...field} value={field.value ?? ''} />
-                      </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={labelStyles}>Status do Registro</FormLabel>
-                    <FormControl>
-                      <select
-                        className={cn(inputStyles, "w-full appearance-none px-3 cursor-pointer")}
-                        {...field}
-                      >
-                        <option value="draft">RASCUNHO (INTERNO)</option>
-                        <option value="active">ATIVO (PÚBLICO)</option>
-                        <option value="archived">ARQUIVADO (HISTÓRICO)</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="sortOrder"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={labelStyles}>Prioridade de Listagem</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="0"
-                        className={inputStyles}
-                        {...field}
-                        onChange={e => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-[10px] font-medium text-muted-foreground/60 uppercase">
-                      Valores menores aparecem primeiro (ex: 00, 01, 02).
-                    </FormDescription>
-                    <FormMessage className="text-[10px] uppercase font-bold tracking-tight" />
-                  </FormItem>
-                )}
-              />
-            </div>
+    <div className="space-y-8 pb-20">
+      {/* Header Fixo / Sticky */}
+      <div className="sticky top-0 z-30 flex items-center justify-between bg-slate-50/80 backdrop-blur-md py-4 border-b border-slate-200 -mx-4 px-4 sm:-mx-8 sm:px-8">
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-10 w-10 p-0 rounded-full hover:bg-white"
+            onClick={() => router.back()}
+          >
+            <ArrowLeft className="h-5 w-5 text-slate-400" />
+          </Button>
+          <div>
+            <h1 className="text-xl font-black tracking-tight text-slate-900">
+              {isEditing ? `Editar Fornecedor` : `Novo Fornecedor`}
+            </h1>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              {formData.name || 'Sem nome definido'} • {formData.status}
+            </p>
           </div>
-        </RecomCard>
+        </div>
 
-        <div className="flex justify-end gap-4 border-t border-border pt-10">
+        <div className="flex items-center gap-3">
           <RecomButton 
             type="button" 
             intent="outline" 
-            onClick={() => router.back()} 
-            disabled={loading}
-            className="uppercase font-bold text-xs tracking-widest h-12 px-8"
+            onClick={() => router.back()}
+            className="h-11 px-6 text-[10px] font-bold uppercase tracking-widest"
           >
-            Descartar Alterações
+            Cancelar
           </RecomButton>
           <RecomButton 
-            type="submit" 
+            onClick={handleSave}
             disabled={loading}
-            className="uppercase font-bold text-xs tracking-widest h-12 px-10"
+            className="h-11 px-8 text-[10px] font-bold uppercase tracking-widest gap-2"
           >
-            {loading ? 'Sincronizando...' : isEditing ? 'Confirmar Edição' : 'Publicar Registro'}
+            {loading ? 'Salvando...' : (
+              <>
+                <Save className="h-4 w-4" />
+                {isEditing ? 'Atualizar Fornecedor' : 'Publicar Registro'}
+              </>
+            )}
           </RecomButton>
         </div>
-      </form>
-      <MediaPickerDialog
-        open={pickerOpen}
-        onOpenChange={setPickerOpen}
-        onSelect={(asset) => {
-          setSelectedMedia(asset);
-          setLogoUrl(asset.public_url);
-          form.setValue('logoUrl', asset.public_url, { shouldDirty: true, shouldValidate: true });
-        }}
-      />
-    </Form>
+      </div>
+
+      {/* Alertas */}
+      {error && (
+        <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-xl flex items-center gap-3 text-destructive animate-in fade-in slide-in-from-top-2">
+          <AlertCircle className="h-5 w-5" />
+          <p className="text-xs font-bold uppercase tracking-widest">{error}</p>
+        </div>
+      )}
+      {success && (
+        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3 text-emerald-700 animate-in fade-in slide-in-from-top-2">
+          <CheckCircle2 className="h-5 w-5" />
+          <p className="text-xs font-bold uppercase tracking-widest">Fornecedor salvo com sucesso! Redirecionando...</p>
+        </div>
+      )}
+
+      {/* Editor Modular */}
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden min-h-[600px] flex flex-col md:flex-row">
+        <Tabs defaultValue="geral" className="w-full flex flex-col md:flex-row">
+          <TabsList className="flex flex-row md:flex-col h-auto bg-slate-50 border-b md:border-b-0 md:border-r border-slate-200 p-0 justify-start w-full md:w-64 shrink-0 overflow-x-auto md:overflow-x-visible">
+            <TabsTrigger value="geral" className={tabTriggerStyles}>
+              <User className="h-4 w-4" /> Geral
+            </TabsTrigger>
+            <TabsTrigger value="catalogos" className={tabTriggerStyles}>
+              <BookOpen className="h-4 w-4" /> Catálogos
+            </TabsTrigger>
+            <TabsTrigger value="produtos" className={tabTriggerStyles}>
+              <Box className="h-4 w-4" /> Produtos
+            </TabsTrigger>
+            <TabsTrigger value="midia" className={tabTriggerStyles}>
+              <ImageIcon className="h-4 w-4" /> Mídia
+            </TabsTrigger>
+            <TabsTrigger value="layout" className={tabTriggerStyles}>
+              <Layout className="h-4 w-4" /> Layout
+            </TabsTrigger>
+            <TabsTrigger value="seo" className={tabTriggerStyles}>
+              <Search className="h-4 w-4" /> SEO
+            </TabsTrigger>
+          </TabsList>
+
+          <div className="flex-1 p-8 md:p-12 overflow-y-auto max-h-[calc(100vh-200px)]">
+            <TabsContent value="geral" className="mt-0 outline-none">
+              <SupplierGeneralFields 
+                data={formData} 
+                processes={processes}
+                onChange={updateField}
+              />
+            </TabsContent>
+
+            <TabsContent value="catalogos" className="mt-0 outline-none">
+              <SupplierCatalogListEditor 
+                value={formData.catalogs} 
+                productLines={formData.productLines}
+                onChange={(val) => updateField('catalogs', val)} 
+              />
+            </TabsContent>
+
+            <TabsContent value="produtos" className="mt-0 outline-none">
+              <SupplierProductLinesEditor 
+                value={formData.productLines} 
+                onChange={(val) => updateField('productLines', val)} 
+              />
+            </TabsContent>
+
+            <TabsContent value="midia" className="mt-0 outline-none">
+              <SupplierMediaEditor 
+                value={formData.media} 
+                onChange={(val) => updateField('media', val)} 
+              />
+            </TabsContent>
+
+            <TabsContent value="layout" className="mt-0 outline-none">
+              <SupplierLayoutEditor 
+                value={formData.layout} 
+                onChange={(val) => updateField('layout', val)} 
+              />
+            </TabsContent>
+
+            <TabsContent value="seo" className="mt-0 outline-none">
+              <SupplierSeoEditor 
+                value={formData.seo || { title: '', description: '', keywords: '', ogImage: '' }} 
+                onChange={(val) => updateField('seo', val)} 
+              />
+            </TabsContent>
+          </div>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
+
+// Minimal Button for the header if ui/button is not flexible enough
+function Button({ className, variant, size, ...props }: any) {
+  return (
+    <button 
+      className={cn(
+        "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        variant === 'ghost' ? 'hover:bg-accent hover:text-accent-foreground' : '',
+        className
+      )}
+      {...props}
+    />
   );
 }

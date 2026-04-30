@@ -34,8 +34,8 @@ export default async function AdminSuppliersPage() {
       ) : (
         <DataTable columns={["Fornecedor", "Catalogo", "Processos", "SEO", "Status", "Ultima revisao", "Acoes"]}>
           {suppliers.map((supplier) => {
-            const catalogCount = supplier.catalogs.length + (supplier.catalogUrl ? 1 : 0) + (supplier.eCatalogUrl ? 1 : 0);
-            const seoOk = Boolean(supplier.seoTitle && supplier.seoDescription);
+            const catalogCount = supplier.catalogs.length;
+            const seoOk = Boolean(supplier.seo?.title && supplier.seo?.description);
             const processCount = supplier.relatedProcesses.length;
 
             return (
