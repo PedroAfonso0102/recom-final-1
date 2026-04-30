@@ -142,7 +142,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
       isSaving={loading}
       lastSaved={initialData?.updated_at ? new Date(initialData.updated_at) : undefined}
       backHref="/admin/fornecedores"
-      inspector={<SupplierInspector supplier={formData} onNavigateToTab={handleInspectorNavigate} />}
+      inspector={<SupplierInspector supplier={formData} activeTabId={activeTabId} onNavigateToTab={handleInspectorNavigate} />}
     >
       <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm min-h-[600px]">
         {activeTabId === "geral" && (

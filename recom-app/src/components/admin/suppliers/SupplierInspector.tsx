@@ -7,13 +7,15 @@ import { ExternalLink, AlertCircle, AlertTriangle, ChevronRight } from "lucide-r
 import { getSupplierInspectorIssues, getSupplierCompletionScore } from "./supplier-inspector-validation";
 import { SupplierInspectorIssue, SupplierInspectorTab } from "./types";
 import { cn } from "@/lib/utils";
+import { SupplierMediaPreview } from "./SupplierMediaPreview";
 
 interface SupplierInspectorProps {
   supplier: Supplier;
+  activeTabId?: string;
   onNavigateToTab?: (tab: SupplierInspectorTab, fieldPath?: string) => void;
 }
 
-export function SupplierInspector({ supplier, onNavigateToTab }: SupplierInspectorProps) {
+export function SupplierInspector({ supplier, activeTabId, onNavigateToTab }: SupplierInspectorProps) {
   const issues = getSupplierInspectorIssues(supplier);
   const completionScore = getSupplierCompletionScore(supplier, issues);
 
@@ -83,7 +85,6 @@ export function SupplierInspector({ supplier, onNavigateToTab }: SupplierInspect
             </div>
           </div>
         )}
-
         <div className="pt-4 border-t border-slate-50">
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">URL Pública</p>
           <div className="flex items-center gap-2 group cursor-pointer">
@@ -93,6 +94,16 @@ export function SupplierInspector({ supplier, onNavigateToTab }: SupplierInspect
             <ExternalLink className="h-3 w-3 text-slate-300 group-hover:text-slate-900 transition-colors" />
           </div>
         </div>
+
+        {/* Media Preview - Show always if we have media, or more prominently when on media tab */}
+        {supplier.media.length > 0 && (
+          <div className={cn(
+            "pt-6 border-t border-slate-50 transition-all",
+            activeTabId === 'midia' ? "opacity-100 scale-100" : "opacity-70 grayscale-[0.5] hover:opacity-100 hover:grayscale-0"
+          )}>
+            <SupplierMediaPreview media={supplier.media} />
+          </div>
+        )}
       </div>
     </AdminEditorInspector>
   );
