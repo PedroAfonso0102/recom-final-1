@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import Link from "next/link";
 import { EmptyState } from '../admin-kit';
 import { AdminEntityListToolbar } from './AdminEntityListToolbar';
 
@@ -33,7 +34,7 @@ interface AdminEntityListPageProps<T> {
 export function AdminEntityListPage<T extends AdminEntityListItemBase>({
   title,
   description,
-  eyebrow,
+  eyebrow: _eyebrow,
   primaryAction,
   items,
   searchFields,
@@ -67,13 +68,13 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
     <div className="flex flex-col min-h-screen bg-slate-50/50">
       <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
         <div className="flex h-16 items-center px-6">
-          <a 
+          <Link 
             href="/admin" 
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-900 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Voltar ao Início
-          </a>
+          </Link>
         </div>
       </header>
 

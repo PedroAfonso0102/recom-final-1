@@ -28,7 +28,7 @@ export function SupplierLayoutEditor({ value, onChange }: SupplierLayoutEditorPr
             <Label className={labelStyles}>Tema Visual</Label>
             <select
               value={value.theme}
-              onChange={e => updateLayout({ theme: e.target.value as any })}
+              onChange={e => updateLayout({ theme: e.target.value as SupplierLayout['theme'] })}
               className="flex h-12 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 outline-none transition focus:ring-4 focus:ring-primary/5"
             >
               <option value="industrial">INDUSTRIAL (DARK MODE)</option>
@@ -40,7 +40,7 @@ export function SupplierLayoutEditor({ value, onChange }: SupplierLayoutEditorPr
             <Label className={labelStyles}>Layout de Catálogos</Label>
             <select
               value={value.catalogLayout}
-              onChange={e => updateLayout({ catalogLayout: e.target.value as any })}
+              onChange={e => updateLayout({ catalogLayout: e.target.value as SupplierLayout['catalogLayout'] })}
               className="flex h-12 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 outline-none transition focus:ring-4 focus:ring-primary/5"
             >
               <option value="grid">GRID (PADRÃO)</option>
@@ -58,7 +58,7 @@ export function SupplierLayoutEditor({ value, onChange }: SupplierLayoutEditorPr
             <Label className={labelStyles}>Modo do Hero</Label>
             <select
               value={value.heroMode}
-              onChange={e => updateLayout({ heroMode: e.target.value as any })}
+              onChange={e => updateLayout({ heroMode: e.target.value as SupplierLayout['heroMode'] })}
               className="flex h-12 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 outline-none transition focus:ring-4 focus:ring-primary/5"
             >
               <option value="image">IMAGEM ESTÁTICA</option>

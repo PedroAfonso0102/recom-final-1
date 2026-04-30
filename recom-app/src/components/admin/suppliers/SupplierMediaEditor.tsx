@@ -139,7 +139,6 @@ export function SupplierMediaEditor({ value, onChange }: SupplierMediaEditorProp
                     <Label className="text-[10px] font-bold uppercase text-slate-500">Tipo</Label>
                     <select
                       value={editingMedia.type}
-                      value={editingMedia.type}
                       onChange={e => updateMedia(editingMedia.id, { type: e.target.value as SupplierMediaItem['type'] })}
                       className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
                     >

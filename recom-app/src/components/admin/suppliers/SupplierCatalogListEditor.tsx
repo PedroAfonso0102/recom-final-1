@@ -17,7 +17,7 @@ interface SupplierCatalogListEditorProps {
   onChange: (value: SupplierCatalog[]) => void;
 }
 
-export function SupplierCatalogListEditor({ value, productLines, onChange }: SupplierCatalogListEditorProps) {
+export function SupplierCatalogListEditor({ value, productLines: _productLines, onChange }: SupplierCatalogListEditorProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const addCatalog = () => {

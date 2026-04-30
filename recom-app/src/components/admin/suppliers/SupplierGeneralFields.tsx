@@ -14,7 +14,7 @@ interface SupplierGeneralFieldsProps {
   onChange: <K extends keyof Supplier>(field: K, value: Supplier[K]) => void;
 }
 
-export function SupplierGeneralFields({ data, processes, onChange }: SupplierGeneralFieldsProps) {
+export function SupplierGeneralFields({ data, processes: _processes, onChange }: SupplierGeneralFieldsProps) {
   const labelStyles = "text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2 block";
   const inputStyles = "h-12 rounded-xl border-slate-200 focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all";
 
