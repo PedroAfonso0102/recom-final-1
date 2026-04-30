@@ -42,7 +42,6 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
   searchFields,
   statusField,
   statusOptions,
-  customFilters,
   renderItem,
   columns,
   emptyState

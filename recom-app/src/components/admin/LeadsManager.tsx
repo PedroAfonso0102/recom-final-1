@@ -7,7 +7,6 @@ import { DataTable, EntityDrawer, StatusBadge } from "@/components/admin/admin-k
 import { AdminEntityListPage } from "./editor/AdminEntityListPage";
 import { Button } from "@/components/ui/button";
 import { updateLeadStatus, assignProcessToLead, updateLeadNotes } from "@/server/actions/leads";
-import { assignLeadToRep } from "@/server/actions/sales-reps";
 import { cn } from "@/lib/utils";
 
 interface Process {
@@ -114,7 +113,7 @@ function detectedSupplier(lead: Lead, suppliers: Supplier[]) {
   return suppliers.find((supplier) => text.includes(supplier.name.toLowerCase())) ?? null;
 }
 
-export function LeadsManager({ initialLeads, processes, initialSalesReps, suppliers }: LeadsManagerProps) {
+export function LeadsManager({ initialLeads, processes, suppliers }: LeadsManagerProps) {
   const [leads, setLeads] = useState(initialLeads);
   const [priority, setPriority] = useState("all");
   const [supplier, setSupplier] = useState("all");
@@ -125,7 +124,6 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const reps = initialSalesReps.filter((rep) => rep.status === "active");
   const activeLead = leads.find((lead) => lead.id === activeLeadId) ?? null;
 
   function openLead(lead: Lead) {
@@ -155,15 +153,6 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
       setLeads((current) => current.map((lead) => (lead.id === id ? { ...lead, status: nextStatus, notified_at: lead.notified_at ?? new Date().toISOString() } : lead)));
       const result = await updateLeadStatus(id, nextStatus);
       if (!result.success) setLeads(previous);
-    });
-  }
-
-  function assignToRep(lead: Lead, repId: string) {
-    startTransition(async () => {
-      const previous = leads;
-      setLeads((current) => current.map((item) => (item.id === lead.id ? { ...item, assigned_rep_id: repId, status: "contacted", notified_at: new Date().toISOString() } : item)));
-      const result = await assignLeadToRep(lead.id, repId);
-      if (!result.ok) setLeads(previous);
     });
   }
 
