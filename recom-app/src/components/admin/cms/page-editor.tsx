@@ -2,9 +2,27 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertTriangle, CheckCircle2, ChevronDown, ChevronRight, Eye, GripVertical, Plus, Search } from "lucide-react";
+import { 
+  ChevronDown, 
+  ChevronRight, 
+  Eye, 
+  GripVertical, 
+  Plus, 
+  Search, 
+  Layers, 
+  Settings, 
+  ShieldAlert,
+  Monitor
+} from "lucide-react";
 
-import { AuditTimeline, BlockEditor, BlockList, EmptyState, PageHeader, PreviewPanel, SaveBar, StatusBadge, VisibilityBadge } from "@/components/admin/admin-kit";
+import { 
+  BlockEditor, 
+  BlockList, 
+  EmptyState, 
+  PreviewPanel, 
+  StatusBadge, 
+  VisibilityBadge 
+} from "@/components/admin/admin-kit";
 import { Button } from "@/components/ui/button";
 import { CmsPageForm } from "./page-form";
 import { CmsSectionForm } from "./section-form";
@@ -12,6 +30,10 @@ import { SectionReorderButtons } from "./section-reorder-buttons";
 import { PublishPageButton } from "./publish-page-button";
 import { cn } from "@/lib/utils";
 import { CmsPageRow, CmsSectionRow } from "@/cms/types";
+
+// Admin Shell Components
+import { AdminEditorShell, AdminEditorTab } from "../editor";
+import { PageInspector } from "./PageInspector";
 
 const HOME_CMS_SLUG = "home";
 
@@ -32,22 +54,31 @@ function sectionPending(section: CmsSectionRow) {
   return pending;
 }
 
+const cmsTabs: AdminEditorTab[] = [
+  { id: "sections", label: "Estrutura", icon: Layers },
+  { id: "settings", label: "Configurações", icon: Settings },
+  { id: "seo", label: "SEO", icon: Search },
+  { id: "advanced", label: "Avançado", icon: ShieldAlert },
+];
+
 export function CmsPageEditor({ pageData, showPageMeta = true }: CmsPageEditorProps) {
   const { page, sections } = pageData;
-  const [activeId, setActiveId] = useState<string | "new" | "settings" | "seo" | "advanced" | null>(null);
+  const [activeTabId, setActiveTabId] = useState("sections");
+  const [activeSectionId, setActiveSectionId] = useState<string | "new" | null>(null);
   const [previewMode, setPreviewMode] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [saveState, setSaveState] = useState<"saved" | "unsaved" | "published">(
     page.status === "published" ? "published" : "saved"
   );
 
   const publicPath = page.slug === HOME_CMS_SLUG ? "/" : `/${page.slug}`;
-  const activeSection = sections.find((section) => section.id === activeId) ?? null;
+  const activeSection = sections.find((section) => section.id === activeSectionId) ?? null;
+
   const pageIssues = useMemo(() => {
     const issues: string[] = [];
-    if (!page.seo_title) issues.push("Titulo SEO pendente");
-    if (!page.seo_description) issues.push("Descricao SEO pendente");
-    if (sections.length === 0) issues.push("A pagina nao tem blocos");
-    if (sections.some((section) => section.status !== "published")) issues.push("Ha blocos em rascunho");
+    if (!page.seo_title) issues.push("Título SEO pendente");
+    if (!page.seo_description) issues.push("Descrição SEO pendente");
+    if (sections.length === 0) issues.push("A página não tem blocos");
+    if (sections.some((section) => section.status !== "published")) issues.push("Há blocos em rascunho");
     return issues;
   }, [page.seo_description, page.seo_title, sections]);
 
@@ -55,180 +86,200 @@ export function CmsPageEditor({ pageData, showPageMeta = true }: CmsPageEditorPr
     setSaveState("unsaved");
   }
 
+  const handlePreview = () => {
+    window.open(`/admin/preview/${page.slug}`, '_blank');
+  };
+
   return (
-    <div className="space-y-6">
-      <PageHeader
-        eyebrow="Editor editorial"
-        title={page.title}
-        description={`URL ${publicPath}. Edite um bloco por vez; blocos fechados mostram status, visibilidade e pendencias.`}
-        actions={
-          <>
-            <Button asChild variant="outline" size="sm"><Link href="/admin/pages">Voltar ao inventario</Link></Button>
-            <Button asChild variant="outline" size="sm"><Link href={`/admin/preview/${page.slug}`} target="_blank"><Eye className="h-4 w-4" /> Abrir preview</Link></Button>
-          </>
-        }
-      />
-
-      <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)_430px]">
-        <aside className="space-y-4">
-          <section className="border border-slate-200 bg-white">
-            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
-              <h2 className="text-sm font-semibold text-slate-950">Estrutura da pagina</h2>
-              <Button type="button" size="sm" variant="outline" onClick={() => setActiveId(activeId === "new" ? null : "new")}>
-                <Plus className="h-4 w-4" /> Bloco
-              </Button>
-            </div>
-
-            <div className="p-3">
-              {sections.length === 0 ? (
-                <EmptyState title="Sem blocos" description="Adicione o primeiro bloco para construir a pagina." />
-              ) : (
-                <BlockList>
-                  {sections.map((section, index) => {
-                    const ids = sections.map((item) => item.id);
-                    const moveUpOrder = index > 0 ? ids.map((id, currentIndex) => (currentIndex === index - 1 ? ids[index] : currentIndex === index ? ids[index - 1] : id)) : undefined;
-                    const moveDownOrder = index < sections.length - 1 ? ids.map((id, currentIndex) => (currentIndex === index + 1 ? ids[index] : currentIndex === index ? ids[index + 1] : id)) : undefined;
-                    const pending = sectionPending(section);
-                    const active = activeId === section.id;
-
-                    return (
-                      <div key={section.id} className={cn("border border-slate-200 bg-white", active && "border-slate-950")}>
-                        <button type="button" className="flex w-full items-start gap-3 p-3 text-left" onClick={() => setActiveId(active ? null : section.id)}>
-                          <GripVertical className="mt-1 h-4 w-4 text-slate-400" />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between gap-2">
-                              <p className="truncate text-sm font-semibold text-slate-950">{index + 1}. {section.component_type}</p>
-                              {active ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                            </div>
-                            <div className="mt-2 flex flex-wrap gap-1.5">
-                              <StatusBadge status={section.status} />
-                              <VisibilityBadge visible={section.visibility === "visible"} />
-                            </div>
-                            <p className="mt-2 text-xs leading-5 text-slate-600">
-                              {pending.length > 0 ? `Pendencias: ${pending.join(", ")}` : "Sem pendencias aparentes"}
-                            </p>
-                          </div>
-                        </button>
-                        <div className="border-t border-slate-100 px-3 py-2">
-                          <SectionReorderButtons pageId={page.id} moveUpOrder={moveUpOrder} moveDownOrder={moveDownOrder} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </BlockList>
-              )}
-            </div>
-          </section>
-
-          <section className="border border-slate-200 bg-white p-3">
-            <button type="button" onClick={() => setActiveId(activeId === "settings" ? null : "settings")} className="flex w-full items-center justify-between px-1 py-2 text-sm font-semibold text-slate-950">
-              Configuracoes editoriais
-              {activeId === "settings" ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            </button>
-            <button type="button" onClick={() => setActiveId(activeId === "seo" ? null : "seo")} className="flex w-full items-center justify-between px-1 py-2 text-sm font-semibold text-slate-950">
-              SEO e compartilhamento
-              {activeId === "seo" ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            </button>
-            <button type="button" onClick={() => setActiveId(activeId === "advanced" ? null : "advanced")} className="flex w-full items-center justify-between px-1 py-2 text-sm font-semibold text-slate-950">
-              Avancado
-              {activeId === "advanced" ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            </button>
-          </section>
-        </aside>
-
-        <main className="min-w-0 space-y-4">
-          {activeId === null ? (
-            <EmptyState
-              title="Selecione um bloco"
-              description="A Home pode ser editada sem ver todos os blocos abertos. Escolha um item da estrutura para abrir apenas aquele bloco."
-              action={<Button type="button" size="sm" onClick={() => setActiveId(sections[0]?.id ?? "new")}>{sections.length > 0 ? "Abrir primeiro bloco" : "Criar bloco"}</Button>}
-            />
-          ) : null}
-
-          {activeId === "new" ? (
-            <BlockEditor title="Novo bloco">
-              <CmsSectionForm pageId={page.id} sortOrder={sections.length} onSaveSuccess={() => setSaveState("saved")} onLiveUpdate={markChanged} />
-            </BlockEditor>
-          ) : null}
-
-          {activeSection ? (
-            <BlockEditor title={`Editar bloco: ${activeSection.component_type}`}>
-              <CmsSectionForm pageId={page.id} section={activeSection} sortOrder={activeSection.sort_order} onSaveSuccess={() => setSaveState("saved")} onLiveUpdate={markChanged} />
-            </BlockEditor>
-          ) : null}
-
-          {activeId === "settings" && showPageMeta ? (
-            <BlockEditor title="Configuracoes editoriais">
-              <CmsPageForm page={page} mode="edit" onLiveUpdate={markChanged} />
-            </BlockEditor>
-          ) : null}
-
-          {activeId === "seo" ? (
-            <BlockEditor title="SEO e compartilhamento">
-              <CmsPageForm page={page} mode="edit" onLiveUpdate={markChanged} />
-              <div className="mt-4 border border-slate-200 bg-slate-50 p-4">
-                <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-950"><Search className="h-4 w-4" /> Preview Google</h3>
-                <div className="mt-3 max-w-xl bg-white p-4">
-                  <p className="text-xs text-slate-600">recom.com.br{publicPath}</p>
-                  <p className="mt-1 text-lg text-blue-800">{page.seo_title || page.title}</p>
-                  <p className="mt-1 text-sm leading-5 text-slate-700">{page.seo_description || "Adicione uma descricao para melhorar o clique organico."}</p>
+    <AdminEditorShell
+      title={page.title}
+      entityType="página cms"
+      status={page.status as any}
+      tabs={cmsTabs}
+      activeTabId={activeTabId}
+      onTabChange={setActiveTabId}
+      onSave={() => setSaveState("saved")}
+      onPreview={handlePreview}
+      onPublish={() => {}} // Controlled by PublishPageButton in inspector or header
+      isDirty={saveState === "unsaved"}
+      isSaving={false}
+      lastSaved={page.updated_at ? new Date(page.updated_at) : undefined}
+      backHref="/admin/pages"
+      inspector={
+        <div className="space-y-6">
+          <PageInspector page={page} sectionsCount={sections.length} issues={pageIssues} />
+          <div className="px-5">
+            <PublishPageButton pageId={page.id} />
+          </div>
+          <div className="px-5">
+            <PreviewPanel src={`/admin/preview/${page.slug}?minimal=true`} mode={previewMode} onModeChange={setPreviewMode} />
+          </div>
+        </div>
+      }
+    >
+      <div className="space-y-6">
+        {activeTabId === "sections" && (
+          <div className="grid gap-6 grid-cols-1 xl:grid-cols-[320px_1fr]">
+            {/* Sidebar de Blocos Interna */}
+            <div className="space-y-4">
+              <section className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 bg-slate-50/50">
+                  <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">Blocos</h2>
+                  <Button 
+                    type="button" 
+                    size="sm" 
+                    variant="ghost" 
+                    className="h-7 px-2 text-[10px] font-bold uppercase tracking-widest text-primary hover:bg-primary/5"
+                    onClick={() => setActiveSectionId(activeSectionId === "new" ? null : "new")}
+                  >
+                    <Plus className="mr-1 h-3 w-3" /> Adicionar
+                  </Button>
                 </div>
-              </div>
-            </BlockEditor>
-          ) : null}
 
-          {activeId === "advanced" ? (
-            <BlockEditor title="Avancado">
-              <div className="space-y-3 text-sm text-slate-700">
-                <p>Campos tecnicos concentrados para reduzir ruido durante a edicao normal.</p>
-                <dl className="grid gap-2 md:grid-cols-2">
-                  <div><dt className="font-semibold text-slate-950">ID</dt><dd className="break-all font-mono text-xs">{page.id}</dd></div>
-                  <div><dt className="font-semibold text-slate-950">Template</dt><dd>{page.template_key || "Nao definido"}</dd></div>
-                  <div><dt className="font-semibold text-slate-950">Tipo</dt><dd>{page.page_type}</dd></div>
-                  <div><dt className="font-semibold text-slate-950">Rota</dt><dd>{page.route_pattern}</dd></div>
-                </dl>
-              </div>
-            </BlockEditor>
-          ) : null}
-        </main>
+                <div className="p-2">
+                  {sections.length === 0 ? (
+                    <EmptyState title="Sem blocos" description="Adicione o primeiro bloco." />
+                  ) : (
+                    <div className="space-y-1">
+                      {sections.map((section, index) => {
+                        const ids = sections.map((item) => item.id);
+                        const moveUpOrder = index > 0 ? ids.map((id, currentIndex) => (currentIndex === index - 1 ? ids[index] : currentIndex === index ? ids[index - 1] : id)) : undefined;
+                        const moveDownOrder = index < sections.length - 1 ? ids.map((id, currentIndex) => (currentIndex === index + 1 ? ids[index] : currentIndex === index ? ids[index + 1] : id)) : undefined;
+                        const pending = sectionPending(section);
+                        const active = activeSectionId === section.id;
 
-        <aside className="space-y-4">
-          <PreviewPanel src={`/admin/preview/${page.slug}?minimal=true`} mode={previewMode} onModeChange={setPreviewMode} />
-
-          <section className="border border-slate-200 bg-white p-4">
-            <h2 className="text-sm font-semibold text-slate-950">Checklist de publicacao</h2>
-            <div className="mt-3 space-y-2">
-              {pageIssues.length === 0 ? (
-                <p className="flex items-center gap-2 text-sm text-emerald-700"><CheckCircle2 className="h-4 w-4" /> Pronto para publicar.</p>
-              ) : (
-                pageIssues.map((issue) => (
-                  <p key={issue} className="flex items-center gap-2 text-sm text-amber-800"><AlertTriangle className="h-4 w-4" /> {issue}</p>
-                ))
-              )}
+                        return (
+                          <div key={section.id} className={cn("group rounded-xl border border-transparent transition-all", active ? "border-slate-200 bg-slate-50 shadow-inner" : "hover:bg-slate-50")}>
+                            <button type="button" className="flex w-full items-start gap-3 p-3 text-left" onClick={() => setActiveSectionId(active ? null : section.id)}>
+                              <GripVertical className="mt-1 h-3.5 w-3.5 text-slate-300" />
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center justify-between gap-2">
+                                  <p className={cn("truncate text-xs font-bold uppercase tracking-tight", active ? "text-primary" : "text-slate-700")}>
+                                    {index + 1}. {section.component_type}
+                                  </p>
+                                  {active ? <ChevronDown className="h-3.5 w-3.5 text-primary" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-300" />}
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                  <StatusBadge status={section.status} />
+                                </div>
+                                {pending.length > 0 && (
+                                   <p className="mt-2 text-[9px] font-bold text-amber-600 uppercase tracking-tight">
+                                     {pending.length} pendências
+                                   </p>
+                                )}
+                              </div>
+                            </button>
+                            {active && (
+                              <div className="px-3 pb-3 pt-1 border-t border-slate-100">
+                                <SectionReorderButtons pageId={page.id} moveUpOrder={moveUpOrder} moveDownOrder={moveDownOrder} />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </section>
             </div>
-          </section>
 
-          <section className="border border-slate-200 bg-white p-4">
-            <h2 className="text-sm font-semibold text-slate-950">Auditoria</h2>
-            <div className="mt-3">
-              <AuditTimeline
-                items={[
-                  { label: "Criada", detail: page.created_by ? `Por ${page.created_by}` : "Autor nao registrado", date: page.created_at },
-                  { label: "Ultima atualizacao", detail: page.updated_by ? `Por ${page.updated_by}` : "Editor nao registrado", date: page.updated_at },
-                  { label: page.published_at ? "Publicada" : "Ainda nao publicada", date: page.published_at },
-                ]}
-              />
+            {/* Área de Edição do Bloco */}
+            <div className="min-w-0">
+               {activeSectionId === null && (
+                 <div className="bg-white rounded-3xl border border-slate-200 p-12 flex flex-col items-center justify-center text-center space-y-4 shadow-sm border-dashed">
+                   <div className="h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center">
+                      <Monitor className="h-6 w-6 text-slate-300" />
+                   </div>
+                   <div>
+                     <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Editor de Blocos</h3>
+                     <p className="text-xs text-slate-500 mt-1">Selecione um bloco na lista lateral para começar a editar o conteúdo.</p>
+                   </div>
+                 </div>
+               )}
+
+               {activeSectionId === "new" && (
+                 <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                   <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-6">Novo Bloco</h3>
+                   <CmsSectionForm pageId={page.id} sortOrder={sections.length} onSaveSuccess={() => setSaveState("saved")} onLiveUpdate={markChanged} />
+                 </div>
+               )}
+
+               {activeSection && (
+                 <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                   <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Editando: {activeSection.component_type}</h3>
+                      <StatusBadge status={activeSection.status} />
+                   </div>
+                   <CmsSectionForm pageId={page.id} section={activeSection} sortOrder={activeSection.sort_order} onSaveSuccess={() => setSaveState("saved")} onLiveUpdate={markChanged} />
+                 </div>
+               )}
             </div>
-          </section>
-        </aside>
+          </div>
+        )}
+
+        {activeTabId === "settings" && showPageMeta && (
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8">Configurações Editoriais</h3>
+            <CmsPageForm page={page} mode="edit" onLiveUpdate={markChanged} />
+          </div>
+        )}
+
+        {activeTabId === "seo" && (
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm space-y-10">
+            <div>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8">SEO e Compartilhamento</h3>
+              <CmsPageForm page={page} mode="edit" onLiveUpdate={markChanged} />
+            </div>
+            
+            <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-8">
+              <h3 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 mb-6">
+                <Search className="h-3.5 w-3.5 text-slate-400" /> Preview Google
+              </h3>
+              <div className="max-w-xl bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <p className="text-[11px] text-slate-500 font-medium">recom.com.br{publicPath}</p>
+                <p className="mt-1 text-lg font-semibold text-blue-700 hover:underline cursor-pointer">
+                  {page.seo_title || page.title}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                  {page.seo_description || "Adicione uma descrição para melhorar o clique orgânico nos resultados de busca."}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTabId === "advanced" && (
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8">Configurações Avançadas</h3>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">ID da Página</p>
+                <code className="block p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-mono text-slate-600 break-all">
+                  {page.id}
+                </code>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Template Key</p>
+                <p className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700">
+                  {page.template_key || "padrão"}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Page Type</p>
+                <p className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700 uppercase">
+                  {page.page_type}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Route Pattern</p>
+                <p className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-mono text-slate-700">
+                  {page.route_pattern}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <SaveBar
-        state={saveState}
-        onSaveDraft={() => setSaveState("saved")}
-        publishAction={<PublishPageButton pageId={page.id} />}
-        disabledReason={sections.length === 0 ? "adicione ao menos um bloco" : undefined}
-      />
-    </div>
+    </AdminEditorShell>
   );
 }
