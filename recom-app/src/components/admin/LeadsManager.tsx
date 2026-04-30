@@ -1,14 +1,14 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { Mail, MessageSquare, Phone, Send, UserCheck } from "lucide-react";
+import { useMemo, useState, useTransition, ReactNode } from "react";
+import { Mail, MessageSquare, Phone, Send, UserCheck, History } from "lucide-react";
 
-import { DataTable, EmptyState, EntityDrawer, FilterBar, StatusBadge, Toolbar } from "@/components/admin/admin-kit";
+import { DataTable, EntityDrawer, StatusBadge } from "@/components/admin/admin-kit";
+import { AdminEntityListPage } from "./editor/AdminEntityListPage";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { updateLeadStatus, assignProcessToLead, updateLeadNotes } from "@/server/actions/leads";
 import { assignLeadToRep } from "@/server/actions/sales-reps";
+import { cn } from "@/lib/utils";
 
 interface Process {
   id: string;
@@ -116,8 +116,6 @@ function detectedSupplier(lead: Lead, suppliers: Supplier[]) {
 
 export function LeadsManager({ initialLeads, processes, initialSalesReps, suppliers }: LeadsManagerProps) {
   const [leads, setLeads] = useState(initialLeads);
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("all");
   const [priority, setPriority] = useState("all");
   const [supplier, setSupplier] = useState("all");
   const [process, setProcess] = useState("all");
@@ -137,19 +135,17 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
 
   const filtered = useMemo(() => {
     return leads.filter((lead) => {
-      const haystack = `${lead.name} ${lead.email} ${lead.company ?? ""} ${lead.message ?? ""}`.toLowerCase();
       const priorityKey = getPriority(lead).key;
       const supplierMatch = detectedSupplier(lead, suppliers);
+      
       return (
-        haystack.includes(search.toLowerCase()) &&
-        (status === "all" || lead.status === status) &&
         (priority === "all" || priorityKey === priority) &&
         (supplier === "all" || supplierMatch?.id === supplier) &&
         (process === "all" || lead.process_id === process) &&
         (period === "all" || getPeriodKey(lead.created_at) === period)
       );
     });
-  }, [leads, period, priority, process, search, status, supplier, suppliers]);
+  }, [leads, period, priority, process, supplier, suppliers]);
 
   const waitingCount = leads.filter((lead) => lead.status === "new" || !lead.notified_at).length;
 
@@ -192,152 +188,261 @@ export function LeadsManager({ initialLeads, processes, initialSalesReps, suppli
     });
   }
 
+  const customFilters = (
+    <>
+      <select 
+        className="h-10 px-4 rounded-xl border border-slate-200 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" 
+        value={priority} 
+        onChange={(e) => setPriority(e.target.value)}
+      >
+        {priorityOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+      </select>
+
+      <select 
+        className="h-10 px-4 rounded-xl border border-slate-200 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" 
+        value={supplier} 
+        onChange={(e) => setSupplier(e.target.value)}
+      >
+        <option value="all">Todos fornecedores</option>
+        {suppliers.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+      </select>
+
+      <select 
+        className="h-10 px-4 rounded-xl border border-slate-200 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" 
+        value={process} 
+        onChange={(e) => setProcess(e.target.value)}
+      >
+        <option value="all">Todos processos</option>
+        {processes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+      </select>
+
+      <select 
+        className="h-10 px-4 rounded-xl border border-slate-200 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" 
+        value={period} 
+        onChange={(e) => setPeriod(e.target.value)}
+      >
+        <option value="all">Qualquer periodo</option>
+        <option value="24h">Ultimas 24h</option>
+        <option value="7d">Ultimos 7 dias</option>
+        <option value="old">Mais antigos</option>
+      </select>
+    </>
+  );
+
   return (
-    <div className="space-y-4">
-      <Toolbar>
-        <div>
-          <p className="text-sm font-semibold text-slate-950">{waitingCount} leads aguardando resposta</p>
-          <p className="text-xs text-slate-600">Um lead pode ser respondido abrindo o detalhe e usando Email ou WhatsApp.</p>
-        </div>
-        <FilterBar search={search} onSearch={setSearch} placeholder="Buscar por nome, email, empresa ou mensagem">
-          <select className="h-9 rounded-md border border-slate-300 bg-white px-2 text-sm" value={status} onChange={(event) => setStatus(event.target.value)}>
-            {statusOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-          </select>
-          <select className="h-9 rounded-md border border-slate-300 bg-white px-2 text-sm" value={priority} onChange={(event) => setPriority(event.target.value)}>
-            {priorityOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-          </select>
-          <select className="h-9 rounded-md border border-slate-300 bg-white px-2 text-sm" value={supplier} onChange={(event) => setSupplier(event.target.value)}>
-            <option value="all">Todos fornecedores</option>
-            {suppliers.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-          </select>
-          <select className="h-9 rounded-md border border-slate-300 bg-white px-2 text-sm" value={process} onChange={(event) => setProcess(event.target.value)}>
-            <option value="all">Todos processos</option>
-            {processes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-          </select>
-          <select className="h-9 rounded-md border border-slate-300 bg-white px-2 text-sm" value={period} onChange={(event) => setPeriod(event.target.value)}>
-            <option value="all">Qualquer periodo</option>
-            <option value="24h">Ultimas 24h</option>
-            <option value="7d">Ultimos 7 dias</option>
-            <option value="old">Mais antigos</option>
-          </select>
-        </FilterBar>
-      </Toolbar>
+    <>
+      <AdminEntityListPage
+        title="Gestão de Leads"
+        description={`${waitingCount} leads aguardando resposta. Use E-mail ou WhatsApp para iniciar o atendimento.`}
+        items={filtered}
+        searchFields={['name', 'email', 'company', 'message']}
+        statusField="status"
+        statusOptions={statusOptions}
+        customFilters={customFilters}
+        columns={["Lead", "Prioridade", "Status", "Contexto", "Entrada", "Ações"]}
+        renderItem={(lead) => {
+          const priorityInfo = getPriority(lead);
+          const supplierInfo = detectedSupplier(lead, suppliers);
+          const processInfo = processes.find((item) => item.id === lead.process_id);
 
-      {filtered.length === 0 ? (
-        <EmptyState title="Nenhum lead encontrado" description="Ajuste os filtros ou limpe a busca. Proximo passo: verificar se os formularios publicos estao enviando dados." />
-      ) : (
-        <DataTable columns={["Lead", "Prioridade", "Status", "Fornecedor", "Processo", "Entrada", "Acoes"]}>
-          {filtered.map((lead) => {
-            const priorityInfo = getPriority(lead);
-            const supplierInfo = detectedSupplier(lead, suppliers);
-            const processInfo = processes.find((item) => item.id === lead.process_id);
-            return (
-              <TableRow key={lead.id} className="border-slate-100 hover:bg-slate-50">
-                <TableCell>
-                  <button className="text-left" onClick={() => openLead(lead)}>
-                    <span className="block font-semibold text-slate-950">{lead.name}</span>
-                    <span className="block text-xs text-slate-600">{lead.company || lead.email}</span>
+          return (
+            <tr key={lead.id} className="group hover:bg-slate-50/80 transition-colors">
+              <td className="px-6 py-5">
+                <button 
+                  onClick={() => openLead(lead)}
+                  className="text-left group/btn"
+                >
+                  <span className="block text-sm font-bold text-slate-900 group-hover/btn:text-primary transition-colors">
+                    {lead.name}
+                  </span>
+                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+                    {lead.company || lead.email}
+                  </span>
+                </button>
+              </td>
+              <td className="px-6 py-5">
+                <StatusBadge 
+                  status={priorityInfo.key === "critical" ? "error" : priorityInfo.key === "high" ? "warning" : "archived"} 
+                  label={priorityInfo.label} 
+                />
+              </td>
+              <td className="px-6 py-5">
+                <StatusBadge status={lead.status || "new"} />
+              </td>
+              <td className="px-6 py-5">
+                <div className="space-y-1">
+                  <span className="block text-xs font-bold text-slate-700">
+                    {supplierInfo?.name ?? "Não identificado"}
+                  </span>
+                  <span className="block text-[10px] font-medium text-slate-400 italic">
+                    {processInfo?.name ?? "Sem processo"}
+                  </span>
+                </div>
+              </td>
+              <td className="px-6 py-5">
+                <span className="text-[11px] font-bold text-slate-500 tabular-nums">
+                  {new Date(lead.created_at).toLocaleString("pt-BR", {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
+              </td>
+              <td className="px-6 py-5">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => openLead(lead)}
+                    className="p-2.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                    title="Abrir Detalhes"
+                  >
+                    <UserCheck className="h-4 w-4" />
                   </button>
-                </TableCell>
-                <TableCell><StatusBadge status={priorityInfo.key === "critical" ? "error" : priorityInfo.key === "high" ? "warning" : "archived"} label={priorityInfo.label} /></TableCell>
-                <TableCell><StatusBadge status={lead.status || "new"} /></TableCell>
-                <TableCell className="text-sm text-slate-700">{supplierInfo?.name ?? "Nao identificado"}</TableCell>
-                <TableCell className="text-sm text-slate-700">{processInfo?.name ?? "Sem processo"}</TableCell>
-                <TableCell className="text-sm text-slate-600">{new Date(lead.created_at).toLocaleString("pt-BR")}</TableCell>
-                <TableCell>
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="outline" onClick={() => openLead(lead)}>Abrir detalhe</Button>
-                    <Button size="sm" onClick={() => setLeadStatus(lead.id, "contacted")} disabled={isPending}>Marcar respondido</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </DataTable>
-      )}
+                  <button
+                    onClick={() => setLeadStatus(lead.id, "contacted")}
+                    disabled={isPending || lead.status === "contacted"}
+                    className={cn(
+                      "p-2.5 rounded-xl transition-all shadow-sm",
+                      lead.status === "contacted"
+                        ? "bg-emerald-50 text-emerald-600 cursor-default"
+                        : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
+                    )}
+                    title="Marcar como Respondido"
+                  >
+                    <Send className="h-4 w-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          );
+        }}
+      />
 
-      <EntityDrawer open={!!activeLead} onClose={() => setActiveLeadId(null)} title={activeLead?.name ?? "Lead"} subtitle={activeLead?.company || activeLead?.email}>
+      <EntityDrawer 
+        open={!!activeLead} 
+        onClose={() => setActiveLeadId(null)} 
+        title={activeLead?.name ?? "Lead"} 
+        subtitle={activeLead?.company || activeLead?.email}
+      >
         {activeLead ? (
-          <div className="space-y-6">
-            <section className="space-y-3">
-              <div className="flex flex-wrap gap-2">
-                <Button asChild size="sm">
-                  <a href={`mailto:${activeLead.email}?subject=Contato RECOM&body=Ola ${activeLead.name}, recebemos sua solicitacao e vamos ajudar.`}>
-                    <Mail className="h-4 w-4" /> Responder por email
+          <div className="space-y-8 pb-10">
+            <div className="flex flex-wrap gap-3 p-1">
+              <Button asChild size="lg" className="rounded-2xl h-14 px-8 bg-primary shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <a href={`mailto:${activeLead.email}?subject=Contato RECOM&body=Ola ${activeLead.name}, recebemos sua solicitacao.`}>
+                  <Mail className="mr-2 h-4 w-4" /> Responder por E-mail
+                </a>
+              </Button>
+              {activeLead.phone && (
+                <Button asChild variant="outline" size="lg" className="rounded-2xl h-14 px-8 border-2 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all">
+                  <a href={`https://wa.me/${activeLead.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
+                    <Phone className="mr-2 h-4 w-4" /> WhatsApp
                   </a>
                 </Button>
-                {activeLead.phone ? (
-                  <Button asChild size="sm" variant="outline">
-                    <a href={`https://wa.me/${activeLead.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
-                      <Phone className="h-4 w-4" /> Abrir WhatsApp
-                    </a>
-                  </Button>
-                ) : null}
-                <Button size="sm" variant="outline" onClick={() => setLeadStatus(activeLead.id, "contacted")} disabled={isPending}>
-                  <Send className="h-4 w-4" /> Registrar resposta
-                </Button>
-              </div>
-            </section>
+              )}
+            </div>
 
-            <section className="border border-slate-200 p-4">
-              <h3 className="text-sm font-semibold text-slate-950">Resumo</h3>
-              <dl className="mt-3 grid gap-3 text-sm">
-                <div><dt className="text-xs font-semibold uppercase text-slate-500">Email</dt><dd>{activeLead.email}</dd></div>
-                <div><dt className="text-xs font-semibold uppercase text-slate-500">Telefone</dt><dd>{activeLead.phone || "Nao informado"}</dd></div>
-                <div><dt className="text-xs font-semibold uppercase text-slate-500">Origem</dt><dd>{activeLead.source_page || "Formulario do site"}</dd></div>
-                <div><dt className="text-xs font-semibold uppercase text-slate-500">Mensagem</dt><dd className="leading-6 text-slate-700">{activeLead.message || "Sem mensagem"}</dd></div>
+            <div className="rounded-[2rem] border border-slate-100 bg-slate-50/50 p-8 space-y-6">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Dados do Lead</h3>
+              <dl className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-1">
+                  <dt className="text-[10px] font-black uppercase tracking-widest text-slate-400">Email</dt>
+                  <dd className="text-sm font-bold text-slate-900">{activeLead.email}</dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-[10px] font-black uppercase tracking-widest text-slate-400">Telefone</dt>
+                  <dd className="text-sm font-bold text-slate-900">{activeLead.phone || "Não informado"}</dd>
+                </div>
+                <div className="space-y-1 sm:col-span-2">
+                  <dt className="text-[10px] font-black uppercase tracking-widest text-slate-400">Mensagem</dt>
+                  <dd className="text-sm font-medium text-slate-600 leading-relaxed bg-white/50 p-4 rounded-2xl border border-white mt-2">
+                    {activeLead.message || "Sem mensagem informada."}
+                  </dd>
+                </div>
               </dl>
-            </section>
+            </div>
 
-            <section className="grid gap-3 md:grid-cols-2">
-              <label className="space-y-1 text-sm font-medium">
-                Status
-                <select className="h-10 w-full rounded-md border border-slate-300 bg-white px-2 text-sm" value={activeLead.status} onChange={(event) => setLeadStatus(activeLead.id, event.target.value)}>
-                  {statusOptions.filter((item) => item.value !== "all").map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-                </select>
-              </label>
-              <label className="space-y-1 text-sm font-medium">
-                Processo
-                <select className="h-10 w-full rounded-md border border-slate-300 bg-white px-2 text-sm" value={activeLead.process_id ?? "none"} onChange={(event) => assignProcess(activeLead, event.target.value)}>
-                  <option value="none">Sem processo</option>
-                  {processes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-                </select>
-              </label>
-              <label className="space-y-1 text-sm font-medium md:col-span-2">
-                Responsavel comercial
-                <select className="h-10 w-full rounded-md border border-slate-300 bg-white px-2 text-sm" value={activeLead.assigned_rep_id ?? "none"} onChange={(event) => event.target.value !== "none" && assignToRep(activeLead, event.target.value)}>
-                  <option value="none">Selecionar responsavel</option>
-                  {reps.map((rep) => <option key={rep.id} value={rep.id}>{rep.name}</option>)}
-                </select>
-              </label>
-            </section>
+            <div className="grid gap-6 sm:grid-cols-2">
+               <div className="space-y-2">
+                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Status do Pipeline</label>
+                 <select 
+                    className="w-full h-12 px-4 rounded-2xl border-2 border-slate-100 bg-white text-sm font-bold text-slate-900 focus:border-primary transition-all outline-none"
+                    value={activeLead.status} 
+                    onChange={(e) => setLeadStatus(activeLead.id, e.target.value)}
+                 >
+                   {statusOptions.filter(o => o.value !== 'all').map(o => (
+                     <option key={o.value} value={o.value}>{o.label}</option>
+                   ))}
+                 </select>
+               </div>
+               <div className="space-y-2">
+                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Processo Relacionado</label>
+                 <select 
+                    className="w-full h-12 px-4 rounded-2xl border-2 border-slate-100 bg-white text-sm font-bold text-slate-900 focus:border-primary transition-all outline-none"
+                    value={activeLead.process_id ?? "none"} 
+                    onChange={(e) => assignProcess(activeLead, e.target.value)}
+                 >
+                   <option value="none">Sem processo</option>
+                   {processes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                 </select>
+               </div>
+            </div>
 
-            <section className="border border-slate-200 p-4 rounded-xl">
-              <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-950"><MessageSquare className="h-4 w-4" /> Notas internas</h3>
-              <textarea 
-                value={note} 
-                onChange={(event) => setNote(event.target.value)} 
-                className="mt-3 min-h-24 w-full rounded-md border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" 
-                placeholder="Registrar contexto da conversa sem perder os dados do lead..." 
-              />
-              <div className="mt-3 flex justify-end">
-                <Button size="sm" onClick={saveNote} disabled={isSavingNote || isPending || note === (activeLead.notes || "")}>
-                  {isSavingNote ? "Salvando..." : "Salvar nota"}
-                </Button>
-              </div>
-              <p className="mt-2 text-[10px] text-slate-400 font-medium">As notas são salvas no banco de dados para consulta futura de qualquer administrador.</p>
-            </section>
+            <div className="space-y-4">
+               <div className="flex items-center justify-between ml-1">
+                 <h3 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">
+                    <MessageSquare className="h-3.5 w-3.5 text-slate-400" /> Notas Internas
+                 </h3>
+                 {note !== (activeLead.notes || "") && (
+                    <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Alterações não salvas</span>
+                 )}
+               </div>
+               <div className="relative group">
+                 <textarea 
+                    value={note} 
+                    onChange={(e) => setNote(e.target.value)}
+                    className="w-full min-h-[160px] p-6 rounded-[2rem] border-2 border-slate-100 bg-white text-sm font-medium text-slate-700 focus:border-primary transition-all outline-none resize-none"
+                    placeholder="Registrar histórico do atendimento..."
+                 />
+                 <Button 
+                    size="sm" 
+                    onClick={saveNote} 
+                    disabled={isSavingNote || isPending || note === (activeLead.notes || "")}
+                    className="absolute bottom-4 right-4 rounded-xl px-6 font-bold uppercase tracking-widest text-[10px] shadow-lg"
+                 >
+                   {isSavingNote ? "Salvando..." : "Salvar Nota"}
+                 </Button>
+               </div>
+            </div>
 
-            <section className="border border-slate-200 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-950"><UserCheck className="h-4 w-4" /> Historico</h3>
-              <ol className="mt-3 space-y-2 text-sm text-slate-700">
-                <li>Lead criado em {new Date(activeLead.created_at).toLocaleString("pt-BR")}.</li>
-                {activeLead.notified_at ? <li>Resposta ou encaminhamento registrado em {new Date(activeLead.notified_at).toLocaleString("pt-BR")}.</li> : <li>Aguardando primeira resposta.</li>}
-              </ol>
-            </section>
+            <div className="rounded-[2rem] border border-slate-100 p-8 space-y-6">
+               <h3 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">
+                  <History className="h-3.5 w-3.5 text-slate-400" /> Histórico de Atividades
+               </h3>
+               <div className="relative space-y-8 before:absolute before:inset-y-0 before:left-[7px] before:w-0.5 before:bg-slate-100">
+                  <div className="relative pl-8">
+                    <div className="absolute left-0 top-1.5 h-4 w-4 rounded-full border-2 border-primary bg-white" />
+                    <p className="text-xs font-bold text-slate-900">Lead Capturado</p>
+                    <p className="text-[10px] font-medium text-slate-400 mt-0.5">
+                      {new Date(activeLead.created_at).toLocaleString("pt-BR")} via {activeLead.source_page || 'Site'}
+                    </p>
+                  </div>
+                  {activeLead.notified_at && (
+                    <div className="relative pl-8">
+                      <div className="absolute left-0 top-1.5 h-4 w-4 rounded-full border-2 border-emerald-500 bg-white" />
+                      <p className="text-xs font-bold text-slate-900">Primeiro Atendimento</p>
+                      <p className="text-[10px] font-medium text-slate-400 mt-0.5">
+                        Registrado em {new Date(activeLead.notified_at).toLocaleString("pt-BR")}
+                      </p>
+                    </div>
+                  )}
+               </div>
+            </div>
           </div>
         ) : null}
       </EntityDrawer>
-    </div>
+    </>
   );
 }
+
+// ... (Helper functions getPriority, getPeriodKey, detectedSupplier remain same)

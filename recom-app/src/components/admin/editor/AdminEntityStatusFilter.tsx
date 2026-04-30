@@ -7,9 +7,10 @@ import { cn } from '@/lib/utils';
 interface AdminEntityStatusFilterProps {
   value: string;
   onChange: (value: string) => void;
+  options?: { value: string; label: string }[];
 }
 
-const statusOptions = [
+const defaultStatusOptions = [
   { value: 'all', label: 'Todos' },
   { value: 'active', label: 'Ativos' },
   { value: 'published', label: 'Publicados' },
@@ -18,11 +19,14 @@ const statusOptions = [
 
 export function AdminEntityStatusFilter({
   value,
-  onChange
+  onChange,
+  options
 }: AdminEntityStatusFilterProps) {
+  const finalOptions = options || defaultStatusOptions;
+
   return (
     <div className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-      {statusOptions.map((option) => {
+      {finalOptions.map((option) => {
         const isActive = value === option.value;
         return (
           <button

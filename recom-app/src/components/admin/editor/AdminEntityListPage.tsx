@@ -23,6 +23,8 @@ interface AdminEntityListPageProps<T> {
   items: T[];
   searchFields: (keyof T)[];
   statusField?: keyof T;
+  statusOptions?: { value: string; label: string }[];
+  customFilters?: React.ReactNode;
   renderItem: (item: T) => React.ReactNode;
   columns: string[];
   emptyState?: {
@@ -39,6 +41,8 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
   items,
   searchFields,
   statusField,
+  statusOptions,
+  customFilters,
   renderItem,
   columns,
   emptyState
@@ -110,7 +114,10 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
           statusFilter={statusFilter}
           onStatusFilterChange={setStatusFilter}
           hasStatusFilter={!!statusField}
-        />
+          statusOptions={statusOptions}
+        >
+          {customFilters}
+        </AdminEntityListToolbar>
 
         <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
           {filteredItems.length === 0 ? (
