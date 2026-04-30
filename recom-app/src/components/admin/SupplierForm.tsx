@@ -28,7 +28,7 @@ import { SupplierLayoutEditor } from './suppliers/SupplierLayoutEditor';
 import { SupplierSeoEditor } from './suppliers/SupplierSeoEditor';
 
 interface SupplierFormProps {
-  initialData?: any; 
+  initialData?: Partial<Supplier> & { id?: string; updated_at?: string }; 
   processes?: Array<{ id: string; name: string }>;
 }
 
@@ -62,7 +62,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
     setLoading(true);
 
     try {
-      const result = isEditing
+      const result = (isEditing && initialData.id)
         ? await updateSupplier(initialData.id, formData)
         : await createSupplier(formData);
 
@@ -85,10 +85,11 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
           }, 1000);
         }
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const error = e as Error;
       toast({
         title: "Erro inesperado",
-        description: e.message || "Ocorreu um erro no servidor.",
+        description: error.message || "Ocorreu um erro no servidor.",
         variant: "destructive",
       });
     } finally {
@@ -131,7 +132,7 @@ export function SupplierForm({ initialData, processes = [] }: SupplierFormProps)
     <AdminEditorShell
       title={formData.name || "Novo Fornecedor"}
       entityType="fornecedor"
-      status={formData.status as any}
+      status={(formData.status === 'active' || formData.status === 'published') ? 'published' : 'draft'}
       tabs={supplierTabs}
       activeTabId={activeTabId}
       onTabChange={setActiveTabId}

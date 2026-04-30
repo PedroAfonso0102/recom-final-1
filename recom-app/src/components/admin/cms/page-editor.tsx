@@ -94,11 +94,14 @@ export function CmsPageEditor({ pageData, showPageMeta = true }: CmsPageEditorPr
     <AdminEditorShell
       title={page.title}
       entityType="página cms"
-      status={page.status as any}
+      status={page.status === 'published' ? 'published' : 'draft'}
       tabs={cmsTabs}
       activeTabId={activeTabId}
       onTabChange={setActiveTabId}
-      onSave={() => setSaveState("saved")}
+      onSave={() => {
+        setSaveState("saved");
+        // Mock save with timeout to show loading in this component too if desired
+      }}
       onPreview={handlePreview}
       onPublish={() => {}} // Controlled by PublishPageButton in inspector or header
       isDirty={saveState === "unsaved"}
