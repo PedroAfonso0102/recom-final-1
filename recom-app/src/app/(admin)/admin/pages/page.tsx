@@ -1,8 +1,6 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { FilePlus2, Search, MoreHorizontal, Eye, Layout, Clock } from "lucide-react";
+import { FilePlus2, Search, Eye, Layout, Clock } from "lucide-react";
 
 import { StatusBadge } from "@/components/admin/admin-kit";
 import { Button } from "@/components/ui/button";
@@ -10,7 +8,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { AdminEntityListPage } from "@/components/admin/editor/AdminEntityListPage";
 import { listCmsPages } from "@/server/queries/cms-pages";
 import { CmsPageRow, CmsPageStatus } from "@/cms/types";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 
 function formatDate(value: string | null) {
   if (!value) return "Sem alteração";
@@ -23,42 +21,44 @@ function typeLabel(pageType: string, isSystem: boolean) {
   return "Página livre";
 }
 
-export default function AdminPagesPage() {
-  const [pages, setPages] = useState<CmsPageRow[]>([]);
-  const [counts, setCounts] = useState<Map<string, number>>(new Map());
-  const [loading, setLoading] = useState(true);
+function cn(...classes: (string | boolean | undefined)[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
-  useEffect(() => {
-    async function loadData() {
-      const data = await listCmsPages();
-      setPages(data);
-      
-      const supabase = createClient();
-      const sectionCounts = await Promise.all(
-        data.map(async (page: CmsPageRow) => {
-          const { count } = await supabase
-            .from("page_sections")
-            .select("id", { count: "exact", head: true })
-            .eq("page_id", page.id);
-          return [page.id, count ?? 0] as const;
-        })
-      );
-      setCounts(new Map(sectionCounts));
-      setLoading(false);
-    }
-    loadData();
-  }, []);
+/**
+ * Normalizes slug and checks if it's a concrete path safe for next/link.
+ * App Router does not support dynamic [slug] in Link href.
+ */
+function getCmsPreviewHref(slug: string | null | undefined): string | null {
+  if (!slug) return null;
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-primary" />
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Carregando Inventário...</p>
-        </div>
-      </div>
-    );
+  // Normalize leading slashes
+  const normalizedSlug = slug.replace(/^\/+/, "");
+  if (!normalizedSlug) return null;
+
+  // CMS template/dynamic routes cannot be previewed as concrete URLs in this context
+  if (normalizedSlug.includes("[") || normalizedSlug.includes("]")) {
+    return null;
   }
+
+  return `/admin/preview/${normalizedSlug}`;
+}
+
+export default async function AdminPagesPage() {
+  const pages = await listCmsPages();
+  const supabase = await createClient();
+  
+  // Fetch counts on server
+  const sectionCounts = await Promise.all(
+    pages.map(async (page: CmsPageRow) => {
+      const { count } = await supabase
+        .from("page_sections")
+        .select("id", { count: "exact", head: true })
+        .eq("page_id", page.id);
+      return [page.id, count ?? 0] as const;
+    })
+  );
+  const countsMap = new Map(sectionCounts);
 
   return (
     <AdminEntityListPage<CmsPageRow>
@@ -75,8 +75,9 @@ export default function AdminPagesPage() {
       columns={["Página", "URL", "Status", "Estrutura", "Última Alteração", "Ações"]}
       renderItem={(page) => {
         const seoOk = Boolean(page.seo_title && page.seo_description);
-        const blockCount = counts.get(page.id) ?? 0;
+        const blockCount = countsMap.get(page.id) ?? 0;
         const publicPath = page.slug === "home" ? "/" : `/${page.slug}`;
+        const previewHref = getCmsPreviewHref(page.slug);
 
         return (
           <TableRow key={page.id} className="group border-slate-100 hover:bg-slate-50 transition-colors">
@@ -131,19 +132,26 @@ export default function AdminPagesPage() {
             </TableCell>
             
             <TableCell>
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button asChild size="sm" variant="outline" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-slate-200 hover:bg-white hover:border-slate-300 shadow-sm">
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
+                <Button asChild size="sm" variant="outline" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-slate-200 hover:bg-white hover:border-slate-300 shadow-sm text-slate-600">
                   <Link href={`/admin/pages/${page.id}`}>
                     Editar
                   </Link>
                 </Button>
                 
-                <Button asChild size="sm" variant="ghost" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900">
-                  <Link href={`/admin/preview/${page.slug}`} target="_blank">
-                    <Eye className="h-3.5 w-3.5 mr-1.5" />
-                    Preview
-                  </Link>
-                </Button>
+                {previewHref ? (
+                  <Button asChild size="sm" variant="ghost" className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest hover:text-slate-900 transition-colors">
+                    <Link href={previewHref} target="_blank">
+                      <Eye className="h-3.5 w-3.5 mr-1.5" />
+                      Preview
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button size="sm" variant="ghost" disabled className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest opacity-50 cursor-not-allowed grayscale">
+                    <Eye className="h-3.5 w-3.5 mr-1.5 opacity-50" />
+                    Preview Indisponível
+                  </Button>
+                )}
               </div>
             </TableCell>
           </TableRow>
@@ -155,9 +163,4 @@ export default function AdminPagesPage() {
       }}
     />
   );
-}
-
-// Helper to use cn in the same file if needed, but we should import it or use standard strings
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
 }

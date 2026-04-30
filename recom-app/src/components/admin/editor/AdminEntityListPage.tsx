@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from "next/link";
+import { AdminEntityListClient } from './AdminEntityListClient';
 import { EmptyState } from '../admin-kit';
-import { AdminEntityListToolbar } from './AdminEntityListToolbar';
 
 interface AdminEntityListItemBase {
   id?: string;
@@ -47,27 +47,6 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
   columns,
   emptyState
 }: AdminEntityListPageProps<T>) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-
-  const filteredItems = useMemo(() => {
-    return items.filter(item => {
-      // Status Filter
-      if (statusField && statusFilter !== "all") {
-        const itemStatus = String(item[statusField]);
-        if (itemStatus !== statusFilter) return false;
-      }
-
-      // Search Filter
-      if (!searchQuery) return true;
-      const query = searchQuery.toLowerCase();
-      return searchFields.some(field => {
-        const value = item[field];
-        return value && String(value).toLowerCase().includes(query);
-      });
-    });
-  }, [items, searchQuery, statusFilter, searchFields, statusField]);
-
   return (
     <div className="flex flex-col min-h-screen bg-slate-50/50">
       <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
@@ -97,65 +76,66 @@ export function AdminEntityListPage<T extends AdminEntityListItemBase>({
             </div>
             
             {primaryAction && (
-              <a 
+              <Link 
                 href={primaryAction.href}
                 className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]"
               >
                 {primaryAction.icon && <primaryAction.icon className="h-4 w-4" />}
                 {primaryAction.label}
-              </a>
+              </Link>
             )}
           </div>
         </div>
 
-        <AdminEntityListToolbar 
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          statusFilter={statusFilter}
-          onStatusFilterChange={setStatusFilter}
-          hasStatusFilter={!!statusField}
+        <AdminEntityListClient
+          items={items}
+          searchFields={searchFields as string[]}
+          statusField={statusField as string}
           statusOptions={statusOptions}
         >
-          {customFilters}
-        </AdminEntityListToolbar>
-
-        <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-          {filteredItems.length === 0 ? (
-            <div className="p-20">
-              <EmptyState 
-                title={emptyState?.title || "Nenhum resultado encontrado"} 
-                description={emptyState?.description || "Tente ajustar sua busca ou filtros."} 
-              />
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50/50">
-                    {columns.map((column, i) => (
-                      <th key={i} className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                        {column}
-                      </th>
+          {/* 
+            List rendering logic inside the Server Component to keep 
+            renderItem and icon components within the server boundary.
+          */}
+          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mt-8">
+            {items.length === 0 ? (
+              <div className="p-20 text-center flex flex-col items-center">
+                <EmptyState 
+                  title={emptyState?.title || "Nenhum resultado"} 
+                  description={emptyState?.description || "Ainda não há registros nesta categoria."} 
+                  iconName="fileText"
+                />
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-100 bg-slate-50/50">
+                      {columns.map((column, i) => (
+                        <th key={i} className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                          {column}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {items.map((item, index) => (
+                      <React.Fragment key={index}>
+                        {renderItem(item)}
+                      </React.Fragment>
                     ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {filteredItems.map((item, index) => (
-                    <React.Fragment key={index}>
-                      {renderItem(item)}
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between px-2">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            Exibindo {filteredItems.length} de {items.length} registros
-          </p>
-        </div>
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+          
+          <div className="flex items-center justify-between px-2 mt-4">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Exibindo {items.length} registros
+            </p>
+          </div>
+        </AdminEntityListClient>
       </main>
     </div>
   );

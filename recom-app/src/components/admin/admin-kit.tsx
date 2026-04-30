@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlertCircle, CheckCircle2, Clock, EyeOff, FileText, Loader2, Lock, SearchX } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, EyeOff, FileText, Loader2, Lock, SearchX, History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -130,17 +130,28 @@ export function DataTable({
   );
 }
 
+const iconLibrary = {
+  fileText: FileText,
+  history: History,
+  lock: Lock,
+  searchX: SearchX,
+};
+
 export function EmptyState({
   title,
   description,
   action,
-  icon: Icon = FileText,
+  icon: IconProp,
+  iconName,
 }: {
   title: string;
   description: string;
   action?: React.ReactNode;
   icon?: React.ComponentType<{ className?: string }>;
+  iconName?: keyof typeof iconLibrary;
 }) {
+  const Icon = (iconName ? iconLibrary[iconName] : IconProp) || FileText;
+  
   return (
     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-slate-300 bg-white p-8 text-center">
       <Icon className="mb-3 h-7 w-7 text-slate-400" />
@@ -400,11 +411,11 @@ export function AdminSkeleton() {
 }
 
 export function PermissionDeniedState() {
-  return <EmptyState icon={Lock} title="Acesso restrito" description="Seu papel atual permite visualizar esta area, mas nao executar esta acao critica." />;
+  return <EmptyState iconName="lock" title="Acesso restrito" description="Seu papel atual permite visualizar esta area, mas nao executar esta acao critica." />;
 }
 
 export function NoResultsState({ description = "Ajuste a busca ou limpe os filtros para ver mais registros." }: { description?: string }) {
-  return <EmptyState icon={SearchX} title="Nenhum resultado" description={description} />;
+  return <EmptyState iconName="searchX" title="Nenhum resultado" description={description} />;
 }
 
 export function HiddenState() {

@@ -1,4 +1,4 @@
-import { Database, History, User } from "lucide-react";
+import { Database, User } from "lucide-react";
 
 import { EmptyState, PageHeader, StatusBadge } from "@/components/admin/admin-kit";
 import { getAuditLogs } from "@/server/actions/audit";
@@ -58,7 +58,7 @@ export default async function AuditPage() {
 
       {logs.length === 0 ? (
         <EmptyState
-          icon={History}
+          iconName="history"
           title="Nenhuma atividade registrada"
           description="Quando uma acao sensivel for executada, ela aparecera aqui com usuario, entidade e metadados."
         />
